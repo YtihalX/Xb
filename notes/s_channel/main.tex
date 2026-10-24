@@ -1,0 +1,481 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb,bm,braket,booktabs,graphicx,array,enumitem}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage{caption}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=green!40!black,urlcolor=blue!60!black]{hyperref}
+\graphicspath{{figs/}{../../Figs.dir/}}
+\setlength{\parskip}{0.35em}
+\setlist{itemsep=0.15em,topsep=0.3em}
+
+% ---------------------------------------------------------------- source tags
+\newcommand{\tagP}[1]{\textcolor{blue!65!black}{\textsf{\small[P:\,#1]}}}
+\newcommand{\tagR}[1]{\textcolor{ForestGreen}{\textsf{\small[R:\,#1]}}}
+\newcommand{\tagD}{\textcolor{orange!85!black}{\textsf{\small[D]}}}
+\newcommand{\tagN}{\textcolor{red!70!black}{\textsf{\small[N]}}}
+
+% ---------------------------------------------------------------- boxes
+\newcommand{\plaintags}{\renewcommand{\tagD}{[D]}\renewcommand{\tagN}{[N]}%
+  \renewcommand{\tagP}[1]{[P:\,##1]}\renewcommand{\tagR}[1]{[R:\,##1]}}
+\newtcolorbox{keybox}[1][]{enhanced,breakable,colback=blue!3,colframe=blue!45!black,
+  fonttitle=\bfseries\small\plaintags,title={#1},boxrule=0.6pt,arc=2pt,left=4pt,right=4pt,top=3pt,bottom=3pt}
+\newtcolorbox{warnbox}[1][]{enhanced,breakable,colback=red!3,colframe=red!50!black,
+  fonttitle=\bfseries\small\plaintags,title={#1},boxrule=0.6pt,arc=2pt,left=4pt,right=4pt,top=3pt,bottom=3pt}
+\newtcolorbox{derbox}[1][]{enhanced,breakable,colback=orange!4,colframe=orange!70!black,
+  fonttitle=\bfseries\small\plaintags,title={#1},boxrule=0.6pt,arc=2pt,left=4pt,right=4pt,top=3pt,bottom=3pt}
+\newtcolorbox{numbox}[1][]{enhanced,breakable,colback=violet!3,colframe=violet!65!black,
+  fonttitle=\bfseries\small\plaintags,title={#1},boxrule=0.6pt,arc=2pt,left=4pt,right=4pt,top=3pt,bottom=3pt}
+
+% ---------------------------------------------------------------- physics macros
+\newcommand{\bbar}{\bar b b}
+\newcommand{\BBst}{B\bar B^*}
+\newcommand{\BstBst}{B^*\bar B^*}
+\newcommand{\Mth}{M_{\rm th}}
+\newcommand{\VQQ}{V^{(\bar bb)}}
+\newcommand{\VOME}{V^{\rm (OME)}}
+\newcommand{\TOME}{T^{\rm (OME)}}
+\newcommand{\bbnP}{[\bar bb]_1(nP)}
+\newcommand{\Pbb}{{\cal P}_{\bar bb}}
+\newcommand{\calY}{{\cal Y}}
+\newcommand{\BOchiEFT}{BO$\chi$EFT}
+\newcommand{\GeV}{\,\mathrm{GeV}}
+\newcommand{\MeV}{\,\mathrm{MeV}}
+\newcommand{\fm}{\,\mathrm{fm}}
+\newcommand{\IDK}[1]{\textcolor{blue}{#1}}
+\newcommand{\todo}{\textcolor{red}{TO BE ADDED}}
+
+% ---------------------------------------------------------------- change markup
+% \showaitrue : additions in magenta with a left bar; replaced text struck through in gray.
+% \showaifalse: clean text (additions printed plain, struck text dropped).
+\usepackage[normalem]{ulem}
+\newif\ifshowai
+\showaitrue
+\colorlet{aicolor}{magenta!75!black}
+\ifshowai
+	\newcommand{\ai}[1]{\textcolor{aicolor}{#1}}
+	\newcommand{\aifix}[2]{\textcolor{gray}{\sout{#1}} \textcolor{aicolor}{#2}}
+	\newcommand{\aifixm}[2]{\textcolor{gray}{\text{\sout{$#1$}}}\,\textcolor{aicolor}{#2}}
+	\newtcolorbox{aiadd}{blanker,breakable,parbox=false,coltext=aicolor,borderline west={1.5pt}{-6pt}{aicolor},
+		before skip=0.5em,after skip=0.5em}
+\else
+	\newcommand{\ai}[1]{#1}
+	\newcommand{\aifix}[2]{#2}
+	\newcommand{\aifixm}[2]{#2}
+	\newenvironment{aiadd}{\par}{\par}
+\fi
+
+\begin{document}
+\aifix{I gonna try to talk about \BOchiEFT again this time, this time it's better prepared.}{I'm going to talk about \BOchiEFT{} again; this time it's better prepared.}
+
+So in our theory there are three kinds of interactions
+\begin{equation}
+	V = \VOME + \sum_{n=1}^N \VQQ_n + C(\Lambda, N)
+\end{equation}
+This time I'm \aifix{going talk}{going to talk} about $\VQQ$ here.
+
+It's \aifix{a s-channel bottomonia exchange in S-wave}{an $s$-channel bottomonium exchange in the $S$ wave} at leading order \IDK{LO because of S-wave or S-wave because of LO?}
+
+\begin{aiadd}
+	\textbf{Answer: $S$ wave because of LO.} The BO selection rule only tells us that the compact state turns into the $\Sigma_g^{+\prime}$ configuration, and $\Sigma_g^{+\prime}$ is not a pure $S$ wave: at the end of this talk we'll find $\ket{\Sigma_g^{+\prime}}=\frac{1}{\sqrt3}\ket{^3S_1}+\frac{1}{\sqrt6}\ket{^3D_1}-\frac{1}{\sqrt2}\ket{^5D_1}$, all three at the same static order. So symmetry does not remove the $D$ waves.
+
+	What removes them is the momentum expansion. Franck--Condon makes the vertex a radial overlap with a spherical Bessel function, $\int r^2dr\,j_L(pr)R_{1n}(r)$, and
+	\[
+		j_0(pr)=1+\mathcal O\big((pr)^2\big),\qquad j_2(pr)=\frac{(pr)^2}{15}+\mathcal O\big((pr)^4\big),
+	\]
+	so a $D$-wave vertex starts at $\mathcal O(Q^2)$, against $\mathcal O(Q^0)$ for the $S$-wave vertex \tagP{l.\,321}. At higher orders the $D$-wave couplings come back and $\VQQ$ becomes a matrix in channel space \tagP{l.\,893}.
+
+	Caveat: the suppression is parametric. With $p\sim Q\approx\kappa_{X_b}=0.695\GeV$ and the rms radii $0.41,\,0.66,\,0.87,\,1.05\fm$ of the bare states $n=1$--$4$, one gets $p\,r_{\rm rms}\approx1.4,\,2.3,\,3.1,\,3.7$ \tagN, which is not small. So the $S$-wave restriction is a counting statement, not a numerical one.
+\end{aiadd}
+
+\aifix{This is the hamiltonian of the system consists of both bottomonium and heavy mesons.}{This is the Hamiltonian of the system, which consists of both bottomonia and heavy-meson pairs.}
+\begin{equation}
+	\mathcal H=\begin{pmatrix}
+		H-\Mth & 0      & \cdots & \aifixm{\hat g}{\hat g^\dagger} \\
+		0      & H-\Mth & \cdots & \aifixm{\hat g}{\hat g^\dagger} \\
+		\vdots & \vdots & \ddots & \vdots     \\
+		\hat g & \hat g & \cdots & H_{\rm MM}
+	\end{pmatrix}.
+	\label{eq:H}
+\end{equation}
+
+which acts on the state vector
+
+\begin{equation}
+	\ket{\Psi}=\begin{pmatrix}\lambda_1\ket{\bbar_1(1P)}\\ \lambda_2\ket{\bbar_1(2P)}\\ \vdots\\ \phi(q)\ket{\BBst}\end{pmatrix},\qquad
+	\sum_n|\lambda_n|^2+\int\frac{q^2dq}{\aifixm{(2\pi)^3}{2\pi^2}}|\phi(q)|^2=1 .
+	\label{eq:state}
+\end{equation}
+\ai{Here $\phi(q)=\braket{q|\Psi}$, with $\ket q$ the meson-pair states of $P_M$ below, normalised as $\braket{q'|q}=\frac{2\pi^2}{q^2}\delta(q'-q)$ \tagP{Eq.~(30)}. The paper's Eq.~(46) writes $(2\pi)^3$ instead; that is consistent only if its ket $\ket{\BBst}$ is $\sqrt{4\pi}$ times ours, and the paper settles this $4\pi$ at l.\,891 with $Y_{00}=1/\sqrt{4\pi}$ \tagD.}
+
+
+\aifix{To obtain the equation of heavy mesons we utilizes the completeness relation}{To get an equation for the heavy mesons alone, we use the completeness relation}
+\begin{equation}
+	P_{Q} = \sum_n \ket{n}\bra{n}, \quad P_{M} = \int_0^\infty \frac{q^2dq}{2\pi^2}\ket{q}\bra{q},\quad P_Q + P_M = \bold{1},\quad P_Q P_M = 0
+\end{equation}
+\aifix{Schemecatically writing hamiltonian as}{Schematically, we write the Hamiltonian as} $\mathcal{H} = H_{QQ} + H_{MM} + \hat{g} + \hat{g}^\dagger$ where $H_{QQ} = P_Q(H-M_\text{th})P_Q = \sum_n E_n \ket{n}\bra{n}$ and $\hat{g} = P_M \aifixm{H}{\mathcal H} P_Q$
+
+now insert $\bold{1} = P_Q + P_M$ into the \aifix{schrodinger}{Schr\"odinger} equation $\mathcal{H} \ket{\Psi} = E\ket{\Psi}$ and project
+
+\begin{aiadd}
+	First sandwich $\mathcal H$ between $\bold 1=P_Q+P_M$ on both sides:
+	\[
+		\mathcal H=(P_Q+P_M)\,\mathcal H\,(P_Q+P_M)
+		=\underbrace{P_Q\mathcal HP_Q}_{H_{QQ}}+\underbrace{P_M\mathcal HP_M}_{H_{MM}}+\underbrace{P_M\mathcal HP_Q}_{\hat g}+\underbrace{P_Q\mathcal HP_M}_{\hat g^\dagger},
+	\]
+	where $P_Q\mathcal HP_M=(P_M\mathcal HP_Q)^\dagger=\hat g^\dagger$ because $\mathcal H$ is Hermitian. With the space ordered as (compact, meson pair) this is the block matrix
+	\[
+		\mathcal H=\begin{pmatrix}H_{QQ}&\hat g^\dagger\\ \hat g&H_{MM}\end{pmatrix},
+	\]
+	i.e.\ Eq.~\eqref{eq:H} with all the bottomonium rows collected into one block.
+
+	Now write $\mathcal H\ket\Psi=E\ket\Psi$ as $\mathcal H(P_Q+P_M)\ket\Psi=E\ket\Psi$ and multiply from the left by $P_Q$:
+	\[
+		P_Q\mathcal HP_Q\ket\Psi+P_Q\mathcal HP_M\ket\Psi=E\,P_Q\ket\Psi .
+	\]
+	Since $P^2=P$, we can put one more projector next to the ket: $P_Q\mathcal HP_Q\ket\Psi=(P_Q\mathcal HP_Q)(P_Q\ket\Psi)=H_{QQ}\,P_Q\ket\Psi$ and $P_Q\mathcal HP_M\ket\Psi=\hat g^\dagger\,P_M\ket\Psi$, so
+	\[
+		H_{QQ}\,P_Q\ket\Psi+\hat g^\dagger P_M\ket\Psi=E\,P_Q\ket\Psi .
+	\]
+	Multiplying by $P_M$ instead gives
+	\[
+		\hat g\,P_Q\ket\Psi+H_{MM}\,P_M\ket\Psi=E\,P_M\ket\Psi .
+	\]
+	Collecting the $P_Q\ket\Psi$ and $P_M\ket\Psi$ terms,
+\end{aiadd}
+
+one arrives \ai{at}
+\begin{equation}
+	(E-H_{QQ})\,P_Q\ket\Psi=\hat g^\dagger P_M\ket\Psi,\qquad
+	(E-H_{MM})\,P_M\ket\Psi=\hat g\,P_Q\ket\Psi .
+\end{equation}
+
+then we get $P_Q\ket{\Psi} = (E-H_{QQ})^{-1}\hat{g}^\dagger P_M\ket{\Psi}$ \ai{(for $E\neq E_n$; the inverse is taken inside the compact space).}
+
+\begin{aiadd}
+	Plug this into the second equation:
+	\[
+		(E-H_{MM})\,P_M\ket\Psi=\hat g\,(E-H_{QQ})^{-1}\hat g^\dagger\,P_M\ket\Psi .
+	\]
+	Since $H_{QQ}=\sum_nE_n\ket n\bra n$ is diagonal, its inverse on the compact space is a spectral sum,
+	\[
+		(E-H_{QQ})^{-1}=\sum_n\frac{\ket n\bra n}{E-E_n},
+	\]
+	which gives the second equality below.
+\end{aiadd}
+
+\aifix{so the schrodinger equation of heavy mesons and the potential appear}{so we get a Schr\"odinger equation for the heavy mesons alone, and the potential appears:}
+\begin{equation}
+	\big[H_{MM}+\hat V(E)\big]P_M\ket\Psi=E\,P_M\ket\Psi,\qquad
+	\hat V(E)=\hat g\,(E-H_{QQ})^{-1}\hat g^\dagger=\sum_n\frac{\hat g\ket n\bra n\hat g^\dagger}{E-E_n}.
+	\label{eq:Vop}
+\end{equation}
+
+\begin{aiadd}
+	The same projectors give three more things for free.
+	\begin{enumerate}
+		\item \textbf{Compact amplitudes.} $\lambda_n=\braket{n|\Psi}=\dfrac{\braket{n|\hat g^\dagger P_M|\Psi}}{E-E_n}$: once we have the meson wave function, the bottomonium components follow.
+		\item \textbf{Normalisation.} For a bound state ($E=-E_B$, real) write $\ket{\Psi_M}\equiv P_M\ket\Psi$. Since $\hat g$ does not depend on $E$ and $\partial_E(E-H_{QQ})^{-1}=-(E-H_{QQ})^{-2}$,
+		      \begin{align*}
+			      \braket{\Psi|\Psi} & =\braket{\Psi|P_M|\Psi}+\braket{\Psi|P_Q|\Psi}
+			      =\braket{\Psi_M|\Psi_M}+\braket{\Psi_M|\hat g\,(E-H_{QQ})^{-2}\hat g^\dagger|\Psi_M} \\
+			                         & =\braket{\Psi_M|\big[1-\partial_E\hat V(E)\big]|\Psi_M} .
+		      \end{align*}
+		      So the bottomonium probability \tagP{Eq.~(F13)} is
+		      \[
+			      \Pbb=\braket{\Psi|P_Q|\Psi}=\sum_n|\lambda_n|^2=-\braket{\Psi_M|\partial_E\hat V|\Psi_M}:
+		      \]
+		      the energy dependence of $\hat V$ \emph{is} the compact component.
+		\item \textbf{Truncation.} Split $P_Q=P_{\le N}+P_{>N}$:
+		      \[
+			      \hat V(E)=\sum_{n\le N}\frac{\hat g\ket n\bra n\hat g^\dagger}{E-E_n}+\hat g\,P_{>N}(E-H_{QQ})^{-1}P_{>N}\,\hat g^\dagger .
+		      \]
+		      The second piece has no pole near threshold and varies slowly there, so at LO we replace it by a constant. That is the $C(\Lambda,N)$ in the first equation, and the reason it depends on $N$ \tagP{Eq.~(59)}.
+	\end{enumerate}
+\end{aiadd}
+
+This system is non-perturbative so we need to extract information from the lattice results.
+
+\aifix{So the next is to see what's computed in the lattice}{So next, let's see what is computed on the lattice.}
+
+\aifix{What lattice sees}{What the lattice sees}: string breaking
+
+For a static $b$ and $\bar b$ at distance $r$, unquenched lattice QCD shows two kinds of energy levels: the colour string, whose energy rises roughly linearly with $r$, and a pair of static--light mesons, whose energy is nearly flat. Bulava \emph{et al.}\ (2024) fit the three lowest levels with the matrix \tagR{Bulava 2024, Sect.~3 Eq.~(6)} \tagP{Eq.~(11)}
+\begin{equation}
+	H(r)=\begin{pmatrix}V(r)&\sqrt2 g_l&g_s\\ \sqrt2 g_l&\hat E_1&0\\ g_s&0&\hat E_2\end{pmatrix},\qquad V(r)=\hat V_0+\sigma r+\frac{\gamma}{r},
+	\label{eq:Hfit}
+\end{equation}
+in the basis $\{\bar bb\text{ string},\ B\bar B,\ B_s\bar B_s\}$.
+
+\begin{table}[h]
+	\centering
+	\caption{Lattice parameters \tagP{Table~I}, identical to Bulava 2024 Table~4 \tagR{Bulava 2024, Table~4}. Conversion with $\sqrt{t_0}=0.1443(7)(13)\fm$. Used in \BOchiEFT: $\sigma$, $\gamma$, $g_l$ (bold).}
+	\label{tab:lattice}
+	\setlength{\tabcolsep}{4pt}\small
+	\begin{tabular}{lccccccc}
+		\toprule
+		               & $\hat E_1$  & $\hat E_2$  & $g_l$         & $g_s$       & $\sigma$           & $\hat V_0$  & $\gamma$      \\
+		\midrule
+		units of $t_0$ & $0.0034(3)$ & $0.1005(7)$ & $0.0256(3)$   & $0.0134(4)$ & $0.1061(7)$        & $-0.835(7)$ & $-0.434(11)$  \\
+		physical       & $5\MeV$     & $137\MeV$   & $\bm{35\MeV}$ & $18\MeV$    & $\bm{0.198\GeV^2}$ & $-1.14\GeV$ & $\bm{-0.434}$ \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.66\textwidth]{lattice_levels.pdf}
+	\caption{\tagN{} Eigenvalues (solid) of the lattice model Eq.~\eqref{eq:Hfit} for the physical-point parameters of Table~\ref{tab:lattice}, together with the diagonal (``diabatic'') entries (dashed). Energies relative to $2E_{\bar Ql}$. The string--$B\bar B$ crossing is at $r_l^\star=1.21\fm$ \tagR{Bulava 2024, Eq.~(11)}.}
+	\label{fig:lattice}
+\end{figure}
+
+\aifix{So in lattice results what they observed are two energy levels, horizontal dashed lines for heavy meson energy, plus a diabatic string energy as a function of static quark separation}{What the lattice actually measures are the energy levels, the solid lines (drawn here from the fitted model). The fit explains them with diabatic entries, the dashed lines: two flat meson-pair levels ($B\bar B$ and $B_s\bar B_s$) and a string energy that rises with the static-quark separation $r$.}
+
+\aifix{and the lattice guy fit such an energy level using the hamiltonian shown above to obtain the parameters we are interested.}{The lattice group fits these levels with the Hamiltonian above to get the parameters we are interested in.}
+
+\aifix{now we are interested in $V(r)$ and $\sqrt{2}g_l$ which are what we need in the computing our potential.}{For our potential we need $V(r)$ and $\sqrt{2}g_l$.}
+
+\aifix{but lattice computes in $B\bar{B}$ basis, which is not ours, to relate them we need to exploit BO symmetry, which is cylindrical symmetry here}{But the lattice works in the $B\bar B$ basis, which is not ours. To relate the two we need the BO symmetry, which here is a cylindrical symmetry.}
+
+\aifix{before diving in I need to first briefly introduce the cylindrical symmetry and the so called BO quantum number $\Lambda_\eta^g$ first.}{Before diving in, I need to briefly introduce the cylindrical symmetry and the so-called BO quantum numbers $\Lambda_\eta^\sigma$.}
+
+\begin{aiadd}
+	\begin{center}
+		\begin{tikzpicture}[black,font=\small,
+				src/.style={circle,draw,thick,inner sep=0pt,minimum size=7pt},
+				qk/.style={src,fill=black},
+				aq/.style={src,fill=white},
+				axis/.style={densely dashed,gray},
+				arr/.style={-{Stealth[length=2mm]},thick}]
+			% (a) rotations about the axis
+			\begin{scope}
+				\fill[gray!15] (0,0) ellipse (1.9 and 0.7);
+				\draw[axis,-{Stealth[length=2mm]}] (-2.3,0) -- (2.5,0) node[right,black] {$\hat{\bm r}=\hat z$};
+				\node[aq,label=below:{$\bar b$}] at (-1.1,0) {};
+				\node[qk,label=below:{$b$}] at (1.1,0) {};
+				\draw[arr] (2.05,0.55) arc[start angle=90,end angle=-200,x radius=0.18,y radius=0.55];
+				\node[above] at (2.05,0.6) {$R_{\hat z}(\varphi)$};
+				\node[align=center,anchor=north] at (0,-1.2) {\textbf{(a)} rotations about the axis\\ conserve $\lambda_l=\vec j_l\cdot\hat{\bm r}$\\ $\Lambda=|\lambda_l|$: $\Sigma,\Pi,\Delta,\dots$};
+			\end{scope}
+			% (b) CP: P swaps the positions, C swaps b and bbar back
+			\begin{scope}[xshift=5.7cm]
+				\draw[gray] (-1,0.8) -- (1,0.8);
+				\node[aq,label=left:{$\bar b$}] at (-1,0.8) {};
+				\node[qk,label=right:{$b$}] at (1,0.8) {};
+				\draw[gray] (-1,0) -- (1,0);
+				\node[qk,label=left:{$b$}] at (-1,0) {};
+				\node[aq,label=right:{$\bar b$}] at (1,0) {};
+				\draw[gray] (-1,-0.8) -- (1,-0.8);
+				\node[aq,label=left:{$\bar b$}] at (-1,-0.8) {};
+				\node[qk,label=right:{$b$}] at (1,-0.8) {};
+				\draw[arr] (0,0.65) -- node[right,font=\footnotesize] {$P$: $\vec r\to-\vec r$} (0,0.15);
+				\draw[arr] (0,-0.15) -- node[right,font=\footnotesize] {$C$: $b\leftrightarrow\bar b$} (0,-0.65);
+				\node[align=center,anchor=north] at (0,-1.2) {\textbf{(b)} $CP$ maps the configuration\\ onto itself: eigenvalue\\ $\eta=g\ (+1)$ or $u\ (-1)$};
+			\end{scope}
+			% (c) reflection through a plane containing the axis
+			\begin{scope}[xshift=11.1cm]
+				\fill[gray!8,draw=gray] (-2.0,-0.35) -- (1.6,-0.35) -- (2.0,0.35) -- (-1.6,0.35) -- cycle;
+				\node[gray,font=\footnotesize] at (-1.62,-0.2) {$xz$};
+				\draw[axis] (-2.1,0) -- (2.1,0);
+				\node[aq] at (-1.1,0) {};
+				\node[qk] at (1.1,0) {};
+				\fill (0.2,0.9) circle (1.6pt) node[right,font=\footnotesize] {$(x,y,z)$};
+				\fill[gray] (0.2,-0.9) circle (1.6pt) node[right,font=\footnotesize,black] {$(x,-y,z)$};
+				\draw[densely dotted,{Stealth[length=1.6mm]}-{Stealth[length=1.6mm]}] (0.2,0.78) -- (0.2,-0.78);
+				\draw[-{Stealth[length=1.5mm]}] (-1.9,0.75) -- (-1.4,0.75) node[right,font=\footnotesize] {$z$};
+				\draw[-{Stealth[length=1.5mm]}] (-1.9,0.75) -- (-1.9,1.2) node[above,font=\footnotesize] {$y$};
+				\draw[-{Stealth[length=1.5mm]}] (-1.9,0.75) -- (-2.1,0.4) node[left,font=\footnotesize] {$x$};
+				\node[align=center,anchor=north] at (0,-1.2) {\textbf{(c)} $M_{xz}=P\,R_y(\pi)$: $y\to-y$,\\ sources stay put, $\lambda_l\to-\lambda_l$\\ $\Rightarrow$ $\sigma=\pm$ only for $\Lambda=0$};
+			\end{scope}
+		\end{tikzpicture}
+		\captionof{figure}{Symmetries of two static sources at $\pm\vec r/2$ on the $z$ axis (filled: $b$, open: $\bar b$, shaded in (a): light degrees of freedom). Together they define the BO labels $\Lambda_\eta^\sigma$.}
+		\label{fig:BOsym}
+	\end{center}
+\end{aiadd}
+
+\aifix{so angular momentum originates from SO(3) symmetry, our theory is invariant under rotations, but when there's a special axis in the space, we can assume no more when rotation involves the axis.}{Angular momentum comes from the SO(3) rotational symmetry of our theory. Once there is a special axis in space, only rotations about that axis remain a symmetry.}
+
+\aifix{so the SO(3) symmetry reduces to a cylindrical symmetry, and for angular momentum only it's projection to the axis $\vec{r}$ is conserved whic is $\Lambda = |\vec{L} \cdot \vec{r}|$ with $\vec{L}$ the total angular momentum of light d.o.f.}{So SO(3) reduces to a cylindrical symmetry, and only the projection of the angular momentum onto the axis is conserved: $\lambda_l=\vec j_l\cdot\hat{\bm r}$ and $\Lambda=|\lambda_l|$, with $\vec j_l$ the total angular momentum of the light d.o.f. We write $\Sigma,\Pi,\Delta,\dots$ for $\Lambda=0,1,2,\dots$ (Fig.~\ref{fig:BOsym}a).}
+
+
+\aifix{next it's $\eta = CP$ where you first use $P$ to swap the quark position then use $C$ to swap it's quark number}{Next is $\eta=CP$: $P$ swaps the positions of $b$ and $\bar b$, then $C$ exchanges quark and antiquark, which restores the configuration (Fig.~\ref{fig:BOsym}b).}
+
+denoted by $g$ and $u$ for even and odd
+
+\aifix{and then it's $\sigma = \pm$ which is reflection according to certain plane}{and then there is $\sigma=\pm$, the eigenvalue under reflection through a plane that contains the axis.}
+
+\aifix{suppore we have $\vec{r}$ aligned with $z$ axis and consider the reflection according to the $xz$ plane}{Suppose $\vec r$ is along the $z$ axis and take the reflection through the $xz$ plane (Fig.~\ref{fig:BOsym}c).}
+
+we have the reflection $M_{xz} = P R_y(\pi)$\ai{: $R_y(\pi)$ sends $(x,y,z)\to(-x,y,-z)$ and $P$ flips everything back except $y$, so the sources stay where they are.}
+
+and \aifix{it's}{its} action on a state is $P R_y(\pi)\ket{j_l, m} = P(-1)^{j_l - m}\ket{j_l,-m}$
+
+specifically $\sigma\ket{j_l,0} = P(-1)^{j_l}\ket{j_l,0}$\ai{. For $\lambda_l\neq0$ the reflection maps $\lambda_l\to-\lambda_l$, so the two states are degenerate and $\sigma$ is only quoted for $\Lambda=0$.}
+
+\aifix{now we turn back to the lattice result, $\sqrt{2}g_l$ can be written schematically as}{Now back to the lattice result: schematically, $\sqrt{2}g_l$ is} $\braket{W|H_\text{mix}|B\bar{B}}$
+
+where $\ket{W}$ \aifix{gets the quantum number}{inherits its quantum numbers} from the interpolating operator $$\mathcal{O}_W(y,x,t) = \bar{Q}(y,t)\frac{\bold{\gamma}\cdot\vec{r}}{r}W(y,x,t)Q(x,t)$$
+
+$\gamma\cdot\vec{r}/r$ gives $\ket{1,0}$ for the heavy spin and by HQSS we obtain
+
+$$\sqrt{2}g_l = -\frac{1}{2}\braket{W|H|1_H,0;1_l,0}$$
+
+since for $B\bar{B}$ the angular momentum is coupled as $\ket{[(s_b j_{l1})_0\aifixm{(s_{\bar{b}} j_{l2})}{(s_{\bar{b}} j_{l2})_0}]_0}$
+
+to recouple it into $\ket{[(s_b s_{\bar{b}})_{s_H} (j_{l1}j_{l2})_{j_l}]_0}$
+
+\aifix{because I'm lazy, I'll just copy the wigner 9j symbol}{and the recoupling coefficient is a Wigner $9j$ symbol.}
+
+\begin{aiadd}
+	For four angular momenta the recoupling coefficient is
+	\begin{align*}
+		 & \braket{[(j_1j_2)J_{12}\,(j_3j_4)J_{34}]J\,|\,[(j_1j_3)J_{13}\,(j_2j_4)J_{24}]J}                                                                        \\
+		 & \qquad=\sqrt{(2J_{12}+1)(2J_{34}+1)(2J_{13}+1)(2J_{24}+1)}\begin{Bmatrix}j_1&j_2&J_{12}\\ j_3&j_4&J_{34}\\ J_{13}&J_{24}&J\end{Bmatrix}.
+	\end{align*}
+	Here $j_1=s_b$, $j_2=j_{l1}$, $j_3=s_{\bar b}$, $j_4=j_{l2}$ are all $\frac12$, $J_{12}=J_{34}=0$ because both mesons are pseudoscalars, and $J=0$. So $J_{13}=s_H$ and $J_{24}=j_l$ must couple to zero, which means $s_H=j_l\equiv s\in\{0,1\}$.
+
+	A $9j$ symbol with a zero reduces to a $6j$ symbol,
+	\[
+		\begin{Bmatrix}a&b&e\\ c&d&e\\ f&f&0\end{Bmatrix}=\frac{(-1)^{b+c+e+f}}{\sqrt{(2e+1)(2f+1)}}\begin{Bmatrix}a&b&e\\ d&c&f\end{Bmatrix},
+	\]
+	so for us
+	\[
+		\begin{Bmatrix}\frac12&\frac12&0\\[0.5mm] \frac12&\frac12&0\\[0.5mm] s&s&0\end{Bmatrix}=\frac{(-1)^{1+s}}{\sqrt{2s+1}}\begin{Bmatrix}\frac12&\frac12&0\\[0.5mm] \frac12&\frac12&s\end{Bmatrix},
+		\qquad
+		\begin{Bmatrix}\frac12&\frac12&0\\[0.5mm] \frac12&\frac12&s\end{Bmatrix}=\frac{(-1)^{1+s}}{2},
+	\]
+	where the last one is the elementary $6j$ symbol with a zero. The two signs cancel, so the $9j$ symbol is $\frac{1}{2\sqrt{2s+1}}$ and the coefficient is $\sqrt{(2s+1)^2}\cdot\frac{1}{2\sqrt{2s+1}}=\frac{\sqrt{2s+1}}{2}$:
+	\[
+		\ket{B\bar B}=\frac12\ket{(0_H0_l)_0}+\frac{\sqrt3}{2}\ket{(1_H1_l)_0},\qquad\frac14+\frac34=1 .
+	\]
+	Finally, open $(1_H1_l)_0$ into projections on the axis,
+	\[
+		\ket{(1_H1_l)_0}=\sum_m\braket{1\,m\,1\,{-m}|0\,0}\,\ket{1_H,m}\ket{1_l,-m},\qquad\braket{1\,m\,1\,{-m}|0\,0}=\frac{(-1)^{1-m}}{\sqrt3},
+	\]
+	so the coefficient of $\ket{1_H,0}\ket{1_l,0}$ is $\frac{\sqrt3}{2}\cdot\big({-\frac{1}{\sqrt3}}\big)=-\frac12$. Altogether
+	\[
+		\ket{B\bar B}=\frac12\ket{0_l,0}\ket{0_H,0}+\frac12\sum_{\lambda_l=\pm1,0}(-1)^{\lambda_l+1}\ket{1_l,\lambda_l}\ket{1_H,-\lambda_l},
+	\]
+	which is the paper's decomposition \tagP{Eq.~(14)}.
+\end{aiadd}
+
+then you see the only part with $\ket{1_H,0}$ is $\ket{1_H,0;1_l,0}$
+
+\aifix{that why we acquire an additional 2 in the coupling}{that's why we pick up an extra factor of 2 in the coupling: $\braket{W|H|1_H,0;1_l,0}=-2\sqrt2\,g_l$.}
+
+but this is still not what we want
+
+we need $\braket{B\bar{B}^* (^3S_1)|H|W}$
+
+\aifix{now insert the BO basis projector we have}{now insert the completeness relation of the BO basis, $\sum\ket{\rm BO}\bra{\rm BO}$ over $\{\Sigma_g^{+\prime},\Pi_g;1,\Pi_g;2\}$. The string $W$ is $\Sigma_g^+$ and the mixing conserves the BO quantum numbers, so only $\Sigma_g^{+\prime}$ survives (BO selection rule):}
+
+$$\braket{B\bar{B}^* (^3S_1)|H|W} = \braket{B\bar{B}^* (^3S_1)|\aifixm{\Sigma_g^+}{\Sigma_g^{+\prime}} }\braket{\aifixm{\Sigma_g^+}{\Sigma_g^{+\prime}} |H|W}$$
+
+and we need to show that $\braket{B\bar{B}^* (^3S_1)|\aifixm{\Sigma_g^+}{\Sigma_g^{+\prime}} } = \aifixm{\frac{1}{3}}{\frac{1}{\sqrt3}}$ \ai{(its square, $\frac13$, is the $S$-wave probability)}
+
+so now we have the total angular momentum as $\vec{J} = \vec{s}_H + \vec{j}_l + \vec{L}$
+
+and $J^{PC} = 1^{++}$
+
+\aifix{with $C = (-1)^{s_H + j_L + L}$ $P = (-1)^L$ we conclude that $L$ is even and so for the $s_H + j_l$}{with $C=(-1)^{s_H+j_l+L}$ and $P=(-1)^L$, $P=+$ makes $L$ even, and then $C=+$ makes $s_H+j_l$ even,}
+
+\aifix{since L even we must have $s_H = j_L = 1$}{so $(s_H,j_l)=(0,0)$ or $(1,1)$. With $(0,0)$ we would get $J=L$, which is even and never 1, so $s_H=j_l=1$}
+
+and $1\otimes 1 = 0 \oplus 1 \oplus 2  $
+
+this gives us $1^{++}$ meson pairs
+
+$B\bar{B}^*(^3S_1), B\bar{B}^*(^3D_1), B^*\bar{B}^*(^5D_1)$
+
+now we couple it in a different way $\vec{J} = \vec{J}_l + \vec{s}_H$ where $\vec{J}_l = \vec{j}_l + \vec{L}$
+
+\aifix{then we immediately have $J_l = 1, 2, 3$ but 3 clearly can not couple $s_H = 1$ to $J = 1$}{then $L=0$ gives $J_l=1$, and $L=2$ gives $J_l=1,2,3$, but $J_l=3$ cannot couple with $s_H=1$ to $J=1$}
+
+\begin{table}
+	\centering
+	\begin{tabular}{ccc}
+		$J_l$ & $\lambda_l$ & BO quantum number \\
+		1     & 0           & $\Sigma_g^{+'}$   \\
+		1     & $\pm$1      & $\Pi_g ; 1$       \\
+		2     & $\pm1$      & $\Pi_g; 2$
+	\end{tabular}
+\end{table}
+
+\aifix{you will see that the combination $J_l = 2, \lambda_l = 0$ is absent, this can be seen using the CG coefficients where}{Note that the combination $J_l=2$, $\lambda_l=0$ is absent. The CG coefficient shows it:}
+
+$\braket{L = 2,M_L = 0; j_l = 1, M_{j_l} = 0|J_l = 2, 0 } = 0$
+
+\begin{aiadd}
+	Now let's build the transformation. The two coupling orders are
+	\[
+		\text{partial waves: }\ket{L,(j_l\,s_H)S;J},\qquad
+		\text{BO: }\ket{(L\,j_l)J_l,\,s_H;J},
+	\]
+	with $j_l=s_H=J=1$, and we go from one to the other in three steps.
+
+	\textbf{Step 1: $6j$ recoupling at fixed $L$} \tagP{Eq.~(20)}. Moving $j_l$ from $s_H$ over to $L$ is a $6j$ symbol:
+	\[
+		\braket{(L\,j_l)J_l,\,s_H;J\,|\,L,(j_l\,s_H)S;J}=(-1)^{L+j_l+s_H+J}\sqrt{(2J_l+1)(2S+1)}\begin{Bmatrix}L&j_l&J_l\\ s_H&J&S\end{Bmatrix}.
+	\]
+	At $L=0$ nothing happens: $\ket{(0\,1)1}=\ket{^3S_1}$. At $L=2$ the phase is $(-1)^5=-1$, and
+	\[
+		\begin{Bmatrix}2&1&1\\1&1&1\end{Bmatrix}=\frac16,\qquad
+		\begin{Bmatrix}2&1&1\\1&1&2\end{Bmatrix}=\begin{Bmatrix}2&1&2\\1&1&1\end{Bmatrix}=-\frac{\sqrt5}{10},\qquad
+		\begin{Bmatrix}2&1&2\\1&1&2\end{Bmatrix}=-\frac{1}{10},
+	\]
+	so, e.g., $\braket{(2\,1)1|{}^3D_1}=-\sqrt{3\cdot3}\cdot\frac16=-\frac12$. In total
+	\[
+		\ket{(2\,1)J_l{=}1}=-\frac12\ket{^3D_1}+\frac{\sqrt3}{2}\ket{^5D_1},\qquad
+		\ket{(2\,1)J_l{=}2}=\frac{\sqrt3}{2}\ket{^3D_1}+\frac12\ket{^5D_1}.
+	\]
+
+	\textbf{Step 2: fix the axis} \tagP{Eq.~(21)}. States with a definite projection $\lambda_l$ on $\hat{\bm r}$ follow from the Jacob--Wick formula
+	\[
+		\ket{J_l\,M_l;\lambda_l}=\sum_L\sqrt{\frac{2L+1}{2J_l+1}}\,\braket{L\,0\,j_l\,\lambda_l|J_l\,\lambda_l}\,\ket{(L\,j_l)J_l\,M_l}.
+	\]
+	The $0$ is the physics: $\vec L=\vec r\times\vec p$ is perpendicular to $\hat{\bm r}$, so $\vec L\cdot\hat{\bm r}=0$ and the whole projection $\lambda_l$ comes from $\vec j_l$. The coefficients do not depend on $M_l$. Case by case:
+	\begin{itemize}
+		\item $J_l=1$, $\lambda_l=0$: with $\braket{0\,0\,1\,0|1\,0}=1$, $\braket{1\,0\,1\,0|1\,0}=0$ and $\braket{2\,0\,1\,0|1\,0}=-\sqrt{2/5}$,
+		      \[
+			      \ket{\Sigma_g^{+\prime}}=\frac{1}{\sqrt3}\ket{(0\,1)1}-\sqrt{\frac23}\ket{(2\,1)1}.
+		      \]
+		\item $J_l=1$, $\lambda_l=\pm1$: $\ket{\pm1}=\frac{1}{\sqrt3}\ket{(0\,1)1}\mp\frac{1}{\sqrt2}\ket{(1\,1)1}+\frac{1}{\sqrt6}\ket{(2\,1)1}$. The $L=1$ piece has the wrong parity, and it is the one that flips sign between $+1$ and $-1$, so the parity-even state is $(\ket{+1}+\ket{-1})/\sqrt2$:
+		      \[
+			      \ket{\Pi_g;1}=\sqrt{\frac23}\ket{(0\,1)1}+\frac{1}{\sqrt3}\ket{(2\,1)1}.
+		      \]
+		\item $J_l=2$, $\lambda_l=\pm1$: $\ket{\pm1}=\sqrt{\frac{3}{10}}\ket{(1\,1)2}\mp\frac{1}{\sqrt2}\ket{(2\,1)2}+\frac{1}{\sqrt5}\ket{(3\,1)2}$. Now the even-$L$ piece is the one that flips sign, so the parity-even state is $(\ket{+1}-\ket{-1})/\sqrt2=-\ket{(2\,1)2}$. Dropping the overall sign (a convention), $\ket{\Pi_g;2}=\ket{(2\,1)2}$. The paper does not spell out this sign switch.
+		\item $J_l=2$, $\lambda_l=0$: $\ket{0}=\sqrt{\frac25}\ket{(1\,1)2}-\sqrt{\frac35}\ket{(3\,1)2}$ contains only odd $L$, i.e.\ negative parity. That is the full reason this state is absent: besides the vanishing $L=2$ CG, there is no even-$L$ piece at all.
+	\end{itemize}
+
+	\textbf{Step 3: combine} \tagP{Eq.~(22)}. Insert Step 1 into Step 2, e.g.
+	\[
+		\ket{\Sigma_g^{+\prime}}=\frac{1}{\sqrt3}\ket{^3S_1}-\sqrt{\frac23}\Big(-\frac12\ket{^3D_1}+\frac{\sqrt3}{2}\ket{^5D_1}\Big)
+		=\frac{1}{\sqrt3}\ket{^3S_1}+\frac{1}{\sqrt6}\ket{^3D_1}-\frac{1}{\sqrt2}\ket{^5D_1},
+	\]
+	and the same for the other two rows:
+	\begin{equation}
+		\begin{pmatrix}\ket{\Sigma_g^{+\prime}}\\[0.5mm] \ket{\Pi_g;1}\\[0.5mm] \ket{\Pi_g;2}\end{pmatrix}
+		=\underbrace{\begin{pmatrix}
+				\frac{1}{\sqrt3} & \frac{1}{\sqrt6}   & -\frac{1}{\sqrt2} \\[1mm]
+				\sqrt{\frac23}   & -\frac{1}{2\sqrt3} & \frac12           \\[1mm]
+				0                & \frac{\sqrt3}{2}   & \frac12
+			\end{pmatrix}}_{U}
+		\begin{pmatrix}\ket{B\bar B^*(^3S_1)}\\[0.5mm] \ket{B\bar B^*(^3D_1)}\\[0.5mm] \ket{B^*\bar B^*(^5D_1)}\end{pmatrix},
+		\qquad UU^T=\bold 1 .
+		\label{eq:U}
+	\end{equation}
+	Each row is normalised ($\frac13+\frac16+\frac12=\frac23+\frac1{12}+\frac14=\frac34+\frac14=1$) and the rows are orthogonal: the two bases describe the same three states.
+
+	The first row is what we were after: $\braket{B\bar B^*(^3S_1)|\Sigma_g^{+\prime}}=\frac{1}{\sqrt3}$. Back to the projector insertion above:
+	\begin{align*}
+		g\equiv\braket{B\bar B^*(^3S_1)|H|W}
+		    & =\underbrace{\braket{B\bar B^*(^3S_1)|\Sigma_g^{+\prime}}}_{1/\sqrt3}\ \underbrace{\braket{\Sigma_g^{+\prime}|H|W}}_{-2\sqrt2\,g_l},                                                                   \\
+		|g| & =\underbrace{\sqrt2}_{\text{flavour}}\times\underbrace{2}_{\text{spin}}\times\underbrace{\frac{1}{\sqrt3}}_{S\text{ wave}}\times g_l=\frac{2}{\sqrt3}\sqrt2\,g_l=57\MeV
+	\end{align*}
+	for $g_l=35\MeV$ \tagP{Eq.~(18)}. Here $\braket{\Sigma_g^{+\prime}|H|W}$ is the mixing with the normalised $\Sigma_g^{+\prime}$ configuration; by HQSS it equals $\braket{1_H,0;1_l,0|H|W}=-2\sqrt2\,g_l$ from the lattice. The sign does not matter, since $\VQQ\propto g^2$.
+\end{aiadd}
+
+\end{document}
