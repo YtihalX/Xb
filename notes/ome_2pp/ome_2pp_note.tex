@@ -1,6 +1,6 @@
 \documentclass[11pt,a4paper]{article}
 \usepackage[margin=2.2cm]{geometry}
-\usepackage{amsmath,amssymb,bm,braket,booktabs,graphicx,array,enumitem}
+\usepackage{amsmath,amssymb,bm,braket,booktabs,graphicx,array,enumitem,needspace}
 \usepackage[dvipsnames]{xcolor}
 \usepackage[most]{tcolorbox}
 \usepackage{tikz}
@@ -310,40 +310,346 @@ Each tensor has definite $L$, $S$ and $J=2$. Since each $(L,S,J)$ occurs once, t
 \label{sec:method}
 %=====================================================================
 
-\subsection{Reduction to one angle}
+\subsection{What a partial-wave projection does}
 
-The projection is Eq.~(80) with $J=2$ \tagP{Eqs.~(80),(81)}:
+The unprojected potential is a matrix element between states with specified \emph{directions} and meson spins,
+$\VOME_{\sigma'\sigma}(p'\vn',p\vn)$, where $\sigma$ denotes all incoming spin labels and $\sigma'$ all outgoing ones. A partial-wave state instead has specified $L$, $S$, $J$ and magnetic quantum number $M_J$. It is a superposition of momentum directions and spin states, not a state with one special direction. The projection is simply the matrix element of the same operator in this new basis. The magnitudes $p,p'$ are not integrated out, and need not be equal.
+
+To see the basis change explicitly, use spin--angular wave functions normalised with the paper's measure $d\Omega/(4\pi)$:
 \begin{equation}
-\VOME_{\alpha'\alpha}(p',p;m_\phi)=\frac15\int\frac{d\Omega_{\vn'}}{4\pi}\frac{d\Omega_{\vn}}{4\pi}\,{\rm Tr}\Big[P^\dagger(\alpha';\vn')\,\VOME(\bm p',\bm p;m_\phi)\,P(\alpha;\vn)\Big],
+\Phi_{\alpha M_J}^{J}(\vn,\sigma)
+=\sqrt{4\pi}\sum_{m_L,m_S}
+\braket{L m_L,S m_S|J M_J}\,
+Y_{L m_L}(\vn)\,\chi_{S m_S}(\sigma),
+\label{eq:pw-wavefunction}
 \end{equation}
-the trace running over the open indices $ij$ and all polarisations, with $\veps$ for incoming and $\veps^{\prime*}$ for outgoing mesons contracted through $\sum_\lambda\epsilon_a(\lambda)\epsilon^*_b(\lambda)=\delta_{ab}$. Steps \tagD:
-\begin{enumerate}
-\item The trace is a rotational scalar, so the double average equals the average over $\vn'$ at fixed $\vn=\hat{\bm e}_z$.
-\item Write $\vn'=(\sin\theta'\cos\varphi',\sin\theta'\sin\varphi',x)$ and $\vq=p\hat{\bm e}_z-p'\vn'$. The $D_\beta$ depend on $\vq$ only through $q^2=p^2+p^{\prime2}-2pp'x$ \tagP{Eqs.~(D12),(D13)}, so the $\varphi'$ average acts on the polynomial numerator alone. After it, $\sin^2\theta'=1-x^2$ leaves a polynomial $T_{\alpha'\alpha}(x;p',p)$.
-\item Hence $\VOME_{\alpha'\alpha}=\frac{c}{5}\cdot\frac12\int_{-1}^1dx\,T_{\alpha'\alpha}(x)\,[D_{\beta_1}+D_{\beta_2}]$, with $c$ the prefactor of the table in Sect.~\ref{sec:ome-summary}. In terms of the moments of Eq.~(D11),
+where $\alpha$ specifies the meson species and $(L,S)$. The $\chi_{S m_S}$ are normalised coupled-spin wave functions. The factor $\sqrt{4\pi}$ compensates for using $d\Omega/(4\pi)$ rather than $d\Omega$; with the standard spherical harmonics,
+\[
+\sum_\sigma\int\frac{d\Omega_{\vn}}{4\pi}\,
+\Phi_{\alpha' M'_J}^{J*}(\vn,\sigma)
+\Phi_{\alpha M_J}^{J}(\vn,\sigma)
+=\delta_{\alpha'\alpha}\delta_{M'_J M_J}.
+\]
+Channel phases are chosen to agree with the projectors in Sect.~\ref{sec:proj}. The partial-wave matrix element is therefore \tagD
 \begin{equation}
-\D{\beta_1\beta_2}{m}(p',p;m_\phi)=\int_{-1}^1x^m\,dx\,\big[D_{\beta_1}(p',p,x;m_\phi)+D_{\beta_2}(p',p,x;m_\phi)\big],
+\begin{split}
+&\sum_{\sigma',\sigma}\int\frac{d\Omega_{\vn'}}{4\pi}
+\frac{d\Omega_{\vn}}{4\pi}\,
+\Phi_{\alpha' M'_J}^{J*}(\vn',\sigma')\,
+\VOME_{\sigma'\sigma}(p'\vn',p\vn)\,
+\Phi_{\alpha M_J}^{J}(\vn,\sigma)\\
+&\hspace{3cm}=\delta_{M'_J M_J}\,
+\VOME_{\alpha'\alpha}(p',p).
+\end{split}
+\label{eq:pw-basis-change}
+\end{equation}
+Rotational invariance makes this diagonal in $M_J$ and independent of its value. It does \emph{not} force $\alpha'=\alpha$: different $(L,S)$ with the same $J$ can mix.
+
+\paragraph{Why use the Cartesian projectors?}
+The tensors $P_{ij}$ of Sect.~\ref{sec:proj} encode these same $J=2$ spin--angular wave functions without writing Clebsch--Gordan sums. To understand the two open indices, introduce five orthonormal symmetric-traceless polarisation tensors $e_{ij}^{(M_J)}$, $M_J=-2,\ldots,2$. Their completeness relation is
+\begin{equation}
+\sum_{M_J=-2}^{2}e_{ij}^{(M_J)}e_{kl}^{(M_J)*}
+=\Pi_{ij,kl},\qquad
+\Pi_{ij,kl}=\tfrac12(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})
+-\tfrac13\delta_{ij}\delta_{kl}.
+\label{eq:pw-STF}
+\end{equation}
+Explicitly, in this basis the angular wave functions can be written as
+\[
+\Phi_{\alpha M_J}^{2}(\vn,\sigma)
+=\sum_{i,j}P_{ij}(\alpha;\vn,\sigma)\,e_{ij}^{(M_J)}.
+\]
+Since every $P_{ij}$ is symmetric and traceless, $\Pi_{ij,kl}P_{kl}=P_{ij}$. Consequently, summing over the five $M_J$ states is equivalent to contracting the Cartesian indices $ij$. After also contracting the meson-spin indices, this is precisely
+\begin{equation}
+{\rm Tr}[P^\dagger\VOME P]
+=\sum_{i,j}\sum_{\sigma',\sigma}
+P_{ij}^{*}(\alpha';\vn',\sigma')\,
+\VOME_{\sigma'\sigma}(p'\vn',p\vn)\,
+P_{ij}(\alpha;\vn,\sigma).
+\label{eq:pw-trace}
+\end{equation}
+Here $P_{ij}(\alpha;\vn,\sigma)$ means the components in a Cartesian meson-spin basis; equivalently one can use polarisation vectors and the completeness sums
+$\sum_\lambda\epsilon_a(\lambda)\epsilon_b^*(\lambda)=\delta_{ab}$.
+The word ``projector'' denotes the spin--angular tensors here; no multiplication $P^2=P$ is needed.
+
+Averaging the identical diagonal matrix elements of Eq.~\eqref{eq:pw-basis-change} over $M_J$ gives the paper's formula, Eq.~(80), with $J=2$ \tagP{Eqs.~(80),(81)}:
+\begin{equation}
+\VOME_{\alpha'\alpha}(p',p;m_\phi)
+=\frac15\int\frac{d\Omega_{\vn'}}{4\pi}
+\frac{d\Omega_{\vn}}{4\pi}\,
+{\rm Tr}\!\left[P^\dagger(\alpha';\vn')\,
+\VOME(p'\vn',p\vn;m_\phi)\,P(\alpha;\vn)\right].
+\label{eq:pw-projection}
+\end{equation}
+The factor $1/5$ removes the sum over the \emph{five total-$J$ states}. It is not an average over nine independent $ij$ components, nor an average over all nine spin states of two vector mesons: the projectors have already selected the requested spin--orbital channel.
+
+\subsection{Reduction from two solid angles to one relative angle}
+
+The important distinction is between the \emph{overall orientation} of the pair $(\vn,\vn')$ and their \emph{relative angle}. Define the fully contracted integrand, including the $1/5$, by
+\[
+\mathcal F_{\alpha'\alpha}(\vn',\vn)
+=\frac15{\rm Tr}[P^\dagger(\alpha';\vn')\,
+\VOME(p'\vn',p\vn)\,P(\alpha;\vn)].
+\]
+The fixed parameters $p,p',m_\phi$ are suppressed in this paragraph. Under a simultaneous rotation $R$ of both momentum directions and the spin tensors, all contracted rotation matrices cancel. Thus \tagD
+\begin{equation}
+\mathcal F_{\alpha'\alpha}(R\vn',R\vn)
+=\mathcal F_{\alpha'\alpha}(\vn',\vn)
+=f_{\alpha'\alpha}(x),\qquad
+x=\vn\cdot\vn'=\cos\theta.
+\label{eq:pw-rotation}
+\end{equation}
+There is no preferred spatial direction left. For fixed magnitudes, a pair of unit vectors has only one rotational invariant, $x$. \textbf{This statement applies after the complete contraction in Eq.~\eqref{eq:pw-trace}, not to each projector separately.}
+
+\paragraph{Step 1: fix the incoming direction.}
+For any given $\vn$, choose a rotation $R_{\vn}$ with $R_{\vn}\vn=\hat{\bm e}_z$, and change the outgoing integration variable to $\bm m=R_{\vn}\vn'$. Rotations preserve solid angle, so
+\[
+\int\frac{d\Omega_{\vn'}}{4\pi}\,
+\mathcal F(\vn',\vn)
+=\int\frac{d\Omega_{\bm m}}{4\pi}\,
+\mathcal F(\bm m,\hat{\bm e}_z).
+\]
+The right-hand side is independent of the original $\vn$. Its remaining average over $\vn$ therefore multiplies it by
+$\int d\Omega_{\vn}/(4\pi)=1$. This proves, rather than assumes, that the double average can be evaluated at $\vn=\hat{\bm e}_z$.
+
+\paragraph{Step 2: remove the outgoing azimuth.}
+In this coordinate system,
+\[
+\vn'=(\sqrt{1-x^2}\cos\varphi,\,
+\sqrt{1-x^2}\sin\varphi,\,x),\qquad
+\frac{d\Omega_{\vn'}}{4\pi}
+=\frac{d\varphi}{2\pi}\frac{dx}{2}.
+\]
+Here the outgoing polar angle is exactly the angle $\theta$ \emph{between} $\bm p$ and $\bm p'$. Since the scalar $f(x)$ has no azimuthal dependence, $\int_0^{2\pi}d\varphi/(2\pi)=1$, leaving
+\begin{equation}
+\boxed{\displaystyle
+\int\frac{d\Omega_{\vn}}{4\pi}
+\frac{d\Omega_{\vn'}}{4\pi}\,
+\mathcal F(\vn',\vn)
+=\frac12\int_{-1}^{1}dx\,f(x).}
+\label{eq:pw-one-angle}
+\end{equation}
+The $1/2$ is the normalisation of the remaining angular measure; it is unrelated to the $1/5$ spin--angular trace. For example, a constant integrand gives $\frac12\int_{-1}^{1}dx\,1=1$, as must the original two normalised sphere averages.
+
+\begin{warnbox}[What has, and has not, been fixed]
+Fixing $\vn=\hat{\bm e}_z$ does \emph{not} set $L=0$: a $D$-wave projector is still evaluated at that direction and contributes its nontrivial tensor. Nor may one set both $\vn$ and $\vn'$ to $\hat{\bm e}_z$, which would keep only $x=1$. Only the arbitrary orientation of the whole momentum pair has been removed; all relative angles remain in the integral. A single uncontracted tensor component, or the integrand at a fixed $M_J$ before the sum, need not be a rotational scalar and does not justify this shortcut.
+\end{warnbox}
+
+\paragraph{Connection to the familiar Legendre projection.}
+For spinless particles, $J=L$, and the spherical-harmonic addition theorem gives
+\[
+\frac1{2L+1}\sum_{M_J=-L}^{L}
+\big[\sqrt{4\pi}Y_{L M_J}(\vn')\big]^*
+\big[\sqrt{4\pi}Y_{L M_J}(\vn)\big]
+=P_L(x).
+\]
+For a central spinless kernel the same argument therefore gives
+$V_L(p',p)=\frac12\int_{-1}^{1}dx\,P_L(x)V(p',p,x)$ in the present normalisation. In our spinful coupled-channel problem, the contraction $P^\dagger\VOME P$ supplies the spin--angular weight instead. One must \emph{not} multiply every $J=2$ matrix element by an additional $P_2(x)$: that would project the angular dependence twice.
+
+\subsection{From Cartesian contractions to angular moments}
+
+Now separate a TOPT potential into the scalar prefactor $c$ of Sect.~\ref{sec:ome-summary}, its spin--momentum operator $\mathcal O(\vq)$, and its denominator combination:
+\[
+\VOME(p'\vn',p\vn)
+=c\,\mathcal O(\vq)\,[D_{\beta_1}+D_{\beta_2}].
+\]
+With the incoming direction along $z$,
+\begin{align}
+\vq&=p\hat{\bm e}_z-p'\vn'
+=(-p'\sqrt{1-x^2}\cos\varphi,\,
+-p'\sqrt{1-x^2}\sin\varphi,\,p-p'x),\notag\\
+q^2&=p^2+p^{\prime2}-2pp'x,\qquad
+\vn\cdot\vq=p-p'x,\qquad
+\vn'\cdot\vq=px-p'.
+\label{eq:pw-kinematics}
+\end{align}
+The TOPT functions are
+\[
+D_\beta(p',p,x;m_\phi)
+=\frac1{2\omega_\phi(x)[\omega_\phi(x)+\mu_\beta(p',p)]},
+\qquad
+\omega_\phi(x)=\sqrt{p^2+p^{\prime2}+m_\phi^2-2pp'x}.
+\]
+The $\mu_\beta$ depend on $p,p'$ and the total energy, not on directions \tagP{Eqs.~(76),(77)}. Thus the denominators have no $\varphi$ dependence, but they \emph{do} retain their $x$ dependence and must stay inside the $x$ integral.
+
+\paragraph{Why the code still performs an azimuthal average.}
+The complete numerator trace is already a scalar. However, its individual Cartesian terms contain powers of $\cos\varphi$, $\sin\varphi$ and $\sqrt{1-x^2}$. The code simplifies their sum by applying the exact average
+\begin{equation}
+T_{\alpha'\alpha}(x;p',p)
+\equiv\int_0^{2\pi}\frac{d\varphi}{2\pi}\,
+{\rm Tr}[P^\dagger(\alpha';\vn')\,
+\mathcal O(\vq)\,P(\alpha;\hat{\bm e}_z)].
+\label{eq:pw-numerator}
+\end{equation}
+This is an algebraic convenience, not an additional approximation. For example,
+$\langle\cos^2\varphi\rangle=\langle\sin^2\varphi\rangle=1/2$ and
+$\langle\sin\varphi\cos\varphi\rangle=0$. More generally,
+\[
+\left\langle\cos^{2a}\varphi\sin^{2b}\varphi\right\rangle
+=\frac{(2a-1)!!(2b-1)!!}{(2a+2b)!!},
+\]
+with $(-1)!!=1$; an odd power of either sine or cosine averages to zero. After the average, every surviving even power of $\sqrt{1-x^2}$ becomes a power of $1-x^2$. Equivalently, one may reduce the scalar directly to the dot products in Eq.~\eqref{eq:pw-kinematics}. Either route gives a polynomial
+\[
+T_{\alpha'\alpha}(x;p',p)=\sum_{m=0}^{m_{\max}}
+T_{\alpha'\alpha}^{(m)}(p',p)\,x^m.
+\]
+
+Putting the factors back in their original order gives \tagD
+\begin{equation}
+\begin{split}
+\VOME_{\alpha'\alpha}(p',p;m_\phi)
+&=\underbrace{\frac15}_{\text{average over }M_J}\,
+\underbrace{\frac12}_{d\Omega'/4\pi\ \to\ dx/2}\,
+c\int_{-1}^{1}dx\,
+T_{\alpha'\alpha}(x;p',p)\,[D_{\beta_1}+D_{\beta_2}]\\
+&=\frac{c}{10}\sum_m T_{\alpha'\alpha}^{(m)}(p',p)\,
+\D{\beta_1\beta_2}{m}(p',p;m_\phi),
+\end{split}
+\label{eq:pw-moments}
+\end{equation}
+where, exactly as in the paper's Eq.~(D11),
+\begin{equation}
+\D{\beta_1\beta_2}{m}(p',p;m_\phi)
+=\int_{-1}^{1}dx\,x^m
+\big[D_{\beta_1}(p',p,x;m_\phi)+D_{\beta_2}(p',p,x;m_\phi)\big].
 \label{eq:Delta}
 \end{equation}
-the coefficient of $\D{\beta_1\beta_2}{m}$ is $c\,T^{(m)}_{\alpha'\alpha}/10$, with $T^{(m)}$ the coefficient of $x^m$.
-\end{enumerate}
-Two new combinations appear, $\D{33}{m}$ and $\D{44}{m}$, with $\D{44}{m}(p',p)=\D{33}{m}(p,p')$. Moments up to $m=4$ occur \tagN. Naively the $^5G_2\to{}^5G_2$ element could contain $x^5$ ($P_4(x)$ times the $x$ in $q^2$), but that term cancels, as $x^3$ cancels in the $1^{++}$ state $(2,1)J_\ell{=}1$ (Sect.~\ref{sec:hqss}) \tagN. The analytic evaluation of App.~D, the change of variables $x\to E_\phi$ that leads to Eq.~(D15), works for any $m$ \tagP{Eqs.~(D15)--(D17)}. At ${\cal B}=2pp'=0$ the $D_\beta$ do not depend on $x$, so Eq.~(D17) generalises to $\D{\beta_1\beta_2}{m}\big|_{{\cal B}=0}=\D{\beta_1\beta_2}{0}\big|_{{\cal B}=0}/(m+1)$ for even $m$ and $0$ for odd $m$ \tagD.
+Thus $\Delta_m$ is just a name for a one-dimensional integral, not a further projection. Its $m$ is the power of $x$, \emph{not} a magnetic quantum number or the orbital angular momentum. It contains neither the factor $1/2$ nor $1/5$; both are already in $c\,T^{(m)}/10$.
 
+Two new denominator combinations appear, $\D{33}{m}$ and $\D{44}{m}$, with $\D{44}{m}(p',p)=\D{33}{m}(p,p')$. Moments up to $m=4$ occur \tagN. Naively the $^5G_2\to{}^5G_2$ element could contain $x^5$ ($P_4(x)$ times the $x$ in $q^2$), but that term cancels, as $x^3$ cancels in the $1^{++}$ state $(2,1)J_\ell{=}1$ (Sect.~\ref{sec:hqss}) \tagN.
+
+\Needspace{8\baselineskip}
 \subsection{A worked example: $^5S_2\to{}^5S_2$}
 
-\begin{derbox}[$V_{11}$ with spin operators \tagD]
-Write $(S_k)_{ba}=-i\varepsilon_{kba}$ for the spin-1 matrices. Then $\vA\cdot\vq=\frac{1}{\sqrt2}\braket{\veps'|\bm S\cdot\vq|\veps}$ and
-\begin{gather*}
-(\vA_1\cdot\vq)(\vA_2\cdot\vq)=\tfrac12\braket{\veps_1'\veps_2'|(\bm S_1\cdot\vq)(\bm S_2\cdot\vq)|\veps_1\veps_2},\\
-(\bm S_1\cdot\vq)(\bm S_2\cdot\vq)=\tfrac13q^2\,\bm S_1\cdot\bm S_2+\big(q_iq_j-\tfrac13\delta_{ij}q^2\big)S_{1i}S_{2j}.
-\end{gather*}
-Both $^5S_2$ projectors are $\vn$ independent, and $\frac15{\rm Tr}[P^\dagger(\dots)P]$ is the average over the five $S=2$ states. The rank-2 spin tensor has zero trace over a complete multiplet (Wigner--Eckart). On $S=2$, $\bm S_1\cdot\bm S_2=\frac12[S(S+1)-2-2]=1$. So $\frac15{\rm Tr}=\frac12\cdot\frac13q^2$, and with the prefactor of Eq.~(75),
+\begin{derbox}[$V_{11}$: separating the spin trace from the angle integral \tagD]
+For two $^5S_2$ projectors, $L=L'=0$ and $S=J=2$. The projectors contain no $\vn$ or $\vn'$, but the potential still depends on their relative angle through $\vq$ and the denominators. Write $(S_k)_{ba}=-i\varepsilon_{kba}$ for the spin-1 matrices. Then
 \[
-V_{11}=-\frac{g_b^2}{2F_\pi^2}\cdot\frac16\cdot\frac12\!\int_{-1}^1\!dx\,q^2\,[2D_2]
-=\frac{g_b^2}{24F_\pi^2}\Big[2pp'\D{22}{1}-(p^2+p^{\prime2})\D{22}{0}\Big].
+\vA\cdot\vq
+=\frac1{\sqrt2}\braket{\veps'|\bm S\cdot\vq|\veps},
+\qquad
+(\vA_1\cdot\vq)(\vA_2\cdot\vq)
+=\tfrac12(\bm S_1\cdot\vq)(\bm S_2\cdot\vq)
 \]
-For $1^{++}$, $(\veps\cdot\vq)(\veps^{\prime*}\cdot\vq)$ averaged over the three $^3S_1$ states gives $\frac13q^2$, and Eq.~(72) leads to Eq.~(D2): the same expression with $\D{12}{m}$. The $S$-wave OME of the $2^{++}$ spin partner differs from that of the $X_b$ channel \emph{only} through the TOPT denominators: $2D_2$ (intermediate $\BstBst\phi$ in both orderings) instead of $D_1+D_2$.
+as an operator on the two-vector spin space. The $1/5$ trace is the average over the five $S=2$ states. Rotational symmetry of this average implies
+\[
+\frac15{\rm Tr}_{S=2}(S_{1i}S_{2j})=a\,\delta_{ij}.
+\]
+Contracting $i=j$ determines $a$ without any explicit polarisation vectors:
+\[
+3a=\frac15{\rm Tr}_{S=2}(\bm S_1\cdot\bm S_2)=1,\qquad
+\bm S_1\cdot\bm S_2
+=\tfrac12[S(S+1)-s_1(s_1+1)-s_2(s_2+1)]
+=\tfrac12(6-2-2)=1.
+\]
+Consequently,
+\[
+\frac15{\rm Tr}[P^\dagger_1\mathcal O P_1]
+=\tfrac12q_iq_j\,\frac{\delta_{ij}}3
+=\frac{q^2}{6},
+\qquad
+T_{11}(x)=\frac56q^2.
+\]
+Notice the distinction: $T_{11}$ is the \emph{unaveraged} trace of Eq.~\eqref{eq:pw-numerator}, whereas $q^2/6$ already includes $1/5$.
+
+Now insert $c=-g_b^2/(2F_\pi^2)$ and $D_{\beta_1}+D_{\beta_2}=2D_2$ from Eq.~(75):
+\begin{align*}
+V_{11}
+&=-\frac{g_b^2}{2F_\pi^2}\,
+\frac12\int_{-1}^{1}dx\,\frac{q^2}{6}\,[2D_2]\\
+&=-\frac{g_b^2}{24F_\pi^2}
+\int_{-1}^{1}dx\,
+\big[(p^2+p^{\prime2})-2pp'x\big]\,[2D_2]\\
+&=\frac{g_b^2}{24F_\pi^2}
+\Big[2pp'\D{22}{1}-(p^2+p^{\prime2})\D{22}{0}\Big].
+\end{align*}
+An $S$-wave projection is therefore an \emph{angular average}, not evaluation at $x=0$ or $x=1$. Although both external states are $S$ waves, the $x$ in $q^2$ produces a $\Delta_1$ moment.
+
+For $1^{++}$, $(\veps\cdot\vq)(\veps^{\prime*}\cdot\vq)$ averaged over the three $^3S_1$ states gives $q^2/3$; combined with $c=-g_b^2/(4F_\pi^2)$, Eq.~(72) gives the same overall coefficient and Eq.~(D2), with $\D{12}{m}$. The $S$-wave OME of the $2^{++}$ spin partner differs from the $X_b$ channel \emph{only} through the TOPT denominators: $2D_2$ instead of $D_1+D_2$.
 \end{derbox}
+
+\subsection{A worked example with orbital structure: $^1D_2\to{}^5S_2$}
+
+The previous example did not contain direction-dependent projectors. To see where a $D$ wave enters, take $V_{16}$: incoming $\BB(^1D_2)$, outgoing $\BstBst(^5S_2)$. The new potential, Eq.~\eqref{eq:VPPVV}, has
+\[
+c=\frac{g_b^2}{4F_\pi^2},\qquad
+\mathcal O=(\veps_1^{\prime*}\cdot\vq)
+(\veps_2^{\prime*}\cdot\vq),\qquad
+D_{\beta_1}+D_{\beta_2}=2D_3.
+\]
+Use Cartesian labels $a,b$ for the outgoing vector spins. The outgoing $S$-wave projector is
+$P^{(1)}_{ij;ab}=\Pi_{ij,ab}$ of Eq.~\eqref{eq:pw-STF}, while the incoming $D$-wave projector is
+$P^{(6)}_{ij}=-\sqrt{15/2}\,(n_i n_j-\delta_{ij}/3)$. Summing the outgoing polarisations first gives
+\[
+\sum_{a,b}\Pi_{ij,ab}\,q_aq_b
+=q_iq_j-\tfrac13\delta_{ij}q^2.
+\]
+The remaining Cartesian contraction is now elementary \tagD:
+\begin{align}
+T_{16}
+&=-\sqrt{\tfrac{15}{2}}\sum_{i,j}
+\left(n_i n_j-\tfrac13\delta_{ij}\right)
+\left(q_iq_j-\tfrac13\delta_{ij}q^2\right)\notag\\
+&=-\sqrt{\tfrac{15}{2}}\left[(\vn\cdot\vq)^2-\tfrac13q^2\right]\notag\\
+&=-\frac13\sqrt{\tfrac{15}{2}}\,
+\Big[3(p-p'x)^2-(p^2+p^{\prime2}-2pp'x)\Big]\notag\\
+&=-\frac13\sqrt{\tfrac{15}{2}}\,
+\Big[3p^{\prime2}x^2-4pp'x+(2p^2-p^{\prime2})\Big].
+\label{eq:pw-T16}
+\end{align}
+This expression shows explicitly why choosing $\vn=\hat{\bm e}_z$ does not discard the incoming $D$ wave: its $n_i n_j-\delta_{ij}/3$ tensor produces the combination $(\vn\cdot\vq)^2-q^2/3$. It also shows that no azimuth remains after the full contraction.
+
+Multiplying the polynomial coefficients by $c/10$ gives
+\[
+V_{16}
+=-\frac{\sqrt3\,g_b^2}{24\sqrt{10}\,F_\pi^2}
+\Big[3p^{\prime2}\D{33}{2}
+-4pp'\D{33}{1}
++(2p^2-p^{\prime2})\D{33}{0}\Big],
+\]
+the entry quoted in Sect.~\ref{sec:result}. For the reversed process $V_{61}$, the $D$-wave tensor belongs to $\vn'$ instead; $(\vn'\cdot\vq)^2=(px-p')^2$ interchanges the roles of $p$ and $p'$, and $2D_3$ becomes $2D_4$.
+
+\subsection{If the remaining angle integral is evaluated analytically}
+
+The reduction to one angle is already complete in Eq.~\eqref{eq:pw-moments}; the $\Delta_m$ may simply be evaluated by one-dimensional quadrature. The extra change of variables in App.~D is only a way to \emph{perform} that last integral. For clarity, consider one denominator at a time:
+\[
+I_m^{(\beta)}=\int_{-1}^{1}dx\,
+\frac{x^m}{2\omega_\phi(x)[\omega_\phi(x)+\mu_\beta]},
+\qquad
+\D{\beta_1\beta_2}{m}=I_m^{(\beta_1)}+I_m^{(\beta_2)}.
+\]
+For ${\cal B}=2pp'>0$, set ${\cal A}_\phi=p^2+p^{\prime2}+m_\phi^2$ and
+$u=\omega_\phi(x)=\sqrt{{\cal A}_\phi-{\cal B}x}$. Then \tagP{Eqs.~(D13)--(D16)} \tagD
+\[
+x=\frac{{\cal A}_\phi-u^2}{\cal B},\qquad
+dx=-\frac{2u}{\cal B}\,du,\qquad
+u_-=\sqrt{(p-p')^2+m_\phi^2},\quad
+u_+=\sqrt{(p+p')^2+m_\phi^2}.
+\]
+As $x$ goes from $-1$ to $1$, $u$ goes from $u_+$ down to $u_-$. Reversing the limits absorbs the minus sign in $dx$, while its $2u$ cancels the $2\omega_\phi$ in the denominator:
+\begin{equation}
+I_m^{(\beta)}
+=\frac1{{\cal B}^{m+1}}\int_{u_-}^{u_+}du\,
+\frac{({\cal A}_\phi-u^2)^m}{u+\mu_\beta}.
+\label{eq:pw-energy-integral}
+\end{equation}
+For integer $m\ge0$, polynomial division leaves a polynomial plus a multiple of $1/(u+\mu_\beta)$, so the answer consists of powers and a logarithm. In particular,
+\[
+I_0^{(\beta)}
+=\frac1{\cal B}\big[\operatorname{Log}(u_++\mu_\beta)
+-\operatorname{Log}(u_-+\mu_\beta)\big].
+\]
+The $\mu_\beta$ retain the paper's $-i0$ prescription; above a three-body threshold that prescription must also be retained in the logarithms. This substitution changes neither the spin projection nor its normalisation.
+
+At ${\cal B}=0$, use the original integral rather than the apparent $0/0$ form above. Each $D_\beta$ is then independent of $x$, so \tagP{Eq.~(D17)} \tagD
+\[
+\left.\D{\beta_1\beta_2}{m}\right|_{{\cal B}=0}
+=\begin{cases}
+\displaystyle\frac1{m+1}
+\left.\D{\beta_1\beta_2}{0}\right|_{{\cal B}=0},
+&m\text{ even},\\[2mm]
+0,&m\text{ odd}.
+\end{cases}
+\]
 
 \subsection{Validation on $1^{++}$}
 
