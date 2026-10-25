@@ -95,7 +95,7 @@
     columns: (auto, auto),
     column-gutter: 1.2em,
     align: horizon,
-    text(weight: "bold")[Why only the $S$ wave at leading order?], keybox[$S$ wave _because of_ LO],
+    text(weight: "bold")[Why only the $S$ wave at leading order?],
   )
   #grid(
     columns: (1.15fr, 1fr),
@@ -120,28 +120,36 @@
 ]
 */
 
-#slide(
-  refs: [radii, $p thin r_"rms"$ and plots: our estimate from the bare Cornell tower, $m_b = 4.534$ GeV],
-)[The suppression is parametric][
-  - $p tilde Q approx kappa_(X_b) = 0.695$ GeV; rms radii of the bare states $n = 1$–$4$: $0.41$, $0.66$, $0.87$, $1.05$ fm
-  - $p thin r_"rms" approx 1.4, 2.3, 3.1, 3.7$: not small
-  - so the $S$-wave restriction is a counting statement, not a numerical one
-  #grid(
-    columns: (1fr, 1fr),
-    column-gutter: 1em,
-    align: center,
-    [#image("../figs/un_r.pdf", height: 6.2cm) #caption[$u_n (r) = r R_(1 n)(r)$; dotted: string–$B macron(B)$ crossing]],
-    [#image("../figs/fn_p.pdf", height: 6.2cm) #caption[$f_n (p) = sqrt(4 pi) integral r^2 dif r thin j_0 (p r) R_(1 n)(r)$; dotted: $kappa$]],
-  )
-]
+// #slide(
+//   refs: [radii, $p thin r_"rms"$ and plots: our estimate from the bare Cornell tower, $m_b = 4.534$ GeV],
+// )[The suppression is parametric][
+//   - $p tilde Q approx kappa_(X_b) = 0.695$ GeV; rms radii of the bare states $n = 1$–$4$: $0.41$, $0.66$, $0.87$, $1.05$ fm
+//   - $p thin r_"rms" approx 1.4, 2.3, 3.1, 3.7$: not small
+//   - so the $S$-wave restriction is a counting statement, not a numerical one
+//   #grid(
+//     columns: (1fr, 1fr),
+//     column-gutter: 1em,
+//     align: center,
+//     [#image(
+//         "../figs/un_r.pdf",
+//         height: 6.2cm,
+//       ) #caption[$u_n (r) = r R_(1 n)(r)$; dotted: string–$B macron(B)$ crossing]],
+//     [#image(
+//         "../figs/fn_p.pdf",
+//         height: 6.2cm,
+//       ) #caption[$f_n (p) = sqrt(4 pi) integral r^2 dif r thin j_0 (p r) R_(1 n)(r)$; dotted: $kappa$]],
+//   )
+// ]
 
 #slide[The coupled-channel Hamiltonian and the state vector][
-  $ cal(H) = mat(
-    H - M_"th", 0, dots.c, hat(g)^dagger;
-    0, H - M_"th", dots.c, hat(g)^dagger;
-    dots.v, dots.v, dots.down, dots.v;
-    hat(g), hat(g), dots.c, H_(M M)
-  ) quad "acting on" quad ket(Psi) = mat(lambda_1 ket([macron(b) b]_1 (1P)); lambda_2 ket([macron(b) b]_1 (2P)); dots.v; phi(q) ket(B macron(B)^*)) $
+  $
+    cal(H) = mat(
+      H - M_"th", 0, dots.c, hat(g)^dagger;
+      0, H - M_"th", dots.c, hat(g)^dagger;
+      dots.v, dots.v, dots.down, dots.v;
+      hat(g), hat(g), dots.c, H_(M M)
+    ) quad "acting on" quad ket(Psi) = mat(lambda_1 ket([macron(b) b]_1 (1P)); lambda_2 ket([macron(b) b]_1 (2P)); dots.v; phi(q) ket(B macron(B)^*))
+  $
   #grid(
     columns: (1fr, auto),
     column-gutter: 1.5em,
@@ -159,9 +167,13 @@
 
 #slide[Projectors and the block form of $cal(H)$][
   Split the space into the compact sector $Q$ and the meson-pair sector $M$:
-  $ P_Q = sum_n ket(n) bra(n), quad P_M = integral_0^infinity (q^2 dif q) / (2 pi^2) ket(q) bra(q), quad P_Q + P_M = bold(1), quad P_Q P_M = 0 $
+  $
+    P_Q = sum_n ket(n) bra(n), quad P_M = integral_0^infinity (q^2 dif q) / (2 pi^2) ket(q) bra(q), quad P_Q + P_M = bold(1), quad P_Q P_M = 0
+  $
   Sandwich $cal(H)$ between $bold(1) = P_Q + P_M$ on both sides:
-  $ cal(H) = (P_Q + P_M) cal(H) (P_Q + P_M) = underbrace(P_Q cal(H) P_Q, H_(Q Q)) + underbrace(P_M cal(H) P_M, H_(M M)) + underbrace(P_M cal(H) P_Q, hat(g)) + underbrace(P_Q cal(H) P_M, hat(g)^dagger) $
+  $
+    cal(H) = (P_Q + P_M) cal(H) (P_Q + P_M) = underbrace(P_Q cal(H) P_Q, H_(Q Q)) + underbrace(P_M cal(H) P_M, H_(M M)) + underbrace(P_M cal(H) P_Q, hat(g)) + underbrace(P_Q cal(H) P_M, hat(g)^dagger)
+  $
   - $H_(Q Q) = P_Q (H - M_"th") P_Q = sum_n E_n ket(n) bra(n)$
   - $P_Q cal(H) P_M = (P_M cal(H) P_Q)^dagger = hat(g)^dagger$, because $cal(H)$ is Hermitian
   - ordered as (compact, meson pair): $cal(H) = mat(H_(Q Q), hat(g)^dagger; hat(g), H_(M M))$, i.e. the Hamiltonian matrix from before with all bottomonium rows in one block
@@ -171,10 +183,14 @@
   Write $cal(H) ket(Psi) = E ket(Psi)$ as $cal(H) (P_Q + P_M) ket(Psi) = E ket(Psi)$ and multiply from the left by $P_Q$:
   $ P_Q cal(H) P_Q ket(Psi) + P_Q cal(H) P_M ket(Psi) = E P_Q ket(Psi) $
   Since $P^2 = P$, put one more projector next to the ket:
-  $ P_Q cal(H) P_Q ket(Psi) = (P_Q cal(H) P_Q)(P_Q ket(Psi)) = H_(Q Q) P_Q ket(Psi), quad P_Q cal(H) P_M ket(Psi) = hat(g)^dagger P_M ket(Psi) $
+  $
+    P_Q cal(H) P_Q ket(Psi) = (P_Q cal(H) P_Q)(P_Q ket(Psi)) = H_(Q Q) P_Q ket(Psi), quad P_Q cal(H) P_M ket(Psi) = hat(g)^dagger P_M ket(Psi)
+  $
   $ arrow.r.double quad H_(Q Q) P_Q ket(Psi) + hat(g)^dagger P_M ket(Psi) = E P_Q ket(Psi) $
   Multiplying by $P_M$ instead: #h(0.3em) $hat(g) P_Q ket(Psi) + H_(M M) P_M ket(Psi) = E P_M ket(Psi)$. Collecting terms:
-  #keybox[$ (E - H_(Q Q)) P_Q ket(Psi) = hat(g)^dagger P_M ket(Psi), quad (E - H_(M M)) P_M ket(Psi) = hat(g) P_Q ket(Psi) $]
+  #keybox[$
+    (E - H_(Q Q)) P_Q ket(Psi) = hat(g)^dagger P_M ket(Psi), quad (E - H_(M M)) P_M ket(Psi) = hat(g) P_Q ket(Psi)
+  $]
 ]
 
 #slide[Eliminating the compact states][
@@ -183,7 +199,9 @@
   Plug this into the second equation:
   $ (E - H_(M M)) P_M ket(Psi) = hat(g) (E - H_(Q Q))^(-1) hat(g)^dagger P_M ket(Psi) $
   $H_(Q Q) = sum_n E_n ket(n) bra(n)$ is diagonal, so on the compact space $(E - H_(Q Q))^(-1) = sum_n (ket(n) bra(n)) / (E - E_n)$:
-  #keybox[$ [H_(M M) + hat(V)(E)] P_M ket(Psi) = E P_M ket(Psi), quad hat(V)(E) = hat(g) (E - H_(Q Q))^(-1) hat(g)^dagger = sum_n (hat(g) ket(n) bra(n) hat(g)^dagger) / (E - E_n) $]
+  #keybox[$
+    [H_(M M) + hat(V)(E)] P_M ket(Psi) = E P_M ket(Psi), quad hat(V)(E) = hat(g) (E - H_(Q Q))^(-1) hat(g)^dagger = sum_n (hat(g) ket(n) bra(n) hat(g)^dagger) / (E - E_n)
+  $]
   A Schrödinger equation for the heavy mesons alone: the compact states leave behind an energy-dependent potential.
 ]
 
@@ -208,7 +226,9 @@
 
 #slide[Truncation and compact amplitudes][
   Split $P_Q = P_(<= N) + P_(> N)$:
-  $ hat(V)(E) = sum_(n <= N) (hat(g) ket(n) bra(n) hat(g)^dagger) / (E - E_n) + hat(g) P_(> N) (E - H_(Q Q))^(-1) P_(> N) hat(g)^dagger $
+  $
+    hat(V)(E) = sum_(n <= N) (hat(g) ket(n) bra(n) hat(g)^dagger) / (E - E_n) + hat(g) P_(> N) (E - H_(Q Q))^(-1) P_(> N) hat(g)^dagger
+  $
   - the second piece has no pole near threshold and varies slowly there
   - at LO it is replaced by a constant: the contact term $C(Lambda, N)$, which is why $C$ depends on $N$
   #v(0.6em)
@@ -222,7 +242,7 @@
   so
   $
     braket(Psi, Psi) & = mel(Psi, P_M, Psi) + mel(Psi, P_Q, Psi) = braket(Psi_M, Psi_M) + mel(Psi_M, hat(g) (E - H_(Q Q))^(-2) hat(g)^dagger, Psi_M) \
-                     & = mel(Psi_M, [1 - partial_E hat(V)(E)], Psi_M)
+    & = mel(Psi_M, [1 - partial_E hat(V)(E)], Psi_M)
   $
   #keybox[$ cal(P)_(macron(b) b) = mel(Psi, P_Q, Psi) = sum_n |lambda_n|^2 = -mel(Psi_M, partial_E hat(V), Psi_M) $]
   The energy dependence of $hat(V)$ _is_ the compact component.

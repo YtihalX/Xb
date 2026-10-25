@@ -20,7 +20,10 @@
   lbl((1.1, -0.15), "north", [$b$])
   arc((2.05, 0.55), start: 90deg, stop: -200deg, radius: (0.18, 0.55), stroke: 1.1pt, mark: tip)
   lbl((2.05, 0.6), "south", [$R_(hat(z))(phi)$])
-  note((0, -1.15))[*(a)* rotations about the axis \ conserve $lambda_l = arrow(j)_l dot hat(bold(r))$ \ $Lambda = |lambda_l|$: $Sigma, Pi, Delta, dots$]
+  note((
+    0,
+    -1.15,
+  ))[*(a)* rotations about the axis \ conserve $lambda_l = arrow(j)_l dot hat(bold(r))$ \ $Lambda = |lambda_l|$: $Sigma, Pi, Delta, dots$]
 
   // (b) CP: P swaps the positions, C swaps b and bbar back
   let row(y, left-quark) = {
@@ -37,7 +40,10 @@
   lbl((5.8, 0.4), "west", text(size: 14pt)[$P$: $arrow(r) arrow.r -arrow(r)$])
   line((5.7, -0.15), (5.7, -0.65), stroke: 1.1pt, mark: tip)
   lbl((5.8, -0.4), "west", text(size: 14pt)[$C$: $b arrow.l.r macron(b)$])
-  note((5.7, -1.15))[*(b)* $C P$ maps the configuration \ onto itself: eigenvalue \ $eta = g space (+1)$ or $u space (-1)$]
+  note((
+    5.7,
+    -1.15,
+  ))[*(b)* $C P$ maps the configuration \ onto itself: eigenvalue \ $eta = g space (+1)$ or $u space (-1)$]
 
   // (c) reflection through a plane containing the axis
   line((9.1, -0.35), (12.7, -0.35), (13.1, 0.35), (9.5, 0.35), close: true, fill: luma(245), stroke: 0.6pt + gray)
@@ -49,19 +55,27 @@
   lbl((11.4, 0.9), "west", text(size: 14pt)[$(x, y, z)$])
   circle((11.3, -0.9), radius: 0.05, fill: gray, stroke: none)
   lbl((11.4, -0.9), "west", text(size: 14pt)[$(x, -y, z)$])
-  line((11.3, 0.78), (11.3, -0.78), stroke: (dash: "dotted", thickness: 0.8pt), mark: (
-    start: "stealth",
-    end: "stealth",
-    fill: black,
-    scale: 0.7,
-  ))
+  line(
+    (11.3, 0.78),
+    (11.3, -0.78),
+    stroke: (dash: "dotted", thickness: 0.8pt),
+    mark: (
+      start: "stealth",
+      end: "stealth",
+      fill: black,
+      scale: 0.7,
+    ),
+  )
   line((9.2, 0.75), (9.7, 0.75), stroke: 0.8pt, mark: (end: "stealth", fill: black, scale: 0.6))
   lbl((9.7, 0.75), "west", text(size: 14pt)[$z$])
   line((9.2, 0.75), (9.2, 1.2), stroke: 0.8pt, mark: (end: "stealth", fill: black, scale: 0.6))
   lbl((9.2, 1.2), "south", text(size: 14pt)[$y$])
   line((9.2, 0.75), (9.0, 0.4), stroke: 0.8pt, mark: (end: "stealth", fill: black, scale: 0.6))
   lbl((9.0, 0.4), "east", text(size: 14pt)[$x$])
-  note((11.1, -1.15))[*(c)* $M_(x z) = P R_y (pi)$: $y arrow.r -y$, \ sources stay put, $lambda_l arrow.r -lambda_l$ \ $arrow.r.double$ $sigma = plus.minus$ only for $Lambda = 0$]
+  note((
+    11.1,
+    -1.15,
+  ))[*(c)* $M_(x z) = P R_y (pi)$: $y arrow.r -y$, \ sources stay put, $lambda_l arrow.r -lambda_l$ \ $arrow.r.double$ $sigma = plus.minus$ only for $Lambda = 0$]
 })
 
 // ---------------------------------------------------------------------------
@@ -77,9 +91,13 @@
 #slide[BO symmetry: $C P$ and reflections][
   - $eta = C P$: $P$ swaps the positions of $b$ and $macron(b)$, $C$ exchanges quark and antiquark, so the configuration is restored (panel b); #h(0.2em) $eta = g$ $(+1)$ or $u$ $(-1)$
   - $sigma = plus.minus$: reflection through a plane containing the axis; take $arrow(r)$ along $z$ and the $x z$ plane (panel c):
-  $ M_(x z) = P R_y (pi): quad (x, y, z) stretch(arrow.r, size: #3em)^(R_y (pi)) (-x, y, -z) stretch(arrow.r, size: #3em)^P (x, -y, z) $
+  $
+    M_(x z) = P R_y (pi): quad (x, y, z) stretch(arrow.r, size: #3em)^(R_y (pi)) (-x, y, -z) stretch(arrow.r, size: #3em)^P (x, -y, z)
+  $
   - the sources stay put; on a light state
-  $ P R_y (pi) ket(j_l\, m) = P (-1)^(j_l - m) ket(j_l\, -m) quad arrow.r.double quad sigma ket(j_l\, 0) = P (-1)^(j_l) ket(j_l\, 0) $
+  $
+    P R_y (pi) ket(j_l\, lambda_l) = P (-1)^(j_l - lambda_l) ket(j_l\, -lambda_l) quad arrow.r.double quad sigma ket(j_l\, 0) = P (-1)^(j_l) ket(j_l\, 0)
+  $
   - for $lambda_l != 0$ the reflection maps $lambda_l arrow.r -lambda_l$: a degenerate pair, so $sigma$ is quoted only for $Lambda = 0$
 ]
 
@@ -106,14 +124,26 @@
   #align(center, text(size: 16pt, table(
     columns: 7,
     align: (left, center, center, center, center, center, left),
-    toprule,
-    [light configuration], [$j_l^(P C)$], [$lambda_l$], [$eta$], [$sigma$], [label], [role],
-    midrule,
-    [vacuum (string)], [$0^(+ +)$], [0], [$g$], [$+$], [$Sigma_g^+$], [compact $macron(b) b$, Cornell potential],
-    [$S$-wave pair, light triplet], [$1^(- -)$], [0], [$g$], [$+$], [$Sigma_g^(+')$], [mixes with the string],
-    [$S$-wave pair, light triplet], [$1^(- -)$], [$plus.minus 1$], [$g$], [–], [$Pi_g$], [no direct mixing],
-    [$S$-wave pair, light singlet], [$0^(- +)$], [0], [$u$], [$-$], [$Sigma_u^-$], [cannot give $1^(+ +)$],
-    bottomrule,
+    toprule, [light configuration], [$j_l^(P C)$], [$lambda_l$], [$eta$], [$sigma$], [label],
+    [role], midrule, [vacuum (string)], [$0^(+ +)$], [0], [$g$], [$+$],
+    [$Sigma_g^+$],
+    [compact $macron(b) b$, Cornell potential],
+    [$S$-wave pair, light triplet],
+    [$1^(- -)$],
+    [0],
+    [$g$],
+    [$+$],
+
+    [$Sigma_g^(+')$],
+    [mixes with the string],
+    [$S$-wave pair, light triplet],
+    [$1^(- -)$],
+    [$plus.minus 1$],
+    [$g$],
+    [–],
+
+    [$Pi_g$], [no direct mixing], [$S$-wave pair, light singlet], [$0^(- +)$], [0], [$u$], [$-$],
+    [$Sigma_u^-$], [cannot give $1^(+ +)$], bottomrule,
   )))
   #v(0.3em)
   - $Sigma_g^+$ and $Sigma_g^(+')$ share all labels, so they mix: levels of equal symmetry cannot cross $arrow.r$ avoided crossing = string breaking

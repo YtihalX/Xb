@@ -22,18 +22,26 @@
 
 #slide[Evaluating the $9j$ symbol][
   A $9j$ symbol with a zero reduces to a $6j$ symbol:
-  $ mat(delim: "{", a, b, e; c, d, e; f, f, 0) = (-1)^(b + c + e + f) / sqrt((2e + 1)(2f + 1)) mat(delim: "{", a, b, e; d, c, f) $
+  $
+    mat(delim: "{", a, b, e; c, d, e; f, f, 0) = (-1)^(b + c + e + f) / sqrt((2e + 1)(2f + 1)) mat(delim: "{", a, b, e; d, c, f)
+  $
   For us, with the elementary $6j$ symbol with a zero:
-  $ mat(delim: "{", 1\/2, 1\/2, 0; 1\/2, 1\/2, 0; s, s, 0) = (-1)^(1 + s) / sqrt(2s + 1) mat(delim: "{", 1\/2, 1\/2, 0; 1\/2, 1\/2, s), quad mat(delim: "{", 1\/2, 1\/2, 0; 1\/2, 1\/2, s) = (-1)^(1 + s) / 2 $
+  $
+    mat(delim: "{", 1\/2, 1\/2, 0; 1\/2, 1\/2, 0; s, s, 0) = (-1)^(1 + s) / sqrt(2s + 1) mat(delim: "{", 1\/2, 1\/2, 0; 1\/2, 1\/2, s), quad mat(delim: "{", 1\/2, 1\/2, 0; 1\/2, 1\/2, s) = (-1)^(1 + s) / 2
+  $
   The signs cancel: $9j = 1 \/ (2 sqrt(2s + 1))$, and the coefficient is $sqrt((2s + 1)^2) dot 1 / (2 sqrt(2s + 1)) = sqrt(2s + 1) / 2$:
-  #keybox[$ ket(B macron(B)) = 1 / 2 ket((0_H 0_l)_0) + sqrt(3) / 2 ket((1_H 1_l)_0), quad 1 / 4 + 3 / 4 = 1 $]
+  #keybox[$ ket(B macron(B)) = 1 / 2 ket((0_H 0_l)_0) + sqrt(3) / 2 ket((1_H 1_l)_0) $]
 ]
 
 #slide[Projections on the axis: the factor 2][
   Open $(1_H 1_l)_0$ into projections on the axis:
-  $ ket((1_H 1_l)_0) = sum_m braket(1 thin m thin 1 thin um m, 0 thin 0) ket(1_H\, m) ket(1_l\, -m), quad braket(1 thin m thin 1 thin um m, 0 thin 0) = (-1)^(1 - m) / sqrt(3) $
+  $
+    ket((1_H 1_l)_0) = sum_m braket(1 thin m thin 1 thin um m, 0 thin 0) ket(1_H\, m) ket(1_l\, -m), quad braket(1 thin m thin 1 thin um m, 0 thin 0) = (-1)^(1 - m) / sqrt(3)
+  $
   so the coefficient of $ket(1_H\, 0) ket(1_l\, 0)$ is $sqrt(3) \/ 2 dot (-1 \/ sqrt(3)) = -1 \/ 2$. Altogether
-  $ ket(B macron(B)) = 1 / 2 ket(0_l\, 0) ket(0_H\, 0) + 1 / 2 sum_(lambda_l = plus.minus 1, 0) (-1)^(lambda_l + 1) ket(1_l\, lambda_l) ket(1_H\, -lambda_l) $
+  $
+    ket(B macron(B)) = 1 / 2 ket(0_l\, 0) ket(0_H\, 0) + 1 / 2 sum_(lambda_l = plus.minus 1, 0) (-1)^(lambda_l + 1) ket(1_l\, lambda_l) ket(1_H\, -lambda_l)
+  $
   - the only part with $ket(1_H\, 0)$ is $ket(1_H\, 0\; 1_l\, 0)$, with coefficient $-1 \/ 2$
   #keybox[$mel(W, H, 1_H\, 0\; 1_l\, 0) = -2 sqrt(2) thin g_l$: #h(0.3em) the extra factor of 2]
 ]

@@ -11,24 +11,25 @@
       - a pair of static–light mesons: energy nearly flat
       Bulava _et al._ (2024) fit the three lowest levels in the basis ${macron(b) b "string", B macron(B), B_s macron(B)_s}$ with
     ],
-    $ H(r) = mat(V(r), sqrt(2) g_l, g_s; sqrt(2) g_l, hat(E)_1, 0; g_s, 0, hat(E)_2) \ V(r) = hat(V)_0 + sigma r + gamma / r $,
+    $
+      H(r) = mat(V(r), sqrt(2) g_l, g_s; sqrt(2) g_l, hat(E)_1, 0; g_s, 0, hat(E)_2) \ V(r) = hat(V)_0 + sigma r + gamma / r
+    $,
   )
   #v(0.2em)
   #align(center, text(size: 16pt, table(
     columns: 8,
     align: (left,) + (center,) * 7,
-    toprule,
-    [], [$hat(E)_1$], [$hat(E)_2$], [$g_l$], [$g_s$], [$sigma$], [$hat(V)_0$], [$gamma$],
-    midrule,
-    [units of $t_0$], [0.0034(3)], [0.1005(7)], [0.0256(3)], [0.0134(4)], [0.1061(7)], [$-0.835(7)$], [$-0.434(11)$],
-    [physical], [5 MeV], [137 MeV], [*35 MeV*], [18 MeV], [*0.198 GeV#super[2]*], [$-1.14$ GeV], [$bold(-0.434)$],
-    bottomrule,
+    toprule, [], [$hat(E)_1$], [$hat(E)_2$], [$g_l$], [$g_s$], [$sigma$], [$hat(V)_0$],
+    [$gamma$], midrule, [units of $t_0$], [0.0034(3)], [0.1005(7)], [0.0256(3)], [0.0134(4)], [0.1061(7)],
+    [$-0.835(7)$], [$-0.434(11)$], [physical], [5 MeV], [137 MeV], [*35 MeV*], [18 MeV], [*0.198 GeV#super[2]*],
+    [$-1.14$ GeV], [$bold(-0.434)$], bottomrule,
   )))
-  - $sqrt(t_0) = 0.1443(7)(13)$ fm; bold: used here ($sigma$, $gamma$: Cornell tower; $g_l$: coupling)
-  - not used: $hat(E)_1$ (one-meson exchange + contact term instead), $hat(E)_2$ and $g_s$ (no $B_s macron(B)_s^*$), $hat(V)_0$ ($V_0$ fitted)
+  - $sqrt(t_0) = 0.1443(7)(13)$ fm;
 ]
 
-#slide(refs: [plot: the lattice model with the parameters of the previous slide; crossing: Bulava _et al._ 2024, Eq. (11)])[What the lattice measures][
+#slide(
+  refs: [plot: the lattice model with the parameters of the previous slide; crossing: Bulava _et al._ 2024, Eq. (11)],
+)[What the lattice measures][
   #grid(
     columns: (1.45fr, 1fr),
     column-gutter: 1em,
