@@ -1,0 +1,3 @@
+[submodule "code/HadronDynamics.jl"]
+	path = code/HadronDynamics.jl
+	url = git@github.com:fkguo/HadronDynamics.jl.git
