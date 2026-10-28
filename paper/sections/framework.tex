@@ -1,0 +1,69 @@
+\section{Framework and the baseline fit}
+\label{sec:framework}
+We use the LO BO$\chi$EFT baseline fit of Ref.~\cite{Zhang:2026iyr}
+(v1, Eqs.~(12), (18), (83), (104)--(106), Tables~I, V and VI), in the
+isospin limit and with full OME. The first four bare states are retained,
+with a sharp cutoff $\Lambda=4$~GeV. The quark--antiquark Hamiltonian is
+$H=2m_b-\nabla^2/m_b+V_0+\sigma r+\gamma/r$, with $\gamma<0$.
+The bare--continuum coupling is $g=(2/\sqrt{3})\sqrt{2}\,g_l$ for
+$g_l=35$~MeV; $g$ is distinct from the axial coupling $g_b=0.56$.
+% Canonical entries: CONVENTIONS.md "Quark--antiquark Hamiltonian",
+% "Bare--continuum vertex", "Loop measure and regulator";
+% GLOSSARY.md "Baseline fit", "Isospin limit", "Compact probability".
+
+\begin{table}[ht]
+\centering
+\caption{The $1^{++}$ baseline-fit inputs. Rounded values follow
+Ref.~\cite{Zhang:2026iyr} (v1, Eq.~(18), Tables~I and VI);
+the computation uses the full-precision values in
+\texttt{code/HadronDynamics.jl/data/bochiEFT/central.toml}.
+The values are fixed in $1^{++}$, not fitted anew in other sectors.}
+\label{tab:baseline-inputs}
+\begin{tabular}{cccccccc}
+\toprule
+$m_b$ (GeV) & $\sigma$ (GeV$^2$) & $\gamma$ & $V_0$ (MeV) &
+$C$ (GeV$^{-2}$) & $g$ (MeV) & $N$ & $\Lambda$ (GeV) \\
+\midrule
+4.534 & 0.198 & $-0.434$ & 371 & $-16.27$ & 57 & 4 & 4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\caption{Baseline-fit bound states from \texttt{checks/baseline\_fit.jl}.
+Binding energies are relative to $m_B+m_{B^*}=10.60427$~GeV;
+$\mathcal P_{\bar bb}$ is the compact probability.
+The three masses associated with the $1P$- and $2P$-dominated states and
+$X_b$ enter the fit, whereas the $3P$-dominated state is a prediction,
+not a fourth fitted mass. The comparison is to Ref.~\cite{Zhang:2026iyr}
+(v1, Table~V dagger rows and Table~VI, $\Lambda=4$~GeV).}
+\label{tab:baseline-states}
+\begin{tabular}{lrrr}
+\toprule
+State & $M$ (GeV) & $E_B$ (MeV) & $\mathcal P_{\bar bb}$ (\%) \\
+\midrule
+$\chi_{b1}(1P)$-dominated & 9.893264 & 711.006 & 99.638 \\
+$\chi_{b1}(2P)$-dominated & 10.255276 & 348.994 & 98.301 \\
+$X_b$ & 10.513270 & 91.000 & 1.887 \\
+$\chi_{b1}(3P)$-dominated & 10.543615 & 60.655 & 85.126 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The literature comparison passes for all four masses within 1~MeV and
+all four component probabilities within one percentage point absolute.
+The two-body $D$-wave probability is the sum of the
+$B\bar B^*({}^3D_1)$ and $B^*\bar B^*({}^5D_1)$ weights, and the
+three-body probability is the negative expectation of the energy derivative
+of the OME potential, as required by Ref.~\cite{Zhang:2026iyr}
+(v1, Eqs.~(104)--(106), Appendix~F). These model-dependent weights are
+not identified with the $S$-wave compositeness $X_S$ of Eq.~(107).
+At the reference resolution ($n_q=24$, Cornell grid 12000 points,
+transform quadrature 800 points), doubling all three resolutions changes
+the masses and binding energies by at most $0.007$~MeV and any component
+probability by at most $0.001$ percentage points (rounded upward).
+These shifts estimate numerical resolution error for this comparison,
+not the LO theory uncertainty; the box and tail settings are unchanged.
+The refinement command and individual shifts are recorded in
+\texttt{plan/slices/01-checks-env-baseline-fit.md}.

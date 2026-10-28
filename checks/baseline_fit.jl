@@ -12,7 +12,26 @@ const expected = [
 ]
 
 # --- input: the guarded computation fills this block ---
-results = nothing
+using HadronDynamics, TOML
+include(joinpath(@__DIR__, "..", "code", "HadronDynamics.jl", "examples", "bochiEFT", "run.jl"))
+const driver = BOchiEFTExample
+config = TOML.parsefile(driver.DEFAULT_INPUT)
+driver.BLAS.set_num_threads(config["numerics"]["blas_threads"])
+# Local neighborhoods track the four named states, not a complete pole census.
+# Broad enough for the deliberately uncorrected coupling to reach assertions.
+for state in config["states"]
+    state["half_width_GeV"] = 0.014
+end
+model = driver.build_model(config)
+rows = driver.bound_rows(model, config)
+results = Dict(row["name"] => (
+    mass=row["mass_GeV"], compact=row["P_compact"], S=row["P_PV_S"],
+    D=row["P_PV_D"] + row["P_VV_D"], three_body=row["P_OME_derivative"],
+) for row in rows)
+for row in rows
+    println("RESULT ", row["name"], " mass_GeV=", row["mass_GeV"],
+            " binding_MeV=", row["binding_MeV"], " P_compact=", row["P_compact"])
+end
 # --- end input ---
 
 if results === nothing

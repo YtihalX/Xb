@@ -383,10 +383,10 @@ version = "1.11.0"
 
 [[deps.GenericLinearAlgebra]]
 deps = ["LinearAlgebra", "Printf", "Random", "libblastrampoline_jll"]
-git-tree-sha1 = "6a0335feebe8e2b61242f2b4ec165c1b70b83f8a"
+git-tree-sha1 = "3b0e97a0de86e54fa897c6e431c179ad4cd1dea0"
 registries = "General"
 uuid = "14197337-ba66-59df-a3e3-ca00e7dcff7a"
-version = "0.4.0"
+version = "0.4.2"
 
 [[deps.GenericSchur]]
 deps = ["LinearAlgebra", "Printf"]

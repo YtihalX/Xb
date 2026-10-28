@@ -24,9 +24,9 @@ Canonical side: CONVENTIONS.md and GLOSSARY.md.
 | $\mathcal P_{\text{3-body}}$, Eq. (104), App. F | GLOSSARY "Compact probability" (three-body weight) | Identical: `P_OME_derivative`; negative expectation of ∂_E V_OME, not the unweighted derivative. | Source `eq:P-3body` and `MomentumDynamics.jl`: both use -⟨Ψ∣∂_E V_OME∣Ψ⟩ with the dressed wave function. |
 | $X_S$, Eq. (107) | GLOSSARY "S-wave compositeness" | Identical: `P_PV_S + derivative_blocks[1,1]`; not the two-body S-wave probability alone. | Eq. (107), `BOchiEFT.bound_state`. |
 | $g$, $g_l$, Eq. (18) | GLOSSARY "Bare–continuum coupling" | g = (2/√3)√2 g_l; g_l = 35 MeV gives g ≈ 57 MeV. The red run drops 2/√3, using √2 g_l. | Eq. (18) against static matrix element and recoupling discussion; package `compact_coupling`. |
-| $g_b$, Eq. (70) | CONVENTIONS "Axial coupling and OME normalisation" | Identical g_b = 0.56; distinct from g. | Source OME vertices, canonical entry. |
+| $g_b$, Eq. (66) | CONVENTIONS "Axial coupling and OME normalisation" | Identical g_b = 0.56; distinct from g. | Source axial input, Eq. (66), and OME vertices, Eqs. (69)–(70); canonical entry. |
 | $m_b, C, V_0$, Table VI, Λ = 4 GeV | GLOSSARY "Baseline fit" | Identical parameters; printed 4.534 GeV, -16.27 GeV⁻², 371 MeV are rounded. Full precision is in `code/HadronDynamics.jl/data/bochiEFT/central.toml`. | Table VI central row against baseline input block. |
-| Masses and probabilities, Table V dagger rows | GLOSSARY "Baseline fit", "State labels", "Compact probability" | Identical observable labels and positive probabilities; mass tolerance 0.001 GeV, probability tolerance 0.01 absolute. | `checks/baseline_fit.jl`, fixed published expectations. |
+| Masses and probabilities, Table V dagger rows | GLOSSARY "Baseline fit", "Compact probability"; CONVENTIONS "State labels" | Identical observable labels and positive probabilities; mass tolerance 0.001 GeV, probability tolerance 0.01 absolute. | `checks/baseline_fit.jl`, fixed published expectations. |
 
 ## Flags
 
