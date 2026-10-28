@@ -10,6 +10,8 @@ Checks:
 - Route: comparison with [@Zhang:2026iyr] v1, Table V and the $\Lambda=4$ GeV row of Table VI.
 - Expected: masses within 1 MeV, and $\mathcal P_{\bar bb}$, $\mathcal P_S$, $\mathcal P_D$, $\mathcal P_{\text{3-body}}$ within 1% absolute.
 - Red: the check fails with the uncorrected coupling $\sqrt2\,g_l$ in place of $\frac{2}{\sqrt3}\sqrt2\,g_l$.
+- Check: `checks/baseline_fit.jl`; expectations fixed before computation.
+  Initial red 2026-10-28: `just check` → `FAIL baseline fit: no computed result yet` (exit 1); only the new check fails.
 Output: table of the $1^{++}$ inputs: the parameters $m_b$, $\sigma$, $\gamma$, $V_0$, $C$, $g$, $N$, $\Lambda$, and the four states (mass, $E_B$, $\mathcal P_{\bar bb}$) → `paper/sections/framework.tex`
 Blocked by: none
-Status: ready
+Status: claimed
