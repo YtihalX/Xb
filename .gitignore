@@ -37,3 +37,11 @@ _minted-*/
 *.pdf
 *.csv
 old
+!paper/figures/*.pdf
+!toy/*/*.pdf
+
+# research-skills
+literature/*/src/
+paper/build/
+__pycache__/
+.venv/

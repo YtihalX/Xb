@@ -1,0 +1,182 @@
+% paper/main.tex: the follow-up paper. Preamble from followup.tex, without \usepackage[T2A]{fontenc}: tectonic has no T2A fonts.
+% Claim slices write paragraphs into sections/*.tex; each section file is \input below, in reading order.
+\documentclass[aps,prl,showpacs,amsmath,onecolumn,superscriptaddress,floatfix,nofootinbib,notitlepage]{revtex4-2}
+
+\usepackage{bm,color,xcolor,amsfonts,amsmath,amssymb,epsfig,esint,orcidlink,slashed,braket}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{bbm}
+\usepackage{xspace}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usepackage{lipsum}
+\usetikzlibrary{calc}
+\usetikzlibrary{positioning}
+\usepackage[german]{varioref}
+\RequirePackage[compat=1.1.0]{tikz-feynman}
+\RequirePackage[compat=1.1.0]{tikz-feynhand}
+\usepackage{float}
+\usepackage{commath}
+\usepackage{booktabs}
+\usepackage[normalem]{ulem}
+
+\allowdisplaybreaks
+
+\newcommand{\subsubsubsection}[1]{\paragraph{#1} ~ \vspace{1.7ex plus 0.2ex}}
+
+\newenvironment{todo}%
+{\large \textsc{Todo:} \normalsize \begin{itemize} \color{blue}}%
+{\end{itemize}}
+
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\blue}[1]{{\color{blue}#1}}
+\DeclareRobustCommand{\magenta}[1]{{\color{magenta}#1}}
+\newcommand{\fkcomment}[1]{{\color{blue}[FK: #1]}}
+\newcommand{\chhcomment}[1]{{\color{red}[CH: #1]}}
+\newcommand{\ancomment}[1]{{\color{blue}[AN: #1]}}
+\newcommand{\fk}[1]{{\color{blue}#1}}
+\newcommand{\ch}[1]{{\color{green}#1}}
+\newcommand{\an}[1]{{\color{blue}#1}}
+\newcommand{\pp}[1]{{\color{orange}[PP: #1]}}
+
+\newcommand{\bbnP}{[\bar{b}b]_1(nP)}
+\newcommand{\bbarb}{[\bar{b}b]_1}
+%\newcommand{\tauEB}{\hat{\tau}^{-1}(-E_B)}
+\newcommand{\tauEB}{\hat{\cal J}}
+\newcommand{\tauinv}{\hat\tau^{-1}}
+\newcommand{\dtauinvEB}{\Bigl[\partial_E\hat\tau^{-1}\Bigr]_{E=-E_B}}
+\newcommand{\psibb}{\Psi^{(\bar{b}b)}}
+\newcommand{\Mbb}{M^{(\bar{b}b)}}
+
+\setcounter{secnumdepth}{3}
+
+\newcommand{\GeV}{\mathrm{GeV}}
+\newcommand{\MeV}{\mathrm{MeV}}
+\newcommand{\vep}{{\bm p}}
+\newcommand{\vek}{{\bm k}}
+\newcommand{\veq}{{\bm q}}
+\newcommand{\ver}{{\bm r}}
+\newcommand{\vex}{{\bm x}}
+\newcommand{\veA}{{\bm A}}
+\newcommand{\vetau}{{\bm \tau}}
+\definecolor{green}{RGB}{44,160,44}
+\definecolor{omeRevision}{RGB}{0,105,105}
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+\newcommand{\bea}{\begin{eqnarray}}
+\newcommand{\eea}{\end{eqnarray}}
+\newcommand{\beas}{\begin{eqnarray*}}
+\newcommand{\eeas}{\end{eqnarray*}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\B}{\color{blue}}
+\newcommand{\R}{\color{red}}
+\newcommand{\G}{\color{green}}
+\newcommand{\veL}{{\bm L}}
+\newcommand{\veS}{{\bm S}}
+\newcommand{\ven}{{\bm n}}
+
+\newcommand{\nn}{\notag}
+\newcommand{\dk}{\frac{d^3k}{(2\pi)^3}}
+\newcommand{\ddq}{\frac{d^3q}{(2\pi)^3}}
+\newcommand{\ddqpr}{\frac{d^3q'}{(2\pi)^3}}
+\newcommand{\dqr}{\frac{q^2dq}{2\pi^2}}
+\newcommand{\dqrpr}{\frac{q^{\prime2}dq'}{2\pi^2}}
+\newcommand{\ddp}{\frac{d^3p}{(2\pi)^3}}
+\newcommand{\ddpp}{\frac{d^3p'}{(2\pi)^3}}
+\newcommand{\intp}{\int\frac{d^3p}{(2\pi)^3}}
+\newcommand{\intk}{\int\frac{q^2dq}{(2\pi)^3}}
+\newcommand{\bb}{\bar{b}b}
+\newcommand{\qq}{q\bar{q}}
+\newcommand{\QQ}{\bar{b}b}
+\newcommand{\gpi}{g_b}
+\renewcommand{\vec}{\bm}
+\newcommand{\no}{\notag\\}
+% \newcommand{\Hoo}{\hat E_1}
+\newcommand{\Hoo}{H_{\rm MM}}
+\newcommand{\Hot}{V_{ls}}
+\newcommand{\Htt}{V_{s}}
+\newcommand{\mG}{m_\phi}
+\newcommand{\EG}{E_\phi}
+\newcommand{\CSOME}{C_S^{\rm (OME)}}
+\newcommand{\COOME}{C_O^{\rm (OME)}}
+\newcommand{\CSQM}{C_S^{(\QQ)}}
+\newcommand{\COQM}{C_O^{(\QQ)}}
+\newcommand{\CSOQM}{C_{SO}^{(\QQ)}}
+\newcommand{\En}{E_n}
+\newcommand{\Enzero}{E_n^{(0)}}
+\newcommand{\Eizero}{E_i^{(0)}}
+\newcommand{\VR}{V_R}
+\newcommand{\gc}{g_c}
+\newcommand{\X}{X(3872)}
+\newcommand{\Xb}{X_b}
+\newcommand{\gev}{GeV}
+\newcommand{\mev}{MeV}
+\newcommand{\Yb}{\Upsilon(10753)}
+\newcommand{\Yfour}{\Upsilon(10580)}
+\newcommand{\Yfive}{\Upsilon(10860)}
+\newcommand{\Ysix}{\Upsilon(11020)}
+\newcommand{\Dszero}{D^*_{s0}(2317)}
+\newcommand{\veep}{{\bm \epsilon}}
+\newcommand{\veepst}{{\bm \epsilon}^{\prime*}}
+\newcommand{\tbd}[1]{{\color{red}[TODO: #1]}}
+\newcommand{\unit}[1]{~(#1)}
+\newcommand{\BOchiEFT}{BO$\chi$EFT\xspace}
+
+\newcommand{\VQQ}{V^{(\bar{b}b)}}
+\newcommand{\VOME}{V^{\rm (OME)}}
+\newcommand{\calH}{{\cal H}}
+\newcommand{\hatH}{H}
+\newcommand{\tilH}{\tilde{{\cal H}}}
+
+
+\newcommand{\rub}{\affiliation{Institut f\"ur Theoretische Physik II, Ruhr-Universit\"at Bochum, D-44780 Bochum, Germany }}
+
+\newcommand{\bonn}{\affiliation{Helmholtz-Institut f\"ur Strahlen- und Kernphysik and Bethe Center for Theoretical Physics,\\ Universit\"at Bonn, D-53115 Bonn, Germany}}
+
+\newcommand{\fzj}{\affiliation{Institute for Advanced Simulation
+and Cluster of Excellence ``Color meets Flavor'', Forschungszentrum J\"ulich, D-52425 J\"ulich, Germany}}
+
+\newcommand{\itp}{\affiliation{Institute of Theoretical Physics, Chinese Academy of Sciences, Beijing 100190, China}}
+
+\newcommand{\ucas}{\affiliation{School of Physical Sciences, University of Chinese Academy of Sciences, Beijing 100049, China}}
+
+\newcommand{\lis}{\affiliation{CeFEMA, Center of Physics and Engineering of Advanced Materials, Instituto Superior T{\'e}cnico, Avenida Rovisco Pais 1, 1049-001 Lisboa, Portugal}}
+
+\newcommand{\tum}{\affiliation{
+Technical University of Munich, TUM School of Natural Sciences, Physics Department, 85748 Garching, Germany}}
+
+\newcommand{\scnt}{\affiliation{Southern Center for Nuclear-Science Theory (SCNT), Institute of Modern Physics,\\ Chinese Academy of Sciences, Huizhou 516000, China}}
+
+\newcommand{\hiskp}{\affiliation{Helmholtz-Institut f\"ur Strahlen- und Kernphysik% %and Bethe Center for Theoretical Physics
+, Universit\"at Bonn, 53115 Bonn, Germany}}
+
+\newcommand{\hohai}{\affiliation{College of Mechanics and Engineering Science, Hohai University, Nanjing 211100, China}}
+
+
+\graphicspath{{figures/}}
+
+\begin{document}
+
+\title{Follow-ups}
+
+%\author{Yu Zhang\orcidlink{0009-0007-2951-6536}}\email{zhangyu@itp.ac.cn}
+%\itp\ucas
+
+% \author{Feng-Kun~Guo\orcidlink{0000-0002-2919-2064}}
+% \email{fkguo@itp.ac.cn}
+% \itp\ucas\scnt
+%
+% \author{Christoph~Hanhart\orcidlink{0000-0002-3509-2473}}\email{c.hanhart@fz-juelich.de}
+% \fzj
+%
+% \author{Alexey Nefediev\orcidlink{0000-0002-9988-9430}}\email{nefediev@hiskp.uni-bonn.de}
+% \hiskp
+
+\maketitle
+
+% Sections:
+
+\bibliography{../refs}
+
+\end{document}
