@@ -33,3 +33,101 @@ is $4.7\times10^{-13}\,\GeV^{-2}$; increasing the angular order changes the
 result by at most $1.5\times10^{-13}\,\GeV^{-2}$ at these points.
 The isoscalar combination is $3V(m_\pi)+V(m_\eta)/3$ as in that reference,
 v1, Eq.~(82).
+
+For $J^{PC}=2^{++}$ the six channels are, in order,
+$B^*\bar B^*({}^5S_2)$, $B^*\bar B^*({}^1D_2)$, $B^*\bar B^*({}^5D_2)$,
+$B^*\bar B^*({}^5G_2)$, $B\bar B^*({}^3D_2)$ and $B\bar B({}^1D_2)$, with the
+$C$-even $B\bar B^*$ combination
+$(|B\bar B^*\rangle-|B^*\bar B\rangle)/\sqrt2$ and the Cartesian projectors of
+Ref.~\cite{Baru:2019xnh}, v2, App.~B, with their printed signs. The energy is
+measured from $2m_{B^*}$, $M=2m_{B^*}+E$, so the offsets of
+Ref.~\cite{Zhang:2026iyr}, v1, Eq.~(77) become
+$\nu_1=-2\Delta m+(p^2+p'^2)/(2m_B)-E$,
+$\nu_2=(p^2+p'^2)/(2m_{B^*})-E$,
+$\nu_3=-\Delta m+p^2/(2m_B)+p'^2/(2m_{B^*})-E$ and
+$\nu_4=-\Delta m+p'^2/(2m_B)+p^2/(2m_{B^*})-E$, with $\Delta m=m_{B^*}-m_B$.
+Besides the potentials of Ref.~\cite{Zhang:2026iyr}, v1, Eqs.~(72)--(75), the
+Lagrangian of its Eq.~(68) gives the $B\bar B\leftrightarrow B^*\bar B^*$
+transition
+\begin{equation}
+ V^{\rm(OME)}_{B\bar B\to B^*\bar B^*}(\bm p',\bm p;m_\phi)
+ =\frac{g_b^2}{4F_\pi^2}(\bm\epsilon_1'^*\cdot\bm q)(\bm\epsilon_2'^*\cdot\bm q)\,
+ 2D_3(\bm p',\bm p;m_\phi),
+ \label{eq:ome-bb-bsbs}
+\end{equation}
+and the reverse process with $\bm\epsilon_{1,2}$ and $2D_4$. Both time
+orderings have the same intermediate pair $B(p)\bar B^*(p')$ or $B^*(p')\bar
+B(p)$, hence the factor two. The sign is fixed relative to Eq.~(72) of that
+reference: the meson-line vertices $B\to B^*$ and $B^*\to B$ of Eq.~(68) carry
+the same coefficient, and with the antimeson line in common the $C$-even
+$B\bar B^*$ potential equals minus the corresponding cross amplitude. There is
+no $B\bar B\to B\bar B$ or $B\bar B\to B\bar B^*$ one-boson exchange. Each
+projected entry is
+\begin{equation}
+ V^{\rm(OME)}_{\alpha'\alpha}(p',p;m_\phi)
+ =-\frac{g_b^2}{8F_\pi^2}\sum_{k=0}^{4}c_{\alpha'\alpha,k}(p',p)
+ \bigl[I_k^{(\beta)}+I_k^{(\gamma)}\bigr],
+ \label{eq:ome-2pp-entry}
+\end{equation}
+with $(\beta\gamma)=(22)$ within $B^*\bar B^*$, $(12)$ within $B\bar B^*$,
+$(23)$ from $B\bar B^*$ to $B^*\bar B^*$, $(24)$ for the reverse, and $(33)$
+from $B\bar B$ to $B^*\bar B^*$, $(44)$ for the reverse. The numerator
+polynomials of the upper triangle are listed in Table~\ref{tab:ome-2pp}; the
+lower triangle follows from $c_{\alpha\alpha'}(p,p')=c_{\alpha'\alpha}(p',p)$.
+The $G$-wave entries need moments up to $x^4$, one more than in $1^{++}$.
+The entries ${}^5S_2$--${}^5G_2$ and ${}^1D_2$--$B\bar B^*({}^3D_2)$ vanish
+identically, as do the two $B\bar B$ entries without a $B^*\bar B^*$ leg.
+
+\begin{table}[tbp]
+\centering
+\caption{Numerator coefficients $c_{\alpha'\alpha,k}$ of
+Eq.~\eqref{eq:ome-2pp-entry} for $2^{++}$, with $r=p'$ outgoing and $p$
+incoming. Channels $1$--$6$ are $B^*\bar B^*({}^5S_2,{}^1D_2,{}^5D_2,{}^5G_2)$,
+$B\bar B^*({}^3D_2)$ and $B\bar B({}^1D_2)$. With
+$s_k=\bigl(-\tfrac{2p^2-r^2}{6},\tfrac{2pr}{3},-\tfrac{r^2}{2}\bigr)_k$, the
+entries $12,13,15,16$ are $s_k$ times $\sqrt{2/5}$, $-\sqrt{14/5}$,
+$-\sqrt{18/5}$ and $-\sqrt{6/5}$; entries $14,25,56,66$ vanish.}
+\label{tab:ome-2pp}
+\small
+\begin{tabular}{@{}cccccc@{}}
+\toprule
+$\alpha'\alpha$ & $c_0$ & $c_1$ & $c_2$ & $c_3$ & $c_4$\\
+\midrule
+11 & $\frac{p^2+r^2}{3}$ & $-\frac{2pr}{3}$ & $0$ & $0$ & $0$\\
+22 & $\frac{p^2+r^2}{3}$ & $-\frac{2pr}{3}$ & $-(p^2+r^2)$ & $2pr$ & $0$\\
+23 & $-\frac{\sqrt7(p^2+r^2)}{21}$ & $-\frac{\sqrt7pr}{21}$ & $\frac{\sqrt7(p^2+r^2)}{7}$ & $-\frac{\sqrt7pr}{7}$ & $0$\\
+24 & $\frac{\sqrt{35}(4p^2-3r^2)}{140}$ & $-\frac{6\sqrt{35}pr}{35}$ & $-\frac{3\sqrt{35}(2p^2-5r^2)}{70}$ & $\frac{2\sqrt{35}pr}{7}$ & $-\frac{\sqrt{35}r^2}{4}$\\
+26 & $\frac{\sqrt3(p^2+r^2)}{6}$ & $-\frac{\sqrt3pr}{3}$ & $-\frac{\sqrt3(p^2+r^2)}{2}$ & $\sqrt3pr$ & $0$\\
+33 & $-\frac{5(p^2+r^2)}{21}$ & $\frac{11pr}{42}$ & $\frac{5(p^2+r^2)}{7}$ & $-\frac{17pr}{14}$ & $0$\\
+34 & $-\frac{\sqrt5(4p^2-3r^2)}{70}$ & $\frac{12\sqrt5pr}{35}$ & $\frac{3\sqrt5(2p^2-5r^2)}{35}$ & $-\frac{4\sqrt5pr}{7}$ & $\frac{\sqrt5r^2}{2}$\\
+35 & $\frac{\sqrt7(p^2+r^2)}{14}$ & $\frac{\sqrt7pr}{14}$ & $-\frac{3\sqrt7(p^2+r^2)}{14}$ & $\frac{3\sqrt7pr}{14}$ & $0$\\
+36 & $\frac{\sqrt{21}(p^2+r^2)}{21}$ & $\frac{\sqrt{21}pr}{21}$ & $-\frac{\sqrt{21}(p^2+r^2)}{7}$ & $\frac{\sqrt{21}pr}{7}$ & $0$\\
+44 & $-\frac{3(p^2+r^2)}{56}$ & $-\frac{3pr}{7}$ & $\frac{15(p^2+r^2)}{28}$ & $\frac{5pr}{7}$ & $-\frac{5(p^2+r^2)}{8}$\\
+45 & $-\frac{\sqrt{35}(3p^2-4r^2)}{70}$ & $-\frac{12\sqrt{35}pr}{35}$ & $\frac{3\sqrt{35}(5p^2-2r^2)}{35}$ & $\frac{4\sqrt{35}pr}{7}$ & $-\frac{\sqrt{35}p^2}{2}$\\
+46 & $\frac{\sqrt{105}(3p^2-4r^2)}{140}$ & $\frac{6\sqrt{105}pr}{35}$ & $-\frac{3\sqrt{105}(5p^2-2r^2)}{70}$ & $-\frac{2\sqrt{105}pr}{7}$ & $\frac{\sqrt{105}p^2}{4}$\\
+55 & $0$ & $\frac{pr}{2}$ & $0$ & $-\frac{pr}{2}$ & $0$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Three checks test these $2^{++}$ expressions in the implemented kernel.
+First, direct numerical integration of both solid angles in
+Ref.~\cite{Zhang:2026iyr}, v1, Eq.~(80), with the Cartesian projectors and the
+three-dimensional spin matrices including Eq.~\eqref{eq:ome-bb-bsbs}, agrees
+with all 21 independent entries for pion and eta exchange separately at three
+seeded off-shell points below the $B\bar B\pi$ threshold; the largest residual
+is $2.9\times10^{-12}\,\GeV^{-2}$ and raising the angular order changes the
+integral by at most $2.7\times10^{-15}\,\GeV^{-2}$. Second, time reversal,
+$V_{\alpha'\alpha}(p',p;E)=V_{\alpha\alpha'}(p,p';E)$, holds to
+$7\times10^{-16}\,\GeV^{-2}$; giving one $B^*\bar B^*\leftarrow B\bar B$ entry the
+offset $\nu_4$ instead of $\nu_3$ breaks it by up to
+$3\times10^{-4}\,\GeV^{-2}$. Third, in the strict heavy-quark spin symmetry
+limit, $m_B=m_{B^*}=(m_B+3m_{B^*})/4$, the potential rotated by 9j and 6j
+recoupling to heavy-quark spin $s_H$ and light angular momentum $j_\ell$
+(including the orbital one) is block diagonal in $(s_H,j_\ell)$ to
+$1.1\times10^{-15}\,\GeV^{-2}$, and its $(s_H,j_\ell)=(1,1)$ block equals the
+corresponding $1^{++}$ block to $10^{-13}\,\GeV^{-2}$, as heavy-quark spin
+symmetry requires. The rotation is checked against the recoupling coefficients
+of Ref.~\cite{Bruschini:2023zkb}, v3, Table~2, and does not use the projectors;
+reversing the sign of the $B\bar B({}^1D_2)$ projector destroys the block
+structure.
