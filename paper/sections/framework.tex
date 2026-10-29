@@ -1,4 +1,4 @@
-\section{Framework and the baseline fit}
+\section{Framework and the two $1^{++}$ fits}
 \label{sec:framework}
 We use the LO BO$\chi$EFT baseline fit of Ref.~\cite{Zhang:2026iyr}
 (v1, Eqs.~(12), (18), (83), (104)--(106), Tables~I, V and VI), in the
@@ -13,18 +13,22 @@ $g_l=35$~MeV; $g$ is distinct from the axial coupling $g_b=0.56$.
 
 \begin{table}[ht]
 \centering
-\caption{The $1^{++}$ baseline-fit inputs. Rounded values follow
-Ref.~\cite{Zhang:2026iyr} (v1, Eq.~(18), Tables~I and VI);
-the computation uses the full-precision values in
-\texttt{code/HadronDynamics.jl/data/bochiEFT/central.toml}.
+\caption{The $1^{++}$ inputs for the baseline and shallow-$X_b$ fits.
+Rounded values follow Ref.~\cite{Zhang:2026iyr} (v1, Eq.~(18),
+Tables~I, VI and VIII); the computation uses
+\texttt{code/HadronDynamics.jl/data/bochiEFT/central.toml}
+and the constrained-fit parameters in \texttt{shallow.toml}.
 The values are fixed in $1^{++}$, not fitted anew in other sectors.}
-\label{tab:baseline-inputs}
+\label{tab:onepp-inputs}
 \begin{tabular}{cccccccc}
 \toprule
 $m_b$ (GeV) & $\sigma$ (GeV$^2$) & $\gamma$ & $V_0$ (MeV) &
 $C$ (GeV$^{-2}$) & $g$ (MeV) & $N$ & $\Lambda$ (GeV) \\
 \midrule
+\multicolumn{8}{l}{Baseline fit}\\
 4.534 & 0.198 & $-0.434$ & 371 & $-16.27$ & 57 & 4 & 4 \\
+\multicolumn{8}{l}{Shallow-$X_b$ fit, with spurious-pole projection}\\
+4.534 & 0.198 & $-0.434$ & 362 & $2.66$ & 57 & 4 & 4 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -67,3 +71,55 @@ These shifts estimate numerical resolution error for this comparison,
 not the LO theory uncertainty; the box and tail settings are unchanged.
 The refinement command and individual shifts are recorded in
 \texttt{plan/slices/01-checks-env-baseline-fit.md}.
+
+For the shallow-$X_b$ fit we instead impose
+$E_B[X_b]=1$~MeV below $m_B+m_{B^*}$ by tuning $C$, and refit $V_0$
+at the same $m_b$, with all other inputs unchanged.
+The three compact-dominated masses, rather than the shallow $X_b$ mass,
+are compared with the measured masses $9.893$, $10.255$ and
+$10.513$~GeV in the fit deviation of Ref.~\cite{Zhang:2026iyr}
+(v1, Eq.~(94), Table~VIII).
+The spurious-pole projection is the positive separable addition of
+Ref.~\cite{Zhang:2026iyr} (v1, Eq.~(G1)), with
+$\varepsilon=10$~GeV and the spurious two-meson wave function normalised
+to unit two-body norm (v1, Eq.~(81)), excluding compact and
+energy-derivative weights.
+Through its avoided crossing with the $1P$ level, the spurious label
+follows the predominantly hadronic member of the two levels, as in
+Ref.~\cite{Zhang:2026iyr} (v1, Fig.~5(a) caption), not the adiabatic
+eigenpole that becomes compact-dominated.
+At the fitted parameters this member lies at $M=10.136$~GeV with
+binding momentum $1.57$~GeV and compact probability $1.7\%$; with the
+projection, no pole other than the four physical ones remains below
+threshold for $\varepsilon=5$--$50$~GeV.
+Without the projection, the same machinery reproduces the
+``Not projected'' row of Table~VIII ($C=2.524$~GeV$^{-2}$,
+$\Delta M=15.88$~MeV at $V_0=363$~MeV) and the spurious mass
+$10.130$~GeV quoted after Eq.~(G2) of Ref.~\cite{Zhang:2026iyr} (v1).
+
+The constrained fit gives $C=2.6646$~GeV$^{-2}$,
+$V_0=361.60$~MeV, and $\Delta M=14.994$~MeV at the reference
+resolution, reproducing the rounded inputs in Table~VIII; moving $V_0$
+by $\pm2$~MeV with $C$ retuned raises $\Delta M$ to $15.11$~MeV.
+The compact-dominated masses are $(9.8835,10.2453,10.5351)$~GeV;
+the separately constrained $X_b$ mass is $10.6033$~GeV.
+The Table~VIII masses and its compact probabilities and $S$-wave
+compositeness are reproduced within $1$~MeV and one percentage point,
+respectively, by \texttt{checks/shallow\_fit.jl}.
+At fixed saved parameters, doubling the momentum, Cornell-grid and
+transform resolutions changes any shallow-fit mass by less than
+$0.003$~MeV, any compact probability by less than $0.010$ percentage
+points, and $X_S$ by less than $0.038$ percentage points.
+These are numerical-resolution estimates, not the LO theory uncertainty;
+the fit is not repeated on the refined grid.
+For $\varepsilon=5,10,20,50$~GeV at fixed fit parameters, the largest
+physical-pole mass spread is $0.243$~MeV in the shallow-$X_b$ fit and
+$0.173$~MeV in the baseline fit (rounded upward), below the $1$~MeV
+mass precision used for this comparison with Ref.~\cite{Zhang:2026iyr}
+(v1, App.~G, text after Eq.~(G1)).
+Projecting the baseline spurious pole with $\varepsilon=5$~GeV shifts the
+$1P$, $2P$ and $3P$ masses by $-0.878$, $-0.323$ and $-0.116$~MeV and
+changes every compact probability by less than $0.13$ percentage points,
+reproducing Eq.~(G2) of Ref.~\cite{Zhang:2026iyr} (v1: $0.9$~MeV,
+below $0.33$~MeV, below $0.2\%$); at $\varepsilon=10$~GeV every shift is
+below $0.774$~MeV, within the $1$~MeV bound of Sec.~IV~D.

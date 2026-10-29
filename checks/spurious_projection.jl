@@ -5,7 +5,9 @@
 # Mapping: literature/Zhang:2026iyr/bridge.md; GeV natural units.
 
 # --- input: the guarded computation fills this block ---
-results = nothing
+include(joinpath(@__DIR__,"..","code","HadronDynamics.jl","examples","bochiEFT","shallow_fit.jl"))
+computed = ShallowFitExample.projection_results(;perturb=false)
+results = merge(computed, (shallow_energies=computed.physical_energies,))
 # --- end input ---
 
 if results === nothing

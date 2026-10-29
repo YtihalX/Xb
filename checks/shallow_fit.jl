@@ -9,7 +9,8 @@ const expected = [
     (name="X_b", mass=10.60327, compact=0.08, XS=0.66),
 ]
 # --- input: the guarded computation fills this block ---
-results = nothing
+include(joinpath(@__DIR__,"..","code","HadronDynamics.jl","examples","bochiEFT","shallow_fit.jl"))
+results = ShallowFitExample.shallow_result()
 # --- end input ---
 if results === nothing
     println("FAIL shallow-Xb fit: no computed result yet")

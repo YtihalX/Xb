@@ -7,7 +7,8 @@
 # Mapping: literature/Zhang:2026iyr/bridge.md; GeV natural units.
 
 # --- input: the guarded computation fills this block ---
-results = nothing
+include(joinpath(@__DIR__,"..","code","HadronDynamics.jl","examples","bochiEFT","shallow_fit.jl"))
+results = ShallowFitExample.referee_results()
 # --- end input ---
 
 if results === nothing
