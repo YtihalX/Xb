@@ -64,7 +64,9 @@ for sample, (rr, pp, _) in enumerate(points):
         expected = -5 * np.array(list(map(float, cs.split(','))))
         actual = np.array([float(c.subs({p: pp, r: rr})) for c in row['coefficients']])
         worst = max(worst, float(np.max(np.abs(actual-expected))))
-        offsets_ok &= tuple(map(int, pair.split(','))) == row['offsets'] if pair else row['offsets'] == ()
+        # D_beta1 + D_beta2 is unordered: the package enumerates VV first
+        # for PV->VV, whereas the pinned diagram order is (3,2).
+        offsets_ok &= sorted(map(int, pair.split(','))) == sorted(row['offsets']) if pair else row['offsets'] == ()
 # Float64 evaluation only: 2e-13 absolute at momenta <= .12 GeV is generous
 # relative to coefficient roundoff, but catches diagram signs/normalisations.
 report(worst <= 2e-13 and offsets_ok, 'package coefficients and offset pairs',
