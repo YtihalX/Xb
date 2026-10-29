@@ -18,4 +18,4 @@ Checks:
   - Red: projecting with a perturbed $\Psi^{\rm(spur)}$ makes the physical poles depend on $\varepsilon$.
 Output: the shallow-$X_b$ fit row of the $1^{++}$ input table → `paper/sections/framework.tex`
 Blocked by: 01
-Status: ready
+Status: claimed
