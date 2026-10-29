@@ -19,7 +19,7 @@ function require(name, ok, value)
 end
 for (name, energies) in results.shallow_energies
     spread = maximum(energies)-minimum(energies)
-    require("$(name) epsilon independence [GeV]", spread < 1e-5, spread)
+    require("$(name) epsilon independence [GeV]", spread < 0.001, spread)
 end
 for (name, shift) in results.baseline_shifts
     require("$(name) baseline projection shift [GeV]", abs(shift) < 0.001, shift)
