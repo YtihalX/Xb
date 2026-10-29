@@ -20,7 +20,7 @@ import numpy as np
 from _projection import project, projectors_1pp, potential_1pp
 
 # --- input: filled by the guarded derivation ---
-PROJECTOR_SIGN = None
+PROJECTOR_SIGN = +1
 # --- end input ---
 if PROJECTOR_SIGN is None:
     sys.exit("FAIL no worked projection result yet: D1 phase input is missing")

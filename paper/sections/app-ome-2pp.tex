@@ -1,0 +1,35 @@
+\appendix
+\section{Partial-wave projection of one-meson exchange}
+\label{app:ome-projection}
+
+We project the time-ordered one-meson-exchange potentials with the spin-angular
+projectors, using the spin average and the two normalised solid-angle measures
+of Ref.~\cite{Zhang:2026iyr}, v1, Eq.~(80). After contracting all polarisation
+indices, rotational invariance reduces the double angular average to
+$\tfrac12\int_{-1}^{1}dx$, with $x=\hat{\bm p}'\cdot\hat{\bm p}$.
+The remaining numerator is a polynomial in $x$, so each entry is a finite
+linear combination of moments
+\begin{equation}
+ I_k^{(\beta)}(p',p;E,m_\phi)
+ =\int_{-1}^{1}\frac{x^k\,dx}{2\omega(\omega+\nu_\beta)},
+ \qquad
+ \omega=\sqrt{p^2+p'^2+m_\phi^2-2pp'x}.
+ \label{eq:ome-angular-moments}
+\end{equation}
+Here $\nu_\beta$ denotes the intermediate two-heavy-meson energy minus the
+absolute energy $M$; it is the quantity called $\mu_\beta$ in
+Ref.~\cite{Zhang:2026iyr}, v1, Eqs.~(76)--(77), not a two-body reduced mass.
+The heavy-meson energies there are written as
+$\omega_{B^{(*)}}(p)=m_{B^{(*)}}+p^2/(2m_{B^{(*)}})$ here, to distinguish
+them from the binding energy $E_B$.
+Retaining the mass splitting, recoil and energy dependence, this procedure
+reproduces all nine $1^{++}$ entries of that reference, v1,
+Eqs.~(D2)--(D10), with exactly the projector phases of its Eq.~(D1).
+As an independent check, direct numerical integration of both solid angles
+in Eq.~(80), with the three-dimensional spin matrices, agrees entry by entry
+with the analytic kernel for pion and eta exchange separately at three seeded
+random points below the three-body thresholds. The largest absolute residual
+is $4.7\times10^{-13}\,\GeV^{-2}$; increasing the angular order changes the
+result by at most $1.5\times10^{-13}\,\GeV^{-2}$ at these points.
+The isoscalar combination is $3V(m_\pi)+V(m_\eta)/3$ as in that reference,
+v1, Eq.~(82).
