@@ -10,10 +10,13 @@ Checks:
 - Literature route, the projected $1^{++}$ $V^{\rm(OME)}_{\alpha'\alpha}(p',p;E)$:
   - Route: the worked derivation against [@Zhang:2026iyr] v1, Eqs. (D2)–(D10).
   - Written criterion: every term matches in sign and factor.
+  - Judgement protocol: the slice author expands the Cartesian contractions of (D1) in Eq. (80), lists the coefficients of each $\Delta_k^{(\beta_1\beta_2)}$ beside (D2)–(D10), and checks every sign and numerical factor; the referee independently reviews the table. This is a written algebraic criterion, not a fit to numerical samples.
 - Numerical route, same seam:
   - Route: brute-force numerical integration of Eq. (80), compared with the package's analytic kernel at random $(p,p',E)$ below the three-body thresholds, for $\pi$ and $\eta$ exchange separately. The 3D potentials enter as spin matrices contracted with the (D1) projectors and integrated over both solid angles.
   - Expected: agreement to quadrature precision.
   - Red: flipping the sign of the $^5D_1$ projector (the sign that differs from [@Bruschini:2023zkb] v3) breaks agreement in the $(^3S_1,{}^5D_1)$ and $(^3D_1,{}^5D_1)$ entries.
+  - Executable: `checks/projection_1pp.py`, with reusable double-solid-angle and species-aware TOPT helper `checks/_projection.py`. Fixed tolerance $5\times10^{-9}\max(1,|V|)$; orders 12 and 18 must converge to the same precision. Three seeded random momentum/energy points, every entry and meson.
+  - Initial red: the D1 phase input is unfilled before the worked derivation; `uv run --script checks/projection_1pp.py` reports `FAIL no worked projection result yet: D1 phase input is missing`.
 Output: method paragraph of the OME appendix: Eq. (80) reduced to angular moments, checked against the $1^{++}$ entries → `paper/sections/app-ome-2pp.tex`
 Blocked by: 01
-Status: ready
+Status: claimed

@@ -13,6 +13,8 @@ Canonical side: CONVENTIONS.md and GLOSSARY.md.
 | Radial loop norm | Eqs. (104)–(106) | CONVENTIONS "Loop measure and regulator", "Partial-wave states" | Identical measure q² dq/(2π²) up to the sharp cutoff; no extra factor in probabilities. |
 | Bare vertex | Eqs. (18), (52)–(54), (61) | CONVENTIONS "Bare–continuum vertex" | Identical positive choice g = (2/√3)√2 g_l; only g² enters the potential. Form factors f_n = ψ_n/√(4π), with no additional factor in the separable kernel. |
 | Cornell potential | Eq. (12), Table I | CONVENTIONS "Quark–antiquark Hamiltonian" | Identical V(r) = V_0 + σr + γ/r, γ = -4α_s/3 < 0. |
+| Momentum transfer | Sec. III B, Eqs. (69)–(77); App. C, Eq. (C1) | CONVENTIONS "Axial coupling and OME normalisation", "Metric signature" | Sec. III B uses $\boldsymbol q=\boldsymbol p-\boldsymbol p'$; App. C reverses it. Every OME numerator is bilinear in $\boldsymbol q$ and each denominator depends on $q^2$, so reversal has identical positive unit factor in the potential. |
+| Projectors and trace | Eqs. (80)–(81), (D1) | CONVENTIONS "Partial-wave projectors", "Angular-momentum phases" | Identical $1/(2J+1)$ spin average and two $d\Omega/(4\pi)$ measures. The $^5D_1$ projector includes the printed negative imaginary coefficient $-\sqrt3\,i/2$; no phase is silently changed. |
 
 ## Symbols and equations
 
@@ -27,6 +29,8 @@ Canonical side: CONVENTIONS.md and GLOSSARY.md.
 | $g_b$, Eq. (66) | CONVENTIONS "Axial coupling and OME normalisation" | Identical g_b = 0.56; distinct from g. | Source axial input, Eq. (66), and OME vertices, Eqs. (69)–(70); canonical entry. |
 | $m_b, C, V_0$, Table VI, Λ = 4 GeV | GLOSSARY "Baseline fit" | Identical parameters; printed 4.534 GeV, -16.27 GeV⁻², 371 MeV are rounded. Full precision is in `code/HadronDynamics.jl/data/bochiEFT/central.toml`. | Table VI central row against baseline input block. |
 | Masses and probabilities, Table V dagger rows | GLOSSARY "Baseline fit", "Compact probability"; CONVENTIONS "State labels" | Identical observable labels and positive probabilities; mass tolerance 0.001 GeV, probability tolerance 0.01 absolute. | `checks/baseline_fit.jl`, fixed published expectations. |
+| $E_{B^{(*)}}(p)$, Eq. (77) | CONVENTIONS "Binding energy and meson energies": $\omega_{B^{(*)}}(p)$ | Positive unit rename only: $\omega_H(p)=m_H+p^2/(2m_H)$. Not the binding energy $E_B$. | Eq. (77) expansion of the intermediate energies. |
+| $\mu_\beta$, Eqs. (76)–(77) | CONVENTIONS "Reduced masses and TOPT energy offsets": $\nu_\beta$ | Positive unit rename only: $D_\beta=[2\omega(\omega+\nu_\beta)]^{-1}$; not a reduced mass. $\nu_{1,2}=\mp\Delta m+(p^2+p'^2)/(2m_{B^{(*)}})-E$, $\nu_3=p^2/(2m_B)+p'^2/(2m_{B^*})-E$, $\nu_4=\nu_3(p,p')$. | Eq. (77) with $M=m_B+m_{B^*}+E$; `exchange.jl:1–14`. |
 
 ## Flags
 
