@@ -25,4 +25,4 @@ Checks:
   - Expected: stays green.
 Output: the $2^{++}$ partial-wave OME formulas and a statement of their checks → `paper/sections/app-ome-2pp.tex`
 Blocked by: 03
-Status: ready
+Status: claimed
