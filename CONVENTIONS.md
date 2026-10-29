@@ -160,6 +160,13 @@ Choice: $V^{\rm(OME)}_{\alpha'\alpha}(p',p;m_\phi)=\frac{1}{2(2J+1)}\frac{g_b^2}
 Status: agreed
 Source: [@Zhang:2026iyr] v1, Eqs. (80)–(82), (D11); the user, grilling 2026-10-29 ("Xb's Δ")
 
+### 2++ projector building blocks
+Object: the Cartesian tensors from which the explicit $2^{++}$ projectors are built
+Symbol: $v_{ij}(\hat n)$, $v_{ijkl}(\hat n)$, $S_{ij}$, $T^M_{ij}$
+Choice: as in [@Baru:2019xnh] v2, App. B: $v_{ij}=n_in_j-\delta_{ij}/3$; $v_{ijkl}$ the symmetric traceless rank-four tensor printed there; $S_{ij}=\epsilon_{1i}\epsilon_{2j}+\epsilon_{1j}\epsilon_{2i}-\frac23\delta_{ij}\,\boldsymbol\epsilon_1\cdot\boldsymbol\epsilon_2$; the total-$J$ index of a projector is contracted with five real orthonormal symmetric traceless tensors $T^M_{ij}$, $M=1,\dots,5$, and the trace sums over $M$; signs as in `literature/Baru:2019xnh/bridge.md`. They carry Cartesian indices and appear only inside projectors, which tells them apart from the OME vertices $v^a$, the $S$ matrix, the $T$-matrix $T_{\alpha'\alpha}$ and the total energy $M$
+Status: agreed
+Source: [@Baru:2019xnh] v2, App. B; the user, grilling 2026-10-29 ("Baru's letters", chosen over collision-free letters)
+
 ## Naming
 
 ### State labels
