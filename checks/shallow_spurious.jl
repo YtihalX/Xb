@@ -1,7 +1,7 @@
 # Shallow-fit spurious pole: identification, removal, fit minimum, App. G numbers.
 # Slice: plan/slices/02-shallow-fit-spurious-projection.md (referee findings).
 # Independent routes: GLOSSARY.md "Spurious pole" (predominantly hadronic member);
-# [@Zhang:2026iyr] v1 Table VIII ("Not projected" row), App. G text after Eq. (G1)
+# [@Zhang:2026iyr] v1 Table VIII ("Not projected" row), App. G text after Eq. (G2)
 # (unprojected shallow spurious pole at 10.13 GeV) and Eq. (G2) (epsilon=5 GeV shifts);
 # Eq. (94) (V0 minimises Delta M at fixed E_B[X_b]).
 # Mapping: literature/Zhang:2026iyr/bridge.md; GeV natural units.
