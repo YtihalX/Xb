@@ -13,6 +13,7 @@ Ref.~\cite{Zhang:2026iyr}, with the following changes of notation.
 Symbol & Meaning & Ref.~\cite{Zhang:2026iyr}\\
 \midrule
 $\nu_\beta$ & Intermediate-pair energy minus $M$ & $\mu_\beta$\\
+$\omega_{B^{(*)}}(p)$ & Heavy-meson energy $\sqrt{m_{B^{(*)}}^2+p^2}$ & $E_{B^{(*)}}(p)$\\
 $\mathcal N(\bm q)$ & Spin numerator, including its sign & New\\
 $\mathcal N_{\alpha'\alpha}$ & Projected spin numerator & New\\
 $\mathcal N^{(m)}_{\alpha'\alpha}$ & Coefficient of $x^m$ in $\mathcal N_{\alpha'\alpha}$ & New\\
@@ -103,10 +104,27 @@ For $J^{PC}=2^{++}$ the six channels are, in order,
 We use the Cartesian projectors and their signs from App.~B of
 Ref.~\cite{Baru:2019xnh}, with the $C$-even state specified above.
 % Baru:2019xnh v2, App. B; literature/Baru:2019xnh/bridge.md.
-The energy $E$ is measured from the $B^*\bar B^*$ threshold,
-$M=2m_{B^*}+E$. With $\Delta m=m_{B^*}-m_B$, the offsets in the
-nonrelativistic heavy-meson energies are
-% Zhang:2026iyr v1, Eqs. (76)--(77); CONVENTIONS.md "Reduced masses and TOPT energy offsets".
+Each time ordering passes through one of four three-body intermediate
+states, labelled by $\beta$. In each, the exchanged meson $\phi$ carries
+$\bm q$, one heavy meson still has the momentum $p$ of the initial state,
+and the other already has the momentum $p'$ of the final state. The
+offset $\nu_\beta$ is the energy of that heavy-meson pair minus $M$:
+% Zhang:2026iyr v1, Eqs. (71), (76)--(77); CONVENTIONS.md "Reduced masses and TOPT energy offsets", "Binding energy and meson energies".
+\begin{center}
+\begin{tabular}{c@{\qquad}l@{\qquad}l}
+\toprule
+$\beta$ & Intermediate state & $\nu_\beta+M$\\
+\midrule
+1 & $B(p)\,\bar B(p')\,\phi$ & $\omega_B(p)+\omega_B(p')$\\
+2 & $B^*(p)\,\bar B^*(p')\,\phi$ & $\omega_{B^*}(p)+\omega_{B^*}(p')$\\
+3 & $B(p)\,\bar B^*(p')\,\phi$ & $\omega_B(p)+\omega_{B^*}(p')$\\
+4 & $B(p')\,\bar B^*(p)\,\phi$ & $\omega_B(p')+\omega_{B^*}(p)$\\
+\bottomrule
+\end{tabular}
+\end{center}
+With $E$ measured from the $B^*\bar B^*$ threshold, $M=2m_{B^*}+E$, and
+$\Delta m=m_{B^*}-m_B$, the nonrelativistic expansion of the heavy-meson
+energies gives
 \begin{equation}
 \begin{aligned}
  \nu_1&=-2\Delta m+\frac{p^2+p'^2}{2m_B}-E, &
@@ -116,9 +134,7 @@ nonrelativistic heavy-meson energies are
 \end{aligned}
 \label{eq:offsets-2pp}
 \end{equation}
-They correspond to intermediate $B\bar B$, $B^*\bar B^*$, and mixed pairs,
-respectively. In $\nu_3$ the pseudoscalar carries momentum $p$ and the
-vector $p'$; in $\nu_4$ those momenta are interchanged. Each denominator is
+Each denominator is
 \begin{equation}
  D_\beta=\frac{1}{2E_\phi(E_\phi+\nu_\beta)},\qquad
  E_\phi=\sqrt{p^2+p'^2-2pp'x+m_\phi^2}.
