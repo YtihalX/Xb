@@ -180,9 +180,9 @@ def latex_table(rows=None):
         r'\caption{Projected spin numerator for the $2^{++}$ channels in their canonical order. Rows are outgoing first; $p$ is incoming and $p^\prime$ outgoing. An empty offset pair denotes an absent OME diagram.}',
         r'\label{tab:projected-spin-numerator-2pp}',
         r'\centering',
-        r'\begingroup\scriptsize',
+        r'\begingroup\footnotesize',
         r'\setlength{\tabcolsep}{3pt}',
-        r'\renewcommand{\arraystretch}{1.5}',
+        r'\renewcommand{\arraystretch}{1.7}',
         r'\begin{tabular}{cc|ccccc}',
         r'$\alpha^\prime\alpha$ & $(\beta_1,\beta_2)$ & $\mathcal N^{(0)}$ & $\mathcal N^{(1)}$ & $\mathcal N^{(2)}$ & $\mathcal N^{(3)}$ & $\mathcal N^{(4)}$ \\ \hline']
     for (a,b), row in rows.items():

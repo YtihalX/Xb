@@ -16,6 +16,7 @@ $\nu_\beta$ & Intermediate-pair energy minus $M$ & $\mu_\beta$\\
 $\mathcal N(\bm q)$ & Spin numerator, including its sign & New\\
 $\mathcal N_{\alpha'\alpha}$ & Projected spin numerator & New\\
 $\mathcal N^{(m)}_{\alpha'\alpha}$ & Coefficient of $x^m$ in $\mathcal N_{\alpha'\alpha}$ & New\\
+$v_{ij},v_{ijkl},S_{ij},T^M_{ij}$ & Cartesian projector tensors & Ref.~\cite{Baru:2019xnh}, App.~B\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -24,6 +25,9 @@ $\mathcal A_\phi$, $\mathcal B$, the polarisation labels $\lambda,\lambda'$,
 and the projectors $P(\alpha;\hat n)$ is otherwise that of
 Ref.~\cite{Zhang:2026iyr}.
 % Zhang:2026iyr v1, Eqs. (76), (80)--(81), (D11), (D13)--(D15).
+The Cartesian indices distinguish $v_{ij},v_{ijkl},S_{ij},T^M_{ij}$ from
+the vertex $v^a$, the $S$ matrix, the $T$-matrix, and the total energy $M$.
+% Baru:2019xnh v2, App. B; CONVENTIONS.md "2++ projector building blocks".
 
 \subsection{Partial-wave potential}
 
@@ -182,9 +186,10 @@ $\nu_3\leftrightarrow\nu_4$.
 The substitution $x\to E_\phi=\sqrt{\mathcal A_\phi-\mathcal Bx}$, with
 $\mathcal A_\phi=p^2+p'^2+m_\phi^2$ and $\mathcal B=2pp'$, used in
 Eqs.~(D13)--(D15) of Ref.~\cite{Zhang:2026iyr} extends the analytic moments
-to $m\leq4$; near $\mathcal B=0$ a Taylor series in
-$\mathcal Bx/\mathcal A_\phi$ avoids cancellations.
-% Zhang:2026iyr v1, Eqs. (D13)--(D15); explicit moments and series: notes/04-ome-2pp.md.
+to $m\leq4$. Where the closed forms lose precision near $\mathcal B=0$,
+the moments are evaluated by Gauss--Legendre quadrature for real momenta
+and by an extended-precision recursion for complex momenta.
+% Zhang:2026iyr v1, Eqs. (D13)--(D15); notes/04-ome-2pp.md, moment evaluation and code map.
 For $1^{++}$ the same construction gives the factor $1/6$ and reproduces
 Eqs.~(D2)--(D10) of Ref.~\cite{Zhang:2026iyr}.
 % Zhang:2026iyr v1, App. D, Eqs. (D1)--(D10); checks/projection_1pp.py.
@@ -192,54 +197,70 @@ Eqs.~(D2)--(D10) of Ref.~\cite{Zhang:2026iyr}.
 \subsection{Four worked entries}
 
 The following contractions display one entry for each spin numerator.
-Let $t_{ij}^{(\lambda)}$ be orthonormal symmetric traceless spin-2
-polarisation tensors, so that
+Let $T^M_{ij}$, $M=1,\ldots,5$, be real orthonormal symmetric traceless
+spin-2 tensors. Their completeness relation is
 \begin{equation}
- \sum_{\lambda=1}^5 t_{ij}^{(\lambda)*}t_{kl}^{(\lambda)}
+ \sum_{M=1}^5 T^M_{ij}T^M_{kl}
  =\tfrac12(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})
  -\tfrac13\delta_{ij}\delta_{kl}.
 \label{eq:spin2-completeness}
 \end{equation}
-Repeated Cartesian indices are summed. For each entry write the trace as
-$T_{p^2}+T_{pp'}+T_{p'^2}$, following the decomposition
+Repeated Cartesian indices are summed. The projector for state $M$ is
+obtained by contracting the two total-angular-momentum indices of the
+printed Cartesian projector with $T^M_{ij}$. We use the building blocks
+of Ref.~\cite{Baru:2019xnh},
+% Baru:2019xnh v2, App. B; literature/Baru:2019xnh/bridge.md, "Exact 2++ projectors".
+\begin{align}
+ v_{ij}(\hat n)&=n_in_j-\tfrac13\delta_{ij},\\
+ S_{ij}&=\epsilon_{1i}\epsilon_{2j}+\epsilon_{1j}\epsilon_{2i}
+ -\tfrac23\delta_{ij}\bm\epsilon_1\cdot\bm\epsilon_2,
+\end{align}
+where $\bm\epsilon_1,\bm\epsilon_2$ are the two vector-meson spin
+polarisations inside a projector. For each entry the $p^2$, $pp'$ and
+$p'^2$ terms of the trace follow from
 \begin{equation}
  q_iq_j=p^2\hat z_i\hat z_j
  -pp'(\hat z_i\hat n'_j+\hat n'_i\hat z_j)
  +p'^2\hat n'_i\hat n'_j.
 \end{equation}
-These three pieces already include the indicated powers of momentum.
+We first group the projected spin numerator by these three powers,
+then collect powers of $x$.
 % Exact contractions: /tmp/ome-route/steps-2pp.md; checks/_spin_numerator.py --steps.
 
 \paragraph{Entry 44: $VV({}^5G_2)\to VV({}^5G_2)$.}
-Use $\mathcal N$ from Eq.~\eqref{eq:spin-vv}. The incoming and outgoing
-projectors have the same rank-four harmonic structure,
+Use $\mathcal N$ from Eq.~\eqref{eq:spin-vv}. Both projectors have the
+printed rank-four harmonic structure
 \begin{equation}
- P^{(\lambda)}_{ab}(4;\hat n)
- =\sqrt{\frac{175}{8}}\,H_{abij}(\hat n)t_{ij}^{(\lambda)},
+ P^M(4;\hat n)=\sqrt{\frac{175}{32}}\,S_{kl}v_{ijkl}(\hat n)T^M_{ij},
  \qquad \hat n=\hat z\ \hbox{or}\ \hat n',
 \end{equation}
 where
 \begin{equation}
 \begin{split}
- H_{abij}(\hat n)={}&n_an_bn_in_j
- -\tfrac17(\delta_{ab}n_in_j+\delta_{ai}n_bn_j
- +\delta_{aj}n_bn_i\\
- &\quad+\delta_{bi}n_an_j+\delta_{bj}n_an_i+\delta_{ij}n_an_b)\\
- &+\tfrac1{35}(\delta_{ab}\delta_{ij}
- +\delta_{ai}\delta_{bj}+\delta_{aj}\delta_{bi}).
+ v_{ijkl}(\hat n)={}&n_in_jn_kn_l
+ -\tfrac17(\delta_{ij}n_kn_l+\delta_{ik}n_jn_l
+ +\delta_{il}n_jn_k\\
+ &\quad+\delta_{jk}n_in_l+\delta_{jl}n_in_k+\delta_{kl}n_in_j)\\
+ &+\tfrac1{35}(\delta_{ij}\delta_{kl}
+ +\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk}).
 \end{split}
 \end{equation}
-This tensor is symmetric and traceless on every pair. In Cartesian spin
-indices the spin numerator is
+This tensor is symmetric and traceless on every pair. In Cartesian
+meson-spin indices the projector is equivalently
+$P^M_{ab}(4;\hat n)=\sqrt{175/8}\,v_{abij}(\hat n)T^M_{ij}$,
+and the spin numerator is
 $\mathcal N_{ab,cd}=\epsilon_{ack}\epsilon_{bdl}q_kq_l$, where
-$\epsilon_{ijk}$ is the Levi-Civita tensor. Contracting both projectors
-with this tensor and Eq.~\eqref{eq:spin2-completeness} gives
-\begin{align}
- T_{p^2}&=\frac{5p^2}{56}(35x^4-30x^2+3),\\
- T_{pp'}&=-\frac{5pp'}7x(5x^2-3),\\
- T_{p'^2}&=\frac{5p'^2}{56}(35x^4-30x^2+3).
-\end{align}
-Adding the pieces displays the polynomial explicitly:
+$\epsilon_{ijk}$ is the Levi-Civita tensor. Contracting these expressions
+with Eq.~\eqref{eq:spin2-completeness} gives
+\begin{equation}
+\begin{split}
+ \mathcal N_{44}={}&
+ p^2\frac5{56}(35x^4-30x^2+3)
+ -pp'\frac57x(5x^2-3)\\
+ &+p'^2\frac5{56}(35x^4-30x^2+3).
+\end{split}
+\end{equation}
+Collecting powers of $x$,
 \begin{equation}
 \begin{split}
  \mathcal N_{44}={}&\frac{15(p^2+p'^2)}{56}
@@ -253,74 +274,79 @@ Use Eq.~\eqref{eq:spin-pvv}. The outgoing $S$-wave projector is independent
 of direction, while the incoming one contains a quadrupole:
 \begin{equation}
 \begin{split}
- P^{(\lambda)}_{ab}(1;\hat n')&=t_{ab}^{(\lambda)},\\
- P^{(\lambda)}_k(5;\hat z)&=-i\sqrt5\,
- \epsilon_{ikl}\hat z_l\hat z_jt_{ij}^{(\lambda)}.
+ P^M(1;\hat n')&=\tfrac12 S_{ij}T^M_{ij},\\
+ P^M(5;\hat z)&=-\frac{i\sqrt5}{2}\epsilon_k
+ \bigl[\epsilon_{ikl}v_{lj}(\hat z)
+ +\epsilon_{jkl}v_{li}(\hat z)\bigr]T^M_{ij}.
 \end{split}
 \label{eq:worked-pv-projector}
 \end{equation}
-Here the trace part of $\hat z_l\hat z_j-\delta_{lj}/3$ drops out against
-the antisymmetric tensor. In Cartesian form the contraction to perform is
+Here $\epsilon_k$ is the spin polarisation of the $C$-even $PV$ channel.
+In Cartesian meson-spin indices these projectors reduce to
+$P^M_{ab}(1;\hat n')=T^M_{ab}$ and
+$P^M_k(5;\hat z)=-i\sqrt5\,\epsilon_{ikl}\hat z_l\hat z_jT^M_{ij}$:
+the trace part of $v_{lj}$ drops out against the antisymmetric tensor.
+The contraction to perform is therefore
 \begin{equation}
- \sum_\lambda t_{ab}^{(\lambda)*}\,
+ \sum_M T^M_{ab}\,
  \frac{i}{\sqrt2}(\epsilon_{ack}q_kq_b+
- \epsilon_{bck}q_kq_a)P_c^{(\lambda)}(5;\hat z).
+ \epsilon_{bck}q_kq_a)P_c^M(5;\hat z).
 \end{equation}
-Using Eq.~\eqref{eq:spin2-completeness}, its three pieces are
+Using Eq.~\eqref{eq:spin2-completeness} gives
 \begin{equation}
-\begin{aligned}
- T_{p^2}&=-\sqrt{10}\,p^2,\qquad
- T_{pp'}=2\sqrt{10}\,pp'x,\\
- T_{p'^2}&=-\frac{\sqrt{10}}2p'^2(3x^2-1).
-\end{aligned}
+ \mathcal N_{15}=-\sqrt{10}\,p^2+2\sqrt{10}\,pp'x
+ -\frac{\sqrt{10}}2p'^2(3x^2-1),
 \end{equation}
-Consequently,
+or, collected in $x$,
 \begin{equation}
  \mathcal N_{15}=\sqrt{10}\left(-p^2+\frac{p'^2}{2}
  +2pp'x-\frac{3p'^2}{2}x^2\right).
 \end{equation}
 
 \paragraph{Entry 16: $PP({}^1D_2)\to VV({}^5S_2)$.}
-For Eq.~\eqref{eq:ome-bb-bsbs}, the projectors are
+For Eq.~\eqref{eq:ome-bb-bsbs}, the printed projectors are
 \begin{equation}
- P^{(\lambda)}_{ab}(1;\hat n')=t_{ab}^{(\lambda)},\qquad
- P^{(\lambda)}(6;\hat z)=-\sqrt{\frac{15}{2}}\,
- \hat z_i\hat z_jt_{ij}^{(\lambda)}.
+ P^M(1;\hat n')=\tfrac12 S_{ij}T^M_{ij},\qquad
+ P^M(6;\hat z)=-\sqrt{\frac{15}{2}}\,v_{ij}(\hat z)T^M_{ij}.
 \end{equation}
-The completeness relation immediately reduces their contraction to
+Since $T^M_{ij}$ is traceless, the second expression equals
+$-\sqrt{15/2}\,\hat z_i\hat z_jT^M_{ij}$. The completeness relation
+immediately reduces the contraction to
 \begin{equation}
  \mathcal N_{16}=-\sqrt{\frac{15}{2}}\,
  \bigl[(\bm q\cdot\hat z)^2-\bm q^2/3\bigr].
 \end{equation}
-Its pieces and polynomial are
+Separating the three momentum powers and then collecting in $x$ gives
 \begin{align}
- T_{p^2}&=-\frac{\sqrt{30}}3p^2,\qquad
- T_{pp'}=\frac{2\sqrt{30}}3pp'x,\\
- T_{p'^2}&=-\frac{\sqrt{30}}6p'^2(3x^2-1),\\
- \mathcal N_{16}&=\frac{\sqrt{30}}3
+ \mathcal N_{16}&=-\frac{\sqrt{30}}3p^2
+ +\frac{2\sqrt{30}}3pp'x-\frac{\sqrt{30}}6p'^2(3x^2-1),\\
+ &=\frac{\sqrt{30}}3
  \left(-p^2+\frac{p'^2}{2}+2pp'x-\frac{3p'^2}{2}x^2\right).
 \end{align}
 
 \paragraph{Entry 55: $PV({}^3D_2)\to PV({}^3D_2)$.}
 Use Eq.~\eqref{eq:spin-pv} and both quadrupole projectors,
 \begin{equation}
- P^{(\lambda)}_k(5;\hat n)
- =-i\sqrt5\,\epsilon_{ikl}n_ln_jt_{ij}^{(\lambda)},
- \qquad \hat n=\hat z\ \hbox{or}\ \hat n'.
+\begin{split}
+ P^M(5;\hat n)&=-\frac{i\sqrt5}{2}\epsilon_k
+ \bigl[\epsilon_{ikl}v_{lj}(\hat n)
+ +\epsilon_{jkl}v_{li}(\hat n)\bigr]T^M_{ij},\\
+ &\hspace{35mm}\hat n=\hat z\ \hbox{or}\ \hat n'.
+\end{split}
 \end{equation}
-Their transversality, $n_kP_k(5;\hat n)=0$, kills the $p^2$ and $p'^2$
-pieces of $-q_aq_b$. The surviving contraction is
+Their Cartesian form,
+$P^M_k(5;\hat n)=-i\sqrt5\,\epsilon_{ikl}n_ln_jT^M_{ij}$,
+is transverse: $n_kP_k^M(5;\hat n)=0$.
+Thus the $p^2$ and $p'^2$ terms of the trace vanish. The surviving
+contraction is
 \begin{equation}
- pp'\sum_\lambda[\hat z_aP_a^{(\lambda)}(5;\hat n')]^*
- [\hat n'_bP_b^{(\lambda)}(5;\hat z)].
+ pp'\sum_M[\hat z_aP_a^M(5;\hat n')]^*
+ [\hat n'_bP_b^M(5;\hat z)].
 \end{equation}
 It gives
 \begin{equation}
- T_{p^2}=0,\qquad T_{pp'}=\frac52pp'x(x^2-1),\qquad T_{p'^2}=0,
-\end{equation}
-and hence
-\begin{equation}
- \mathcal N_{55}=-\frac52pp'x+\frac52pp'x^3.
+ \mathcal N_{55}=0\cdot p^2+\frac52pp'x(x^2-1)+0\cdot p'^2
+ =-\frac52pp'x+\frac52pp'x^3.
 \end{equation}
 
 \subsection{All independent entries}
