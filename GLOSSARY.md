@@ -141,10 +141,10 @@ Status: agreed
 Source: [@Zhang:2026iyr] v1, Eq. (G1) and App. G
 
 **Spurious pole**:
-A pole whose binding momentum exceeds $\Lambda_\chi\approx1$ GeV, with $\mathcal P_{\bar bb}<1\%$ and a position that moves strongly with $\Lambda$: an artifact of the renormalised singular tensor force. A pole that continues from such a pole as $C$ varies at fixed $\Lambda$ is the same spurious pole, even where mixing with a nearby bare level raises its $\mathcal P_{\bar bb}$ above 1%, as in the shallow-$X_b$ fit. It is projected out when it lies above the lowest compact-dominated state of the sector ($\chi_{b1}(1P)$- or $\chi_{b2}(1P)$-dominated); otherwise it is kept and the shift its projection causes is reported.
+A pole whose binding momentum exceeds $\Lambda_\chi\approx1$ GeV, with $\mathcal P_{\bar bb}<1\%$ and a position that moves strongly with $\Lambda$: an artifact of the renormalised singular tensor force. A pole that continues from such a pole as $C$ varies at fixed $\Lambda$ is the same spurious pole, even where mixing with a nearby bare level raises its $\mathcal P_{\bar bb}$ above 1%, as in the shallow-$X_b$ fit; through an avoided crossing with a bare level the continuation follows the predominantly hadronic member of the two levels, not the adiabatic branch, which ends on the compact-dominated state. It is projected out when it lies above the lowest compact-dominated state of the sector ($\chi_{b1}(1P)$- or $\chi_{b2}(1P)$-dominated); otherwise it is kept and the shift its projection causes is reported.
 _Avoid_: deep bound state, ghost
 Status: agreed
-Source: [@Zhang:2026iyr] v1, Sec. IV D, Fig. 5(a) and App. G; the user, grilling 2026-10-28 ("Agree the rule"); the user, slice-02 session 2026-10-29 ("Add continuation in C")
+Source: [@Zhang:2026iyr] v1, Sec. IV D, Fig. 5(a) and its caption ("the predominantly hadronic member of the two lowest levels"), App. G; the user, grilling 2026-10-28 ("Agree the rule"); the user, slice-02 session 2026-10-29 ("Add continuation in C"; "Follow hadronic member")
 
 **Strict HQSS limit**:
 All heavy-meson masses set to $\bar m_B=(m_B+3m_{B^*})/4\approx5.313$ GeV in every threshold, reduced mass, and TOPT offset, with the bare $\chi_{b2}$ masses equal to the bare $\chi_{b1}$ masses (any spin-dependent shift switched off) and $g$, $C$ unchanged.
