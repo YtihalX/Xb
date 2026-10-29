@@ -2,161 +2,339 @@
 \section{Partial-wave projection of one-meson exchange}
 \label{app:ome-projection}
 
-\subsection{Method}
+\subsection{Notation}
 
-The time-ordered OME potentials of Ref.~\cite{Zhang:2026iyr} are projected
-onto partial waves with the spin-angular projectors $P(\alpha;\bm n)$,
-normalised as in Eq.~(81) of that reference:
-% Zhang:2026iyr v1, Eqs. (72)-(77), (80)-(81); CONVENTIONS.md "Partial-wave projectors".
-\begin{equation}
- V_{\alpha'\alpha}(p',p)=\frac{1}{2J+1}\int\frac{d\Omega_{n'}}{4\pi}
- \frac{d\Omega_n}{4\pi}\,
- \operatorname{Tr}\bigl[P^\dagger(\alpha';\bm n')\,V\,P(\alpha;\bm n)\bigr].
- \label{eq:pw-projection}
-\end{equation}
-Once the polarisation indices are contracted, rotational invariance reduces
-the double angular average to $\frac12\int_{-1}^{1}dx$, with
-$x=\hat{\bm p}'\cdot\hat{\bm p}$. Each time ordering contributes a
-denominator $D_\beta=[2E_\phi(E_\phi+\nu_\beta)]^{-1}$, where
-$E_\phi=\sqrt{p^2+p'^2-2pp'x+m_\phi^2}$ is the energy of the exchanged meson
-and $\nu_\beta$ is the energy of the heavy-meson pair in the three-body
-intermediate state minus the total energy $M$ (Ref.~\cite{Zhang:2026iyr}
-calls it $\mu_\beta$). The numerator is a polynomial in $x$, so every
-projected entry is a linear combination of the moments
-% Zhang:2026iyr v1, Eqs. (76)-(77); CONVENTIONS.md "Reduced masses and TOPT energy offsets".
-\begin{equation}
- I_k^{(\beta)}(p',p;E,m_\phi)
- =\int_{-1}^{1}\frac{x^k\,dx}{2E_\phi(E_\phi+\nu_\beta)}.
- \label{eq:ome-angular-moments}
-\end{equation}
-The couplings are $g_b=0.56$ and $F_\pi=92.2$~MeV, and the isoscalar
-potential is $3V(m_\pi)+V(m_\eta)/3$.
-% Zhang:2026iyr v1, Eqs. (66), (82).
-For $J^{PC}=1^{++}$ this procedure reproduces all nine entries of
-Eqs.~(D2)--(D10) of Ref.~\cite{Zhang:2026iyr}, with the projector phases of
-its Eq.~(D1).
-% Zhang:2026iyr v1, Eqs. (D1)-(D10); notes/03-projection-method-1pp.md.
+We use the time-ordered one-meson-exchange (OME) potentials of
+Ref.~\cite{Zhang:2026iyr}, with the following changes of notation.
+% Zhang:2026iyr v1, Eqs. (72)--(81), (D11).
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Symbol & Meaning & Ref.~\cite{Zhang:2026iyr}\\
+\midrule
+$\nu_\beta$ & Intermediate-pair energy minus $M$ & $\mu_\beta$\\
+$\mathcal N(\bm q)$ & Spin numerator, including its sign & New\\
+$\mathcal N_{\alpha'\alpha}$ & Projected spin numerator & New\\
+$\mathcal N^{(m)}_{\alpha'\alpha}$ & Coefficient of $x^m$ in $\mathcal N_{\alpha'\alpha}$ & New\\
+\bottomrule
+\end{tabular}
+\end{center}
+The notation $D_\beta$, $\Delta_m^{(\beta_1\beta_2)}$, $E_\phi$,
+$\mathcal A_\phi$, $\mathcal B$, the polarisation labels $\lambda,\lambda'$,
+and the projectors $P(\alpha;\hat n)$ is otherwise that of
+Ref.~\cite{Zhang:2026iyr}.
+% Zhang:2026iyr v1, Eqs. (76), (80)--(81), (D11), (D13)--(D15).
 
-\subsection{The $2^{++}$ potential}
+\subsection{Partial-wave potential}
+
+For incoming and outgoing momentum magnitudes $p$ and $p'$, the potential
+between radial partial-wave states is
+\begin{equation}
+\begin{split}
+ V_{\alpha'\alpha}(p',p)
+ &\equiv\langle p',\alpha'|\hat V|p,\alpha\rangle\\
+ &=\frac{1}{2J+1}\int\frac{d\Omega_{n'}}{4\pi}\frac{d\Omega_n}{4\pi}
+ \operatorname{Tr}\bigl[P^\dagger(\alpha';\hat n')\,V\,P(\alpha;\hat n)\bigr].
+\end{split}
+\label{eq:pw-projection}
+\end{equation}
+Here $J$ is the total angular momentum, $\alpha$ labels the channel, and the
+trace sums the $2J+1$ total-angular-momentum states, as well as contracting
+the meson spin indices. This is Eq.~(80) of Ref.~\cite{Zhang:2026iyr}, with
+its projector normalisation
+% Zhang:2026iyr v1, Eqs. (80)--(81); CONVENTIONS.md "Partial-wave states" and "Partial-wave projectors".
+\begin{equation}
+ \frac{1}{2J+1}\int\frac{d\Omega_n}{4\pi}
+ P(\alpha;\hat n)P^\dagger(\alpha;\hat n)=1.
+\end{equation}
+The state normalisation is
+$\langle p',\alpha'|p,\alpha\rangle
+=\delta_{\alpha'\alpha}(2\pi^2/p^2)\delta(p'-p)$.
+% Zhang:2026iyr v1, Eqs. (30)--(31), footnote to Eq. (31).
+
+\subsection{Spin numerators and channels}
+
+For a meson $\phi$ of mass $m_\phi$, separate the spin numerator from the
+two time orderings:
+\begin{equation}
+ V(\bm p',\bm p;m_\phi)=\frac{g_b^2}{4F_\pi^2}\,
+ \mathcal N(\bm q)\,[D_{\beta_1}+D_{\beta_2}],
+ \qquad \bm q=\bm p-\bm p'.
+\label{eq:ome-spin-factorisation}
+\end{equation}
+The axial coupling and pion decay constant are $g_b=0.56$ and
+$F_\pi=92.2$~MeV. Only bilinears in $\bm q$ occur, so reversing its sign
+changes nothing. Write $VV=B^*\bar B^*$, $PV=B\bar B^*$, and $PP=B\bar B$,
+where $PV$ denotes the $C$-even state
+$(|B\bar B^*\rangle-|B^*\bar B\rangle)/\sqrt2$.
+For vector polarisations $\bm\epsilon(\lambda)$ and
+$\bm\epsilon'(\lambda')$, define
+$\bm A=i(\bm\epsilon\times\bm\epsilon'^*)/\sqrt2$; subscripts 1 and 2
+identify the two meson lines. The four transition types are
+% Zhang:2026iyr v1, Eqs. (66), (68), (72)--(75); definition of A below Eq. (70).
+\begin{align}
+ VV\to VV:\quad \mathcal N&=-2(\bm A_1\cdot\bm q)(\bm A_2\cdot\bm q),
+ &&(\beta_1,\beta_2)=(2,2),\label{eq:spin-vv}\\
+ PV\to VV:\quad \mathcal N&=(\bm A_1\cdot\bm q)(\bm\epsilon_2'^*\cdot\bm q)
+ +(\bm A_2\cdot\bm q)(\bm\epsilon_1'^*\cdot\bm q),
+ &&(\beta_1,\beta_2)=(3,2),\label{eq:spin-pvv}\\
+ PP\to VV:\quad \mathcal N&=(\bm\epsilon_1'^*\cdot\bm q)(\bm\epsilon_2'^*\cdot\bm q),
+ &&(\beta_1,\beta_2)=(3,3),\label{eq:ome-bb-bsbs}\\
+ PV\to PV:\quad \mathcal N&=-(\bm\epsilon\cdot\bm q)(\bm\epsilon'^*\cdot\bm q),
+ &&(\beta_1,\beta_2)=(1,2).\label{eq:spin-pv}
+\end{align}
+The sign of each diagram is included in $\mathcal N$; its isospin factor
+is not.
 
 For $J^{PC}=2^{++}$ the six channels are, in order,
 \begin{equation}
+\begin{gathered}
  B^*\bar B^*({}^5S_2),\quad B^*\bar B^*({}^1D_2),\quad
- B^*\bar B^*({}^5D_2),\quad B^*\bar B^*({}^5G_2),\quad
- B\bar B^*({}^3D_2),\quad B\bar B({}^1D_2),
- \label{eq:channels-2pp}
+ B^*\bar B^*({}^5D_2),\\
+ B^*\bar B^*({}^5G_2),\quad B\bar B^*({}^3D_2),\quad
+ B\bar B({}^1D_2).
+\end{gathered}
+\label{eq:channels-2pp}
 \end{equation}
-where $B\bar B^*$ stands for the $C$-even combination
-$(|B\bar B^*\rangle-|B^*\bar B\rangle)/\sqrt2$. We use the Cartesian
-projectors of App.~B of Ref.~\cite{Baru:2019xnh}, with the signs printed
-there.
-% Baru:2019xnh v2, App. B; sign relations in literature/Baru:2019xnh/bridge.md.
-The energy $E$ is measured from the $B^*\bar B^*$ threshold, $M=2m_{B^*}+E$.
-With $\Delta m=m_{B^*}-m_B$, the four offsets are
+We use the Cartesian projectors and their signs from App.~B of
+Ref.~\cite{Baru:2019xnh}, with the $C$-even state specified above.
+% Baru:2019xnh v2, App. B; literature/Baru:2019xnh/bridge.md.
+The energy $E$ is measured from the $B^*\bar B^*$ threshold,
+$M=2m_{B^*}+E$. With $\Delta m=m_{B^*}-m_B$, the offsets in the
+nonrelativistic heavy-meson energies are
+% Zhang:2026iyr v1, Eqs. (76)--(77); CONVENTIONS.md "Reduced masses and TOPT energy offsets".
 \begin{equation}
 \begin{aligned}
  \nu_1&=-2\Delta m+\frac{p^2+p'^2}{2m_B}-E, &
  \nu_2&=\frac{p^2+p'^2}{2m_{B^*}}-E,\\
  \nu_3&=-\Delta m+\frac{p^2}{2m_B}+\frac{p'^2}{2m_{B^*}}-E, &
- \nu_4&=-\Delta m+\frac{p'^2}{2m_B}+\frac{p^2}{2m_{B^*}}-E,
+ \nu_4&=-\Delta m+\frac{p'^2}{2m_B}+\frac{p^2}{2m_{B^*}}-E.
 \end{aligned}
 \label{eq:offsets-2pp}
 \end{equation}
-for an intermediate $B\bar B$ pair ($\nu_1$), a $B^*\bar B^*$ pair
-($\nu_2$), and a $B$ and a $B^*$ with momenta $p$ and $p'$ ($\nu_3$) or
-$p'$ and $p$ ($\nu_4$).
-
-Besides the potentials of Eqs.~(72)--(75) of Ref.~\cite{Zhang:2026iyr}, the
-$2^{++}$ sector contains the $B\bar B\to B^*\bar B^*$ transition. The
-Lagrangian of Eq.~(68) of Ref.~\cite{Zhang:2026iyr} gives
-% Zhang:2026iyr v1, Eqs. (68)-(75); notes/04-ome-2pp.md, Sec. 2.
+They correspond to intermediate $B\bar B$, $B^*\bar B^*$, and mixed pairs,
+respectively. In $\nu_3$ the pseudoscalar carries momentum $p$ and the
+vector $p'$; in $\nu_4$ those momenta are interchanged. Each denominator is
 \begin{equation}
- V^{\rm(OME)}_{B\bar B\to B^*\bar B^*}(\bm p',\bm p;m_\phi)
- =\frac{g_b^2}{4F_\pi^2}\,(\bm\epsilon_1'^*\cdot\bm q)(\bm\epsilon_2'^*\cdot\bm q)\,
- 2D_3,
- \label{eq:ome-bb-bsbs}
+ D_\beta=\frac{1}{2E_\phi(E_\phi+\nu_\beta)},\qquad
+ E_\phi=\sqrt{p^2+p'^2-2pp'x+m_\phi^2}.
 \end{equation}
-and the reverse transition follows with
-$\bm\epsilon_{1,2}'^*\to\bm\epsilon_{1,2}$ and $D_3\to D_4$. The factor 2
-appears because the two time orderings, with the exchanged meson emitted
-first by the $B$ or by the $\bar B$, pass through intermediate states of the
-same energy: a pseudoscalar with momentum $p$ and a vector with momentum
-$p'$. The sign follows by comparison with Eq.~(72) of
-Ref.~\cite{Zhang:2026iyr}. Since Eq.~(68) gives the $B\to B^*\phi$ and
-$B^*\to B\phi$ vertices the same coefficient, the $B\bar B\to B^*\bar B^*$
-amplitude equals the $B^*\bar B\to B\bar B^*$ amplitude, which has the same
-antimeson line, with the polarisation of the incoming $B^*$ replaced by the
-conjugate polarisation of the outgoing one. The $C$-even $B\bar B^*$
-potential of Eq.~(72) is minus that amplitude, because its direct term would
-need a $BB\phi$ vertex, which Eq.~(68) does not contain.
 
-Each projected entry then has the form
-\begin{equation}
- V^{\rm(OME)}_{\alpha'\alpha}(p',p;m_\phi)
- =-\frac{g_b^2}{8F_\pi^2}\sum_{k=0}^{4}c_{\alpha'\alpha,k}(p',p)
- \bigl[I_k^{(\beta)}+I_k^{(\gamma)}\bigr],
- \label{eq:ome-2pp-entry}
-\end{equation}
-where the offsets $(\beta,\gamma)$ depend only on the meson pairs:
-\begin{center}
-\begin{tabular}{lc}
-\toprule
-Transition & $(\beta,\gamma)$\\
-\midrule
-$B^*\bar B^*\to B^*\bar B^*$ & $(2,2)$\\
-$B\bar B^*\to B\bar B^*$ & $(1,2)$\\
-$B\bar B^*\to B^*\bar B^*$ and reverse & $(2,3)$ and $(2,4)$\\
-$B\bar B\to B^*\bar B^*$ and reverse & $(3,3)$ and $(4,4)$\\
-\bottomrule
-\end{tabular}
-\end{center}
-Table~\ref{tab:ome-2pp} lists the numerator polynomials $c_{\alpha'\alpha,k}$
-of all 21 independent entries; the others follow from
-$c_{\alpha\alpha',k}(p,p')=c_{\alpha'\alpha,k}(p',p)$. The $G$-wave entries
-need moments up to $x^4$, one more than in $1^{++}$. Four entries vanish:
-${}^5S_2$--${}^5G_2$, ${}^1D_2$--$B\bar B^*({}^3D_2)$, and the
-$B\bar B$--$B\bar B^*$ and $B\bar B$--$B\bar B$ entries, which would need a
+The $PP\to VV$ transition in Eq.~\eqref{eq:ome-bb-bsbs} supplements
+Eqs.~(72)--(75) of Ref.~\cite{Zhang:2026iyr}.
+Both time orderings contain a pseudoscalar of momentum $p$ and a vector
+of momentum $p'$, giving $D_3+D_3=2D_3$; the reverse transition has $2D_4$.
+Its positive sign follows from the equal coefficients of the
+$B\to B^*\phi$ and $B^*\to B\phi$ vertices in that reference's Eq.~(68).
+Replacing the incoming vector polarisation in
+$B^*\bar B\to B\bar B^*$ by the conjugate outgoing one gives $PP\to VV$
+with the same antimeson line. The $C$-even $PV\to PV$ potential is minus
+that exchange amplitude: its direct term would require the absent
 $BB\phi$ vertex.
+% Zhang:2026iyr v1, Eqs. (68), (72); notes/04-ome-2pp.md, sign derivation.
 
-\begin{table}[tbp]
-\centering
-\caption{Numerator coefficients $c_{\alpha'\alpha,k}$ of
-Eq.~\eqref{eq:ome-2pp-entry} for $2^{++}$, with the channels numbered as in
-Eq.~\eqref{eq:channels-2pp}, $p$ the incoming and $r=p'$ the outgoing
-momentum. Four entries of the first row are multiples of
-$s_k=\bigl(-\tfrac{2p^2-r^2}{6},\,\tfrac{2pr}{3},\,-\tfrac{r^2}{2},\,0,\,0\bigr)$.}
-% Derivation: notes/04-ome-2pp.md, Sec. 4; implemented in projection.jl (_coefficients_2pp).
-\label{tab:ome-2pp}
-\small
-\renewcommand{\arraystretch}{1.8}
-\begin{tabular}{@{}cccccc@{}}
-\toprule
-$\alpha'\alpha$ & $c_0$ & $c_1$ & $c_2$ & $c_3$ & $c_4$\\
-\midrule
-11 & $\frac{p^2+r^2}{3}$ & $-\frac{2pr}{3}$ & $0$ & $0$ & $0$\\
-12 & \multicolumn{5}{c}{$\sqrt{2/5}\;s_k$}\\
-13 & \multicolumn{5}{c}{$-\sqrt{14/5}\;s_k$}\\
-14 & \multicolumn{5}{c}{$0$}\\
-15 & \multicolumn{5}{c}{$-\sqrt{18/5}\;s_k$}\\
-16 & \multicolumn{5}{c}{$-\sqrt{6/5}\;s_k$}\\
-22 & $\frac{p^2+r^2}{3}$ & $-\frac{2pr}{3}$ & $-(p^2+r^2)$ & $2pr$ & $0$\\
-23 & $-\frac{\sqrt7(p^2+r^2)}{21}$ & $-\frac{\sqrt7pr}{21}$ & $\frac{\sqrt7(p^2+r^2)}{7}$ & $-\frac{\sqrt7pr}{7}$ & $0$\\
-24 & $\frac{\sqrt{35}(4p^2-3r^2)}{140}$ & $-\frac{6\sqrt{35}pr}{35}$ & $-\frac{3\sqrt{35}(2p^2-5r^2)}{70}$ & $\frac{2\sqrt{35}pr}{7}$ & $-\frac{\sqrt{35}r^2}{4}$\\
-25 & \multicolumn{5}{c}{$0$}\\
-26 & $\frac{\sqrt3(p^2+r^2)}{6}$ & $-\frac{\sqrt3pr}{3}$ & $-\frac{\sqrt3(p^2+r^2)}{2}$ & $\sqrt3pr$ & $0$\\
-33 & $-\frac{5(p^2+r^2)}{21}$ & $\frac{11pr}{42}$ & $\frac{5(p^2+r^2)}{7}$ & $-\frac{17pr}{14}$ & $0$\\
-34 & $-\frac{\sqrt5(4p^2-3r^2)}{70}$ & $\frac{12\sqrt5pr}{35}$ & $\frac{3\sqrt5(2p^2-5r^2)}{35}$ & $-\frac{4\sqrt5pr}{7}$ & $\frac{\sqrt5r^2}{2}$\\
-35 & $\frac{\sqrt7(p^2+r^2)}{14}$ & $\frac{\sqrt7pr}{14}$ & $-\frac{3\sqrt7(p^2+r^2)}{14}$ & $\frac{3\sqrt7pr}{14}$ & $0$\\
-36 & $\frac{\sqrt{21}(p^2+r^2)}{21}$ & $\frac{\sqrt{21}pr}{21}$ & $-\frac{\sqrt{21}(p^2+r^2)}{7}$ & $\frac{\sqrt{21}pr}{7}$ & $0$\\
-44 & $-\frac{3(p^2+r^2)}{56}$ & $-\frac{3pr}{7}$ & $\frac{15(p^2+r^2)}{28}$ & $\frac{5pr}{7}$ & $-\frac{5(p^2+r^2)}{8}$\\
-45 & $-\frac{\sqrt{35}(3p^2-4r^2)}{70}$ & $-\frac{12\sqrt{35}pr}{35}$ & $\frac{3\sqrt{35}(5p^2-2r^2)}{35}$ & $\frac{4\sqrt{35}pr}{7}$ & $-\frac{\sqrt{35}p^2}{2}$\\
-46 & $\frac{\sqrt{105}(3p^2-4r^2)}{140}$ & $\frac{6\sqrt{105}pr}{35}$ & $-\frac{3\sqrt{105}(5p^2-2r^2)}{70}$ & $-\frac{2\sqrt{105}pr}{7}$ & $\frac{\sqrt{105}p^2}{4}$\\
-55 & $0$ & $\frac{pr}{2}$ & $0$ & $-\frac{pr}{2}$ & $0$\\
-56 & \multicolumn{5}{c}{$0$}\\
-66 & \multicolumn{5}{c}{$0$}\\
-\bottomrule
-\end{tabular}
-\end{table}
+\subsection{Projection with the incoming momentum along $\hat z$}
+
+Under a simultaneous rotation of both momenta, the traced product in
+Eq.~\eqref{eq:pw-projection} is unchanged: the rotation matrices in the
+$J$ representation cancel inside the trace. It therefore depends only on
+$x=\hat n'\cdot\hat n$, and the incoming angular average can be evaluated
+with $\hat n=\hat z$. This requires the sum over all $2J+1$ states; a single
+fixed-$M$ matrix element need not be a function of $x$ alone.
+Set
+\begin{equation}
+ \bm p=p\hat z,\qquad \bm p'=p'\hat n',\qquad
+ \hat n'=(\sqrt{1-x^2}\cos\varphi,\sqrt{1-x^2}\sin\varphi,x).
+\end{equation}
+The projected spin numerator is
+\begin{equation}
+\begin{split}
+ \mathcal N_{\alpha'\alpha}(x;p',p)
+ &=\int_0^{2\pi}\frac{d\varphi}{2\pi}
+ \operatorname{Tr}\bigl[P^\dagger(\alpha';\hat n')
+ \mathcal N(\bm q)P(\alpha;\hat z)\bigr]\\
+ &=\sum_{m=0}^{4}\mathcal N^{(m)}_{\alpha'\alpha}(p',p)x^m.
+\end{split}
+\label{eq:projected-spin-numerator}
+\end{equation}
+Rotations about $\hat z$ change $\varphi$ but leave this trace unchanged,
+so the azimuthal average is trivial and may be evaluated at $\varphi=0$.
+% checks/_spin_numerator.py: exact azimuthal generator on every traced entry.
+The remaining angular average is $\tfrac12\int_{-1}^1dx$. Thus, with the
+angular moments of Eq.~(D11) of Ref.~\cite{Zhang:2026iyr},
+% Zhang:2026iyr v1, Eqs. (80)--(82), (D11).
+\begin{align}
+ \Delta_m^{(\beta_1\beta_2)}(p',p;m_\phi)
+ &=\int_{-1}^{1}x^m[D_{\beta_1}+D_{\beta_2}]\,dx,
+ \label{eq:ome-angular-moments}\\
+ V^{\rm(OME)}_{\alpha'\alpha}(p',p;m_\phi)
+ &=\frac1{10}\frac{g_b^2}{4F_\pi^2}\sum_{m=0}^4
+ \mathcal N^{(m)}_{\alpha'\alpha}(p',p)
+ \Delta_m^{(\beta_1\beta_2)}(p',p;m_\phi).
+ \label{eq:ome-2pp-entry}
+\end{align}
+The factor $1/10$ is $1/[2(2J+1)]$ for $J=2$. The isoscalar potential is
+$3V^{\rm(OME)}(m_\pi)+\tfrac13V^{\rm(OME)}(m_\eta)$.
+Reciprocity gives the lower triangle by
+$V_{\alpha\alpha'}(p,p')=V_{\alpha'\alpha}(p',p)$: interchange $p$ and $p'$
+in the projected spin numerator and in the moments, including
+$\nu_3\leftrightarrow\nu_4$.
+The substitution $x\to E_\phi=\sqrt{\mathcal A_\phi-\mathcal Bx}$, with
+$\mathcal A_\phi=p^2+p'^2+m_\phi^2$ and $\mathcal B=2pp'$, used in
+Eqs.~(D13)--(D15) of Ref.~\cite{Zhang:2026iyr} extends the analytic moments
+to $m\leq4$; near $\mathcal B=0$ a Taylor series in
+$\mathcal Bx/\mathcal A_\phi$ avoids cancellations.
+% Zhang:2026iyr v1, Eqs. (D13)--(D15); explicit moments and series: notes/04-ome-2pp.md.
+For $1^{++}$ the same construction gives the factor $1/6$ and reproduces
+Eqs.~(D2)--(D10) of Ref.~\cite{Zhang:2026iyr}.
+% Zhang:2026iyr v1, App. D, Eqs. (D1)--(D10); checks/projection_1pp.py.
+
+\subsection{Four worked entries}
+
+The following contractions display one entry for each spin numerator.
+Let $t_{ij}^{(\lambda)}$ be orthonormal symmetric traceless spin-2
+polarisation tensors, so that
+\begin{equation}
+ \sum_{\lambda=1}^5 t_{ij}^{(\lambda)*}t_{kl}^{(\lambda)}
+ =\tfrac12(\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk})
+ -\tfrac13\delta_{ij}\delta_{kl}.
+\label{eq:spin2-completeness}
+\end{equation}
+Repeated Cartesian indices are summed. For each entry write the trace as
+$T_{p^2}+T_{pp'}+T_{p'^2}$, following the decomposition
+\begin{equation}
+ q_iq_j=p^2\hat z_i\hat z_j
+ -pp'(\hat z_i\hat n'_j+\hat n'_i\hat z_j)
+ +p'^2\hat n'_i\hat n'_j.
+\end{equation}
+These three pieces already include the indicated powers of momentum.
+% Exact contractions: /tmp/ome-route/steps-2pp.md; checks/_spin_numerator.py --steps.
+
+\paragraph{Entry 44: $VV({}^5G_2)\to VV({}^5G_2)$.}
+Use $\mathcal N$ from Eq.~\eqref{eq:spin-vv}. The incoming and outgoing
+projectors have the same rank-four harmonic structure,
+\begin{equation}
+ P^{(\lambda)}_{ab}(4;\hat n)
+ =\sqrt{\frac{175}{8}}\,H_{abij}(\hat n)t_{ij}^{(\lambda)},
+ \qquad \hat n=\hat z\ \hbox{or}\ \hat n',
+\end{equation}
+where
+\begin{equation}
+\begin{split}
+ H_{abij}(\hat n)={}&n_an_bn_in_j
+ -\tfrac17(\delta_{ab}n_in_j+\delta_{ai}n_bn_j
+ +\delta_{aj}n_bn_i\\
+ &\quad+\delta_{bi}n_an_j+\delta_{bj}n_an_i+\delta_{ij}n_an_b)\\
+ &+\tfrac1{35}(\delta_{ab}\delta_{ij}
+ +\delta_{ai}\delta_{bj}+\delta_{aj}\delta_{bi}).
+\end{split}
+\end{equation}
+This tensor is symmetric and traceless on every pair. In Cartesian spin
+indices the spin numerator is
+$\mathcal N_{ab,cd}=\epsilon_{ack}\epsilon_{bdl}q_kq_l$, where
+$\epsilon_{ijk}$ is the Levi-Civita tensor. Contracting both projectors
+with this tensor and Eq.~\eqref{eq:spin2-completeness} gives
+\begin{align}
+ T_{p^2}&=\frac{5p^2}{56}(35x^4-30x^2+3),\\
+ T_{pp'}&=-\frac{5pp'}7x(5x^2-3),\\
+ T_{p'^2}&=\frac{5p'^2}{56}(35x^4-30x^2+3).
+\end{align}
+Adding the pieces displays the polynomial explicitly:
+\begin{equation}
+\begin{split}
+ \mathcal N_{44}={}&\frac{15(p^2+p'^2)}{56}
+ +\frac{15pp'}7x-\frac{75(p^2+p'^2)}{28}x^2\\
+ &-\frac{25pp'}7x^3+\frac{25(p^2+p'^2)}8x^4.
+\end{split}
+\end{equation}
+
+\paragraph{Entry 15: $PV({}^3D_2)\to VV({}^5S_2)$.}
+Use Eq.~\eqref{eq:spin-pvv}. The outgoing $S$-wave projector is independent
+of direction, while the incoming one contains a quadrupole:
+\begin{equation}
+\begin{split}
+ P^{(\lambda)}_{ab}(1;\hat n')&=t_{ab}^{(\lambda)},\\
+ P^{(\lambda)}_k(5;\hat z)&=-i\sqrt5\,
+ \epsilon_{ikl}\hat z_l\hat z_jt_{ij}^{(\lambda)}.
+\end{split}
+\label{eq:worked-pv-projector}
+\end{equation}
+Here the trace part of $\hat z_l\hat z_j-\delta_{lj}/3$ drops out against
+the antisymmetric tensor. In Cartesian form the contraction to perform is
+\begin{equation}
+ \sum_\lambda t_{ab}^{(\lambda)*}\,
+ \frac{i}{\sqrt2}(\epsilon_{ack}q_kq_b+
+ \epsilon_{bck}q_kq_a)P_c^{(\lambda)}(5;\hat z).
+\end{equation}
+Using Eq.~\eqref{eq:spin2-completeness}, its three pieces are
+\begin{equation}
+\begin{aligned}
+ T_{p^2}&=-\sqrt{10}\,p^2,\qquad
+ T_{pp'}=2\sqrt{10}\,pp'x,\\
+ T_{p'^2}&=-\frac{\sqrt{10}}2p'^2(3x^2-1).
+\end{aligned}
+\end{equation}
+Consequently,
+\begin{equation}
+ \mathcal N_{15}=\sqrt{10}\left(-p^2+\frac{p'^2}{2}
+ +2pp'x-\frac{3p'^2}{2}x^2\right).
+\end{equation}
+
+\paragraph{Entry 16: $PP({}^1D_2)\to VV({}^5S_2)$.}
+For Eq.~\eqref{eq:ome-bb-bsbs}, the projectors are
+\begin{equation}
+ P^{(\lambda)}_{ab}(1;\hat n')=t_{ab}^{(\lambda)},\qquad
+ P^{(\lambda)}(6;\hat z)=-\sqrt{\frac{15}{2}}\,
+ \hat z_i\hat z_jt_{ij}^{(\lambda)}.
+\end{equation}
+The completeness relation immediately reduces their contraction to
+\begin{equation}
+ \mathcal N_{16}=-\sqrt{\frac{15}{2}}\,
+ \bigl[(\bm q\cdot\hat z)^2-\bm q^2/3\bigr].
+\end{equation}
+Its pieces and polynomial are
+\begin{align}
+ T_{p^2}&=-\frac{\sqrt{30}}3p^2,\qquad
+ T_{pp'}=\frac{2\sqrt{30}}3pp'x,\\
+ T_{p'^2}&=-\frac{\sqrt{30}}6p'^2(3x^2-1),\\
+ \mathcal N_{16}&=\frac{\sqrt{30}}3
+ \left(-p^2+\frac{p'^2}{2}+2pp'x-\frac{3p'^2}{2}x^2\right).
+\end{align}
+
+\paragraph{Entry 55: $PV({}^3D_2)\to PV({}^3D_2)$.}
+Use Eq.~\eqref{eq:spin-pv} and both quadrupole projectors,
+\begin{equation}
+ P^{(\lambda)}_k(5;\hat n)
+ =-i\sqrt5\,\epsilon_{ikl}n_ln_jt_{ij}^{(\lambda)},
+ \qquad \hat n=\hat z\ \hbox{or}\ \hat n'.
+\end{equation}
+Their transversality, $n_kP_k(5;\hat n)=0$, kills the $p^2$ and $p'^2$
+pieces of $-q_aq_b$. The surviving contraction is
+\begin{equation}
+ pp'\sum_\lambda[\hat z_aP_a^{(\lambda)}(5;\hat n')]^*
+ [\hat n'_bP_b^{(\lambda)}(5;\hat z)].
+\end{equation}
+It gives
+\begin{equation}
+ T_{p^2}=0,\qquad T_{pp'}=\frac52pp'x(x^2-1),\qquad T_{p'^2}=0,
+\end{equation}
+and hence
+\begin{equation}
+ \mathcal N_{55}=-\frac52pp'x+\frac52pp'x^3.
+\end{equation}
+
+\subsection{All independent entries}
+
+Table~\ref{tab:projected-spin-numerator-2pp} gives all 21 independent
+projected spin numerators and the time-ordering pair for each entry.
+The entries 14 and 25 vanish by the spin-angular contractions: the
+quadratic spin numerator cannot connect the $S$ and $G$ waves in 14,
+and the symmetric $PV\to VV$ spin numerator has zero contraction with
+the spin-singlet outgoing projector in 25. Entries 56 and 66 have no
+OME diagram because there is no $BB\phi$ vertex. Nonzero $x^4$ terms
+occur in 24, 34, 44, 45, and 46.
+% checks/projected_spin_numerator_2pp.py; Zhang:2026iyr v1, Eq. (68).
+\input{tables/projected-spin-numerator-2pp.tex}
 
 \subsection{Checks}
 
@@ -168,6 +346,7 @@ $\eta$ exchange separately, to better than $3\times10^{-12}\,\GeV^{-2}$ at
 randomly chosen off-shell momenta and energies below the three-body
 thresholds.
 % checks/projection_1pp.py (4.7e-13), checks/projection_2pp.py (2.9e-12); helpers checks/_projection*.py.
+% checks/projected_spin_numerator_2pp.py: reduced N/Delta formula versus brute-force Eq. (80), and N^(m)=-5c_m versus package.
 Second, time-reversal invariance,
 $V_{\alpha'\alpha}(p',p;E)=V_{\alpha\alpha'}(p,p';E)$, holds to
 $10^{-15}\,\GeV^{-2}$.
