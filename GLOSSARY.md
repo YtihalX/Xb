@@ -84,6 +84,24 @@ _Avoid_: $\Delta M$ as a scenario label, $\Delta m$ (that is $m_{B^*}-m_B$)
 Status: agreed
 Source: [@Zhang:2026iyr] v1, Eq. (94)
 
+**Spin numerator**:
+The polarisation-and-momentum factor $\mathcal N(\boldsymbol q)$ of a time-ordered OME potential, $V(\boldsymbol p',\boldsymbol p;m_\phi)=\frac{g_b^2}{4F_\pi^2}\,\mathcal N(\boldsymbol q)\,[D_{\beta_1}+D_{\beta_2}]$. It carries the sign of the diagram, not its isospin factor.
+_Avoid_: numerator (alone), vertex factor
+Status: agreed
+Source: [@Zhang:2026iyr] v1, Eqs. (72)–(76); the user, grilling 2026-10-29 ("Inside N"; "𝒩 for both"; "Agree as drafted")
+
+**Projected spin numerator**:
+The polynomial $\mathcal N_{\alpha'\alpha}(x;p',p)=\sum_m\mathcal N^{(m)}_{\alpha'\alpha}(p',p)\,x^m$ obtained by projecting the spin numerator onto the channels $\alpha'$ and $\alpha$, with the incoming momentum along $\hat z$.
+_Avoid_: numerator coefficients, $c_k$
+Status: agreed
+Source: [@Zhang:2026iyr] v1, Eqs. (80)–(81); the user, grilling 2026-10-29 ("𝒩 for both"; "Keep it, written φ"; "Agree as drafted")
+
+**Angular moment**:
+The integral $\Delta^{(\beta_1\beta_2)}_m(p',p;m_\phi)=\int_{-1}^1x^m\,[D_{\beta_1}+D_{\beta_2}]\,dx$ over the cosine $x$ between $\boldsymbol p$ and $\boldsymbol p'$, where $(\beta_1,\beta_2)$ are the two time orderings of the transition.
+_Avoid_: auxiliary function, $I_k$
+Status: agreed
+Source: [@Zhang:2026iyr] v1, Eq. (D11); the user, grilling 2026-10-29 ("Xb's Δ")
+
 ## Approximations and schemes
 
 **LO BOχEFT**:

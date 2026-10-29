@@ -146,6 +146,20 @@ Choice: $\mu_\alpha$ is the reduced mass of two-body channel $\alpha$; the TOPT 
 Status: agreed
 Source: [@Zhang:2026iyr] v1, Eq. (3) against Eqs. (76)–(77); the user, grilling 2026-10-28
 
+### OME spin numerator and its projection
+Object: the spin numerator of each time-ordered OME potential and its partial-wave projection
+Symbol: $\mathcal N(\boldsymbol q)$, $\mathcal N_{\alpha'\alpha}(x;p',p)$, $\mathcal N^{(m)}_{\alpha'\alpha}(p',p)$, $x$, $\varphi$, $\lambda$
+Choice: $\boldsymbol p=p\hat z$, $\boldsymbol p'=p'\hat n'$, $\hat n'=(\sqrt{1-x^2}\cos\varphi,\sqrt{1-x^2}\sin\varphi,x)$; $\mathcal N_{\alpha'\alpha}=\int_0^{2\pi}\frac{d\varphi}{2\pi}\operatorname{Tr}[P^\dagger(\alpha';\hat n')\,\mathcal N(\boldsymbol q)\,P(\alpha;\hat z)]$, which does not depend on $\varphi$; the sign of each diagram sits inside $\mathcal N$ and the isospin factors 3 and 1/3 stay outside; the polarisations are labelled $\lambda,\lambda'$ as in [@Zhang:2026iyr]
+Status: agreed
+Source: [@Zhang:2026iyr] v1, Eqs. (72)–(76), (80)–(81), Sec. III B (polarisation labels); the user, grilling 2026-10-29 ("Inside N"; "𝒩 for both"; "Keep it, written φ"; "Agree as drafted")
+
+### Projected OME potential
+Object: the partial-wave OME potential written through the projected spin numerator and the angular moments
+Symbol: $\Delta^{(\beta_1\beta_2)}_m(p',p;m_\phi)$
+Choice: $V^{\rm(OME)}_{\alpha'\alpha}(p',p;m_\phi)=\frac{1}{2(2J+1)}\frac{g_b^2}{4F_\pi^2}\sum_m\mathcal N^{(m)}_{\alpha'\alpha}(p',p)\,\Delta^{(\beta_1\beta_2)}_m(p',p;m_\phi)$, that is $\frac1{10}$ for $2^{++}$; isoscalar sum as in "Axial coupling and OME normalisation"; $\Delta_m$ is distinct from $\Delta m=m_{B^*}-m_B$
+Status: agreed
+Source: [@Zhang:2026iyr] v1, Eqs. (80)–(82), (D11); the user, grilling 2026-10-29 ("Xb's Δ")
+
 ## Naming
 
 ### State labels
