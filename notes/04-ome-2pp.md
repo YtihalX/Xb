@@ -1,23 +1,70 @@
 # 04: The $2^{++}$ OME projection, worked through
 
-Source throughout: [@Zhang:2026iyr] v1, Eqs. (68)–(82), from `literature/Zhang:2026iyr/src/Xb.tex`, with the $1^{++}$ method of `notes/03-projection-method-1pp.md`. Channel order (CONVENTIONS "2++ channel basis and projectors") is
+Source: [@Zhang:2026iyr] v1, Eqs. (68)–(82), (D11)–(D15). Notation follows CONVENTIONS “OME spin numerator and its projection”, “Projected OME potential”, “Partial-wave states” and “2++ channel basis and projectors”. Rows are outgoing. The channel order is
 
 $$
-1=B^*\bar B^*({}^5S_2),\ 2=B^*\bar B^*({}^1D_2),\ 3=B^*\bar B^*({}^5D_2),\ 4=B^*\bar B^*({}^5G_2),\ 5=B\bar B^*({}^3D_2),\ 6=B\bar B({}^1D_2),
+1=B^*\bar B^*({}^5S_2),\quad2=B^*\bar B^*({}^1D_2),\quad3=B^*\bar B^*({}^5D_2),\quad4=B^*\bar B^*({}^5G_2),\quad5=B\bar B^*({}^3D_2),\quad6=B\bar B({}^1D_2).
 $$
 
-with the $C$-even $B\bar B^*$ combination of CONVENTIONS "C-parity phase". The row is outgoing. The projectors are those of [@Baru:2019xnh] v2, App. B, with every printed sign kept, as recorded in `literature/Baru:2019xnh/bridge.md`; relative to Condon–Shortley spin-angular functions their phases are $(+,+,+,+,+,-)$. No channel is rephased in this note.
+Channel 5 is the $C$-even combination $(|B\bar B^*\rangle-|B^*\bar B\rangle)/\sqrt2$. The projectors retain the printed signs of [@Baru:2019xnh] v2, App. B, through `literature/Baru:2019xnh/bridge.md`; their phases relative to Condon–Shortley spin-angular functions are $(+,+,+,+,+,-)$.
 
-## 1. Energy denominators: which intermediate pair, which offset
+## 1. Spin numerators and the transition signs
 
-As in note 03, put $r=p'$, $x=\boldsymbol n'\cdot\boldsymbol n$, $\boldsymbol q=p\boldsymbol n-r\boldsymbol n'$, $\omega=\sqrt{p^2+r^2+m_\phi^2-2prx}$ and $D_\beta=[2\omega(\omega+\nu_\beta)]^{-1}$ (CONVENTIONS "Reduced masses and TOPT energy offsets"). The only change from $1^{++}$ is the energy origin: in $2^{++}$, $M=2m_{B^*}+E$ (CONVENTIONS "Energy origin and on-shell momentum"). The four intermediate heavy pairs of [@Zhang:2026iyr] v1, Eq. (76) then give
+Write $\boldsymbol q=\boldsymbol p-\boldsymbol p'$, $E_\phi=\sqrt{\boldsymbol q^2+m_\phi^2}$ and
+
+$$
+V(\boldsymbol p',\boldsymbol p;m_\phi)=\frac{g_b^2}{4F_\pi^2}\mathcal N(\boldsymbol q)(D_{\beta_1}+D_{\beta_2}),\qquad D_\beta=\frac1{2E_\phi(E_\phi+\nu_\beta)}.
+$$
+
+Here $g_b$ is the axial coupling, $F_\pi$ the pion decay constant, $m_\phi$ the exchanged-meson mass and $\nu_\beta$ the intermediate heavy-pair energy minus the total energy. Only bilinears in $\boldsymbol q$ occur, so reversing its sign changes nothing. Polarisation labels are $\lambda,\lambda'$; primes and complex conjugation denote outgoing polarisations. Define $\boldsymbol A=i(\boldsymbol\epsilon\times\boldsymbol\epsilon'{}^*)/\sqrt2$, with particle labels 1 and 2 on the two lines, as in [@Zhang:2026iyr] v1, Eq. (70). The signs belong inside $\mathcal N$, not in the isospin factors.
+
+| out $\leftarrow$ in | $\mathcal N(\boldsymbol q)$ | $(\beta_1,\beta_2)$ |
+|---|---|---|
+| PV $\leftarrow$ PV | $-(\boldsymbol\epsilon\cdot\boldsymbol q)(\boldsymbol\epsilon'{}^*\cdot\boldsymbol q)$ | $(1,2)$ |
+| VV $\leftarrow$ PV | $(\boldsymbol A_1\cdot\boldsymbol q)(\boldsymbol\epsilon'_2{}^*\cdot\boldsymbol q)+(\boldsymbol A_2\cdot\boldsymbol q)(\boldsymbol\epsilon'_1{}^*\cdot\boldsymbol q)$ | $(3,2)$ |
+| PV $\leftarrow$ VV | Hermitian reverse of the previous row | $(4,2)$ |
+| VV $\leftarrow$ VV | $-2(\boldsymbol A_1\cdot\boldsymbol q)(\boldsymbol A_2\cdot\boldsymbol q)$ | $(2,2)$ |
+| VV $\leftarrow$ PP | $+(\boldsymbol\epsilon'_1{}^*\cdot\boldsymbol q)(\boldsymbol\epsilon'_2{}^*\cdot\boldsymbol q)$ | $(3,3)$ |
+| PP $\leftarrow$ VV | $+(\boldsymbol\epsilon_1\cdot\boldsymbol q)(\boldsymbol\epsilon_2\cdot\boldsymbol q)$ | $(4,4)$ |
+| PP $\leftrightarrow$ PV; PP $\leftarrow$ PP | $0$ (no $PP\phi$ vertex) | — |
+
+The first four rows are [@Zhang:2026iyr] v1, Eqs. (72)–(75). In Cartesian spin indices, put $R_{ac}=\varepsilon_{cak}q_k$, where $\varepsilon$ is the Levi-Civita tensor. The same spin numerators are
+
+$$
+\mathcal N_{PV,PV;ac}=-q_aq_c,\quad
+\mathcal N_{VV,PV;ab,c}=\frac{i}{\sqrt2}(R_{ac}q_b+R_{bc}q_a),\quad
+\mathcal N_{VV,VV;ab,cd}=R_{ac}R_{bd},\quad
+\mathcal N_{VV,PP;ab}=+q_aq_b.
+$$
+
+### Why $B\bar B\to B^*\bar B^*$ has the plus sign
+
+Eq. (68) has the meson terms $(V^\dagger P+P^\dagger V)\partial\Phi$ with one common coefficient, so the meson-line vertex for $B\to B^*$ and for $B^*\to B$ is the same, $\tfrac{g_b}{2F_\pi}\boldsymbol\epsilon\cdot\boldsymbol q$ with the outgoing polarisation conjugated, at the same pion momentum $\boldsymbol q=\boldsymbol p-\boldsymbol p'$ (Eq. (69)). Compare two amplitudes with the **same** antimeson line $\bar B(p)\to\bar B^*(p')$:
+
+- $X$: $B^*(p)\bar B(p)\to B(p')\bar B^*(p')$, numerator $\propto(\boldsymbol\epsilon_1\cdot\boldsymbol q)(\boldsymbol\epsilon'^*_2\cdot\boldsymbol q)$;
+- $Y$: $B(p)\bar B(p)\to B^*(p')\bar B^*(p')$, numerator $\propto(\boldsymbol\epsilon'^*_1\cdot\boldsymbol q)(\boldsymbol\epsilon'^*_2\cdot\boldsymbol q)$.
+
+Every other factor (antimeson vertex and its sign, isospin $\boldsymbol\tau\cdot\boldsymbol\tau^c$, momentum signs, the TOPT sign) is common, so $Y$ is $X$ with $\boldsymbol\epsilon_1\to\boldsymbol\epsilon'^*_1$ and with its own denominators. In the canonical $C$-even state $(|B\bar B^*\rangle-|B^*\bar B\rangle)/\sqrt2$ the PV–PV potential has no direct term (no $PP\phi$ vertex) and equals $-X$; Eq. (72) states it as $-\tfrac{g_b^2}{4F_\pi^2}(\boldsymbol\epsilon\cdot\boldsymbol q)(\boldsymbol\epsilon'^*\cdot\boldsymbol q)(D_1+D_2)$. Hence $X$ carries $+g_b^2/(4F_\pi^2)$, and so does $Y$:
+
+$$
+V^{\rm(OME)}_{B\bar B\to B^*\bar B^*}(\boldsymbol p',\boldsymbol p;m_\phi)
+=+\frac{g_b^2}{4F_\pi^2}(\boldsymbol\epsilon'^*_1\cdot\boldsymbol q)(\boldsymbol\epsilon'^*_2\cdot\boldsymbol q)\,2D_3,\qquad
+V^{\rm(OME)}_{B^*\bar B^*\to B\bar B}=+\frac{g_b^2}{4F_\pi^2}(\boldsymbol\epsilon_1\cdot\boldsymbol q)(\boldsymbol\epsilon_2\cdot\boldsymbol q)\,2D_4 .
+$$
+
+The PP and VV kets are plain products: the $C$ convention enters only through the PV comparison. This agrees with the independent vertex-by-vertex sign argument in the Baru bridge.
+
+## 2. TOPT offsets $\nu_\beta$
+
+
+Put $x=\boldsymbol n'\cdot\boldsymbol n$, $\boldsymbol q=p\boldsymbol n-p'\boldsymbol n'$, $E_\phi=\sqrt{p^2+p'^2+m_\phi^2-2pp'x}$ and $D_\beta=[2E_\phi(E_\phi+\nu_\beta)]^{-1}$ (CONVENTIONS "Reduced masses and TOPT energy offsets"). The only change from $1^{++}$ is the energy origin: in $2^{++}$, $M=2m_{B^*}+E$ (CONVENTIONS "Energy origin and on-shell momentum"). The four intermediate heavy pairs of [@Zhang:2026iyr] v1, Eq. (76) then give
 
 $$
 \begin{aligned}
-\nu_1&=\omega_B(p')+\omega_B(p)-M=-2\Delta m+\frac{p^2+r^2}{2m_B}-E,\\
-\nu_2&=\omega_{B^*}(p)+\omega_{B^*}(p')-M=\frac{p^2+r^2}{2m_{B^*}}-E,\\
-\nu_3&=\omega_B(p)+\omega_{B^*}(p')-M=-\Delta m+\frac{p^2}{2m_B}+\frac{r^2}{2m_{B^*}}-E,\\
-\nu_4&=\omega_B(p')+\omega_{B^*}(p)-M=-\Delta m+\frac{r^2}{2m_B}+\frac{p^2}{2m_{B^*}}-E,
+\nu_1&=\omega_B(p')+\omega_B(p)-M=-2\Delta m+\frac{p^2+p'^2}{2m_B}-E,\\
+\nu_2&=\omega_{B^*}(p)+\omega_{B^*}(p')-M=\frac{p^2+p'^2}{2m_{B^*}}-E,\\
+\nu_3&=\omega_B(p)+\omega_{B^*}(p')-M=-\Delta m+\frac{p^2}{2m_B}+\frac{p'^2}{2m_{B^*}}-E,\\
+\nu_4&=\omega_B(p')+\omega_{B^*}(p)-M=-\Delta m+\frac{p'^2}{2m_B}+\frac{p^2}{2m_{B^*}}-E,
 \end{aligned}
 $$
 
@@ -34,124 +81,443 @@ Which pair appears follows from one rule for every species transition. In one ti
 | VV ← PP | $B^*(p')\bar B(p)$ | $B(p)\bar B^*(p')$ | $2D_3$ |
 | PP ← VV | $B(p')\bar B^*(p)$ | $B^*(p)\bar B(p')$ | $2D_4$ |
 
-The first four rows are [@Zhang:2026iyr] v1, Eqs. (72)–(75). In the last two rows both orderings have one $B$ at the incoming (outgoing) momentum and one $B^*$ at the other, so both share $\nu_3$ (or $\nu_4$): this is followup.tex Eq. (5)'s $2D_3$ for $B\bar B\to B^*\bar B^*$ and $2D_4$ for the reverse. There is no PP–PP or PP–PV exchange, because Eq. (68) has no $PP\phi$ vertex.
+The first four rows are [@Zhang:2026iyr] v1, Eqs. (72)–(75). In the last two rows both orderings have one $B$ at the incoming (outgoing) momentum and one $B^*$ at the other, so both share $\nu_3$ (or $\nu_4$): this gives $2D_3$ for $B\bar B\to B^*\bar B^*$ and $2D_4$ for the reverse. There is no PP–PP or PP–PV exchange, because Eq. (68) has no $PP\phi$ vertex.
 
-## 2. The $B\bar B\leftrightarrow B^*\bar B^*$ potential and its sign
+## 3. Projection with the incoming direction fixed
 
-Eq. (68) has the meson terms $(V^\dagger P+P^\dagger V)\partial\Phi$ with one common coefficient, so the meson-line vertex for $B\to B^*$ and for $B^*\to B$ is the same, $\tfrac{g_b}{2F_\pi}\boldsymbol\epsilon\cdot\boldsymbol q$ with the outgoing polarisation conjugated, at the same pion momentum $\boldsymbol q=\boldsymbol p-\boldsymbol p'$ (Eq. (69)). Compare two amplitudes with the **same** antimeson line $\bar B(p)\to\bar B^*(p')$:
-
-- $X$: $B^*(p)\bar B(p)\to B(p')\bar B^*(p')$, numerator $\propto(\boldsymbol\epsilon_1\cdot\boldsymbol q)(\boldsymbol\epsilon'^*_2\cdot\boldsymbol q)$;
-- $Y$: $B(p)\bar B(p)\to B^*(p')\bar B^*(p')$, numerator $\propto(\boldsymbol\epsilon'^*_1\cdot\boldsymbol q)(\boldsymbol\epsilon'^*_2\cdot\boldsymbol q)$.
-
-Every other factor (antimeson vertex and its sign, isospin $\boldsymbol\tau\cdot\boldsymbol\tau^c$, momentum signs, the TOPT sign) is common, so $Y$ is $X$ with $\boldsymbol\epsilon_1\to\boldsymbol\epsilon'^*_1$ and with its own denominators. In the canonical $C$-even state $(|B\bar B^*\rangle-|B^*\bar B\rangle)/\sqrt2$ the PV–PV potential has no direct term (no $PP\phi$ vertex) and equals $-X$; Eq. (72) states it as $-\tfrac{g_b^2}{4F_\pi^2}(\boldsymbol\epsilon\cdot\boldsymbol q)(\boldsymbol\epsilon'^*\cdot\boldsymbol q)(D_1+D_2)$. Hence $X$ carries $+g_b^2/(4F_\pi^2)$, and so does $Y$:
+With the agreed radial-state normalisation, $V_{\alpha'\alpha}=\langle p',\alpha'|\hat V|p,\alpha\rangle$ is exactly [@Zhang:2026iyr] v1, Eq. (80):
 
 $$
-V^{\rm(OME)}_{B\bar B\to B^*\bar B^*}(\boldsymbol p',\boldsymbol p;m_\phi)
-=+\frac{g_b^2}{4F_\pi^2}(\boldsymbol\epsilon'^*_1\cdot\boldsymbol q)(\boldsymbol\epsilon'^*_2\cdot\boldsymbol q)\,2D_3,\qquad
-V^{\rm(OME)}_{B^*\bar B^*\to B\bar B}=+\frac{g_b^2}{4F_\pi^2}(\boldsymbol\epsilon_1\cdot\boldsymbol q)(\boldsymbol\epsilon_2\cdot\boldsymbol q)\,2D_4 .
+V_{\alpha'\alpha}=\frac15\int\frac{d\Omega_{n'}}{4\pi}\frac{d\Omega_n}{4\pi}\operatorname{Tr}[P^\dagger(\alpha';\hat n')VP(\alpha;\hat n)].
 $$
 
-The PP and VV kets are plain products, so the $C$ convention enters only through the PV row. The sign therefore agrees with followup.tex Eq. (5) in this project's $C$-parity convention, whose second label "$B^*\bar B^8$" is a typo for $B^*\bar B^*$. The same $+q_aq_b$ is derived in the bridge from the opposite antimeson vertex sign and the opposite momentum transfer; the two arguments are independent and agree. The isoscalar combination is unchanged, $3V(m_\pi)+V(m_\eta)/3$ (Eq. (82)).
+The trace sums all spin indices and all five total-$J=2$ polarisations $\lambda$. A simultaneous rotation of both directions conjugates the operator on this five-dimensional space; its trace is unchanged. Thus the traced expression depends only on $x=\hat n'\cdot\hat n$. A single fixed-$\lambda$ matrix element does **not** have this property. It is the trace, not a choice of polarisation, that permits $\hat n=\hat z$.
 
-With $R_{ac}=\varepsilon_{cak}q_k$ and $\boldsymbol A=i(\boldsymbol\epsilon\times\boldsymbol\epsilon'^*)/\sqrt2$, the isospin-free spin numerators $N$ (potential $=\tfrac{g_b^2}{4F_\pi^2}N$ times the $D$ sum of Sec. 1) are
-
-$$
-N_{PV,PV;ac}=-q_aq_c,\quad N_{VV,PV;ab,c}=\tfrac{i}{\sqrt2}(R_{ac}q_b+R_{bc}q_a),\quad N_{PV,VV}=N_{VV,PV}^\dagger,\quad N_{VV,VV;ab,cd}=R_{ac}R_{bd},\quad N_{VV,PP;ab}=N_{PP,VV;ab}=+q_aq_b .
-$$
-
-## 3. The contraction
-
-Eq. (80) at $J=2$ is
+Choose $\hat n'=(\sqrt{1-x^2}\cos\varphi,\sqrt{1-x^2}\sin\varphi,x)$ and define
 
 $$
-V_{\alpha'\alpha}=\frac15\int\frac{d\Omega'}{4\pi}\frac{d\Omega}{4\pi}\sum_{M}\sum_{\sigma'\sigma}P^{(\alpha')*}_{\sigma'M}(\boldsymbol n')\,V_{\sigma'\sigma}(\boldsymbol q)\,P^{(\alpha)}_{\sigma M}(\boldsymbol n),
+\mathcal N_{\alpha'\alpha}(x;p',p)=\int_0^{2\pi}\frac{d\varphi}{2\pi}\operatorname{Tr}[P^\dagger(\alpha';\hat n')\mathcal N(\boldsymbol q)P(\alpha;\hat z)]
+=\sum_{m=0}^4\mathcal N^{(m)}_{\alpha'\alpha}(p',p)x^m.
 $$
 
-where $P_{\sigma M}=P_{\sigma,ij}\mathcal E^M_{ij}$ contracts the total-$J$ tensor indices with five real orthonormal symmetric traceless tensors $\mathcal E^M$, so $\sum_M\mathcal E^M_{ij}\mathcal E^M_{kl}=\Pi_{ij,kl}$, the projector onto symmetric traceless tensors. After the spin sums the integrand is a rotational scalar built from $\boldsymbol n,\boldsymbol n'$ alone, hence a function of $x$, and the double average is $\tfrac12\int_{-1}^1dx$. With $T_{\alpha'\alpha}(x)=\tfrac15\sum P^*NP$,
+Rotations about $\hat z$ leave the incoming direction fixed and change only $\varphi$. Trace invariance therefore makes this average trivial; set $\varphi=0$ when evaluating it. The remaining angular measure is $dx/2$. Consequently
 
 $$
-V_{\alpha'\alpha}=-\frac{g_b^2}{8F_\pi^2}\sum_{k=0}^4c_{\alpha'\alpha,k}\,\Delta_k^{(\beta\gamma)},\qquad c_{\alpha'\alpha}(x)=-T_{\alpha'\alpha}(x),\qquad \Delta_k^{(\beta\gamma)}=\int_{-1}^1dx\,x^k(D_\beta+D_\gamma),
+V^{\rm(OME)}_{\alpha'\alpha}(p',p;m_\phi)=\frac1{10}\frac{g_b^2}{4F_\pi^2}\sum_{m=0}^4\mathcal N^{(m)}_{\alpha'\alpha}\Delta_m^{(\beta_1\beta_2)},\qquad
+\Delta_m^{(\beta_1\beta_2)}=\int_{-1}^1x^m(D_{\beta_1}+D_{\beta_2})\,dx.
 $$
 
-exactly as in $1^{++}$ with $1/3\to1/5$. The repeated pairs $(22),(33),(44)$ mean two equal time orderings.
+The $1/10$ is $1/5$ from the trace average times $1/2$ from the remaining solid-angle average. The isoscalar result is $3V(m_\pi)+\frac13V(m_\eta)$ [@Zhang:2026iyr] v1, Eq. (82). The $1^{++}$ counterpart is App. D, Eqs. (D2)–(D10), with $1/6$ instead.
 
-### Three worked entries
+## 4. All 21 projected spin numerators
 
-**$S$–$S$, entry 11.** $P^{(1)}=\tfrac12S$ is the identity on the spin-2 subspace of $B^*\bar B^*$, so $T_{11}=\tfrac15\operatorname{Tr}_{S=2}N_{VV,VV}$. Using spin-1 matrices $(S_k)_{ac}=-i\varepsilon_{kac}$ one has $R=-i\,\boldsymbol S\cdot\boldsymbol q$ on each line, so $N_{VV,VV}=-(\boldsymbol S_1\cdot\boldsymbol q)(\boldsymbol S_2\cdot\boldsymbol q)$. In the $S=2$ multiplet the traceless part of $S_{1i}S_{2j}$ has zero trace and $\langle\boldsymbol S_1\cdot\boldsymbol S_2\rangle=\tfrac12(6-2-2)=1$, so $\operatorname{Tr}_{S=2}S_{1i}S_{2j}=\tfrac53\delta_{ij}$. Thus $T_{11}=-q^2/3$ and
-
-$$c_{11}=\frac{q^2}{3}=\frac{p^2+r^2}{3}-\frac{2pr}{3}x,$$
-
-the same polynomial as the $1^{++}$ entry 11 of note 03.
-
-**$S$–$B\bar B$, entry 16** (the new transition). $\tfrac12S_{abij}q_aq_b=q_iq_j-\delta_{ij}q^2/3$ and $P^{(6)}=-\sqrt{15/2}\,v_{ij}(\boldsymbol n)$ with $v_{ij}=n_in_j-\delta_{ij}/3$. Contracting through $\Pi$,
+The following contractions use the exact intermediate results generated by `checks/_spin_numerator.py --steps`; their normalisation is the trace itself, with **no** division by five. To avoid repeating large Cartesian matrices, first give all six projectors explicitly in tensor form. Repeated Cartesian indices are summed. Let
 
 $$
-T_{16}=-\frac15\sqrt{\frac{15}2}\Bigl[(\boldsymbol n\cdot\boldsymbol q)^2-\frac{q^2}3\Bigr]
-=-\frac{\sqrt{30}}{10}\Bigl[(p-rx)^2-\frac{p^2+r^2-2prx}3\Bigr],
+Q_{ij}(\hat n)=n_in_j-\delta_{ij}/3,\qquad
+S_{abij}=\delta_{ai}\delta_{bj}+\delta_{aj}\delta_{bi}-\tfrac23\delta_{ab}\delta_{ij},
 $$
 
-so $c_{16}=\sqrt{30}\,[(2p^2-r^2)-4prx+3r^2x^2]/30$. Outgoing VV and incoming PP is the VV ← PP row of Sec. 1, so entry 16 carries $2D_3$; its transpose 61 carries $2D_4$.
+and let $Q_{ijkl}(\hat n)=n_in_jn_kn_l-\frac17\sum_{6}\delta_{ij}n_kn_l+\frac1{35}\sum_3\delta_{ij}\delta_{kl}$, where the sums contain the six distinct choices of one delta pair and the three pairings of four indices, respectively. With $P_{\sigma\lambda}=P_{\sigma,ij}\mathcal E^\lambda_{ij}$ and five orthonormal symmetric traceless tensors $\mathcal E^\lambda$, the explicit projectors are
 
-**${}^1D_2$–$B\bar B$, entry 26.** $P^{(2)}=-\sqrt{5/2}\,\delta_{ab}v_{ij}(\boldsymbol n')$ contracts $q_aq_b$ to $q^2$, and $\sqrt{5/2}\sqrt{15/2}=5\sqrt3/2$, $v(\boldsymbol n'):\Pi:v(\boldsymbol n)=x^2-1/3$. So $T_{26}=\tfrac{\sqrt3}{2}q^2(x^2-\tfrac13)$ and
+$$
+\begin{aligned}
+P^{(1)}_{ab,ij}&=\tfrac12S_{abij},\\
+P^{(2)}_{ab,ij}(\hat n)&=-\sqrt{5/2}\,\delta_{ab}Q_{ij},\\
+P^{(3)}_{ab,ij}(\hat n)&=-\sqrt{45/56}\,[S_{abik}Q_{kj}+S_{abjk}Q_{ki}-\tfrac23\delta_{ij}S_{abkl}Q_{kl}],\\
+P^{(4)}_{ab,ij}(\hat n)&=\sqrt{175/32}\,S_{abkl}Q_{ijkl},\\
+P^{(5)}_{a,ij}(\hat n)&=-\frac{i\sqrt5}{2}(\varepsilon_{iak}Q_{kj}+\varepsilon_{jak}Q_{ki}),\\
+P^{(6)}_{ij}(\hat n)&=-\sqrt{15/2}\,Q_{ij}.
+\end{aligned}
+$$
 
-$$c_{26}=\frac{\sqrt3}{6}(p^2+r^2)-\frac{\sqrt3}{3}prx-\frac{\sqrt3}{2}(p^2+r^2)x^2+\sqrt3\,prx^3 .$$
+These are [@Baru:2019xnh] v2, App. B, in the bridged convention. In every entry below the stated incoming and outgoing projectors mean these explicit tensors at $\hat z$ and $\hat n'$, respectively; the outgoing one is conjugated. In particular the imaginary channel-5 projector must not be treated as real. The three contributions follow directly from
 
-The remaining entries use the same identities as note 03 ($\operatorname{tr}(Q'Q)=x^2-\tfrac13$, $\boldsymbol n'\cdot\boldsymbol q=px-r$, $\boldsymbol n\cdot\boldsymbol q=p-rx$, $\varepsilon\varepsilon=\delta\delta-\delta\delta$), plus the rank-four $v_{ijkl}$ for the $G$ wave; the outgoing projector is complex-conjugated before contracting (the $-i$ of $P^{(5)}$ matters for 15, 25, 35, 45, 55). They were contracted in computer algebra at $\boldsymbol n=\hat z$, $\boldsymbol n'=(\sqrt{1-x^2},0,x)$, which is legitimate because $T$ depends only on $x$; the script asserts that odd powers of $\sqrt{1-x^2}$ cancel identically. The script, `notes/04-ome-2pp-contractions.py` (a derivation aid, not a check), first asserts that the same contraction with the (D1) projectors reproduces every coefficient of the note-03 $1^{++}$ table, then prints the table below.
+$$
+q_iq_j=p^2\hat z_i\hat z_j-pp'(\hat z_i\hat n'_j+\hat n'_i\hat z_j)+p'^2\hat n'_i\hat n'_j.
+$$
 
-### Selection-rule zeros
+The labels $[p^2]$, $[pp']$, $[p'^2]$ below label **whole contributions**, including their momentum factors; their sum is the displayed polynomial.
 
-Four upper-triangle entries vanish identically: 14 ($S\to G$ needs $\Delta L=4$, but $N$ is rank 2 in $\boldsymbol q$); 25, because the ${}^1D_2$ projector carries the spin singlet $\delta_{ab}$ and $\delta_{ab}N_{VV,PV;ab,c}=i\sqrt2\,R_{ac}q_a=i\sqrt2\,\varepsilon_{cak}q_aq_k=0$; 56 and 66 (no $PP\phi$ vertex).
+### Entry 11: $(\beta_1,\beta_2)=(2,2)$
 
-## 4. Every entry as angular moments
+$VV\to VV:\quad\mathcal N=-2(\boldsymbol A_1\cdot\boldsymbol q)(\boldsymbol A_2\cdot\boldsymbol q)$.
 
-$V_{\alpha'\alpha}=-\tfrac{g_b^2}{8F_\pi^2}\sum_{k=0}^{4}c_{\alpha'\alpha,k}\Delta_k^{(\beta\gamma)}$, outgoing momentum $r$, incoming $p$. Common structures: $s(p,r)\equiv\bigl(-\tfrac{2p^2-r^2}{6},\tfrac{2pr}3,-\tfrac{r^2}2,0,0\bigr)$ is the $S$–$D$ polynomial; $1^{++}$ has $c_{12}=\sqrt2\,s$, $c_{13}=-\sqrt6\,s$.
+Incoming projector: $P^{(1)}(\hat z)$; outgoing projector: $P^{(1)}(\hat n')$.
 
-| Entry | $(\beta\gamma)$ | $c_0$ | $c_1$ | $c_2$ | $c_3$ | $c_4$ |
-|---|---|---|---|---|---|---|
-| 11 | 22 | $(p^2+r^2)/3$ | $-2pr/3$ | 0 | 0 | 0 |
-| 12 | 22 | $\sqrt{2/5}\,s_0$ | $\sqrt{2/5}\,s_1$ | $\sqrt{2/5}\,s_2$ | 0 | 0 |
-| 13 | 22 | $-\sqrt{14/5}\,s_0$ | $-\sqrt{14/5}\,s_1$ | $-\sqrt{14/5}\,s_2$ | 0 | 0 |
-| 14 | 22 | 0 | 0 | 0 | 0 | 0 |
-| 15 | 23 | $-\sqrt{18/5}\,s_0$ | $-\sqrt{18/5}\,s_1$ | $-\sqrt{18/5}\,s_2$ | 0 | 0 |
-| 16 | 33 | $-\sqrt{6/5}\,s_0$ | $-\sqrt{6/5}\,s_1$ | $-\sqrt{6/5}\,s_2$ | 0 | 0 |
-| 22 | 22 | $(p^2+r^2)/3$ | $-2pr/3$ | $-(p^2+r^2)$ | $2pr$ | 0 |
-| 23 | 22 | $-\sqrt7(p^2+r^2)/21$ | $-\sqrt7pr/21$ | $\sqrt7(p^2+r^2)/7$ | $-\sqrt7pr/7$ | 0 |
-| 24 | 22 | $\sqrt{35}(4p^2-3r^2)/140$ | $-6\sqrt{35}pr/35$ | $-3\sqrt{35}(2p^2-5r^2)/70$ | $2\sqrt{35}pr/7$ | $-\sqrt{35}r^2/4$ |
-| 25 | 23 | 0 | 0 | 0 | 0 | 0 |
-| 26 | 33 | $\sqrt3(p^2+r^2)/6$ | $-\sqrt3pr/3$ | $-\sqrt3(p^2+r^2)/2$ | $\sqrt3pr$ | 0 |
-| 33 | 22 | $-5(p^2+r^2)/21$ | $11pr/42$ | $5(p^2+r^2)/7$ | $-17pr/14$ | 0 |
-| 34 | 22 | $-\sqrt5(4p^2-3r^2)/70$ | $12\sqrt5pr/35$ | $3\sqrt5(2p^2-5r^2)/35$ | $-4\sqrt5pr/7$ | $\sqrt5r^2/2$ |
-| 35 | 23 | $\sqrt7(p^2+r^2)/14$ | $\sqrt7pr/14$ | $-3\sqrt7(p^2+r^2)/14$ | $3\sqrt7pr/14$ | 0 |
-| 36 | 33 | $\sqrt{21}(p^2+r^2)/21$ | $\sqrt{21}pr/21$ | $-\sqrt{21}(p^2+r^2)/7$ | $\sqrt{21}pr/7$ | 0 |
-| 44 | 22 | $-3(p^2+r^2)/56$ | $-3pr/7$ | $15(p^2+r^2)/28$ | $5pr/7$ | $-5(p^2+r^2)/8$ |
-| 45 | 23 | $-\sqrt{35}(3p^2-4r^2)/70$ | $-12\sqrt{35}pr/35$ | $3\sqrt{35}(5p^2-2r^2)/35$ | $4\sqrt{35}pr/7$ | $-\sqrt{35}p^2/2$ |
-| 46 | 33 | $\sqrt{105}(3p^2-4r^2)/140$ | $6\sqrt{105}pr/35$ | $-3\sqrt{105}(5p^2-2r^2)/70$ | $-2\sqrt{105}pr/7$ | $\sqrt{105}p^2/4$ |
-| 55 | 12 | 0 | $pr/2$ | 0 | $-pr/2$ | 0 |
-| 56 | — | 0 | 0 | 0 | 0 | 0 |
-| 66 | — | 0 | 0 | 0 | 0 | 0 |
+$\mathcal N_{11}[p^2]=- \frac{5 p^{2}}{3}$.
 
-The lower triangle follows from Hermitian conjugation of the 3D blocks and exchanging the two integration variables: $c_{\alpha\alpha'}(r,p)=c_{\alpha'\alpha}(p,r)$, with the $D$ sum of the reversed species row ($23\to24$, $33\to44$). This is time reversal, $V_{\alpha\alpha'}(p,p';E)=V_{\alpha'\alpha}(p',p;E)$. Write $\nu_\beta(p',p)$ for the offset at outgoing $p'$ and incoming $p$; then $\nu_4(p,p')=\nu_3(p',p)$, so the reversed entry reproduces the forward denominators only if it uses $\nu_4$. Reusing $\nu_3$ there (a $D_3\leftrightarrow D_4$ swap) breaks the symmetry, because $\nu_3(p,p')\neq\nu_3(p',p)$ for $m_B\neq m_{B^*}$ at unequal momenta.
+$\mathcal N_{11}[pp']=\frac{10 p p' x}{3}$.
 
-The highest power is $x^4$, reached only by the $G$-wave entries 24, 34, 44, 45, 46, so the $2^{++}$ kernel needs one more angular moment than $1^{++}$ ($x^0$–$x^3$). The $B\bar B\leftrightarrow B^*\bar B^*$ entries are 16, 26, 36, 46 with $2D_3$, and 61, 62, 63, 64 with $2D_4$.
+$\mathcal N_{11}[p'^2]=- \frac{5 p'^{2}}{3}$.
 
-## 5. Limiting cases and the HQSS structure
+$\mathcal N_{11}(x;p^\prime,p)=- \frac{5 p^{2}}{3} + \frac{10 p p' x}{3} - \frac{5 p'^{2}}{3}$.
 
-Dimensions are those of note 03: $c_k$ in GeV$^2$, $\Delta_k$ in GeV$^{-2}$, $g_b^2/F_\pi^2$ in GeV$^{-2}$, so $V$ is in GeV$^{-2}$.
+### Entry 12: $(\beta_1,\beta_2)=(2,2)$
 
-1. **Zero momentum.** At $p=0$ or $r=0$ the denominator is $x$-independent, and $\int x^{2n+1}=0$, $\int1=2$, $\int x^2=2/3$, $\int x^4=2/5$ remove every entry with a zero-momentum $D$ or $G$ leg. For example, at $r=p'=0$ (outgoing $S$ leg at rest) $c_{16}=\sqrt{30}\,p^2/15$ is finite, while at $p=0$ (incoming $D$ leg at rest) $c_{16}$ integrates to $\tfrac{\sqrt{30}}{30}(-r^2+3r^2\cdot\tfrac13)\cdot2=0$; at $r=0$, $c_{44}$ integrates to $p^2(-\tfrac3{56}\cdot2+\tfrac{15}{28}\cdot\tfrac23-\tfrac58\cdot\tfrac25)=0$.
-2. **Strict HQSS.** With all heavy-meson masses set to $\bar m=(m_B+3m_{B^*})/4$ (GLOSSARY "Strict HQSS limit") all offsets coincide and every $D$ sum is $2D$, so $V\propto c$. Rotating the full $6\times6$ polynomial matrix $c$ with the 9j/6j matrix $U_2$ of `literature/Bruschini:2023zkb/bridge.md` gives blocks of sizes $2,1,2,1$ for $(s_H,j_\ell)=(1,1),(1,2),(1,3),(0,2)$, and its $(1,1)$ block equals that of $U_1c^{(1^{++})}U_1^T$: e.g. $[U_2cU_2^T]_{12}=\sqrt2\,(2p^2-r^2-4prx+3r^2x^2)/3=-\tfrac12c^{(1^{++})}_{12}+\tfrac{\sqrt3}2c^{(1^{++})}_{13}$. The contraction script asserts both statements in exact arithmetic. Thus the derivation already satisfies the claim's HQSS statement; `checks/hqss_2pp.py` tests it on the package numbers with a rotation built from Wigner symbols and the bridged channel phases, not from the projector tensors.
-3. **The new transition in the static limit.** Dropping recoil and $E$ only for this argument, $\nu_3=\nu_4=-\Delta m$, so $2D_3=2D_4=[\omega(\omega-\Delta m)]^{-1}$: the $B\bar B\leftrightarrow B^*\bar B^*$ entries are reciprocal by construction there, and full recoil is what makes the time-reversal check sensitive to a $D_3\leftrightarrow D_4$ swap.
+$VV\to VV:\quad\mathcal N=-2(\boldsymbol A_1\cdot\boldsymbol q)(\boldsymbol A_2\cdot\boldsymbol q)$.
 
-## 6. Implementation walkthrough
+Incoming projector: $P^{(2)}(\hat z)$; outgoing projector: $P^{(1)}(\hat n')$.
 
-The package kernel lives in `code/HadronDynamics.jl/src/models/BOchiEFT/` (submodule branch `xb-followup`).
+$\mathcal N_{12}[p^2]=\frac{\sqrt{10} p^{2}}{3}$.
 
-- **Channel sets** (`projection.jl`). `channels_1pp()` and `channels_2pp()` return an `OMEChannelSet`: the total $J$, the polynomial degree in $x$ (3 or 4), a tuple of `OMEChannel(label, species)` in canonical order (`:PV_3S1, :PV_3D1, :VV_5D1` and `:VV_5S2, :VV_1D2, :VV_5D2, :VV_5G2, :PV_3D2, :PP_1D2`), and the coefficient table. `projection_coefficients(set, out, in, pout, pin)` returns the $c_k$: the unchanged $1^{++}$ table of note 03, or the $2^{++}$ table of Sec. 4 (`_coefficients_2pp`). Entries below the diagonal call the upper entry with $p\leftrightarrow r$, which is the transposition rule of Sec. 4.
-- **Offsets** (`exchange.jl`, `_ome_intermediates`, `tc_alphas`). `_ome_intermediates(out_species, in_species)` returns the two intermediate pairs of the table in Sec. 1 as (species at $p'$, species at $p$), and `()` for PP–PP and PP–PV. `tc_alphas` turns each pair into $\nu=\omega_X(p')+\omega_Y(p)-M$ with $M$ the threshold of channel 1 plus $E$, keeping the arithmetic of the former index-based $1^{++}$ code, so the $1^{++}$ frozen-reference tests still agree bit for bit. The approximation switches (no mass splitting, no recoil, no energy dependence) use the same pairs, with the rest-mass difference written as (number of vector mesons in the pair minus that of channel 1) times $\Delta m$.
-- **Moments** (`tc_moments`). For each offset, $\int x^k\,dx/[2\omega(\omega+\nu)]$ for $k=0,\dots,$ degree, by the substitution $\omega=\sqrt{A-Bx}$ (note 03), or by 64-node quadrature when $B=2pp'$ is small against $A=p^2+p'^2+m_\phi^2$ (and $\nu^2$). The recurrence divides by $B^{k+1}$, and the $G$-wave combinations cancel to $O(p'^4)$ at small $p'$; at $p'=0.02$, $p=0.4$ GeV the $1^{++}$ switch at $|B|/{\rm scale}=0.06$ left errors up to $1.3\times10^{-9}$ GeV$^{-2}$ in the entries with an outgoing $G$ wave against a 1024-node quadrature (the package test caught it; Sec. 7). In $2^{++}$ the quadrature branch therefore extends to 0.3. Below it the 64-node rule agrees with a high-precision recurrence to $4\times10^{-15}$ (relative); just above it the Float64 recurrence's relative moment error is about $10^{-12}$, which the referee found to leave $2.8\times10^{-12}$ GeV$^{-2}$ in entries 45 and 46 at $p'=0.05$, $p=0.228$ GeV ($6\times10^{-9}$ of those small entries). $1^{++}$ keeps the original 0.06. `tc_vphi` contracts the moments with the coefficients and $-g_b^2/(8F_\pi^2)$.
-- **Public seam** (`ome_potential`, `OMEInteraction(...; channels=...)`). `ome_potential` adds $3V(m_\pi)+V(m_\eta)/3$ and rejects indices outside the set with an `ArgumentError`; channel 1 (the $S$ wave in both sets) keeps both mesons whatever `exchange` says, `tensor_scale` multiplies all other entries and `third_scale` the species-changing ones. These diagnostic switches only carry the $1^{++}$ semantics over to the six channels; at their defaults (full OME, as used for every result) they do nothing. The checks isolate one meson by setting $m_\pi=m_\eta$ and dividing by $3+1/3$.
+$\mathcal N_{12}[pp']=- \frac{2 \sqrt{10} p p' x}{3}$.
 
-## 7. Checks against the package, and their red runs
+$\mathcal N_{12}[p'^2]=\frac{\sqrt{10} p'^{2} (3 x^{2} - 1)}{6}$.
+
+$\mathcal N_{12}(x;p^\prime,p)=\frac{\sqrt{10} p^{2}}{3} - \frac{2 \sqrt{10} p p' x}{3} + \frac{\sqrt{10} p'^{2} x^{2}}{2} - \frac{\sqrt{10} p'^{2}}{6}$.
+
+### Entry 13: $(\beta_1,\beta_2)=(2,2)$
+
+$VV\to VV:\quad\mathcal N=-2(\boldsymbol A_1\cdot\boldsymbol q)(\boldsymbol A_2\cdot\boldsymbol q)$.
+
+Incoming projector: $P^{(3)}(\hat z)$; outgoing projector: $P^{(1)}(\hat n')$.
+
+$\mathcal N_{13}[p^2]=- \frac{\sqrt{70} p^{2}}{3}$.
+
+$\mathcal N_{13}[pp']=\frac{2 \sqrt{70} p p' x}{3}$.
+
+$\mathcal N_{13}[p'^2]=- \frac{\sqrt{70} p'^{2} (3 x^{2} - 1)}{6}$.
+
+$\mathcal N_{13}(x;p^\prime,p)=- \frac{\sqrt{70} p^{2}}{3} + \frac{2 \sqrt{70} p p' x}{3} - \frac{\sqrt{70} p'^{2} x^{2}}{2} + \frac{\sqrt{70} p'^{2}}{6}$.
+
+### Entry 14: $(\beta_1,\beta_2)=(2,2)$
+
+$VV\to VV:\quad\mathcal N=-2(\boldsymbol A_1\cdot\boldsymbol q)(\boldsymbol A_2\cdot\boldsymbol q)$.
+
+Incoming projector: $P^{(4)}(\hat z)$; outgoing projector: $P^{(1)}(\hat n')$.
+
+$\mathcal N_{14}[p^2]=0$.
+
+$\mathcal N_{14}[pp']=0$.
+
+$\mathcal N_{14}[p'^2]=0$.
+
+$\mathcal N_{14}(x;p^\prime,p)=0$.
+
+### Entry 15: $(\beta_1,\beta_2)=(3,2)$
+
+$PV\to VV:\quad\mathcal N=(\boldsymbol A_1\cdot\boldsymbol q)(\boldsymbol\epsilon_2^{\prime *}\cdot\boldsymbol q)+(\boldsymbol A_2\cdot\boldsymbol q)(\boldsymbol\epsilon_1^{\prime *}\cdot\boldsymbol q)$.
+
+Incoming projector: $P^{(5)}(\hat z)$; outgoing projector: $P^{(1)}(\hat n')$.
+
+$\mathcal N_{15}[p^2]=- \sqrt{10} p^{2}$.
+
+$\mathcal N_{15}[pp']=2 \sqrt{10} p p' x$.
+
+$\mathcal N_{15}[p'^2]=- \frac{\sqrt{10} p'^{2} (3 x^{2} - 1)}{2}$.
+
+$\mathcal N_{15}(x;p^\prime,p)=- \sqrt{10} p^{2} + 2 \sqrt{10} p p' x - \frac{3 \sqrt{10} p'^{2} x^{2}}{2} + \frac{\sqrt{10} p'^{2}}{2}$.
+
+### Entry 16: $(\beta_1,\beta_2)=(3,3)$
+
+$PP\to VV:\quad\mathcal N=(\boldsymbol\epsilon_1^{\prime *}\cdot\boldsymbol q)(\boldsymbol\epsilon_2^{\prime *}\cdot\boldsymbol q)$.
+
+Incoming projector: $P^{(6)}(\hat z)$; outgoing projector: $P^{(1)}(\hat n')$.
+
+$\mathcal N_{16}[p^2]=- \frac{\sqrt{30} p^{2}}{3}$.
+
+$\mathcal N_{16}[pp']=\frac{2 \sqrt{30} p p' x}{3}$.
+
+$\mathcal N_{16}[p'^2]=- \frac{\sqrt{30} p'^{2} (3 x^{2} - 1)}{6}$.
+
+$\mathcal N_{16}(x;p^\prime,p)=- \frac{\sqrt{30} p^{2}}{3} + \frac{2 \sqrt{30} p p' x}{3} - \frac{\sqrt{30} p'^{2} x^{2}}{2} + \frac{\sqrt{30} p'^{2}}{6}$.
+
+### Entry 22: $(\beta_1,\beta_2)=(2,2)$
+
+$VV\to VV:\quad\mathcal N=-2(\boldsymbol A_1\cdot\boldsymbol q)(\boldsymbol A_2\cdot\boldsymbol q)$.
+
+Incoming projector: $P^{(2)}(\hat z)$; outgoing projector: $P^{(2)}(\hat n')$.
+
+$\mathcal N_{22}[p^2]=\frac{5 p^{2} (3 x^{2} - 1)}{3}$.
+
+$\mathcal N_{22}[pp']=- \frac{10 p p' x (3 x^{2} - 1)}{3}$.
+
+$\mathcal N_{22}[p'^2]=\frac{5 p'^{2} (3 x^{2} - 1)}{3}$.
+
+$\mathcal N_{22}(x;p^\prime,p)=5 p^{2} x^{2} - \frac{5 p^{2}}{3} - 10 p p' x^{3} + \frac{10 p p' x}{3} + 5 p'^{2} x^{2} - \frac{5 p'^{2}}{3}$.
+
+### Entry 23: $(\beta_1,\beta_2)=(2,2)$
+
+$VV\to VV:\quad\mathcal N=-2(\boldsymbol A_1\cdot\boldsymbol q)(\boldsymbol A_2\cdot\boldsymbol q)$.
+
+Incoming projector: $P^{(3)}(\hat z)$; outgoing projector: $P^{(2)}(\hat n')$.
+
+$\mathcal N_{23}[p^2]=- \frac{5 \sqrt{7} p^{2} (3 x^{2} - 1)}{21}$.
+
+$\mathcal N_{23}[pp']=\frac{5 \sqrt{7} p p' x (3 x^{2} + 1)}{21}$.
+
+$\mathcal N_{23}[p'^2]=- \frac{5 \sqrt{7} p'^{2} (3 x^{2} - 1)}{21}$.
+
+$\mathcal N_{23}(x;p^\prime,p)=- \frac{5 \sqrt{7} p^{2} x^{2}}{7} + \frac{5 \sqrt{7} p^{2}}{21} + \frac{5 \sqrt{7} p p' x^{3}}{7} + \frac{5 \sqrt{7} p p' x}{21} - \frac{5 \sqrt{7} p'^{2} x^{2}}{7} + \frac{5 \sqrt{7} p'^{2}}{21}$.
+
+### Entry 24: $(\beta_1,\beta_2)=(2,2)$
+
+$VV\to VV:\quad\mathcal N=-2(\boldsymbol A_1\cdot\boldsymbol q)(\boldsymbol A_2\cdot\boldsymbol q)$.
+
+Incoming projector: $P^{(4)}(\hat z)$; outgoing projector: $P^{(2)}(\hat n')$.
+
+$\mathcal N_{24}[p^2]=\frac{\sqrt{35} p^{2} (3 x^{2} - 1)}{7}$.
+
+$\mathcal N_{24}[pp']=- \frac{2 \sqrt{35} p p' x (5 x^{2} - 3)}{7}$.
+
+$\mathcal N_{24}[p'^2]=\frac{\sqrt{35} p'^{2} (35 x^{4} - 30 x^{2} + 3)}{28}$.
+
+$\mathcal N_{24}(x;p^\prime,p)=\frac{3 \sqrt{35} p^{2} x^{2}}{7} - \frac{\sqrt{35} p^{2}}{7} - \frac{10 \sqrt{35} p p' x^{3}}{7} + \frac{6 \sqrt{35} p p' x}{7} + \frac{5 \sqrt{35} p'^{2} x^{4}}{4} - \frac{15 \sqrt{35} p'^{2} x^{2}}{14} + \frac{3 \sqrt{35} p'^{2}}{28}$.
+
+### Entry 25: $(\beta_1,\beta_2)=(3,2)$
+
+$PV\to VV:\quad\mathcal N=(\boldsymbol A_1\cdot\boldsymbol q)(\boldsymbol\epsilon_2^{\prime *}\cdot\boldsymbol q)+(\boldsymbol A_2\cdot\boldsymbol q)(\boldsymbol\epsilon_1^{\prime *}\cdot\boldsymbol q)$.
+
+Incoming projector: $P^{(5)}(\hat z)$; outgoing projector: $P^{(2)}(\hat n')$.
+
+$\mathcal N_{25}[p^2]=0$.
+
+$\mathcal N_{25}[pp']=0$.
+
+$\mathcal N_{25}[p'^2]=0$.
+
+$\mathcal N_{25}(x;p^\prime,p)=0$.
+
+### Entry 26: $(\beta_1,\beta_2)=(3,3)$
+
+$PP\to VV:\quad\mathcal N=(\boldsymbol\epsilon_1^{\prime *}\cdot\boldsymbol q)(\boldsymbol\epsilon_2^{\prime *}\cdot\boldsymbol q)$.
+
+Incoming projector: $P^{(6)}(\hat z)$; outgoing projector: $P^{(2)}(\hat n')$.
+
+$\mathcal N_{26}[p^2]=\frac{5 \sqrt{3} p^{2} (3 x^{2} - 1)}{6}$.
+
+$\mathcal N_{26}[pp']=- \frac{5 \sqrt{3} p p' x (3 x^{2} - 1)}{3}$.
+
+$\mathcal N_{26}[p'^2]=\frac{5 \sqrt{3} p'^{2} (3 x^{2} - 1)}{6}$.
+
+$\mathcal N_{26}(x;p^\prime,p)=\frac{5 \sqrt{3} p^{2} x^{2}}{2} - \frac{5 \sqrt{3} p^{2}}{6} - 5 \sqrt{3} p p' x^{3} + \frac{5 \sqrt{3} p p' x}{3} + \frac{5 \sqrt{3} p'^{2} x^{2}}{2} - \frac{5 \sqrt{3} p'^{2}}{6}$.
+
+### Entry 33: $(\beta_1,\beta_2)=(2,2)$
+
+$VV\to VV:\quad\mathcal N=-2(\boldsymbol A_1\cdot\boldsymbol q)(\boldsymbol A_2\cdot\boldsymbol q)$.
+
+Incoming projector: $P^{(3)}(\hat z)$; outgoing projector: $P^{(3)}(\hat n')$.
+
+$\mathcal N_{33}[p^2]=- \frac{25 p^{2} (3 x^{2} - 1)}{21}$.
+
+$\mathcal N_{33}[pp']=\frac{5 p p' x (51 x^{2} - 11)}{42}$.
+
+$\mathcal N_{33}[p'^2]=- \frac{25 p'^{2} (3 x^{2} - 1)}{21}$.
+
+$\mathcal N_{33}(x;p^\prime,p)=- \frac{25 p^{2} x^{2}}{7} + \frac{25 p^{2}}{21} + \frac{85 p p' x^{3}}{14} - \frac{55 p p' x}{42} - \frac{25 p'^{2} x^{2}}{7} + \frac{25 p'^{2}}{21}$.
+
+### Entry 34: $(\beta_1,\beta_2)=(2,2)$
+
+$VV\to VV:\quad\mathcal N=-2(\boldsymbol A_1\cdot\boldsymbol q)(\boldsymbol A_2\cdot\boldsymbol q)$.
+
+Incoming projector: $P^{(4)}(\hat z)$; outgoing projector: $P^{(3)}(\hat n')$.
+
+$\mathcal N_{34}[p^2]=- \frac{2 \sqrt{5} p^{2} (3 x^{2} - 1)}{7}$.
+
+$\mathcal N_{34}[pp']=\frac{4 \sqrt{5} p p' x (5 x^{2} - 3)}{7}$.
+
+$\mathcal N_{34}[p'^2]=- \frac{\sqrt{5} p'^{2} (35 x^{4} - 30 x^{2} + 3)}{14}$.
+
+$\mathcal N_{34}(x;p^\prime,p)=- \frac{6 \sqrt{5} p^{2} x^{2}}{7} + \frac{2 \sqrt{5} p^{2}}{7} + \frac{20 \sqrt{5} p p' x^{3}}{7} - \frac{12 \sqrt{5} p p' x}{7} - \frac{5 \sqrt{5} p'^{2} x^{4}}{2} + \frac{15 \sqrt{5} p'^{2} x^{2}}{7} - \frac{3 \sqrt{5} p'^{2}}{14}$.
+
+### Entry 35: $(\beta_1,\beta_2)=(3,2)$
+
+$PV\to VV:\quad\mathcal N=(\boldsymbol A_1\cdot\boldsymbol q)(\boldsymbol\epsilon_2^{\prime *}\cdot\boldsymbol q)+(\boldsymbol A_2\cdot\boldsymbol q)(\boldsymbol\epsilon_1^{\prime *}\cdot\boldsymbol q)$.
+
+Incoming projector: $P^{(5)}(\hat z)$; outgoing projector: $P^{(3)}(\hat n')$.
+
+$\mathcal N_{35}[p^2]=\frac{5 \sqrt{7} p^{2} (3 x^{2} - 1)}{14}$.
+
+$\mathcal N_{35}[pp']=- \frac{5 \sqrt{7} p p' x (3 x^{2} + 1)}{14}$.
+
+$\mathcal N_{35}[p'^2]=\frac{5 \sqrt{7} p'^{2} (3 x^{2} - 1)}{14}$.
+
+$\mathcal N_{35}(x;p^\prime,p)=\frac{15 \sqrt{7} p^{2} x^{2}}{14} - \frac{5 \sqrt{7} p^{2}}{14} - \frac{15 \sqrt{7} p p' x^{3}}{14} - \frac{5 \sqrt{7} p p' x}{14} + \frac{15 \sqrt{7} p'^{2} x^{2}}{14} - \frac{5 \sqrt{7} p'^{2}}{14}$.
+
+### Entry 36: $(\beta_1,\beta_2)=(3,3)$
+
+$PP\to VV:\quad\mathcal N=(\boldsymbol\epsilon_1^{\prime *}\cdot\boldsymbol q)(\boldsymbol\epsilon_2^{\prime *}\cdot\boldsymbol q)$.
+
+Incoming projector: $P^{(6)}(\hat z)$; outgoing projector: $P^{(3)}(\hat n')$.
+
+$\mathcal N_{36}[p^2]=\frac{5 \sqrt{21} p^{2} (3 x^{2} - 1)}{21}$.
+
+$\mathcal N_{36}[pp']=- \frac{5 \sqrt{21} p p' x (3 x^{2} + 1)}{21}$.
+
+$\mathcal N_{36}[p'^2]=\frac{5 \sqrt{21} p'^{2} (3 x^{2} - 1)}{21}$.
+
+$\mathcal N_{36}(x;p^\prime,p)=\frac{5 \sqrt{21} p^{2} x^{2}}{7} - \frac{5 \sqrt{21} p^{2}}{21} - \frac{5 \sqrt{21} p p' x^{3}}{7} - \frac{5 \sqrt{21} p p' x}{21} + \frac{5 \sqrt{21} p'^{2} x^{2}}{7} - \frac{5 \sqrt{21} p'^{2}}{21}$.
+
+### Entry 44: $(\beta_1,\beta_2)=(2,2)$
+
+$VV\to VV:\quad\mathcal N=-2(\boldsymbol A_1\cdot\boldsymbol q)(\boldsymbol A_2\cdot\boldsymbol q)$.
+
+Incoming projector: $P^{(4)}(\hat z)$; outgoing projector: $P^{(4)}(\hat n')$.
+
+$\mathcal N_{44}[p^2]=\frac{5 p^{2} (35 x^{4} - 30 x^{2} + 3)}{56}$.
+
+$\mathcal N_{44}[pp']=- \frac{5 p p' x (5 x^{2} - 3)}{7}$.
+
+$\mathcal N_{44}[p'^2]=\frac{5 p'^{2} (35 x^{4} - 30 x^{2} + 3)}{56}$.
+
+$\mathcal N_{44}(x;p^\prime,p)=\frac{25 p^{2} x^{4}}{8} - \frac{75 p^{2} x^{2}}{28} + \frac{15 p^{2}}{56} - \frac{25 p p' x^{3}}{7} + \frac{15 p p' x}{7} + \frac{25 p'^{2} x^{4}}{8} - \frac{75 p'^{2} x^{2}}{28} + \frac{15 p'^{2}}{56}$.
+
+### Entry 45: $(\beta_1,\beta_2)=(3,2)$
+
+$PV\to VV:\quad\mathcal N=(\boldsymbol A_1\cdot\boldsymbol q)(\boldsymbol\epsilon_2^{\prime *}\cdot\boldsymbol q)+(\boldsymbol A_2\cdot\boldsymbol q)(\boldsymbol\epsilon_1^{\prime *}\cdot\boldsymbol q)$.
+
+Incoming projector: $P^{(5)}(\hat z)$; outgoing projector: $P^{(4)}(\hat n')$.
+
+$\mathcal N_{45}[p^2]=\frac{\sqrt{35} p^{2} (35 x^{4} - 30 x^{2} + 3)}{14}$.
+
+$\mathcal N_{45}[pp']=- \frac{4 \sqrt{35} p p' x (5 x^{2} - 3)}{7}$.
+
+$\mathcal N_{45}[p'^2]=\frac{2 \sqrt{35} p'^{2} (3 x^{2} - 1)}{7}$.
+
+$\mathcal N_{45}(x;p^\prime,p)=\frac{5 \sqrt{35} p^{2} x^{4}}{2} - \frac{15 \sqrt{35} p^{2} x^{2}}{7} + \frac{3 \sqrt{35} p^{2}}{14} - \frac{20 \sqrt{35} p p' x^{3}}{7} + \frac{12 \sqrt{35} p p' x}{7} + \frac{6 \sqrt{35} p'^{2} x^{2}}{7} - \frac{2 \sqrt{35} p'^{2}}{7}$.
+
+### Entry 46: $(\beta_1,\beta_2)=(3,3)$
+
+$PP\to VV:\quad\mathcal N=(\boldsymbol\epsilon_1^{\prime *}\cdot\boldsymbol q)(\boldsymbol\epsilon_2^{\prime *}\cdot\boldsymbol q)$.
+
+Incoming projector: $P^{(6)}(\hat z)$; outgoing projector: $P^{(4)}(\hat n')$.
+
+$\mathcal N_{46}[p^2]=- \frac{\sqrt{105} p^{2} (35 x^{4} - 30 x^{2} + 3)}{28}$.
+
+$\mathcal N_{46}[pp']=\frac{2 \sqrt{105} p p' x (5 x^{2} - 3)}{7}$.
+
+$\mathcal N_{46}[p'^2]=- \frac{\sqrt{105} p'^{2} (3 x^{2} - 1)}{7}$.
+
+$\mathcal N_{46}(x;p^\prime,p)=- \frac{5 \sqrt{105} p^{2} x^{4}}{4} + \frac{15 \sqrt{105} p^{2} x^{2}}{14} - \frac{3 \sqrt{105} p^{2}}{28} + \frac{10 \sqrt{105} p p' x^{3}}{7} - \frac{6 \sqrt{105} p p' x}{7} - \frac{3 \sqrt{105} p'^{2} x^{2}}{7} + \frac{\sqrt{105} p'^{2}}{7}$.
+
+### Entry 55: $(\beta_1,\beta_2)=(1,2)$
+
+$PV\to PV:\quad\mathcal N=-(\boldsymbol\epsilon\cdot\boldsymbol q)(\boldsymbol\epsilon^{\prime *}\cdot\boldsymbol q)$.
+
+Incoming projector: $P^{(5)}(\hat z)$; outgoing projector: $P^{(5)}(\hat n')$.
+
+$\mathcal N_{55}[p^2]=0$.
+
+$\mathcal N_{55}[pp']=\frac{5 p p' x (x - 1) (x + 1)}{2}$.
+
+$\mathcal N_{55}[p'^2]=0$.
+
+$\mathcal N_{55}(x;p^\prime,p)=\frac{5 p p' x^{3}}{2} - \frac{5 p p' x}{2}$.
+
+### Entry 56: $(\beta_1,\beta_2)=—$
+
+$PP\to PV:\quad\mathcal N=0$.
+
+Incoming projector: $P^{(6)}(\hat z)$; outgoing projector: $P^{(5)}(\hat n')$.
+
+$\mathcal N_{56}[p^2]=0$.
+
+$\mathcal N_{56}[pp']=0$.
+
+$\mathcal N_{56}[p'^2]=0$.
+
+$\mathcal N_{56}(x;p^\prime,p)=0$.
+
+### Entry 66: $(\beta_1,\beta_2)=—$
+
+$PP\to PP:\quad\mathcal N=0$.
+
+Incoming projector: $P^{(6)}(\hat z)$; outgoing projector: $P^{(6)}(\hat n')$.
+
+$\mathcal N_{66}[p^2]=0$.
+
+$\mathcal N_{66}[pp']=0$.
+
+$\mathcal N_{66}[p'^2]=0$.
+
+$\mathcal N_{66}(x;p^\prime,p)=0$.
+
+### Why the zeros vanish, and the reverse entries
+
+Entry 14 requires $\Delta L=4$, while the spin numerator contains only a rank-two momentum tensor. Entry 25 vanishes already in spin space: $\delta_{ab}\mathcal N_{VV,PV;ab,c}=i\sqrt2\varepsilon_{cak}q_aq_k=0$. Entries 56 and 66 have no diagram because the Lagrangian has no $PP\phi$ vertex [@Zhang:2026iyr] v1, Eq. (68).
+
+Only entries 24, 34, 44, 45, 46 have a nonzero $x^4$ coefficient. Reverse entries exchange $p$ and $p'$ and Hermitian-conjugate the species block; the offset pair changes $(3,2)\to(4,2)$ and $(3,3)\to(4,4)$. In particular $\nu_4(p,p')=\nu_3(p',p)$, whereas reusing $\nu_3$ at unequal momenta breaks time reversal for unequal heavy masses.
+
+## 5. Angular moments through order four
+
+Following [@Zhang:2026iyr] v1, Eqs. (D13)–(D15), define
+
+$$
+\mathcal A_\phi=p^2+p'^2+m_\phi^2,\quad\mathcal B=2pp',\quad E_\phi=\sqrt{\mathcal A_\phi-\mathcal Bx},\quad E_\pm=\sqrt{\mathcal A_\phi\pm\mathcal B}.
+$$
+
+For one ordering define $M_m(\nu)=\int_{-1}^1x^m dx/[2E_\phi(E_\phi+\nu)]$. Substituting $dx=-2E_\phi dE_\phi/\mathcal B$ gives
+
+$$
+M_m(\nu)=\mathcal B^{-m-1}\int_{E_-}^{E_+}\frac{(\mathcal A_\phi-E_\phi^2)^m}{E_\phi+\nu}dE_\phi,\qquad
+\Delta_m^{(\beta_1\beta_2)}=M_m(\nu_{\beta_1})+M_m(\nu_{\beta_2}).
+$$
+
+Define $L(\nu)=\log[(E_++\nu)/(E_-+\nu)]$ and the finite closed forms
+
+$$
+J_0(\nu)=L(\nu),\qquad J_j(\nu)=(-\nu)^jL(\nu)+\sum_{h=0}^{j-1}\frac{(-\nu)^h}{j-h}(E_+^{j-h}-E_-^{j-h}),\quad j=1,\ldots,8.
+$$
+
+These are the integrals of $E_\phi^j/(E_\phi+\nu)$. All five moments are explicitly
+
+$$
+\begin{aligned}
+\Delta_0^{(\beta_1\beta_2)}&=\sum_{\beta\in(\beta_1,\beta_2)}J_0/\mathcal B,\\
+\Delta_1^{(\beta_1\beta_2)}&=\sum_{\beta\in(\beta_1,\beta_2)}(\mathcal A_\phi J_0-J_2)/\mathcal B^2,\\
+\Delta_2^{(\beta_1\beta_2)}&=\sum_{\beta\in(\beta_1,\beta_2)}(\mathcal A_\phi^2J_0-2\mathcal A_\phi J_2+J_4)/\mathcal B^3,\\
+\Delta_3^{(\beta_1\beta_2)}&=\sum_{\beta\in(\beta_1,\beta_2)}(\mathcal A_\phi^3J_0-3\mathcal A_\phi^2J_2+3\mathcal A_\phi J_4-J_6)/\mathcal B^4,\\
+\Delta_4^{(\beta_1\beta_2)}&=\sum_{\beta\in(\beta_1,\beta_2)}(\mathcal A_\phi^4J_0-4\mathcal A_\phi^3J_2+6\mathcal A_\phi^2J_4-4\mathcal A_\phi J_6+J_8)/\mathcal B^5.
+\end{aligned}
+$$
+
+Every $J_j$ in a summand is evaluated at $\nu_\beta$. The sum counts two orderings with multiplicity, even for equal offsets. The first two expressions reproduce Eq. (D15). These formulas assume a domain free of denominator zeros and consistent square-root/logarithm branches, not continuation across a three-body cut.
+
+### Cancellation and the actual small-product implementation
+
+The expression of order $m$ divides a cancellation-prone difference by $\mathcal B^{m+1}$. Set $f_\nu(y)=[2\sqrt y(\sqrt y+\nu)]^{-1}$. The local Taylor series is
+
+$$
+M_m(\nu)=\sum_{\ell=0}^\infty\frac{(-\mathcal B)^\ell}{\ell!}f_\nu^{(\ell)}(\mathcal A_\phi)\frac{1+(-1)^{m+\ell}}{m+\ell+1}.
+$$
+
+Here $\ell$ labels Taylor order, not angular power. For even $m$ it starts $2f_\nu/(m+1)+\mathcal B^2f_\nu''/(m+3)$; for odd $m$ it starts $-2\mathcal B f_\nu'/(m+2)$. At exactly zero,
+
+$$
+M_m(\nu)|_{\mathcal B=0}=\frac{1+(-1)^m}{m+1}\frac1{2\sqrt{\mathcal A_\phi}(\sqrt{\mathcal A_\phi}+\nu)}.
+$$
+
+**The package does not evaluate a nonzero-product Taylor series.** `src/common/ExchangeMoments.jl:9–13` implements the exact zero-product parity formula. `src/models/BOchiEFT/exchange.jl:76–85` treats each ordering separately. Below $|\mathcal B|/\max(|\mathcal A_\phi|,|\nu|^2,10^{-30}\,\mathrm{GeV}^2)<0.3$, real momenta use 64-node Gauss–Legendre quadrature; complex momenta use a recurrence with input-dependent guard bits and at least 256-bit precision (`ExchangeMoments.jl:41–57`). Above the threshold it uses the ordinary recurrence. The $1^{++}$ threshold remains 0.06 (`exchange.jl:18–23`). The public four-moment `topt_angular_moments` wrapper has its own 0.06 switch and high-precision large-product branch; `tc_moments` does not call that wrapper. Explicit `angular_method=:quadrature` instead uses the caller-selected rule. Paths here are relative to `code/HadronDynamics.jl/`.
+
+## 6. Limits and HQSS
+
+The projected spin numerator has units GeV$^2$, angular moments GeV$^{-2}$ and $g_b^2/F_\pi^2$ GeV$^{-2}$, so $V$ has units GeV$^{-2}$.
+
+1. **Zero momentum.** At $p=0$ or $p'=0$ denominators are independent of $x$. Odd powers integrate to zero and the integrals of $1,x^2,x^4$ are $2,2/3,2/5$. Every entry with a zero-momentum $D$ or $G$ leg vanishes. For example $\mathcal N_{16}|_{p'=0}=-\sqrt{30}p^2/3$ is finite (outgoing $S$ wave), whereas at $p=0$ its integral is $\sqrt{30}p'^2[2/6-(2/3)/2]=0$. Entry 44 at $p'=0$ integrates to $5p^2[35(2/5)-30(2/3)+3(2)]/56=0$.
+2. **Strict HQSS.** Set every heavy mass to $\bar m=(m_B+3m_{B^*})/4$. All offsets coincide and each denominator sum is $2D$. The bridged 9j/6j rotation gives blocks of sizes $2,1,2,1$ for heavy spin and light-cloud angular momentum $(s_H,j_\ell)=(1,1),(1,2),(1,3),(0,2)$. The $(1,1)$ **potential** block equals that of $1^{++}$: compare $\mathcal N^{(2^{++})}/5$ with $\mathcal N^{(1^{++})}/3$, not bare traces. The legacy exact contraction aid `notes/04-ome-2pp-contractions.py` asserts the polynomial block statement. `checks/hqss_2pp.py` tests package potentials with a Wigner-symbol rotation independent of the projectors, using `literature/Bruschini:2023zkb/bridge.md` and [@Bruschini:2023zkb] v3, Table 2.
+3. **Static new transition.** Dropping recoil and $E$ only for this limit gives $\nu_3=\nu_4=-\Delta m$, where $\Delta m=m_{B^*}-m_B$. Thus $2D_3=2D_4=[E_\phi(E_\phi-\Delta m)]^{-1}$. Reciprocity is automatic there; full recoil makes the time-reversal check sensitive to a wrong $D_3\leftrightarrow D_4$ swap.
+
+## 7. Code map
+
+Paths below are relative to `code/HadronDynamics.jl/`; `projection.jl` and `exchange.jl` are in `src/models/BOchiEFT/`.
+
+| Paper symbol | Package function or variable | Relation and source |
+|---|---|---|
+| $\alpha=1,\ldots,6$, $J=2$ | `channels_2pp()` | Canonical order, `J=2`, `order=4`; `projection.jl:46–54` |
+| $p',p$ | `pout,pin` | Outgoing first; `projection.jl:63–64,86–88` |
+| $\mathcal N^{(m)}$ | `_coefficients_2pp`, `projection_coefficients` | Package stores $c_m=-\mathcal N^{(m)}/(2J+1)=-\mathcal N^{(m)}/5$; lower triangle swaps momenta; `projection.jl:63–64,86–87` |
+| $(\nu_{\beta_1},\nu_{\beta_2})$ | `_ome_intermediates`, `tc_alphas` | Intermediate pairs at `(pout,pin)` give $\omega_X(p')+\omega_Y(p)-M$; VV $\leftarrow$ PV enumerates $(2,3)$, equivalent to $(3,2)$; `exchange.jl:1–13,32–57` |
+| $\mathcal A_\phi,\mathcal B$ | `A,B` | `pin^2+pout^2+mphi^2`, `2pin*pout`; `exchange.jl:60–61` |
+| $M_m(\nu)$ | `_sd_one_moments_recurrence`, `_sd_one_moments_quad`, `_sd_one_moments_big` | Single-ordering arrays, index `m+1`; argument `alpha` is $\nu$, not channel index; `src/common/ExchangeMoments.jl:9–72` |
+| $\Delta_m^{(\beta_1\beta_2)}$ | `tc_moments`, `result[m+1]` | $M_m(\nu_{\beta_1})+M_m(\nu_{\beta_2})$, repeated offsets included; `exchange.jl:60–87` |
+| $V(p',p;m_\phi)$ | `tc_vphi` | $-g_b^2\sum_m c_m\Delta_m/(8F_\pi^2)=g_b^2\sum_m\mathcal N^{(m)}\Delta_m/(40F_\pi^2)$; `exchange.jl:90–94` |
+| $V^{\rm(OME)}$ | `ome_potential`, callable `OMEInteraction` | $3V(m_\pi)+V(m_\eta)/3$ at defaults; `exchange.jl:96–118` |
+
+The map is verified by reading dispatch, intermediate species, offset arithmetic, the single-ordering integrand/recurrence, array accumulation and final prefactors at the stated lines. The executed comparison recorded in §8 independently checks the $-5$ relation. Diagnostic switches preserve inherited semantics: channel 1 always keeps both mesons, `tensor_scale` affects all other entries, and `third_scale` species-changing entries (`exchange.jl:99–112`). Defaults do not alter full OME; no package coefficient convention is changed.
+
+## 8. Checks and their red runs
+
 
 All three slice-04 checks call the public seam `OMEInteraction(cfg; channels=channels_2pp())` with expectations and tolerances frozen before this derivation (commits `c992b60`, `e49af82`).
 
@@ -161,11 +527,23 @@ All three slice-04 checks call the public seam `OMEInteraction(cfg; channels=cha
 | `checks/time_reversal_2pp.jl`: $V_{\alpha'\alpha}(p',p)=V_{\alpha\alpha'}(p,p')$, 21 entries, 3 points, $\pi$ and $\eta$ | 126 PASS, largest residual $6.7\times10^{-16}$ GeV$^{-2}$ | entry 16 alone given the $D_4$ offsets ($\nu_3\to\nu_4$ in `tc_alphas`): exit 1, the six entry-16 lines FAIL with residuals $3.0\times10^{-4}$ ($\pi$) to $1.2\times10^{-6}$ ($\eta$) GeV$^{-2}$, 120 PASS |
 | `checks/hqss_2pp.py`: 9j/6j rotation, block structure, $J_\ell=1$ block vs $1^{++}$ | 15 PASS; forbidden entries $\le1.1\times10^{-15}$, $J_\ell=1$ blocks equal to $9.7\times10^{-14}$ GeV$^{-2}$ | PP projector sign flipped in the package (entries with one PP leg negated): exit 1, all 3 block-diagonality and all 3 $J_\ell=1$ comparisons FAIL (forbidden entries up to 3.9 GeV$^{-2}$), the 1++ and exact Wigner assertions still PASS |
 
-All deliberate breaks were temporary one-line package edits (or, for `--flip-pp`, the check's own switch), reverted byte-for-byte before the green runs were repeated. The exact-arithmetic consistency of the table (Sec. 5) and these three numerical routes agree. The projection route shares the [@Baru:2019xnh] v2 projectors and the Eq. (68) spin numerators of Sec. 2, including the $+q_aq_b$ of $B\bar B\leftrightarrow B^*\bar B^*$, with this derivation, so it tests the contraction and the denominators, not that sign. The HQSS route shares no projector tensor or numerator; it uses the bridged channel phases $D_2=\operatorname{diag}(1,1,1,1,1,-1)$, so it tests the sign of the $B\bar B\leftrightarrow B^*\bar B^*$ entries relative to the bridged $B\bar B({}^1D_2)$ projector phase. The absolute sign rests on the Sec. 2 argument, which agrees with the bridge's independent vertex-by-vertex argument and with followup.tex Eq. (5).
+All deliberate breaks were temporary one-line package edits (or, for `--flip-pp`, the check's own switch), reverted byte-for-byte before the green runs were repeated. The exact-arithmetic consistency of the table (Sec. 6) and these three numerical routes agree. The projection route shares the [@Baru:2019xnh] v2 projectors and the Eq. (68) spin numerators of Sec. 1, including the $+q_aq_b$ of $B\bar B\leftrightarrow B^*\bar B^*$, with this derivation, so it tests the contraction and the denominators, not that sign. The HQSS route shares no projector tensor or numerator; it uses the bridged channel phases $D_2=\operatorname{diag}(1,1,1,1,1,-1)$, so it tests the sign of the $B\bar B\leftrightarrow B^*\bar B^*$ entries relative to the bridged $B\bar B({}^1D_2)$ projector phase. The absolute sign rests on the Sec. 1 argument, which agrees with the bridge's independent vertex-by-vertex argument and with followup.tex Eq. (5).
 
 Further recorded runs (2026-10-29):
 
 - **Projection check, broken result.** With the $B\bar B\leftrightarrow B^*\bar B^*$ sign reversed in the package (the same one-line edit as the HQSS red: every $2^{++}$ entry with exactly one PP leg negated), `uv run --script checks/projection_2pp.py` exits 1: the 24 comparisons of entries 16, 26, 36, 46 FAIL (e.g. $\pi$, sample 1, entry 16: package $+3.0662$, integral $-3.0662$ GeV$^{-2}$); the other 117 assertions PASS.
 - **HQSS check, `--flip-pp`.** On the green package, `uv run --script checks/hqss_2pp.py --flip-pp` exits 1 with the same six FAIL lines and numbers as the package-edit red.
-- **Package tests, red then green.** The interface testset was added first and errored on `UndefVarError: channels_2pp`. After the channel sets landed, the analytic-vs-quadrature assertion (`rtol=1e-8, atol=1e-9`) failed for entries 45 and 46 at $p'=0.02$, $p=0.4$ GeV: $3.2432\times10^{-6}$ against $3.2420\times10^{-6}$ and $-2.8928\times10^{-6}$ against $-2.8914\times10^{-6}$ GeV$^{-2}$ (a 1024-node rule showed errors up to $1.3\times10^{-9}$ GeV$^{-2}$ in entries 42–46). Moving the $2^{++}$ quadrature switch to 0.3 made all 309 assertions pass. Measured at $A=1$, $\nu\in\{0.5,0.01,-0.3,-0.8\}$ against the 256-bit recurrence: the order-4 Float64 recurrence errs by up to $5\times10^{-9}$ (relative) at $|B|/A=0.06$, $10^{-10}$ at 0.1, $3\times10^{-12}$ at 0.2, $1.3\times10^{-12}$ at 0.3; the 64-node rule stays below $4\times10^{-15}$ up to 0.3. The other BOchiEFT testsets, including every frozen-reference `==` comparison, pass unchanged; no $1^{++}$ assertion needed relaxing.
-- **Recurrence branch against the brute-force integral (diagnostic, not a committed check).** The committed projection samples have $|B|/{\rm scale}\le0.30$ and so exercise the kernel's quadrature branch. A copy of the check with points $(p',p,E)=(0.30,0.40,-0.05),(0.45,0.35,-0.03),(0.25,0.50,-0.07)$ GeV (recurrence branch for both mesons) and orders 18 and 26 gives $|V_{\rm package}-V_{\rm integral}|\le2.2\times10^{-10}$ GeV$^{-2}$ for all 126 entries ($|V|\le10.9$ GeV$^{-2}$); the order-18→26 change reaches $2.2\times10^{-7}$ GeV$^{-2}$, so at these momenta the agreement is limited by the brute-force integral's own convergence, and that run's convergence assertion fails on 24 lines for that reason. The package test compares the same branch with the independent 256-node angular rule.
+- **Package tests, red then green.** The interface testset was added first and errored on `UndefVarError: channels_2pp`. After the channel sets landed, the analytic-vs-quadrature assertion (`rtol=1e-8, atol=1e-9`) failed for entries 45 and 46 at $p'=0.02$, $p=0.4$ GeV: $3.2432\times10^{-6}$ against $3.2420\times10^{-6}$ and $-2.8928\times10^{-6}$ against $-2.8914\times10^{-6}$ GeV$^{-2}$ (a 1024-node rule showed errors up to $1.3\times10^{-9}$ GeV$^{-2}$ in entries 42–46). Moving the $2^{++}$ quadrature switch to 0.3 made all 309 assertions pass. Measured at $\mathcal A_\phi=1\,\mathrm{GeV}^2$, $\nu\in\{0.5,0.01,-0.3,-0.8\}$ against the 256-bit recurrence: the order-4 Float64 recurrence errs by up to $5\times10^{-9}$ (relative) at $|\mathcal B|/\mathcal A_\phi=0.06$, $10^{-10}$ at 0.1, $3\times10^{-12}$ at 0.2, $1.3\times10^{-12}$ at 0.3; the 64-node rule stays below $4\times10^{-15}$ up to 0.3. The other BOchiEFT testsets, including every frozen-reference `==` comparison, pass unchanged; no $1^{++}$ assertion needed relaxing.
+- **Recurrence branch against the brute-force integral (diagnostic, not a committed check).** The committed projection samples have $|\mathcal B|/{\rm scale}\le0.30$ and so exercise the kernel's quadrature branch. A copy of the check with points $(p',p,E)=(0.30,0.40,-0.05),(0.45,0.35,-0.03),(0.25,0.50,-0.07)$ GeV (recurrence branch for both mesons) and orders 18 and 26 gives $|V_{\rm package}-V_{\rm integral}|\le2.2\times10^{-10}$ GeV$^{-2}$ for all 126 entries ($|V|\le10.9$ GeV$^{-2}$); the order-18→26 change reaches $2.2\times10^{-7}$ GeV$^{-2}$, so at these momenta the agreement is limited by the brute-force integral's own convergence, and that run's convergence assertion fails on 24 lines for that reason. The package test compares the same branch with the independent 256-node angular rule.
+
+### New projected-spin-numerator check
+
+`plan/slices/04-ome-2pp.md:40–47` records `checks/projected_spin_numerator_2pp.py`: regenerated-table byte identity; all 21 entries and five powers obeying $\mathcal N^{(m)}=-5c_m$ and matching unordered offsets; reduced angular moments against independent double-solid-angle Eq. (80) quadrature for pion and eta. Seed 80429, three below-threshold samples, coefficient tolerance $2\times10^{-13}$; potential agreement/convergence tolerance $5\times10^{-9}\max(1,|V|)$ GeV$^{-2}$; double-sphere orders 12/18 and moment orders 64/96.
+
+- Missing-result red (`47976ea`): `FAIL generated table: symbolic helper does not exist`, exit 1.
+- Amendment (`9d928fb`): pairs compared unordered because the sum is symmetric; package $(2,3)$ and Eq. (73)'s $(3,2)$ are equivalent. No tolerance changed.
+- Broken-result red: flip PP $\to$ VV and its reverse in the helper and regenerate. Table identity PASS; package FAIL (`max_error=0.255 offsets_match=True`); Eq. (80) FAIL (`max_scaled_error=1.56`, quadrature change $9.26\times10^{-14}$). Restore signs and regenerate.
+- Stale-table red: change only entry 11's constant coefficient in the generated table. Table identity FAIL while both physics groups PASS; restore by regeneration.
+- Recorded green: all three groups PASS; package error $2.78\times10^{-17}$, offsets match; maximum scaled potential error $8.1\times10^{-15}$, quadrature change $9.26\times10^{-14}$, all samples below threshold.
+
+These are recorded runs, not newly rerun results. Table identity is a consistency guard; double-solid-angle quadrature independently checks angular reduction and prefactor, not the shared spin-numerator sign. Neither replaces the sign argument or Wigner-based HQSS check.
