@@ -158,13 +158,60 @@ def coefficients(c, order):
     return [sp.factor(poly.coeff_monomial(x**k)) for k in range(order + 1)]
 
 
+# Note 03, Sec. 3 table (r=p' outgoing, p incoming), upper triangle; the
+# lower triangle is the transposition rule c_ba(r,p)=c_ab(p,r).
+NOTE03 = {
+    (1, 1): (p**2 + r**2)/3 - 2*p*r*x/3,
+    (1, 2): sp.sqrt(2)*(-2*p**2 + r**2)/6 + 2*sp.sqrt(2)*p*r*x/3 - sp.sqrt(2)*r**2*x**2/2,
+    (1, 3): sp.sqrt(6)*(2*p**2 - r**2)/6 - 2*sp.sqrt(6)*p*r*x/3 + sp.sqrt(6)*r**2*x**2/2,
+    (2, 2): -(p**2 + r**2)/3 + p*r*x/6 + (p**2 + r**2)*x**2 - 3*p*r*x**3/2,
+    (2, 3): -sp.sqrt(3)*(p**2 + r**2)/6 - sp.sqrt(3)*p*r*x/6 + sp.sqrt(3)*(p**2 + r**2)*x**2/2
+            - sp.sqrt(3)*p*r*x**3/2,
+    (3, 3): p*r*x/2 - p*r*x**3/2,
+}
+# 9j/6j rotations from literature/Bruschini:2023zkb/bridge.md (U_2, U_1), rows
+# (s_H,s_l,j_l,L); V_H = U V U^T. Independent of the Cartesian projectors.
+S5, S3 = sp.sqrt(5), sp.sqrt(3)
+U2 = sp.Matrix([[1, 0, 0, 0, 0, 0],
+                [0, -S5/10, sp.sqrt(35)/10, 0, 3*S5/10, sp.sqrt(15)/10],
+                [0, S3/6, sp.sqrt(21)/6, 0, -S3/6, -sp.Rational(1, 2)],
+                [0, -sp.sqrt(105)/30, sp.sqrt(15)/15, 0, -sp.sqrt(105)/15, sp.sqrt(35)/10],
+                [0, 0, 0, 1, 0, 0],
+                [0, S3/2, 0, 0, 0, sp.Rational(1, 2)]])
+U1 = sp.Matrix([[1, 0, 0], [0, -sp.Rational(1, 2), S3/2], [0, S3/2, sp.Rational(1, 2)]])
+BLOCK = (0, 0, 1, 2, 2, 3)   # (s_H,j_l) = (1,1),(1,1),(1,2),(1,3),(1,3),(0,2)
+
+
+def full(table, size):
+    """Upper triangle -> full matrix by the transposition rule."""
+    c = sp.zeros(size, size)
+    for (a, b), value in table.items():
+        c[a-1, b-1] = value
+        c[b-1, a-1] = value.subs({p: r, r: p}, simultaneous=True)
+    return c
+
+
 if __name__ == '__main__':
     species1 = {1: 'PV', 2: 'PV', 3: 'VV'}
     print('1++ (D1), rows outgoing')
+    c1 = sp.zeros(3, 3)
     for a in range(1, 4):
         for b in range(1, 4):
             c = sp.expand(-T(proj1(a, m), proj1(b, n), species1[a], species1[b], 3))
+            c1[a-1, b-1] = c
             print(f'{a}{b}', coefficients(c, 3), flush=True)
+    assert sp.expand(c1 - full(NOTE03, 3)) == sp.zeros(3, 3), 'note 03 table not reproduced'
+    print('ASSERT 1++ contraction reproduces every note-03 coefficient')
     print('2++ (Baru:2019xnh v2 App. B), upper triangle')
-    for (a, b), c in table2().items():
+    table = table2()
+    for (a, b), c in table.items():
         print(f'{a}{b}', coefficients(c, 5), flush=True)
+    # Strict HQSS: every D sum is 2D, so V is proportional to c.
+    h2 = sp.expand(U2*full(table, 6)*U2.T)
+    h1 = sp.expand(U1*c1*U1.T)
+    for i in range(6):
+        for j in range(6):
+            if BLOCK[i] != BLOCK[j]:
+                assert h2[i, j] == 0, ('2++ HQSS block mixing', i, j, h2[i, j])
+    assert sp.expand(h2[:2, :2] - h1[:2, :2]) == sp.zeros(2, 2), '2++/1++ j_l=1 blocks differ'
+    print('ASSERT U_2 c U_2^T is block diagonal in (s_H,j_l); its (1,1) block equals 1++')
