@@ -2,101 +2,147 @@
 \section{Partial-wave projection of one-meson exchange}
 \label{app:ome-projection}
 
-We project the time-ordered one-meson-exchange potentials with the spin-angular
-projectors, using the spin average and the two normalised solid-angle measures
-of Ref.~\cite{Zhang:2026iyr}, v1, Eq.~(80). After contracting all polarisation
-indices, rotational invariance reduces the double angular average to
-$\tfrac12\int_{-1}^{1}dx$, with $x=\hat{\bm p}'\cdot\hat{\bm p}$.
-The remaining numerator is a polynomial in $x$, so each entry is a finite
-linear combination of moments
+\subsection{Method}
+
+The time-ordered OME potentials of Ref.~\cite{Zhang:2026iyr} are projected
+onto partial waves with the spin-angular projectors $P(\alpha;\bm n)$,
+normalised as in Eq.~(81) of that reference:
+% Zhang:2026iyr v1, Eqs. (72)-(77), (80)-(81); CONVENTIONS.md "Partial-wave projectors".
+\begin{equation}
+ V_{\alpha'\alpha}(p',p)=\frac{1}{2J+1}\int\frac{d\Omega_{n'}}{4\pi}
+ \frac{d\Omega_n}{4\pi}\,
+ \operatorname{Tr}\bigl[P^\dagger(\alpha';\bm n')\,V\,P(\alpha;\bm n)\bigr].
+ \label{eq:pw-projection}
+\end{equation}
+Once the polarisation indices are contracted, rotational invariance reduces
+the double angular average to $\frac12\int_{-1}^{1}dx$, with
+$x=\hat{\bm p}'\cdot\hat{\bm p}$. Each time ordering contributes a
+denominator $D_\beta=[2E_\phi(E_\phi+\nu_\beta)]^{-1}$, where
+$E_\phi=\sqrt{p^2+p'^2-2pp'x+m_\phi^2}$ is the energy of the exchanged meson
+and $\nu_\beta$ is the energy of the heavy-meson pair in the three-body
+intermediate state minus the total energy $M$ (Ref.~\cite{Zhang:2026iyr}
+calls it $\mu_\beta$). The numerator is a polynomial in $x$, so every
+projected entry is a linear combination of the moments
+% Zhang:2026iyr v1, Eqs. (76)-(77); CONVENTIONS.md "Reduced masses and TOPT energy offsets".
 \begin{equation}
  I_k^{(\beta)}(p',p;E,m_\phi)
- =\int_{-1}^{1}\frac{x^k\,dx}{2\omega(\omega+\nu_\beta)},
- \qquad
- \omega=\sqrt{p^2+p'^2+m_\phi^2-2pp'x}.
+ =\int_{-1}^{1}\frac{x^k\,dx}{2E_\phi(E_\phi+\nu_\beta)}.
  \label{eq:ome-angular-moments}
 \end{equation}
-Here $\nu_\beta$ denotes the intermediate two-heavy-meson energy minus the
-absolute energy $M$; it is the quantity called $\mu_\beta$ in
-Ref.~\cite{Zhang:2026iyr}, v1, Eqs.~(76)--(77), not a two-body reduced mass.
-The heavy-meson energies there are written as
-$\omega_{B^{(*)}}(p)=m_{B^{(*)}}+p^2/(2m_{B^{(*)}})$ here, to distinguish
-them from the binding energy $E_B$.
-Retaining the mass splitting, recoil and energy dependence, this procedure
-reproduces all nine $1^{++}$ entries of that reference, v1,
-Eqs.~(D2)--(D10), with exactly the projector phases of its Eq.~(D1).
-As an independent check, direct numerical integration of both solid angles
-in Eq.~(80), with the three-dimensional spin matrices, agrees entry by entry
-with the analytic kernel for pion and eta exchange separately at three seeded
-random points below the three-body thresholds. The largest absolute residual
-is $4.7\times10^{-13}\,\GeV^{-2}$; increasing the angular order changes the
-result by at most $1.5\times10^{-13}\,\GeV^{-2}$ at these points.
-The isoscalar combination is $3V(m_\pi)+V(m_\eta)/3$ as in that reference,
-v1, Eq.~(82).
+The couplings are $g_b=0.56$ and $F_\pi=92.2$~MeV, and the isoscalar
+potential is $3V(m_\pi)+V(m_\eta)/3$.
+% Zhang:2026iyr v1, Eqs. (66), (82).
+For $J^{PC}=1^{++}$ this procedure reproduces all nine entries of
+Eqs.~(D2)--(D10) of Ref.~\cite{Zhang:2026iyr}, with the projector phases of
+its Eq.~(D1).
+% Zhang:2026iyr v1, Eqs. (D1)-(D10); notes/03-projection-method-1pp.md.
+
+\subsection{The $2^{++}$ potential}
 
 For $J^{PC}=2^{++}$ the six channels are, in order,
-$B^*\bar B^*({}^5S_2)$, $B^*\bar B^*({}^1D_2)$, $B^*\bar B^*({}^5D_2)$,
-$B^*\bar B^*({}^5G_2)$, $B\bar B^*({}^3D_2)$ and $B\bar B({}^1D_2)$, with the
-$C$-even $B\bar B^*$ combination
-$(|B\bar B^*\rangle-|B^*\bar B\rangle)/\sqrt2$ and the Cartesian projectors of
-Ref.~\cite{Baru:2019xnh}, v2, App.~B, with their printed signs. The energy is
-measured from $2m_{B^*}$, $M=2m_{B^*}+E$, so the offsets of
-Ref.~\cite{Zhang:2026iyr}, v1, Eq.~(77) become
-$\nu_1=-2\Delta m+(p^2+p'^2)/(2m_B)-E$,
-$\nu_2=(p^2+p'^2)/(2m_{B^*})-E$,
-$\nu_3=-\Delta m+p^2/(2m_B)+p'^2/(2m_{B^*})-E$ and
-$\nu_4=-\Delta m+p'^2/(2m_B)+p^2/(2m_{B^*})-E$, with $\Delta m=m_{B^*}-m_B$.
-Besides the potentials of Ref.~\cite{Zhang:2026iyr}, v1, Eqs.~(72)--(75), the
-Lagrangian of its Eq.~(68) gives the $B\bar B\leftrightarrow B^*\bar B^*$
-transition
+\begin{equation}
+ B^*\bar B^*({}^5S_2),\quad B^*\bar B^*({}^1D_2),\quad
+ B^*\bar B^*({}^5D_2),\quad B^*\bar B^*({}^5G_2),\quad
+ B\bar B^*({}^3D_2),\quad B\bar B({}^1D_2),
+ \label{eq:channels-2pp}
+\end{equation}
+where $B\bar B^*$ stands for the $C$-even combination
+$(|B\bar B^*\rangle-|B^*\bar B\rangle)/\sqrt2$. We use the Cartesian
+projectors of App.~B of Ref.~\cite{Baru:2019xnh}, with the signs printed
+there.
+% Baru:2019xnh v2, App. B; sign relations in literature/Baru:2019xnh/bridge.md.
+The energy $E$ is measured from the $B^*\bar B^*$ threshold, $M=2m_{B^*}+E$.
+With $\Delta m=m_{B^*}-m_B$, the four offsets are
+\begin{equation}
+\begin{aligned}
+ \nu_1&=-2\Delta m+\frac{p^2+p'^2}{2m_B}-E, &
+ \nu_2&=\frac{p^2+p'^2}{2m_{B^*}}-E,\\
+ \nu_3&=-\Delta m+\frac{p^2}{2m_B}+\frac{p'^2}{2m_{B^*}}-E, &
+ \nu_4&=-\Delta m+\frac{p'^2}{2m_B}+\frac{p^2}{2m_{B^*}}-E,
+\end{aligned}
+\label{eq:offsets-2pp}
+\end{equation}
+for an intermediate $B\bar B$ pair ($\nu_1$), a $B^*\bar B^*$ pair
+($\nu_2$), and a $B$ and a $B^*$ with momenta $p$ and $p'$ ($\nu_3$) or
+$p'$ and $p$ ($\nu_4$).
+
+Besides the potentials of Eqs.~(72)--(75) of Ref.~\cite{Zhang:2026iyr}, the
+$2^{++}$ sector contains the $B\bar B\to B^*\bar B^*$ transition. The
+Lagrangian of Eq.~(68) of Ref.~\cite{Zhang:2026iyr} gives
+% Zhang:2026iyr v1, Eqs. (68)-(75); notes/04-ome-2pp.md, Sec. 2.
 \begin{equation}
  V^{\rm(OME)}_{B\bar B\to B^*\bar B^*}(\bm p',\bm p;m_\phi)
- =\frac{g_b^2}{4F_\pi^2}(\bm\epsilon_1'^*\cdot\bm q)(\bm\epsilon_2'^*\cdot\bm q)\,
- 2D_3(\bm p',\bm p;m_\phi),
+ =\frac{g_b^2}{4F_\pi^2}\,(\bm\epsilon_1'^*\cdot\bm q)(\bm\epsilon_2'^*\cdot\bm q)\,
+ 2D_3,
  \label{eq:ome-bb-bsbs}
 \end{equation}
-and the reverse process with $\bm\epsilon_{1,2}$ and $2D_4$. Both time
-orderings have the same intermediate pair $B(p)\bar B^*(p')$ or $B^*(p')\bar
-B(p)$, hence the factor two. The sign is fixed relative to Eq.~(72) of that
-reference: the meson-line vertices $B\to B^*$ and $B^*\to B$ of Eq.~(68) carry
-the same coefficient, and with the antimeson line in common the $C$-even
-$B\bar B^*$ potential equals minus the corresponding cross amplitude. There is
-no $B\bar B\to B\bar B$ or $B\bar B\to B\bar B^*$ one-boson exchange. Each
-projected entry is
+and the reverse transition follows with
+$\bm\epsilon_{1,2}'^*\to\bm\epsilon_{1,2}$ and $D_3\to D_4$. The factor 2
+appears because the two time orderings, with the exchanged meson emitted
+first by the $B$ or by the $\bar B$, pass through intermediate states of the
+same energy: a pseudoscalar with momentum $p$ and a vector with momentum
+$p'$. The sign follows by comparison with Eq.~(72) of
+Ref.~\cite{Zhang:2026iyr}. Since Eq.~(68) gives the $B\to B^*\phi$ and
+$B^*\to B\phi$ vertices the same coefficient, the $B\bar B\to B^*\bar B^*$
+amplitude equals the $B^*\bar B\to B\bar B^*$ amplitude, which has the same
+antimeson line, with the polarisation of the incoming $B^*$ replaced by the
+conjugate polarisation of the outgoing one. The $C$-even $B\bar B^*$
+potential of Eq.~(72) is minus that amplitude, because its direct term would
+need a $BB\phi$ vertex, which Eq.~(68) does not contain.
+
+Each projected entry then has the form
 \begin{equation}
  V^{\rm(OME)}_{\alpha'\alpha}(p',p;m_\phi)
  =-\frac{g_b^2}{8F_\pi^2}\sum_{k=0}^{4}c_{\alpha'\alpha,k}(p',p)
  \bigl[I_k^{(\beta)}+I_k^{(\gamma)}\bigr],
  \label{eq:ome-2pp-entry}
 \end{equation}
-with $(\beta\gamma)=(22)$ within $B^*\bar B^*$, $(12)$ within $B\bar B^*$,
-$(23)$ from $B\bar B^*$ to $B^*\bar B^*$, $(24)$ for the reverse, and $(33)$
-from $B\bar B$ to $B^*\bar B^*$, $(44)$ for the reverse. The numerator
-polynomials of the upper triangle are listed in Table~\ref{tab:ome-2pp}; the
-lower triangle follows from $c_{\alpha\alpha'}(p,p')=c_{\alpha'\alpha}(p',p)$.
-The $G$-wave entries need moments up to $x^4$, one more than in $1^{++}$.
-The entries ${}^5S_2$--${}^5G_2$ and ${}^1D_2$--$B\bar B^*({}^3D_2)$ vanish
-identically, as do the two $B\bar B$ entries without a $B^*\bar B^*$ leg.
+where the offsets $(\beta,\gamma)$ depend only on the meson pairs:
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Transition & $(\beta,\gamma)$\\
+\midrule
+$B^*\bar B^*\to B^*\bar B^*$ & $(2,2)$\\
+$B\bar B^*\to B\bar B^*$ & $(1,2)$\\
+$B\bar B^*\to B^*\bar B^*$ and reverse & $(2,3)$ and $(2,4)$\\
+$B\bar B\to B^*\bar B^*$ and reverse & $(3,3)$ and $(4,4)$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Table~\ref{tab:ome-2pp} lists the numerator polynomials $c_{\alpha'\alpha,k}$
+of all 21 independent entries; the others follow from
+$c_{\alpha\alpha',k}(p,p')=c_{\alpha'\alpha,k}(p',p)$. The $G$-wave entries
+need moments up to $x^4$, one more than in $1^{++}$. Four entries vanish:
+${}^5S_2$--${}^5G_2$, ${}^1D_2$--$B\bar B^*({}^3D_2)$, and the
+$B\bar B$--$B\bar B^*$ and $B\bar B$--$B\bar B$ entries, which would need a
+$BB\phi$ vertex.
 
 \begin{table}[tbp]
 \centering
 \caption{Numerator coefficients $c_{\alpha'\alpha,k}$ of
-Eq.~\eqref{eq:ome-2pp-entry} for $2^{++}$, with $r=p'$ outgoing and $p$
-incoming. Channels $1$--$6$ are $B^*\bar B^*({}^5S_2,{}^1D_2,{}^5D_2,{}^5G_2)$,
-$B\bar B^*({}^3D_2)$ and $B\bar B({}^1D_2)$. With
-$s_k=\bigl(-\tfrac{2p^2-r^2}{6},\tfrac{2pr}{3},-\tfrac{r^2}{2}\bigr)_k$, the
-entries $12,13,15,16$ are $s_k$ times $\sqrt{2/5}$, $-\sqrt{14/5}$,
-$-\sqrt{18/5}$ and $-\sqrt{6/5}$; entries $14,25,56,66$ vanish.}
+Eq.~\eqref{eq:ome-2pp-entry} for $2^{++}$, with the channels numbered as in
+Eq.~\eqref{eq:channels-2pp}, $p$ the incoming and $r=p'$ the outgoing
+momentum. Four entries of the first row are multiples of
+$s_k=\bigl(-\tfrac{2p^2-r^2}{6},\,\tfrac{2pr}{3},\,-\tfrac{r^2}{2},\,0,\,0\bigr)$.}
+% Derivation: notes/04-ome-2pp.md, Sec. 4; implemented in projection.jl (_coefficients_2pp).
 \label{tab:ome-2pp}
 \small
+\renewcommand{\arraystretch}{1.8}
 \begin{tabular}{@{}cccccc@{}}
 \toprule
 $\alpha'\alpha$ & $c_0$ & $c_1$ & $c_2$ & $c_3$ & $c_4$\\
 \midrule
 11 & $\frac{p^2+r^2}{3}$ & $-\frac{2pr}{3}$ & $0$ & $0$ & $0$\\
+12 & \multicolumn{5}{c}{$\sqrt{2/5}\;s_k$}\\
+13 & \multicolumn{5}{c}{$-\sqrt{14/5}\;s_k$}\\
+14 & \multicolumn{5}{c}{$0$}\\
+15 & \multicolumn{5}{c}{$-\sqrt{18/5}\;s_k$}\\
+16 & \multicolumn{5}{c}{$-\sqrt{6/5}\;s_k$}\\
 22 & $\frac{p^2+r^2}{3}$ & $-\frac{2pr}{3}$ & $-(p^2+r^2)$ & $2pr$ & $0$\\
 23 & $-\frac{\sqrt7(p^2+r^2)}{21}$ & $-\frac{\sqrt7pr}{21}$ & $\frac{\sqrt7(p^2+r^2)}{7}$ & $-\frac{\sqrt7pr}{7}$ & $0$\\
 24 & $\frac{\sqrt{35}(4p^2-3r^2)}{140}$ & $-\frac{6\sqrt{35}pr}{35}$ & $-\frac{3\sqrt{35}(2p^2-5r^2)}{70}$ & $\frac{2\sqrt{35}pr}{7}$ & $-\frac{\sqrt{35}r^2}{4}$\\
+25 & \multicolumn{5}{c}{$0$}\\
 26 & $\frac{\sqrt3(p^2+r^2)}{6}$ & $-\frac{\sqrt3pr}{3}$ & $-\frac{\sqrt3(p^2+r^2)}{2}$ & $\sqrt3pr$ & $0$\\
 33 & $-\frac{5(p^2+r^2)}{21}$ & $\frac{11pr}{42}$ & $\frac{5(p^2+r^2)}{7}$ & $-\frac{17pr}{14}$ & $0$\\
 34 & $-\frac{\sqrt5(4p^2-3r^2)}{70}$ & $\frac{12\sqrt5pr}{35}$ & $\frac{3\sqrt5(2p^2-5r^2)}{35}$ & $-\frac{4\sqrt5pr}{7}$ & $\frac{\sqrt5r^2}{2}$\\
@@ -106,35 +152,35 @@ $\alpha'\alpha$ & $c_0$ & $c_1$ & $c_2$ & $c_3$ & $c_4$\\
 45 & $-\frac{\sqrt{35}(3p^2-4r^2)}{70}$ & $-\frac{12\sqrt{35}pr}{35}$ & $\frac{3\sqrt{35}(5p^2-2r^2)}{35}$ & $\frac{4\sqrt{35}pr}{7}$ & $-\frac{\sqrt{35}p^2}{2}$\\
 46 & $\frac{\sqrt{105}(3p^2-4r^2)}{140}$ & $\frac{6\sqrt{105}pr}{35}$ & $-\frac{3\sqrt{105}(5p^2-2r^2)}{70}$ & $-\frac{2\sqrt{105}pr}{7}$ & $\frac{\sqrt{105}p^2}{4}$\\
 55 & $0$ & $\frac{pr}{2}$ & $0$ & $-\frac{pr}{2}$ & $0$\\
+56 & \multicolumn{5}{c}{$0$}\\
+66 & \multicolumn{5}{c}{$0$}\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Three checks test these $2^{++}$ expressions in the implemented kernel.
-First, direct numerical integration of both solid angles in
-Ref.~\cite{Zhang:2026iyr}, v1, Eq.~(80), with the Cartesian projectors and the
-three-dimensional spin matrices including Eq.~\eqref{eq:ome-bb-bsbs}, agrees
-with all 21 independent entries for pion and eta exchange separately at three
-seeded off-shell points with $p,p'<0.12\,\GeV$ below the $B\bar B\pi$
-threshold; the largest residual is $2.9\times10^{-12}\,\GeV^{-2}$ and raising
-the angular order changes the integral by at most
-$2.7\times10^{-15}\,\GeV^{-2}$. Reversing the sign of
-Eq.~\eqref{eq:ome-bb-bsbs} in the kernel makes the four
-$B^*\bar B^*\leftrightarrow B\bar B$ entries fail this comparison. Second,
-for real momenta below the three-body thresholds, time reversal,
+\subsection{Checks}
+
+The projected potentials were verified in three independent ways.
+First, direct numerical integration of Eq.~\eqref{eq:pw-projection} over
+both solid angles, with the spin matrices of the three-dimensional
+potentials, reproduces every $1^{++}$ and $2^{++}$ entry, for $\pi$ and
+$\eta$ exchange separately, to better than $3\times10^{-12}\,\GeV^{-2}$ at
+randomly chosen off-shell momenta and energies below the three-body
+thresholds.
+% checks/projection_1pp.py (4.7e-13), checks/projection_2pp.py (2.9e-12); helpers checks/_projection*.py.
+Second, time-reversal invariance,
 $V_{\alpha'\alpha}(p',p;E)=V_{\alpha\alpha'}(p,p';E)$, holds to
-$7\times10^{-16}\,\GeV^{-2}$; giving one $B^*\bar B^*\leftarrow B\bar B$ entry the
-offset $\nu_4$ instead of $\nu_3$ breaks it by up to
-$3\times10^{-4}\,\GeV^{-2}$. Third, in the strict heavy-quark spin symmetry
-limit, with every heavy-meson mass, in the offsets and in the reduced masses,
-set to $(m_B+3m_{B^*})/4$, the potential rotated by 9j and 6j
-recoupling to heavy-quark spin $s_H$ and light angular momentum $j_\ell$
-(including the orbital one) is block diagonal in $(s_H,j_\ell)$ to
-$1.1\times10^{-15}\,\GeV^{-2}$, and its $(s_H,j_\ell)=(1,1)$ block equals the
-corresponding $1^{++}$ block to $10^{-13}\,\GeV^{-2}$, as heavy-quark spin
-symmetry requires. The rotation is checked against the recoupling coefficients
-of Ref.~\cite{Bruschini:2023zkb}, v3, Table~2; it is built from Wigner symbols
-and the channel phases of the projectors, not from the projectors themselves,
-so it also tests the sign of Eq.~\eqref{eq:ome-bb-bsbs} relative to the phase
-of the $B\bar B({}^1D_2)$ projector. Reversing the sign of that projector
-destroys the block structure.
+$10^{-15}\,\GeV^{-2}$.
+% checks/time_reversal_2pp.jl (7e-16).
+Third, in the strict heavy-quark spin symmetry limit, with every heavy-meson
+mass set to $\bar m_B=(m_B+3m_{B^*})/4$, the $2^{++}$ potential rotated to a
+basis of fixed heavy-quark spin $s_H$ and light angular momentum $J_\ell$
+(the light-quark spins coupled with the orbital angular momentum) is block
+diagonal, and its $(s_H,J_\ell)=(1,1)$ block equals the corresponding
+$1^{++}$ block to $10^{-13}\,\GeV^{-2}$, as heavy-quark spin symmetry
+requires. The rotation is built from 9j and 6j symbols and the channel
+phases, independently of the projectors, and reproduces the recoupling
+coefficients of Table~2 of Ref.~\cite{Bruschini:2023zkb}; the check is
+therefore sensitive to the sign of Eq.~\eqref{eq:ome-bb-bsbs} relative to
+the phase of the $B\bar B({}^1D_2)$ projector.
+% checks/hqss_2pp.py; Bruschini:2023zkb v3, Table 2; GLOSSARY.md "Strict HQSS limit".

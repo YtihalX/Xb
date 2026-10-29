@@ -1,125 +1,129 @@
 \section{Framework and the two $1^{++}$ fits}
 \label{sec:framework}
-We use the LO BO$\chi$EFT baseline fit of Ref.~\cite{Zhang:2026iyr}
-(v1, Eqs.~(12), (18), (83), (104)--(106), Tables~I, V and VI), in the
-isospin limit and with full OME. The first four bare states are retained,
-with a sharp cutoff $\Lambda=4$~GeV. The quark--antiquark Hamiltonian is
-$H=2m_b-\nabla^2/m_b+V_0+\sigma r+\gamma/r$, with $\gamma<0$.
-The bare--continuum coupling is $g=(2/\sqrt{3})\sqrt{2}\,g_l$ for
-$g_l=35$~MeV; $g$ is distinct from the axial coupling $g_b=0.56$.
-% Canonical entries: CONVENTIONS.md "Quark--antiquark Hamiltonian",
-% "Bare--continuum vertex", "Loop measure and regulator";
-% GLOSSARY.md "Baseline fit", "Isospin limit", "Compact probability".
+
+We work at leading order (LO) in the BO$\chi$EFT of
+Ref.~\cite{Zhang:2026iyr} and in the isospin limit.
+% Zhang:2026iyr v1, Eqs. (7), (10), (83); GLOSSARY.md "LO BOchiEFT", "Isospin limit".
+The potential has three parts: the full one-meson exchange (OME) of $\pi$
+and $\eta$, which keeps the $B^*$--$B$ mass splitting, the recoil, and the
+energy dependence of the three-body propagators; the $s$-channel exchange of
+the lowest $N=4$ bare $\bar bb$ states; and one contact term $C$ in the
+$S$-wave channel. All loop momenta are cut off sharply at $\Lambda=4$~GeV.
+% Zhang:2026iyr v1, Eqs. (72)-(77), (82), (86)-(92).
+The bare states are eigenstates of the Cornell Hamiltonian
+% Zhang:2026iyr v1, Eqs. (12), (38).
+\begin{equation}
+ H=2m_b-\frac{\nabla^2}{m_b}+V_0+\sigma r+\frac{\gamma}{r},
+ \label{eq:cornell}
+\end{equation}
+and couple to the $S$-wave $B\bar B^*$ channel with the strength
+$g=\frac{2}{\sqrt3}\sqrt2\,g_l=57$~MeV, where $g_l=35$~MeV
+% Zhang:2026iyr v1, Eqs. (18), (52)-(54).
+($g$ is not to be confused with the axial coupling $g_b=0.56$ of the OME).
+Table~\ref{tab:onepp-inputs} lists the two parameter sets used in this work.
+Both are fixed in the $1^{++}$ sector; no parameter is refitted for $2^{++}$.
 
 \begin{table}[ht]
 \centering
-\caption{The $1^{++}$ inputs for the baseline and shallow-$X_b$ fits.
-Rounded values follow Ref.~\cite{Zhang:2026iyr} (v1, Eq.~(18),
-Tables~I, VI and VIII); the computation uses
-\texttt{code/HadronDynamics.jl/data/bochiEFT/central.toml}
-and the constrained-fit parameters in \texttt{shallow.toml}.
-The values are fixed in $1^{++}$, not fitted anew in other sectors.}
+\caption{Parameters of the two $1^{++}$ fits~\cite{Zhang:2026iyr}: the
+$b$-quark mass $m_b$, the string tension $\sigma$, the Coulomb coefficient
+$\gamma$ and the shift $V_0$ of the Hamiltonian~\eqref{eq:cornell}; the
+contact term $C$; the bare--continuum coupling $g$; the number $N$ of bare
+states; and the cutoff $\Lambda$.}
+% Zhang:2026iyr v1, Eq. (18), Tables I, VI (Lambda = 4 GeV) and VIII.
+% Full-precision inputs: code/HadronDynamics.jl/data/bochiEFT/central.toml, shallow.toml.
 \label{tab:onepp-inputs}
-\begin{tabular}{cccccccc}
+\begin{tabular}{lcccccccc}
 \toprule
-$m_b$ (GeV) & $\sigma$ (GeV$^2$) & $\gamma$ & $V_0$ (MeV) &
+Fit & $m_b$ (GeV) & $\sigma$ (GeV$^2$) & $\gamma$ & $V_0$ (MeV) &
 $C$ (GeV$^{-2}$) & $g$ (MeV) & $N$ & $\Lambda$ (GeV) \\
 \midrule
-\multicolumn{8}{l}{Baseline fit}\\
-4.534 & 0.198 & $-0.434$ & 371 & $-16.27$ & 57 & 4 & 4 \\
-\multicolumn{8}{l}{Shallow-$X_b$ fit, with spurious-pole projection}\\
-4.534 & 0.198 & $-0.434$ & 362 & $2.66$ & 57 & 4 & 4 \\
+Baseline & 4.534 & 0.198 & $-0.434$ & 371 & $-16.27$ & 57 & 4 & 4 \\
+Shallow-$X_b$ & 4.534 & 0.198 & $-0.434$ & 362 & $2.66$ & 57 & 4 & 4 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{table}[ht]
 \centering
-\caption{Baseline-fit bound states from \texttt{checks/baseline\_fit.jl}.
-Binding energies are relative to $m_B+m_{B^*}=10.60427$~GeV;
-$\mathcal P_{\bar bb}$ is the compact probability.
-The three masses associated with the $1P$- and $2P$-dominated states and
-$X_b$ enter the fit, whereas the $3P$-dominated state is a prediction,
-not a fourth fitted mass. The comparison is to Ref.~\cite{Zhang:2026iyr}
-(v1, Table~V dagger rows and Table~VI, $\Lambda=4$~GeV).}
-\label{tab:baseline-states}
-\begin{tabular}{lrrr}
+\caption{Bound states of the two fits: mass $M$, binding energy $E_B$ below
+the $B\bar B^*$ threshold $m_B+m_{B^*}=10.604$~GeV, and compact probability
+$\mathcal P_{\bar bb}$. The baseline parameters are fixed by the
+$\chi_{b1}(1P)$- and $\chi_{b1}(2P)$-dominated masses and the $X_b$ mass, and
+the $\chi_{b1}(3P)$-dominated state is a prediction. The shallow-$X_b$ fit
+imposes $E_B[X_b]=1$~MeV and fits the three compact-dominated masses.}
+% Values: checks/baseline_fit.jl and checks/shallow_fit.jl, run 2026-10-29.
+\label{tab:states}
+\begin{tabular}{lcccccc}
 \toprule
-State & $M$ (GeV) & $E_B$ (MeV) & $\mathcal P_{\bar bb}$ (\%) \\
+& \multicolumn{3}{c}{Baseline fit} & \multicolumn{3}{c}{Shallow-$X_b$ fit}\\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+State & $M$ (GeV) & $E_B$ (MeV) & $\mathcal P_{\bar bb}$ (\%) &
+$M$ (GeV) & $E_B$ (MeV) & $\mathcal P_{\bar bb}$ (\%)\\
 \midrule
-$\chi_{b1}(1P)$-dominated & 9.893264 & 711.006 & 99.638 \\
-$\chi_{b1}(2P)$-dominated & 10.255276 & 348.994 & 98.301 \\
-$X_b$ & 10.513270 & 91.000 & 1.887 \\
-$\chi_{b1}(3P)$-dominated & 10.543615 & 60.655 & 85.126 \\
+$\chi_{b1}(1P)$-dominated & 9.8933 & 711.0 & 99.6 & 9.8835 & 720.8 & 99.9\\
+$\chi_{b1}(2P)$-dominated & 10.2553 & 349.0 & 98.3 & 10.2453 & 359.0 & 98.6\\
+$\chi_{b1}(3P)$-dominated & 10.5436 & 60.7 & 85.1 & 10.5351 & 69.1 & 86.1\\
+$X_b$ & 10.5133 & 91.0 & 1.9 & 10.6033 & 1.0 & 8.3\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The literature comparison passes for all four masses within 1~MeV and
-all four component probabilities within one percentage point absolute.
-The two-body $D$-wave probability is the sum of the
-$B\bar B^*({}^3D_1)$ and $B^*\bar B^*({}^5D_1)$ weights, and the
-three-body probability is the negative expectation of the energy derivative
-of the OME potential, as required by Ref.~\cite{Zhang:2026iyr}
-(v1, Eqs.~(104)--(106), Appendix~F). These model-dependent weights are
-not identified with the $S$-wave compositeness $X_S$ of Eq.~(107).
-At the reference resolution ($n_q=24$, Cornell grid 12000 points,
-transform quadrature 800 points), doubling all three resolutions changes
-the masses and binding energies by at most $0.007$~MeV and any component
-probability by at most $0.001$ percentage points (rounded upward).
-These shifts estimate numerical resolution error for this comparison,
-not the LO theory uncertainty; the box and tail settings are unchanged.
-The refinement command and individual shifts are recorded in
-\texttt{plan/slices/01-checks-env-baseline-fit.md}.
+The baseline fit takes $m_b$, $V_0$ and $C$ from the $\Lambda=4$~GeV fit of
+Ref.~\cite{Zhang:2026iyr}, which reproduces the three measured $\chi_{b1}$
+masses, 9.893, 10.255 and 10.513~GeV, with the last identified with the
+$X_b$.
+% Zhang:2026iyr v1, Tables III and VI.
+Our calculation reproduces the four bound states of Table~V of
+Ref.~\cite{Zhang:2026iyr} to within 1~MeV in mass and one percentage point
+in each of the compact, two-body and three-body probabilities defined in its
+Eqs.~(104)--(106); they are listed in Table~\ref{tab:states}.
+% Zhang:2026iyr v1, Table V, Eqs. (104)-(106); checks/baseline_fit.jl.
 
-For the shallow-$X_b$ fit we instead impose
-$E_B[X_b]=1$~MeV below $m_B+m_{B^*}$ by tuning $C$, and refit $V_0$
-at the same $m_b$, with all other inputs unchanged.
-The three compact-dominated masses, rather than the shallow $X_b$ mass,
-are compared with the measured masses $9.893$, $10.255$ and
-$10.513$~GeV in the fit deviation of Ref.~\cite{Zhang:2026iyr}
-(v1, Eq.~(94), Table~VIII).
-The spurious-pole projection is the positive separable addition of
-Ref.~\cite{Zhang:2026iyr} (v1, Eq.~(G1)), with
-$\varepsilon=10$~GeV and the spurious two-meson wave function normalised
-to unit two-body norm (v1, Eq.~(81)), excluding compact and
-energy-derivative weights.
-Through its avoided crossing with the $1P$ level, the spurious label
-follows the predominantly hadronic member of the two levels, as in
-Ref.~\cite{Zhang:2026iyr} (v1, Fig.~5(a) caption), not the adiabatic
-eigenpole that becomes compact-dominated.
-At the fitted parameters this member lies at $M=10.136$~GeV with
-binding momentum $1.57$~GeV and compact probability $1.7\%$; with the
-projection, no pole other than the four physical ones remains below
-threshold for $\varepsilon=5$--$50$~GeV.
-Without the projection, the same machinery reproduces the
-``Not projected'' row of Table~VIII ($C=2.524$~GeV$^{-2}$,
-$\Delta M=15.88$~MeV at $V_0=363$~MeV) and the spurious mass
-$10.130$~GeV quoted after Eq.~(G2) of Ref.~\cite{Zhang:2026iyr} (v1).
+The shallow-$X_b$ fit instead tunes $C$ so that the $X_b$ lies 1~MeV below
+the $B\bar B^*$ threshold, and refits $V_0$ at the same $m_b$ to minimise the
+fit deviation $\Delta M$ of the three compact-dominated states from the same
+three measured masses.
+% Zhang:2026iyr v1, Table VIII, Eq. (94).
+This fit needs one additional step. The singular tensor force of the OME
+produces a spurious pole, whose binding momentum lies far above the
+breakdown scale $\Lambda_\chi\approx1$~GeV of the EFT and whose position
+depends strongly on $\Lambda$.
+% Zhang:2026iyr v1, Sec. IV D and App. G; GLOSSARY.md "Spurious pole".
+In the baseline fit this pole lies far below the $\chi_{b1}(1P)$-dominated
+state, and we keep it. In the shallow-$X_b$ fit it lies at $M=10.136$~GeV,
+between the $\chi_{b1}(1P)$- and $\chi_{b1}(2P)$-dominated states, with
+binding momentum 1.57~GeV and compact probability 1.7\%. There we project it
+out as in Ref.~\cite{Zhang:2026iyr}, adding the separable term
+$\varepsilon\,\Psi^{\rm(spur)}_{\alpha'}(p')\Psi^{\rm(spur)}_\alpha(p)$ to the
+potential, where $\Psi^{\rm(spur)}$ is the two-meson wave function of the
+spurious pole, normalised to unit two-body norm, and $\varepsilon=10$~GeV.
+% Zhang:2026iyr v1, Eqs. (G1) and (81).
+The pole is identified by following it from the baseline value of $C$: at
+its avoided crossing with the $1P$ level we follow the predominantly hadronic
+member of the two levels, as in Fig.~5(a) of Ref.~\cite{Zhang:2026iyr}.
+% Zhang:2026iyr v1, Fig. 5(a) and its caption; checks/shallow_spurious.jl.
 
-The constrained fit gives $C=2.6646$~GeV$^{-2}$,
-$V_0=361.60$~MeV, and $\Delta M=14.994$~MeV at the reference
-resolution, reproducing the rounded inputs in Table~VIII; moving $V_0$
-by $\pm2$~MeV with $C$ retuned raises $\Delta M$ to $15.11$~MeV.
-The compact-dominated masses are $(9.8835,10.2453,10.5351)$~GeV;
-the separately constrained $X_b$ mass is $10.6033$~GeV.
-The Table~VIII masses and its compact probabilities and $S$-wave
-compositeness are reproduced within $1$~MeV and one percentage point,
-respectively, by \texttt{checks/shallow\_fit.jl}.
-At fixed saved parameters, doubling the momentum, Cornell-grid and
-transform resolutions changes any shallow-fit mass by less than
-$0.003$~MeV, any compact probability by less than $0.010$ percentage
-points, and $X_S$ by less than $0.038$ percentage points.
-These are numerical-resolution estimates, not the LO theory uncertainty;
-the fit is not repeated on the refined grid.
-For $\varepsilon=5,10,20,50$~GeV at fixed fit parameters, the largest
-physical-pole mass spread is $0.243$~MeV in the shallow-$X_b$ fit and
-$0.173$~MeV in the baseline fit (rounded upward), below the $1$~MeV
-mass precision used for this comparison with Ref.~\cite{Zhang:2026iyr}
-(v1, App.~G, text after Eq.~(G1)).
-Projecting the baseline spurious pole with $\varepsilon=5$~GeV shifts the
-$1P$, $2P$ and $3P$ masses by $-0.878$, $-0.323$ and $-0.116$~MeV and
-changes every compact probability by less than $0.13$ percentage points,
-reproducing Eq.~(G2) of Ref.~\cite{Zhang:2026iyr} (v1: $0.9$~MeV,
-below $0.33$~MeV, below $0.2\%$); at $\varepsilon=10$~GeV every shift is
-below $0.774$~MeV, within the $1$~MeV bound of Sec.~IV~D.
+The fit gives $C=2.66\,\GeV^{-2}$, $V_0=362$~MeV and $\Delta M=15.0$~MeV,
+as in Table~VIII of Ref.~\cite{Zhang:2026iyr}, and its bound states
+(Table~\ref{tab:states}) agree with that table to within 1~MeV and one
+percentage point.
+% checks/shallow_fit.jl.
+With the projection, only the four physical poles remain below threshold,
+and their masses change by less than 0.25~MeV as $\varepsilon$ varies from
+5 to 50~GeV. Repeating the fit without the projection reproduces the
+``not projected'' row of Table~VIII and the spurious-pole mass of 10.13~GeV
+quoted in App.~G of Ref.~\cite{Zhang:2026iyr}.
+% checks/spurious_projection.jl, checks/shallow_spurious.jl; Zhang:2026iyr v1, text after Eq. (G2).
+In the baseline fit, projecting out the spurious pole with
+$\varepsilon=5$~GeV shifts the $\chi_{b1}(1P)$-, $\chi_{b1}(2P)$- and
+$\chi_{b1}(3P)$-dominated masses by $-0.88$, $-0.32$ and $-0.12$~MeV and
+every compact probability by less than 0.13 percentage points, in agreement
+with Eq.~(G2) of Ref.~\cite{Zhang:2026iyr}.
+% checks/shallow_spurious.jl; Zhang:2026iyr v1, Eq. (G2).
+
+At fixed parameters, doubling the momentum quadrature, the Cornell grid and
+the quadrature of the form factors changes every mass by less than
+0.01~MeV and every probability by less than 0.04 percentage points in both
+fits. These are numerical uncertainties only.
+% Convergence runs: plan/slices/01-checks-env-baseline-fit.md and 02-shallow-fit-spurious-projection.md.
