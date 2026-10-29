@@ -22,12 +22,31 @@ Checks:
   - Before-fix diagnostic: `uv run --script checks/projection_1pp.py --flip-5d1` gave 54 PASS lines (largest analytic residual $4.67\times10^{-13}$ GeV$^{-2}$), confirming the opposite channel-3 phase. This was diagnostic evidence, not the completion red run.
   - Package regression: the rephased public-interface assertion was red before implementation (`3.276760109674473 == -3.276760109674473` failed). After correction, all BOchiEFT package testsets pass (9870 extraction, 77 assembly/scattering, 21 moments, 17 Cornell representation, 85 adopted-configuration assertions). The full `Pkg.test()` run then fails in unrelated `test/cornellmodel/test_gaussian_solve_group.jl:326` (`1.0851267727757951e-10 > 2.000888343900442e-10` is false); the parent is dispositioning this outside slice 03, explicitly directing no edit or rerun here.
   - Deliberate red after alignment (2026-10-29): changed only `PROJECTOR_SIGN=+1` to `-1` in the input block, confirmed it with `git diff -- checks/projection_1pp.py`, then `uv run --script checks/projection_1pp.py` exited 1. First pion sample: `FAIL ... entry=(1,3) numerical=3.22785350281 analytic=-3.22785350281 error=6.46`; `(2,3)` gave -0.343022784097 against +0.343022784097. All 24 mixed entries failed and the other 30 passed. Restored the printed D1 sign; expectations and tolerance untouched.
-  - Green aligned run: all 54 comparisons PASS, largest analytic residual $4.67\times10^{-13}$ GeV$^{-2}$ and largest quadrature-order change $1.50\times10^{-13}$ GeV$^{-2}$. `just check` also keeps baseline and the sibling's spurious-projection check green; its only failure is the sibling-announced `checks/shallow_fit.jl` missing-result state. `just paper` builds the new method section with no undefined citation/reference.
+  - Final green closure: `just check` exits 0 after the sibling restored its deliberate doubled-$C$ mutation; all four checks and the paper build pass. Slice-03 gives all 54 comparisons PASS, largest analytic residual $4.67\times10^{-13}$ GeV$^{-2}$ and largest quadrature-order change $1.50\times10^{-13}$ GeV$^{-2}$. Earlier closure attempts were red only on the sibling's announced missing-result or deliberate doubled-$C$ states; none remain.
 Output: method paragraph of the OME appendix: Eq. (80) reduced to angular moments, checked against the $1^{++}$ entries → `paper/sections/app-ome-2pp.tex`
 Blocked by: 01
-Status: claimed
+Status: done
 
 ## User decision: align package to (D1)
 
 On 2026-10-29 the user explicitly directed alignment of the package to the printed (D1), after the three-route evidence (`local://slice03-5D1-evidence.md`: raw Eq. (80), package, independently evaluated printed (D4)/(D7)) showed raw integration and source agree. The original package used $V_{\rm original}=U V_{\rm D1}U$, $U=\operatorname{diag}(1,1,-1)$. The two mixed-coefficient branches are corrected; frozen-reference comparisons convert their continuum, augmented and scattering matrices with $U$ while preserving the reference itself. No check expectation or canonical convention is changed.
 
+
+## Referee
+
+Fixed point: `dd33ec75ccf420aa8cc6e0f180a00040b3936c9a`, scoped to slice-03 paths and own package phase hunks relative to sibling API commit `6c4e995`. Three independent parallel axes completed on 2026-10-29:
+
+- **Standards:** 0 findings. Dimensions, limiting arguments, canonical conventions, pinned citations, independence, convergence and committed red-before-derivation history checked. The check's only persisted input change is the filled D1 phase; expectations and tolerance are unchanged.
+- **Plan:** 0 findings. All nine entries, the worked implementation walkthrough, both solid angles, reusable species/projector data, separate mesons, bridge and paper input meet the slice and PLAN learning goal.
+- **Correctness:** 0 findings. Independent exact SymPy cross-product contractions reproduce all nine polynomials and unit projector norms, the four intermediate formulas, both HQSS identities and zero-momentum cancellations. Twelve independent 70-digit moment integrations agree within $5.18\times10^{-64}$ scaled residual; independent matrix algebra verifies phase covariance of continuum, augmented, scattering and reduced-loop matrices. Scratch command: `uv run --script /tmp/slice03-referee-correctness.py` (imports no repository code).
+
+The final `just check` is completely green, including both sibling checks and the paper build. The separate full-package-suite Cornell failure is disclosed under Checks and dispositioned by the parent; all BOchiEFT package testsets pass. No referee findings were declined.
+
+## Result
+
+All nine $1^{++}$ entries reproduce the printed (D2)–(D10), with the package aligned to the agreed (D1) phase on the user's instruction. All 54 per-entry/per-meson comparisons pass: largest analytic residual $4.67\times10^{-13}$ GeV$^{-2}$, largest angular-order change $1.50\times10^{-13}$ GeV$^{-2}$. Flipping only the $^5D_1$ projector makes all 24 mixed comparisons fail.
+
+- Derivation or computation: `notes/03-projection-method-1pp.md:7–135`; reusable integrator `checks/_projection.py:13–64`.
+- Checks: `checks/projection_1pp.py:53–75`, green; deliberate red recorded under Checks. Final `just check` and BOchiEFT testsets pass; the separate full-suite Cornell failure is disclosed above.
+- Paper: `paper/sections/app-ome-2pp.tex:1–35`, included at `paper/main.tex:180`.
+- Referee: Standards 0, Plan 0, Correctness 0 findings; independent exact spin algebra, high-precision moments and phase-covariant matrix rechecks agree.
