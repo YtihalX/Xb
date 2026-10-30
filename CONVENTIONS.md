@@ -130,6 +130,34 @@ Choice: $S=\mathbb 1-2i\sqrt\rho\,T\sqrt\rho$ with $\rho=\operatorname{diag}(\mu
 Status: agreed
 Source: [@Zhang:2026iyr] v1, Eq. (108); code/HadronDynamics.jl/docs/BOCHIEFT.md:242–248; the user, grilling 2026-10-28 ("Agree convention and check")
 
+### Continuation to other sheets
+Object: the $T$-matrix off the physical sheet, and the loop path that defines it
+Symbol: $\mathcal C$, $T^{(s)}_{\alpha'\alpha}(p',p;E)$, $s=(\pm,\pm,\pm)$
+Choice: $T^{(s)}$ solves the equation of "Lippmann–Schwinger equation" with $\int_0^\Lambda dq$ replaced by $\int_{\mathcal C}dq$, where $\mathcal C$ runs from $q=0$ to $q=\Lambda$ such that, for every channel whose threshold carries $-$ in $s$, the pole $q=k_\alpha(E)$ with $\operatorname{Im}k_\alpha<0$ lies between $[0,\Lambda]$ and $\mathcal C$, and no other singularity of the integrand does; such a $\mathcal C$ is admissible; on the physical sheet $\mathcal C=[0,\Lambda]$; $s$ is labelled as in "Pole position and Riemann sheets"
+Status: agreed
+Source: the user, grilling 2026-10-29/30 ("Contour + node check"; entry agreed as written); [@Wu:2026wxb] v1, App. D (contour $C_R$, mirrored to the fourth quadrant)
+
+### Bare-state term off the real axis
+Object: the separable $s$-channel term and the transition form factors at complex momenta
+Symbol: $f_n(p)$
+Choice: $f_n(p)=\frac{\sqrt{4\pi}}{p}\int_0^\infty dr\,u_n(r)\sin(pr)$ at every complex $p$, convergent because of the tail in Eq. (A12); $V^{(\bar bb)+\rm CT}_S(p',p)=\sum_{n=1}^Nf_n(p')\frac{g^2}{E-E^{(0)}_n-V_0}f_n(p)+C$, i.e. $f_n^*(p)\to f_n^*(p^*)=f_n(p)$, with transposes in place of adjoints in every loop sum; on the real axis this is "Separable s-channel and contact potential"
+Status: agreed
+Source: [@Zhang:2026iyr] v1, footnote 13 to Eq. (58) and Eqs. (A10)–(A12); the user, grilling 2026-10-29/30 ("there's already discussion of doing it in xb.tex"; entry agreed as written)
+
+### Continued angular moments
+Object: the angular moments $\Delta^{(\beta_1\beta_2)}_m$ at complex momenta and energy
+Symbol: $s_\pm$, $L^{(\beta)}_\pm$, $n_\pm$
+Choice: with $s_\pm=\sqrt{m_\phi^2+(p'\pm p)^2}$ and $L^{(\beta)}_\pm=\log(s_\pm+\nu_\beta)$, every $\Delta_m$ is written through $s_\pm$ and $L^{(\beta)}_+-L^{(\beta)}_-$, never through $\log[(s_++\nu_\beta)/(s_-+\nu_\beta)]$; each of $s_\pm$ and $L^{(\beta)}_\pm$ is the continuous continuation from real momenta below the lowest three-body threshold, where all are principal, so $L^{(\beta)}_\pm=\operatorname{Log}(s_\pm+\nu_\beta)+2\pi i\,n_\pm$ with $n_\pm$ fixed by the cut crossings as in [@Wu:2026wxb] v1, App. D
+Status: agreed
+Source: [@Wu:2026wxb] v1, App. D, Eq. (D1) and the text after it; the user, grilling 2026-10-29/30 ("Split logs + tracker"; entry agreed as written)
+
+### Resonance couplings
+Object: the residues of $T$ at a pole off the physical sheet, and the partial widths
+Symbol: $g_\alpha$, $\Gamma_\alpha$
+Choice: on the pole's sheet $s$, $T^{(s)}_{\alpha'\alpha}(k_{\alpha'},k_\alpha;E)=\frac{g_{\alpha'}g_\alpha}{E-E_{\rm pole}}+\text{regular}$, with $T$ normalised as in "Lippmann–Schwinger equation" and $k_\alpha$ on the branch fixed by $s$; for a narrow pole the partial width into open channel $\alpha$ is $\Gamma_\alpha=2\rho_\alpha(M)|g_\alpha|^2$ with $\rho_\alpha$ of "Multichannel S matrix and unitarity"; $g_\alpha$ is complex, and only the products $g_{\alpha'}g_\alpha$ are fixed
+Status: agreed
+Source: the user, grilling 2026-10-29/30 ("Residue of our T"; entry agreed as written)
+
 ## Symbols
 
 ### Binding energy and meson energies
