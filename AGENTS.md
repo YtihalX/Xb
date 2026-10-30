@@ -17,25 +17,14 @@
 <!-- research-skills:start -->
 ## Research skills
 
-This is a research project run with the research skills; `ask-research` maps them.
-
-- **Language**: `GLOSSARY.md` (terms) and `CONVENTIONS.md` (notation) are canonical. Use agreed entries only; a new term or convention pauses the work until the user agrees it (`research-language`).
-- **Language gate**: while `just gate` fails, write no `plan/PLAN.md`, slice, wayfinder map, or run-plan run; run the language phase first.
-- **Decisions**: `decisions/`. Advisor rulings (`Decided by: advisor`) are settled.
-- **Work**: claims in `plan/PLAN.md`, claim slices in `plan/slices/`, derivations in `notes/`, checks in `checks/`, numerics in `code/`, toy models in `toy/`, the paper in `paper/`. Working files are Markdown with LaTeX math (`$…$`); the paper is LaTeX, built with tectonic.
-- **Checks**: `just check` runs every check and builds the paper. Run it before every commit.
-- **Literature**: `literature/<citekey>/` holds each paper's bridge, notes, and source. Add papers with `just add-paper <arXiv ID or DOI>`. `refs.bib` is exported by Zotero; edit the Zotero item, never the file. Cite `[@key]` in Markdown, `\cite{key}` in LaTeX.
-- **Review standards**: `STANDARDS.md`.
-
-### Skill map
-
-In this project:
-
-- checks-first, not tdd, for physics claims; tdd only for code under `code/`.
-- referee, not code-review, except for diffs confined to `code/`.
-- discrepancy-hunt, not diagnosing-bugs, except for code bugs.
-- toy-model, not prototype.
-- lit-check, not research.
-- result-brief, not pr, except when writing an actual pull request.
-- research-language, never domain-modeling.
+- **Notebook**: `NOTEBOOK.md` is the project's state: read it first. At the end of each task, update it (rewrite the state at the top; append dated decisions and dead ends to the log) and show the diff in your report.
+- **One task at a time**: do the task the user names and show every intermediate step and assumption. Halt at each physics choice not yet settled (route, approximation, convention, what counts as a check) and put it to the user. End by proposing the next step; start it when the user says so.
+- **Subagents** may take any part of the work, physics included; they return every step, and their result counts once the user has read it.
+- **Checks**: a result counts as checked when an independent route confirms it (a limit, a symmetry, dimensions, a Ward identity, a second method, a pinned literature value). Propose candidate checks; the user picks (`cross-check`).
+- **Language**: `GLOSSARY.md` (terms) and `CONVENTIONS.md` (notation) are binding; an entry is added or changed with the user's OK (`research-language`).
+- **Writing**: paper text in `paper/` is physics prose for a journal reader; file paths, check names, and provenance stay in `notes/`. When the user gives a route or notation for a derivation, follow it and fill in every intermediate step.
+- **Commits** happen when the user asks for one.
+- **Layout**: derivations in `notes/`, checks in `checks/`, numerics in `code/`, toy models in `toy/`, the paper in `paper/`; create a folder when first needed. Working files are Markdown with LaTeX math (`$…$`); the paper is LaTeX, built with tectonic.
+- **Literature**: `literature/<citekey>/` holds a paper's notes, source, and (once its formulas are used) its notation bridge. Add papers with `just add-paper <arXiv ID or DOI>`. `refs.bib` is exported by Zotero: fix the Zotero item, not the file. Cite `[@key]` in Markdown, `\cite{key}` in LaTeX.
+- **Skill map**: cross-check over tdd, referee over code-review, discrepancy-hunt over diagnosing-bugs, toy-model over prototype, lit-check over research, research-language over domain-modeling; the code skills apply to `code/`.
 <!-- research-skills:end -->

@@ -46,3 +46,16 @@ Checks (tolerances from decisions/0005: $10^{-6}$ relative unless stated; each e
 Output: the continued kernel, the App. D reproduction, and the $2^{++}$ singularity map → `paper/sections/app-continuation.tex` (kernel part); the three momentum-plane panels → `paper/figures/`
 Blocked by: 04
 Status: claimed
+
+## Paused (2026-10-30, at the user's request)
+
+Referee fixed point: `2a2925a`, a commit made at claim time of the uncommitted grilling output (CONVENTIONS.md, PLAN.md, slices 05–07, decisions/0005, refs.bib); the previous HEAD was `360b42b`.
+
+Written, not committed, each red on the missing result (run): `checks/appd_contours.py`, `checks/complex_form_factors.jl`, `checks/three_body_locator.jl`, `checks/lhc_1pp.jl`; `checks/lhc_scan_2pp.jl` is written but not yet run. Also `literature/Wu:2026wxb/bridge.md`, and the tracker `code/HadronDynamics.jl/test/continuity_tracker.jl`, untracked in the submodule. Not started: the continued-moments and angular-quadrature checks, the package changes, the note, the paper section, the figure.
+
+Findings from scratch probes; scripts were in `/tmp/s05`, not kept:
+- App. D was reproduced in a prototype: on both sheets, every contour agrees to $10^{-26}$. The sheet-$(-)$ terms are: $\bar C_{R0}$ adds $2\pi i\,\mathrm{Res}_{q=p}$, with $\mathrm{Res}=-\tfrac12[\operatorname{Log}m^2-\operatorname{Log}(4p^2+m^2)]$; $\bar C_R'$ adds the same plus $-2\pi i\int_{\operatorname{Re}p}^{p+im}\frac{q\,dq}{p^2-q^2}$; $\bar C_L$ adds $+2\pi i\int_{\bar C_S}\frac{q\,dq}{p^2-q^2}$; $\bar C_L'$ uses Eq. (D4). The ratio log of Eq. (64) agrees in case (a) and fails on $C_R'$ and $C_L$ in (b)–(c), and also on $\bar C_R$ in the mirrored (c).
+- For the user: the wording of CONVENTIONS.md "Continuation to other sheets" ("no other singularity … lies between") excludes every contour once $|\operatorname{Im}k_\alpha|>m_\phi$. The branch point $k_\alpha+im_\phi$ of $V(k_\alpha,q)$ then lies between $[0,\Lambda]$ and any contour that passes below $k_\alpha$, as App. D's own mirrored $\bar C_R$ does. Proposed wording: no singularity crosses $\mathcal C$ during its deformation from $[0,\Lambda]$.
+- For the user: tolerance of the complex-$f_n$ check. The matched-tail evaluator agrees with the converged coordinate route (96000 points) only to $\sim10^{-6}$–$4\times10^{-6}$ at $|\operatorname{Im}p|=1$ GeV, and the production 12000-point grid to $7.6\times10^{-6}$. The check therefore states $5\times10^{-6}$ and $10^{-5}$, not the $10^{-6}$ default.
+- The log of the ratio rarely wraps in the TOPT kernel. It never wraps on gently sloped test contours. It wraps on steep first legs (from $0$ to $0.01-0.2i$ GeV) in the regions above the $B\bar B^*$ threshold, and between $B\bar B$ and $B\bar B^*$ only at $\operatorname{Im}E\approx-0.1$ GeV.
+- Open discrepancy: on those test contours (pion, depth $0.2$ GeV), 62–134 of 6144 contour pairs disagree between the tracker and the principal split-log moments. The principal ratio-log moments disagree with the tracker at about as many pairs. The cause is not yet known; run `discrepancy-hunt` before changing either. Suspects: the homotopy path crossing a branch point, the tracker's step control, or test contours that are not admissible.
