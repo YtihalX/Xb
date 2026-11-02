@@ -45,3 +45,23 @@
   - the only part with $ket(1_H\, 0)$ is $ket(1_H\, 0\; 1_l\, 0)$, with coefficient $-1 \/ 2$
   #keybox[$mel(W, H, 1_H\, 0\; 1_l\, 0) = -2 sqrt(2) thin g_l$: #h(0.3em) the extra factor of 2]
 ]
+
+#slide[Which pair states can mix with the string?][
+  Light states of $ket(B macron(B))$ and of the string, labelled with the BO rules: #h(0.3em) $eta = C P$ of the light degrees of freedom; $sigma = P (-1)^(j_l)$ for $lambda_l = 0$.
+  #v(0.3em)
+  #align(center, text(size: 16pt, table(
+    columns: 7,
+    align: (left, center, center, center, center, center, left),
+    toprule,
+    [light configuration], [$j_l^(P C)$], [$lambda_l$], [$eta$], [$sigma$], [label], [role],
+    midrule,
+    [vacuum (string)], [$0^(+ +)$], [0], [$g$], [$+$], [$Sigma_g^+$], [compact $macron(b) b$, Cornell potential],
+    [$S$-wave pair, light triplet], [$1^(- -)$], [0], [$g$], [$+$], [$Sigma_g^(+')$], [mixes with the string],
+    [$S$-wave pair, light triplet], [$1^(- -)$], [$plus.minus 1$], [$g$], [–], [$Pi_g$], [no direct mixing],
+    [$S$-wave pair, light singlet], [$0^(- +)$], [0], [$u$], [$-$], [$Sigma_u^-$], [no direct mixing; cannot give $1^(+ +)$],
+    bottomrule,
+  )))
+  #v(0.3em)
+  - in $ket(B macron(B))$: $ket(1_l\, 0) in Sigma_g^(+')$, #h(0.2em) $ket(1_l\, plus.minus 1) in Pi_g$, #h(0.2em) $ket(0_l\, 0) in Sigma_u^-$; the labels are conserved for static quarks, so only the $ket(1_l\, 0)$ piece mixes with the string
+  - $Sigma_g^+$ and $Sigma_g^(+')$ share all labels, so their levels cannot cross $arrow.r$ avoided crossing = string breaking
+]

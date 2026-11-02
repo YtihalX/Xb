@@ -78,6 +78,53 @@
   ))[*(c)* $M_(x z) = P R_y (pi)$: $y arrow.r -y$, \ sources stay put, $lambda_l arrow.r -lambda_l$ \ $arrow.r.double$ $sigma = plus.minus$ only for $Lambda = 0$]
 })
 
+// Schematic BO static energies, after Berwein, Brambilla, Tarrús Castellà, Vairo, PRD 92, 114019 (2015).
+// Only used by the commented-out slide below.
+#let bo-energies-sketch() = cetz.canvas(length: 1cm, {
+  import cetz.draw: *
+  let at(x, y) = ((x - 130) * 0.0095, (940 - y) * 0.0095) // traced on a 1494 x 1018 grid
+  let green = rgb("#5aab3a")
+  let curve(..pts) = catmull(..pts.pos().map(p => at(..p)), tension: 0.5, stroke: 1.2pt)
+  let level(x0, x1, y) = line(at(x0, y), at(x1, y), stroke: (dash: "dashed", thickness: 0.9pt))
+  let gap(x, y0, y1, scale) = line(at(x, y0), at(x, y1), stroke: 1.4pt + green, mark: (
+    start: "stealth",
+    end: "stealth",
+    fill: green,
+    scale: scale,
+  ))
+  line(at(130, 940), at(130, 8), stroke: 1.1pt, mark: (end: "stealth", fill: black))
+  line(at(130, 940), at(1490, 940), stroke: 1.1pt, mark: (end: "stealth", fill: black))
+  curve(
+    (245, 880), (262, 830), (282, 790), (305, 752), (340, 722), (400, 690), (500, 648), (600, 606),
+    (700, 570), (800, 535), (900, 500), (1000, 465), (1100, 430), (1200, 395), (1300, 360), (1405, 325),
+  )
+  curve(
+    (208, 140), (210, 300), (215, 380), (225, 425), (245, 448), (280, 457), (350, 462), (450, 462),
+    (550, 455), (650, 445), (750, 432), (850, 412), (950, 385), (1050, 360), (1150, 335), (1250, 310),
+    (1405, 258),
+  )
+  curve(
+    (285, 456), (350, 452), (450, 438), (550, 416), (650, 390), (750, 362), (850, 333), (950, 300),
+    (1050, 262), (1150, 230), (1250, 200), (1405, 152),
+  )
+  level(220, 945, 383)
+  level(218, 830, 417)
+  level(245, 590, 443)
+  level(130, 300, 762)
+  level(130, 281, 793)
+  level(130, 266, 823)
+  level(130, 254, 853)
+  gap(380, 468, 696, 0.8)
+  gap(290, 818, 872, 0.45)
+  content(at(398, 575), text(size: 14pt)[$Delta tilde Lambda_"QCD"$], anchor: "west")
+  content(at(315, 845), text(size: 13pt)[$E tilde m_Q v^2$], anchor: "west")
+  content(at(1222, 140), text(size: 16pt)[$Sigma_u^-$])
+  content(at(1222, 262), text(size: 16pt)[$Pi_u$])
+  content(at(1225, 462), text(size: 16pt)[$Sigma_g^+$])
+  content(at(55, 475), text(size: 15pt)[$E^((0))_(Lambda_eta^sigma)(r)$], angle: 90deg)
+  content(at(1405, 985), text(size: 15pt)[$r$])
+})
+
 // ---------------------------------------------------------------------------
 #slide[BO symmetry: rotations about the axis][
   - angular momentum comes from the SO(3) rotational symmetry of our theory
@@ -107,7 +154,7 @@
     columns: (1.3fr, 1fr),
     column-gutter: 1.2em,
     align: horizon,
-    image("../figs/boqcd.png", width: 100%),
+    bo-energies-sketch(),
     [
       - static energies $E^((0))_(Lambda_eta^sigma)(r)$ carry the BO labels
       - $Sigma_g^+$: the ground state of the gluon field, quarkonium
@@ -117,35 +164,3 @@
   )
 ]
 */
-
-#slide[BO labels of the light configurations][
-  For $lambda_l = 0$: $sigma = P (-1)^(j_l)$; #h(0.3em) $eta = C P$ of the light degrees of freedom.
-  #v(0.3em)
-  #align(center, text(size: 16pt, table(
-    columns: 7,
-    align: (left, center, center, center, center, center, left),
-    toprule, [light configuration], [$j_l^(P C)$], [$lambda_l$], [$eta$], [$sigma$], [label],
-    [role], midrule, [vacuum (string)], [$0^(+ +)$], [0], [$g$], [$+$],
-    [$Sigma_g^+$],
-    [compact $macron(b) b$, Cornell potential],
-    [$S$-wave pair, light triplet],
-    [$1^(- -)$],
-    [0],
-    [$g$],
-    [$+$],
-
-    [$Sigma_g^(+')$],
-    [mixes with the string],
-    [$S$-wave pair, light triplet],
-    [$1^(- -)$],
-    [$plus.minus 1$],
-    [$g$],
-    [–],
-
-    [$Pi_g$], [no direct mixing], [$S$-wave pair, light singlet], [$0^(- +)$], [0], [$u$], [$-$],
-    [$Sigma_u^-$], [cannot give $1^(+ +)$], bottomrule,
-  )))
-  #v(0.3em)
-  - $Sigma_g^+$ and $Sigma_g^(+')$ share all labels, so they mix: levels of equal symmetry cannot cross $arrow.r$ avoided crossing = string breaking
-  - in $ket(B macron(B))$: $ket(1_l\, 0) in Sigma_g^(+')$, #h(0.2em) $ket(0_l\, 0) in Sigma_u^-$, #h(0.2em) $ket(1_l\, plus.minus 1) in Pi_g$
-]

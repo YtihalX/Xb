@@ -1,0 +1,1071 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{amsmath,amssymb,bm,braket,booktabs,array,enumitem}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[breakable]{tcolorbox}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,urlcolor=blue!60!black]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em}
+\setlist{itemsep=0.2em,topsep=0.3em}
+\hypersetup{pdftitle={Speech notes for main-v2: BOchiEFT and its application to Xb},pdfauthor={Yu Zhang}}
+
+\newcommand{\BOchiEFT}{BO$\chi$EFT}
+\newcommand{\BBst}{B\bar B^*}
+\newcommand{\BstBst}{B^*\bar B^*}
+\newcommand{\Sigmap}{\Sigma_g^{+\prime}}
+\newcommand{\MeV}{\,\mathrm{MeV}}
+\newcommand{\GeV}{\,\mathrm{GeV}}
+\newcommand{\fm}{\,\mathrm{fm}}
+\newtcolorbox{private}{breakable,colback=black!3,colframe=black!30,
+  title={Private cue --- not spoken},coltitle=black,fonttitle=\bfseries\small,
+  fontupper=\small,boxrule=0.4pt,arc=1pt,left=6pt,right=6pt,top=4pt,bottom=4pt}
+\newcommand{\cue}[1]{\begin{private}#1\end{private}}
+\newenvironment{speech}{\par\textbf{Say}\par}{\par}
+\newcommand{\slidenote}[3]{%
+  \clearpage
+  \pdfbookmark[1]{Slide #1}{slide-#1}%
+  \section*{Slide #1\quad #2}
+  \textit{Prepared-content target: #3. Questions add to this clock.}\par
+}
+
+\title{Speech notes for \texttt{main-v2.typ}\\[0.4em]
+  \large \BOchiEFT{} and its application to $X_b$}
+\author{Yu Zhang}
+\date{}
+
+\begin{document}
+\maketitle
+\pdfbookmark[0]{Delivery brief}{delivery-brief}
+
+\section*{Delivery brief --- not spoken}
+This script follows all \textbf{32 pages} of \texttt{slides/main-v2.pdf}, including
+all derivations after the roadmap on slide 11. It is a new, clean script, not a
+revision-marked copy of \texttt{main.tex}. The revised slide deck is unchanged.
+
+\textbf{Audience and outcome.} Assume hadron/EFT knowledge and ordinary
+Clebsch--Gordan coupling, but no familiarity with BO labels. The argument has
+three outputs: the compact-exchange potential and its normalisation identity;
+the BO/partial-wave transformation $U$; and the adopted matching of $g_l$ to $g$.
+The deck does not present a numerical $X_b$ spectrum calculation.
+
+\textbf{Reading convention.} Only the paragraphs under \textbf{Say} are the
+spoken script, including their final transition sentences. Shaded cues,
+this briefing, and the question bank are private. Point to equations on the
+slides instead of reading every index or every coefficient aloud. Explain
+every logical step; evaluate representative coefficients explicitly.
+
+\textbf{Timing.} The targets below allocate \textbf{43 minutes 20 seconds} of
+prepared content, including equation-pointing pauses. They are estimates,
+not a stopwatch rehearsal. Allow questions throughout. An hour is a target,
+not a hard stop: if discussion expands, finish the argument rather than skip
+slides or suddenly accelerate.
+
+\begin{center}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{8.3cm}rr@{}}
+\toprule
+Part & Content time & Cumulative\\
+\midrule
+Slides 1--11: motivation, BO, lattice input, roadmap & 14:00 & 14:00\\
+Slides 12--16: Task 1, eliminate compact states & 7:00 & 21:00\\
+Slides 17--25: Task 2, construct $U$ & 13:00 & 34:00\\
+Slides 26--32: Task 3, match the coupling and close & 9:20 & 43:20\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Returning after a question.} Use the current task as the anchor:
+``Returning to the first task: the compact sector leaves an energy-dependent
+interaction''; ``We are still changing basis, not adding dynamics''; or
+``The remaining issue is which normalised state the lattice coupling refers to.''
+No slide is designated for omission.
+
+\slidenote{1}{BO$\chi$EFT and its application to $X_b$}{0:20}
+\begin{speech}
+Today I will explain how we connect lattice string breaking to the
+compact-bottomonium contribution in a $1^{++}$ heavy-meson scattering
+calculation. I will organise the argument around three explicit relations.
+\end{speech}
+\cue{Start directly; no apology about the previous presentation. The title is
+broader than today's endpoint: this deck establishes ingredients, not a new
+numerical prediction for the $X_b$ mass.}
+
+\slidenote{2}{BO$\chi$EFT approach to ordinary and exotic hadrons}{1:45}
+\begin{speech}
+The general problem is to describe ordinary quarkonia and near-threshold
+exotic states in a framework that can use both lattice QCD and experiment.
+Lattice calculations give information about static-source energies and
+string breaking. Experimental spectra and line shapes constrain the
+physical hadronic dynamics. We want these inputs to constrain the same
+calculation.
+
+The BOEFT approach makes the connection to static potentials particularly
+natural, usually through coupled Schr\"odinger equations in coordinate
+space. In our approach, the heavy-meson degrees of freedom and their chiral
+interactions are explicit, and we solve coupled Lippmann--Schwinger
+equations in momentum space. Meson exchange and the connection to
+hadronic observables are then natural, while matching the compact sector
+to lattice input needs care.
+
+This is not a fundamental distinction between coordinates and momenta:
+a Fourier transform alone does not supply missing physics. The useful
+distinction is how the degrees of freedom, interactions, and matching are
+organised. The aim is to combine the strengths of both descriptions in a
+systematically improvable framework. Today I focus on the compact-sector
+matching needed for that programme.
+\end{speech}
+\cue{Point first to the two information sources, then to the two approaches.
+Treat the slide's pro/con statements as descriptions of the implementations
+being compared, not universal impossibility claims about BOEFT.}
+
+\slidenote{3}{BO symmetry: rotations around the axis between two sources}{1:50}
+\begin{speech}
+Before introducing the symmetry, let me separate two ideas. The
+Born--Oppenheimer approximation separates slow and fast degrees of
+freedom. Here the heavy-quark coordinates are slow, and the light quarks
+and gluon fields are fast. We first solve the light-field problem at fixed
+heavy-source separation. Its energies and transition potentials then enter
+the dynamics of the heavy coordinates. Near a relevant crossing we retain
+coupled channels rather than insist on a single isolated surface.
+
+That separation is the BO idea. The cylindrical symmetry is an additional
+property of this particular fixed-source problem, not the definition of
+the approximation.
+
+At a fixed orientation, the two sources select an axis. Rotations about
+that axis preserve the configuration, so the light angular-momentum
+projection along it is conserved. We call this projection $\lambda_l$ and
+its absolute value $\Lambda$. Zero, one, and two are labelled $\Sigma$,
+$\Pi$, and $\Delta$.
+
+A rotation that changes the axis relates different orientations; it is
+not a symmetry operation of the same fixed configuration. Next we need
+the discrete labels that complete this classification.
+\end{speech}
+\cue{Point to panel (a). Keep $j_l$ distinct from $J_l=L+j_l$, introduced
+later. Original BO reference: Born and Oppenheimer (1927),
+\href{https://doi.org/10.1002/andp.19273892002}{\emph{Zur Quantentheorie der Molekeln}},
+Ann. Phys. \textbf{389}, 457--484. Do not read the bibliography aloud.}
+
+\slidenote{4}{BO symmetry: $CP$ and reflections}{1:15}
+\begin{speech}
+The first discrete label comes from combined charge conjugation and
+parity. Parity swaps the source positions, and charge conjugation swaps
+the quark and antiquark back. The combined operation restores the source
+configuration. Its light-field eigenvalue is labelled $g$ for plus one
+and $u$ for minus one.
+
+The second operation reflects through a plane containing the axis. Here
+we use the $xz$ plane. The displayed rotation followed by parity sends
+$y$ to minus $y$ and leaves the sources fixed.
+
+On the light state, reflection reverses $\lambda_l$. For zero projection,
+the state maps into itself, giving the reflection eigenvalue
+$\sigma=P(-1)^{j_l}$. For nonzero projection it exchanges the two
+degenerate projections. That is why a separate plus or minus reflection
+label is conventionally attached only to $\Sigma$ states.
+
+We can now apply these labels to the string and the meson-pair configurations.
+\end{speech}
+\cue{Use panels (b) and (c) from the previous slide if needed. Here $P$ in
+$\sigma=P(-1)^{j_l}$ is the intrinsic parity of the light configuration,
+not automatically the parity of the complete physical meson pair.}
+
+\slidenote{5}{BO levels and string breaking}{1:15}
+\begin{speech}
+The string configuration has light-field quantum numbers of the vacuum,
+so it is $\Sigma_g^+$. A meson pair with light spin one has a longitudinal
+component, with zero projection, labelled $\Sigmap$, and transverse
+components labelled $\Pi_g$. The light-spin singlet instead belongs to
+$\Sigma_u^-$ and cannot produce the physical $1^{++}$ sector considered here.
+
+The prime distinguishes the meson-pair configuration from the string;
+it does not mean a different symmetry representation. The string and
+the longitudinal pair share the same labels, so they may mix. The
+transverse and singlet components do not mix directly with this string
+in the static limit.
+
+With nonzero mixing, the rising string energy and the nearly flat pair
+energy develop an avoided crossing: this is the string-breaking pattern.
+Sharing the labels permits the mixing; it is the nonzero matrix element
+that produces the level repulsion. Let us see how the lattice analysis
+quantifies it.
+\end{speech}
+\cue{Trace the table by light configuration, not cell by cell. ``No direct
+mixing'' is a static selection rule, not a statement that $\Pi_g$ has no
+interactions or no role in the full coupled problem.}
+
+\slidenote{6}{What lattice measures: static potential with string breaking}{1:50}
+\begin{speech}
+The important distinction in this plot is between the solid levels and
+the dashed entries. The solid curves are the static energy eigenvalues.
+The dashed curves are the unmixed, or diabatic, entries of the model
+Hamiltonian used to describe those levels. The off-diagonal couplings
+are fitted parameters, not separate directly measured energy levels.
+
+The three configurations are the string, a light-flavour meson pair,
+and a strange meson pair. The string diagonal entry has Cornell form:
+a constant, a linear term, and an inverse-distance term. Mixing turns
+the crossings of the diagonal entries into avoided crossings of the
+eigenvalues.
+
+For our application, the key inputs are the Cornell shape parameters
+$\sigma$ and $\gamma$, and the light-flavour coupling $g_l$, approximately
+$35\MeV$. The scale $t_0$ converts the lattice quantities into physical
+units. The factor $\sqrt2$ multiplying $g_l$ is a flavour factor, not a
+spin factor.
+
+We do not simply transplant every table entry. The lattice energy zero
+is conventional; we fit our compact-sector offset. The strange channel
+is not explicit here, and the flat light-pair entry is replaced by our
+hadronic interaction. This leads to the concrete LO problem.
+\end{speech}
+\cue{Point to the avoided crossing, then the matrix, then $g_l,\sigma,\gamma$.
+Source: Bulava et al. (2024), Eqs.~(6), (11), Table~4. The plot is generated
+from that fitted model, not a scatter plot of raw lattice measurements.
+Physical-mass extrapolation is not a continuum extrapolation.}
+
+\slidenote{7}{Proof-of-concept BO$\chi$EFT calculation at LO}{1:20}
+\begin{speech}
+We consider the $1^{++}$ bottomonium sector coupled to heavy-meson pairs.
+The potential contains three ingredients.
+
+First, meson exchange gives the long-range hadronic interaction. In this
+setup its parameters are taken from independent hadronic input, rather
+than introduced as new fit parameters for this calculation.
+
+Second, compact bottomonium exchange gives an $s$-channel contribution.
+The compact potential shape and transition strength can be constrained
+by the lattice analysis, after the matching we will derive.
+
+Third, a short-range contact term represents the unresolved contribution
+at the order retained. Here ``absorbs neglected effects'' means their LO
+short-distance, analytic part; one constant cannot reproduce arbitrary
+omitted long-range dynamics.
+
+The remaining parameters can be constrained by the observed
+$\chi_{b1}$ spectrum. Today I will establish the compact-exchange
+contribution and its lattice connection, rather than solve the complete
+scattering problem numerically. First we identify the allowed channels.
+\end{speech}
+\cue{$C(\Lambda,N)$ depends on the regulator and the explicitly retained
+compact tower. Do not claim a parameter-free full calculation. The cutoff
+$\Lambda$ here is unrelated to the BO projection label $\Lambda$.}
+
+\slidenote{8}{Quantum numbers of the $1^{++}$ pair}{1:00}
+\begin{speech}
+We separate the heavy spin $s_H$, the light angular momentum $j_l$, and
+the relative orbital angular momentum $L$.
+
+Positive parity requires even $L$. Positive charge conjugation then
+requires $s_H+j_l$ to be even. For these ground-state heavy mesons,
+the possibilities are zero--zero and one--one. The zero--zero choice
+would give $J=L$, which is even, so it cannot produce $J=1$.
+
+Therefore $s_H=j_l=1$. Their coupled spin, together with the allowed
+orbital angular momentum, gives the three channels displayed:
+$\BBst$ in ${}^3S_1$ and ${}^3D_1$, and $\BstBst$ in ${}^5D_1$.
+The next table checks that this list is complete.
+\end{speech}
+\cue{The $\BBst$ notation denotes the appropriate $C$-even combination.
+The spectroscopic labels refer to the meson pair, not the internal
+${}^3P_1$ orbital state of compact bottomonium.}
+
+\slidenote{9}{Why exactly three channels}{0:40}
+\begin{speech}
+The table excludes the alternatives. Two pseudoscalars have zero spin,
+so even $L$ cannot give $J=1$. The mixed pseudoscalar--vector pair
+contributes its $C$-even $S$ and $D$ waves. For two vectors, positive
+charge conjugation leaves only the spin-two $D$ wave with $J=1$.
+Finally, $L$ of four or higher cannot reach $J=1$, since the maximum
+pair spin is two. The three-channel list is complete.
+\end{speech}
+\cue{Point to the three ``yes'' rows and the final angular-momentum bound.
+Do not read every excluded entry. Completeness refers to the stated
+ground-state meson-pair sector, not every QCD channel.}
+
+\slidenote{10}{The coupled-channel Hamiltonian and the state vector}{1:20}
+\begin{speech}
+The full state contains compact bottomonium components and a meson-pair
+wave function. The compact amplitudes are $\lambda_n$; the radial
+meson-pair amplitude is $\phi(q)$. Their squared norms add to one for
+a normalised bound state in this model space.
+
+The Hamiltonian connects the two sectors through $\hat g$ and its
+adjoint. Energies are measured from the physical meson-pair threshold;
+the compact energies before this mixing are bare levels, not already
+the observed masses. The radial measure and the momentum-state
+normalisation shown here must be used consistently.
+
+At LO in the soft-momentum expansion, the compact transition keeps the
+$S$-wave vertex. The $D$-wave transition vertices require two additional
+powers of soft momentum. This is not a BO symmetry prohibition, and
+it does not remove possible $S$--$D$ mixing from the hadronic force.
+
+The diagram expresses the spectator picture for the heavy quarks.
+Now we can state precisely what must be derived.
+\end{speech}
+\cue{Do not introduce spherical Bessels here. The compact bottomonium is
+${}^3P_1$; the outgoing pair can be ${}^3S_1$ because the transition changes
+the light-field angular structure. $H_{MM}$ contains hadronic dynamics,
+not just free propagation.}
+
+\slidenote{11}{What to do next?}{1:25}
+\begin{speech}
+There are three tasks, and these are the results we are working towards.
+
+First, eliminate the compact sector. It leaves an energy-dependent
+interaction: a sum over compact-state poles, plus a contact term for
+the omitted high-energy contribution. The same elimination will tell
+us how to reconstruct the compact amplitudes and their probability.
+
+Second, relate the hadronic partial waves to the static BO configurations.
+The matrix $U$ is an orthogonal change of basis between the same three
+states. It is not a new interaction and introduces no new dynamical
+parameter.
+
+Third, identify which normalised transition the lattice coupling
+represents, and project it onto the physical $S$ wave. The adopted
+matching gives approximately $57\MeV$ from $g_l=35\MeV$.
+
+Keep this order in mind: eliminate a sector, change basis, then match
+the coupling. I will now derive each relation rather than just quote it.
+\end{speech}
+\cue{Point once to each boxed destination, without reading the matrix entries.
+This is the roadmap, not a stopping point for this seminar. After any long
+question, restate the current task before continuing.}
+
+\slidenote{12}{Task 1, Step 1: Projectors and the block Hamiltonian}{1:10}
+\begin{speech}
+We split the Hilbert space into the compact sector $Q$ and the meson-pair
+sector $M$. The compact projector is a sum over normalised compact
+levels. The meson projector is an integral over radial momentum states,
+with the same measure used in the state normalisation.
+
+These projectors are orthogonal and sum to the identity in the model
+space. Insert that identity on both sides of the Hamiltonian. The four
+terms are the compact block, the meson block, the transition from
+compact to mesons, and the reverse transition.
+
+Hermiticity makes the reverse transition the adjoint of $\hat g$.
+Collecting all compact rows into one block gives the two-by-two block
+matrix shown here. In its eigenbasis the compact block is a sum of
+$E_n\ket n\bra n$. We can now project the Schr\"odinger equation.
+\end{speech}
+\cue{Point to each term once. The completeness statement is within the
+chosen model space. $\hat g=P_M\mathcal H P_Q$ maps $Q$ to $M$, so the
+upper-right block is $\hat g^\dagger$.}
+
+\slidenote{13}{Task 1, Step 2: Projecting the Schr\"odinger equation}{1:10}
+\begin{speech}
+Insert the same decomposition of the identity next to the state in
+the Schr\"odinger equation, and multiply from the left by $P_Q$.
+This selects the compact-sector equation.
+
+Because a projector squared equals itself, we can insert another
+projector next to each state. The first term becomes the compact
+Hamiltonian acting on the compact component; the second is the reverse
+transition acting on the meson component. Nothing has been approximated.
+
+Projecting with $P_M$ gives the companion equation. After moving the
+diagonal terms to the left, the two boxed equations say that each
+sector is driven by its coupling to the other. We will solve the
+compact equation and substitute it into the meson equation. That
+substitution, rather than an extra interaction ansatz, generates the
+compact-exchange potential.
+\end{speech}
+\cue{Trace the compact equation, then the meson equation. If notation becomes
+a barrier, say ``compact component'' and ``meson component'' rather than
+repeating every projector. Both boxed relations are needed for elimination.}
+
+\slidenote{14}{Task 1, Step 3: Eliminating the compact states}{1:30}
+\begin{speech}
+Away from a bare compact eigenvalue, we invert $E-H_{QQ}$ inside the
+compact space. This expresses the compact component as the compact
+resolvent acting on the source supplied by the meson component.
+
+Substitute that expression into the meson equation. The resulting
+operator describes a meson pair turning into the compact sector,
+propagating there, and turning back. This is the physical meaning
+of the two transition operators surrounding the resolvent.
+
+Now use the spectral decomposition of $H_{QQ}$. Each compact eigenstate
+contributes its projector divided by $E-E_n$. We therefore obtain
+exactly the pole sum in the box, without specifying a radial wave
+function or a form factor.
+
+The meson-only equation contains $H_{MM}$ plus this energy-dependent
+potential. Eliminating the compact amplitudes has not discarded their
+physical effect; it has moved that effect into the interaction.
+The full sum is still infinite, so next we decide which poles to retain
+explicitly.
+\end{speech}
+\cue{Point through $\hat g(E-H_{QQ})^{-1}\hat g^\dagger$ from right to left.
+The inverse is not defined at an isolated bare pole; do not use this
+elimination there as if the resolvent were regular. The original coupled
+Hamiltonian remains the starting point.}
+
+\slidenote{15}{Task 1, Step 4: Truncation and compact amplitudes}{1:20}
+\begin{speech}
+Split the compact projector into the levels we retain and those we omit.
+This separates the exact interaction into an explicit pole sum and a
+remainder from the omitted levels.
+
+If the omitted poles are sufficiently far from the energy region of
+interest, that remainder is smooth there. We expand its energy and
+momentum dependence. At LO we retain its constant short-distance part
+as $C(\Lambda,N)$. Changing the number of explicit states changes what
+the contact must represent, so its dependence on $N$ is necessary.
+This replacement would fail for an omitted pole close to the region
+we want to describe.
+
+We can also reconstruct an individual compact amplitude. Project the
+eliminated compact component onto $\bra n$: the numerator is the
+transition from the meson wave function, and the denominator is again
+$E-E_n$. These amplitudes will give the compact norm.
+\end{speech}
+\cue{The constant approximation is local to the chosen low-energy region;
+``high $n$'' alone is not the condition. Refitting the contact is required
+when $N$ changes. Do not identify it with a measurable probability of
+all omitted states.}
+
+\slidenote{16}{Task 1, Step 5: Normalisation and compact probability}{1:50}
+\begin{speech}
+For this step, take a real, normalisable bound state and an
+energy-independent underlying Hamiltonian and transition operator.
+The full norm is the meson norm plus the compact norm.
+
+Insert the eliminated compact component into its norm. It produces
+two resolvents, or the square of $E-H_{QQ}$ in the denominator.
+The key sign comes from differentiating the inverse: the derivative
+of one over $E-E_n$ is minus one over its square.
+
+Therefore the compact norm is minus the expectation value of the
+energy derivative of the induced potential. The full normalisation
+becomes the meson expectation value of one minus that derivative.
+The minus sign makes the compact contribution nonnegative in this
+Hermitian bound-state problem.
+
+This probability refers to the specified compact subspace; it is not
+a basis-independent observable. If the omitted tower has already been
+replaced by an energy-independent contact, its detailed probability
+cannot be reconstructed from that constant.
+
+That completes Task 1: the compact states leave poles and energy
+dependence, and that same energy dependence records the norm of the
+sector we eliminated. Next we change basis to connect with the
+static-source description.
+\end{speech}
+\cue{Point to the derivative sign, then the final probability. Keep the meson
+component at its physical norm; do not separately normalise it to one.
+Energy-dependent hadronic kernels require their own eliminated-sector
+normalisation terms; see the question bank.}
+
+\slidenote{17}{Task 2, Step 1: The BO coupling order}{1:50}
+\begin{speech}
+We now have the right operator structure, but the lattice and hadronic
+descriptions label their states differently.
+
+In the partial-wave basis, first couple the light and heavy spins to
+$S$, then combine $S$ with the relative orbital angular momentum $L$
+to obtain total $J$.
+
+In the BO-adapted coupling order, first combine $L$ with the light
+angular momentum to form $J_l$, then add the heavy spin. Notice that
+$J_l$ includes the relative orbital motion, whereas $j_l$ does not.
+
+The new superscripts refer to this light-plus-orbital sector. Factoring
+out the heavy-spin $1^{--}$ from the full $1^{++}$ sector leaves
+$P_l=C_l=-1$. Their product gives $\eta=+1$, or $g$. For the
+longitudinal $J_l=1$ state, reflection gives
+$\sigma=P_l(-1)^{J_l}=+1$. For nonzero projection, the table denotes
+definite-parity combinations of the two helicities, not either helicity alone.
+
+For $L=0$ we get $J_l=1$. For $L=2$, the candidate values are one,
+two, and three, but three cannot combine with heavy spin one to make
+$J=1$. The zero-projection $J_l=2$ state has no allowed even-$L$
+component; we will see that explicitly.
+
+We are left with one $\Sigma$ configuration and two $\Pi$
+configurations. The numbers attached to the two $\Pi$ states specify
+$J_l$, not radial excitations.
+\end{speech}
+\cue{Point between the two coupling orders, then to the $PC$ superscripts
+and the $\eta,\sigma$ columns. The total system still has $J^{PC}=1^{++}$;
+$J_l^{P_lC_l}$ labels the light-plus-orbital factor, not the intrinsic
+$j_l^{PC}$ alone. The two changes of angular-momentum basis add no dynamics.}
+
+\slidenote{18}{Task 2, Step 2: Jacob--Wick formula}{1:30}
+\begin{speech}
+The first change is between a state with a definite light-spin
+projection on the source axis and states with definite orbital
+angular momentum. The Jacob--Wick relation gives the overlap.
+
+Its coefficient has a square-root normalisation factor and an ordinary
+Clebsch--Gordan coefficient. The orbital projection entering that
+coefficient is zero: orbital angular momentum has no component along
+the relative position vector. The body-axis projection therefore
+comes entirely from the light angular momentum. The coefficient does
+not depend on the laboratory projection $M_l$.
+
+This is not yet the hadronic partial-wave basis. After finding the
+allowed $L$ components, we must change the order in which the three
+angular momenta are coupled. That second change uses a $6j$ symbol.
+
+So the route is the one shown below: BO projection, definite $L$,
+then hadronic partial wave. Before evaluating it, I will derive the
+first relation from ordinary angular-momentum coupling, so that its
+normalisation and projection labels are clear.
+\end{speech}
+\cue{Point to the two arrows, not just the formula. The zero in the CG
+coefficient is a body-axis projection; it is not a claim that the state
+has $L=0$. Reference: Jacob and Wick, Ann. Phys. \textbf{7}, 404 (1959).}
+
+\slidenote{19}{Deriving Jacob--Wick: start from Clebsch--Gordan}{1:15}
+\begin{speech}
+Start in the familiar fixed-axis basis. A state of definite $L$, $j_l$,
+and $J_l$ is a sum of a spherical harmonic times a light-spin state,
+weighted by a Clebsch--Gordan coefficient.
+
+Evaluate this angular wave function along the north pole, where the
+source direction is the laboratory $z$ axis. All spherical harmonics
+with nonzero orbital projection vanish there. The surviving harmonic
+is the square root of $(2L+1)/(4\pi)$.
+
+The orbital sum therefore collapses, and the total projection is
+carried by the light spin. At this particular orientation the laboratory
+projection and the body-axis projection coincide. This gives the boxed
+axis value.
+
+We have not restricted all directions to the axis. We have found a
+simple reference value; rotational covariance will reconstruct the
+wave function at a general orientation.
+\end{speech}
+\cue{Point to $Y_{Lm_L}(\hat z)$ and the collapsed expression. The statement
+$\bm L\cdot\hat{\bm r}=0$ does not remove the nonzero $L$ values in the
+orbital wave function.}
+
+\slidenote{20}{Deriving Jacob--Wick: rotate away from the axis}{1:30}
+\begin{speech}
+Choose a rotation that takes the reference axis to the actual source
+direction. It acts on both the orbital direction and the light spin.
+A state of definite total angular momentum transforms with a Wigner
+$D$ matrix.
+
+The first equation reconstructs the angular wave function by summing
+over its reference-axis projections. The complex conjugate on the
+$D$ matrix follows from rotating the bra, or equivalently using the
+inverse rotation on the total-angular-momentum ket.
+
+One way to check this is to write the inverse orbital rotation as
+a spin rotation times the inverse total rotation. The spin part
+rotates the local light-spin state, while the total rotation supplies
+the $D$ matrix.
+
+Insert the axis values from the previous slide. Each term now has
+a Clebsch--Gordan coefficient, a $D$ matrix, and a light-spin state
+quantised along the actual source axis. This is precisely the structure
+of a BO projection state. We only need to identify its normalisation.
+\end{speech}
+\cue{Track the three factors in the boxed expression. The local spin ket is
+$U_{\rm spin}(R)\ket{j_l\lambda}$; it is not still quantised along the fixed
+laboratory axis. Do not read the full rotation identity index by index.}
+
+\slidenote{21}{Deriving Jacob--Wick: identify the BO states and invert}{1:15}
+\begin{speech}
+The normalised BO angular state is the Wigner $D$ function times the
+light-spin state along the moving axis. Integrating its squared norm
+over directions fixes the prefactor involving $2J_l+1$.
+
+Comparing this normalised expression with the previous slide gives
+the coefficient $c_{L\lambda}$. The ratio of the two angular
+normalisations produces the square root of $(2L+1)/(2J_l+1)$;
+the remaining factor is the Clebsch--Gordan coefficient.
+
+At this stage we have expanded a definite-$L$ state in projection
+states. We want the inverse relation. The two complete orthonormal
+bases are connected by a real orthogonal matrix, so inversion is
+just transposition. That gives the Jacob--Wick formula announced
+earlier.
+
+Now we can impose the positive-parity sector and evaluate its
+longitudinal and transverse states.
+\end{speech}
+\cue{The inverse is taken before discarding parity-forbidden components.
+When combining $+\lambda$ and $-\lambda$, preserve their $1/\sqrt2$
+normalisation. This is where a lost factor can spoil orthogonality.}
+
+\slidenote{22}{Applying Jacob--Wick: the $\lambda_l=0$ states}{1:20}
+\begin{speech}
+For the longitudinal state with $J_l=1$, the $L=0$ Clebsch--Gordan
+coefficient is one. Combining it with the Jacob--Wick prefactor gives
+$1/\sqrt3$.
+
+The $L=1$ coefficient vanishes. For $L=2$, the Clebsch--Gordan
+coefficient is minus the square root of two fifths. Multiplying by
+the prefactor gives minus the square root of two thirds. Thus
+$\Sigmap$ contains both an $L=0$ and an $L=2$ component.
+
+For $J_l=2$ and zero projection, the even-$L$ coefficient vanishes.
+The remaining expansion shown below contains only $L=1$ and $L=3$,
+which have the wrong parity for our sector. That is the stronger
+reason this state is absent: it has no positive-parity component,
+not merely a missing term in one calculation.
+
+Next we construct the parity-allowed combinations of the transverse
+projections.
+\end{speech}
+\cue{Do the $L=2$ multiplication explicitly; do not recite all odd-$L$
+coefficients. The unsuppressed static $L=2$ content is compatible with
+higher-order soft-momentum $D$-wave transition vertices.}
+
+\slidenote{23}{Applying Jacob--Wick: the $\lambda_l=\pm1$ states}{1:20}
+\begin{speech}
+For transverse projection, apply the same formula to plus one and
+minus one, then combine them to obtain definite parity.
+
+With the phases used here, the parity-even $J_l=1$ state is the
+normalised sum. Its odd-$L$ pieces cancel, while the even pieces
+add. The resulting $\Pi_g;1$ state has an $L=0$ coefficient
+$\sqrt{2/3}$ and an $L=2$ coefficient $1/\sqrt3$.
+
+For $J_l=2$, the even-$L$ component instead changes sign between
+the two projections, so we take the normalised difference. It leaves
+only $L=2$. The final overall sign is a convention; we choose it
+so that $\Pi_g;2$ equals the definite-$L=2$, $J_l=2$ state shown.
+
+We have now expressed all three BO configurations in definite-$L$
+states. The remaining step changes the spin-coupling order at that
+same $L$.
+\end{speech}
+\cue{Do not claim the sum is always parity even: the required combination
+depends on $J_l$ and the phase convention. The two $\Pi$ labels denote
+different $J_l$, not the two signs of $\lambda_l$.}
+
+\slidenote{24}{Task 2, Step 3: $6j$ recoupling at fixed $L$}{1:40}
+\begin{speech}
+We now have three angular momenta: the relative orbital momentum,
+the light spin, and the heavy spin. The BO-adapted state couples the
+first two; the hadronic partial wave couples the last two. Their
+overlap is the $6j$ coefficient in the first equation, including its
+phase and normalisation factors.
+
+For $L=0$ there is no nontrivial orbital recoupling: the state is
+the ${}^3S_1$ channel.
+
+For $L=2$, let us evaluate one coefficient explicitly. The phase is
+minus one. The relevant $6j$ symbol is one sixth, and the dimension
+factor is three. Their product is minus one half, giving the
+${}^3D_1$ coefficient of the $J_l=1$ state.
+
+The remaining overlaps give the two normalised combinations in the
+box. The first has coefficients minus one half and $\sqrt3/2$;
+the second has $\sqrt3/2$ and one half. These states span the two
+allowed $D$-wave channels. We can now substitute them into the
+longitudinal and transverse combinations obtained above.
+\end{speech}
+\cue{Show where each factor in $(-1)\times3\times(1/6)=-1/2$ comes from.
+The relative signs matter for $U$. Do not confuse a convention-dependent
+rephasing of a complete basis state with changing one entry in isolation.}
+
+\slidenote{25}{Task 2, Step 4: The transformation matrix}{1:20}
+\begin{speech}
+For the first row, substitute the $J_l=1$ $D$-wave combination into
+the longitudinal state. Its coefficient $-\sqrt{2/3}$ multiplies
+both recoupling coefficients. This gives plus $1/\sqrt6$ for
+${}^3D_1$ and minus $1/\sqrt2$ for ${}^5D_1$, alongside the
+$1/\sqrt3$ $S$-wave term.
+
+The same substitution for the two transverse configurations gives
+the remaining rows of $U$. The rows are BO states; the columns are
+the three hadronic partial waves, in the order displayed.
+
+The rows have unit norm and are mutually orthogonal, so $UU^T=1$.
+This checks that no state or normalisation factor was lost. It is
+a basis transformation, not a probability assignment to a physical
+bound state.
+
+Task 2 is complete. For the coupling calculation, the key entry is
+the $S$-wave overlap with $\Sigmap$, namely $1/\sqrt3$.
+We now combine it with the lattice source information.
+\end{speech}
+\cue{Trace the first row once, then point to orthogonality. A physical
+$S$-wave state has both $\Sigma$ and $\Pi$ components in the BO basis;
+the string selection rule will select only the $\Sigma$ contribution.}
+
+\slidenote{26}{Task 3: The basis problem}{0:45}
+\begin{speech}
+The lattice meson-pair operator is built from two pseudoscalar
+static--light mesons. Our target is a compact $1^{++}$ bottomonium
+coupling to an $S$-wave $\BBst$ pair. Those are not the same
+normalised state.
+
+The route has two conversions: resolve the lattice pair into its
+heavy- and light-spin components, then project the allowed BO
+configuration onto the physical $S$ wave. We already derived the
+second overlap. We still need the spin factor in the first.
+Using the lattice pseudoscalar source does not add a physical
+$B\bar B$ scattering channel to our $1^{++}$ problem.
+\end{speech}
+\cue{Point along the chain: lattice pair $\to$ normalised $\Sigmap$
+component $\to$ hadronic $S$ wave. Distinguish the input $\sqrt2g_l$
+from both the intermediate coupling and the final $g$.}
+
+\slidenote{27}{Task 3, Step 1: Lattice coupling and heavy-quark spin}{1:30}
+\begin{speech}
+The off-diagonal light-flavour entry in the lattice parametrisation
+is $\sqrt2g_l$. The square root of two comes from the normalised
+isoscalar combination of the two light flavours. It is already
+present before we discuss spin.
+
+The string state also inherits a definite heavy-spin structure
+from its interpolating operator. The gamma matrix contracted with
+the source direction selects heavy spin one with zero projection
+along that direction. At this order heavy-quark spin is conserved,
+so only the matching heavy-spin component of the meson-pair source
+contributes.
+
+The boxed relation says that this component appears with coefficient
+minus one half. We should derive that coefficient rather than
+interpret the lattice pseudoscalar pair as a pure longitudinal BO
+state.
+
+Each pseudoscalar initially couples one heavy spin to one light
+spin to make zero. We must regroup the four constituent spins into
+a heavy pair and a light pair. That four-spin change of coupling
+order is described by a $9j$ symbol.
+\end{speech}
+\cue{The heavy projection zero is fixed by the source operator, not by
+choosing the total $J^{PC}$ of the eventual scattering state to be zero.
+The application to the fitted coupling is qualified once on slide 32.}
+
+\slidenote{28}{Recoupling $B\bar B$: the $9j$ symbol}{1:00}
+\begin{speech}
+This formula is the four-angular-momentum analogue of the previous
+recoupling. Initially the first heavy and light spins are coupled
+together, and so are the second heavy and light spins. In the new
+basis, the two heavy spins are coupled together, and the two light
+spins are coupled together.
+
+All four constituent spins are one half. Both original mesons are
+pseudoscalars, so their individual coupled spins are zero, and
+the total spin in this recoupling is zero. The new heavy and light
+spins must therefore be equal: both zero or both one.
+
+The $9j$ symbol and its dimension factors determine the weights
+of these two components. Let us evaluate those weights.
+\end{speech}
+\cue{Point to the rows and columns of the $9j$ symbol as the two coupling
+schemes. This is the spin decomposition of the static source, not the
+claim that a physical $1^{++}$ state has total angular momentum zero.}
+
+\slidenote{29}{Evaluating the $9j$ symbol}{1:05}
+\begin{speech}
+Because the total spin is zero, the $9j$ symbol reduces to a $6j$
+symbol. For four spins of one half, the elementary $6j$ value
+carries the phase displayed here. It cancels the phase in the
+reduction formula.
+
+The remaining $9j$ value is one divided by twice the square root
+of $2s+1$. Multiplying by the dimension factor gives
+$\sqrt{2s+1}/2$.
+
+For $s=0$, the amplitude is one half. For $s=1$, it is
+$\sqrt3/2$. Thus the pseudoscalar pair is a superposition of a
+heavy-singlet/light-singlet state and a heavy-triplet/light-triplet
+state coupled to zero. These squared amplitudes sum to one.
+We still need the particular axis projection selected by the string.
+\end{speech}
+\cue{Evaluate the final coefficient for $s=0,1$ aloud; do not read every
+symbol in the general reduction identity. The triplet probability $3/4$
+is not the coefficient of the specific zero-projection component.}
+
+\slidenote{30}{Task 3, Step 2: The factor of 2 from axis projection}{1:20}
+\begin{speech}
+Expand the heavy-triplet/light-triplet state, which is coupled to
+spin zero, into projections along the source axis.
+
+For heavy projection zero and light projection zero, the
+Clebsch--Gordan coefficient is minus $1/\sqrt3$. Multiply it
+by the triplet amplitude $\sqrt3/2$ from the previous slide.
+The product is minus one half.
+
+The other terms either have heavy spin zero or a nonzero heavy
+projection. They do not match the string source selected here.
+Therefore the relevant longitudinal component enters the
+pseudoscalar-pair matrix element with amplitude minus one half.
+
+Undoing this overlap multiplies the corresponding transition
+strength by two: the coupling to the normalised component is
+minus $2\sqrt2g_l$ in these conventions. The factor two is
+an inverse spin-overlap factor, not another flavour multiplicity.
+We must still project this longitudinal configuration onto the
+physical $S$ wave.
+\end{speech}
+\cue{Write or point to $(\sqrt3/2)(-1/\sqrt3)=-1/2$ before inverting it.
+The use of the fitted lattice coupling in this conversion is an adopted
+matching prescription; distinguish that from the exact spin product.}
+
+\slidenote{31}{Task 3, Step 3: From $\Sigmap$ to ${}^3S_1$}{1:10}
+\begin{speech}
+Insert the identity in the three-state BO basis between the
+physical $S$-wave bra and the transition Hamiltonian.
+
+In principle all three BO states appear in this insertion. But
+the string is $\Sigma_g^+$, and the static mixing preserves
+its BO labels. Only the $\Sigmap$ meson-pair configuration
+has the required labels. The two $\Pi_g$ terms therefore vanish
+in this particular transition.
+
+The remaining matrix element factorises into the $S$-wave overlap
+with $\Sigmap$ and the string-to-$\Sigmap$ coupling. The overlap
+is exactly the first entry of $U$, $1/\sqrt3$.
+
+Notice the distinction: symmetry selects the longitudinal BO
+configuration, not a pure $S$ wave. We use the momentum expansion
+to keep the $S$-wave compact vertex at LO, and the basis transformation
+to find its coefficient. We can now collect all three factors.
+\end{speech}
+\cue{The $\Pi$ terms vanish because their string matrix elements vanish,
+not because a physical $S$ wave has zero $\Pi$ overlap. Keep projection
+amplitudes distinct from their squared probabilities.}
+
+\slidenote{32}{Task 3, Step 4: The coupling $g$}{2:30}
+\begin{speech}
+The final coupling contains three distinct factors. The square
+root of two is flavour normalisation. The factor two undoes
+the spin overlap of the pseudoscalar source. The factor
+$1/\sqrt3$ projects the allowed longitudinal BO configuration
+onto the hadronic $S$ wave.
+
+Multiplying them by $g_l=35\MeV$ gives approximately
+$57\MeV$. The overall sign depends on the state phases and
+drops out of this compact-exchange contribution, which contains
+a transition and its adjoint. Relative signs inside the basis
+transformation still have to be kept consistent.
+
+With our adopted LO spin-overlap matching, this gives
+$57\MeV$; applying this conversion to the fitted lattice
+coupling remains an approximation pending reanalysis.
+
+Let me return to the three promised results. Eliminating the
+compact sector gives a pole sum for the effective potential,
+with a contact term for the smooth unresolved contribution;
+its energy derivative also gives the compact norm in the
+specified bound-state model space. Angular-momentum projection
+and recoupling give the orthogonal matrix $U$, so the lattice
+and hadronic descriptions can be compared without confusing
+their state labels. Finally, the flavour, spin, and $S$-wave
+factors give the adopted lattice-to-hadron coupling.
+
+Together these supply the compact-sector input to the LO
+scattering calculation. The next numerical step is to combine
+it with meson exchange and the contact interaction, constrain
+the remaining parameters with the $\chi_{b1}$ spectrum, and
+solve for the physical poles. That calculation is not a result
+shown in this deck.
+
+The point of today's derivation is that the lattice coupling
+cannot be inserted into the hadronic potential until we specify
+which states it connects and how those states are normalised.
+\end{speech}
+\cue{Pause on each of the three factors, then close the loop to slide 11.
+The $57\MeV$ is a matched strength in the adopted LO description, not the
+momentum-space matrix element for every radial state and every momentum.
+The spoken caveat is deliberately one sentence; expand only if asked.}
+
+\clearpage
+\pdfbookmark[0]{Private question bank}{question-bank}
+\section*{Private question bank --- not part of the speech}
+These answers support questions throughout the talk. Do not insert the whole
+bank into the prepared narrative. After answering, return to the current task.
+
+\subsection*{1. Is BO the same as cylindrical symmetry?}
+No. BO organises slow heavy-coordinate dynamics using a fast light-field
+problem at fixed coordinates. Cylindrical symmetry classifies that
+fixed-two-source light-field problem. It is not the origin of the slow/fast
+hierarchy. The heavy kinetic term then relates different orientations and
+can couple BO channels. Near an avoided crossing, retaining the coupled
+surfaces is essential; a blanket single-surface approximation is not the
+argument used here.
+
+\subsection*{2. What does the lattice actually determine?}
+Static energy eigenvalues are extracted from correlation functions; the
+Cornell diagonal entries and mixing constants quoted on slide 6 come from
+a model fit to those levels. The plotted solid and dashed curves are both
+reconstructed from that fitted model. The energies are referenced to twice
+a static--light meson energy, so an additive static self-energy has been
+removed. This does not fix the finite-mass compact offset in our calculation.
+
+In the manuscript's implementation, use $\sigma,\gamma,g_l$ as input;
+fit the compact offset, replace the flat light-pair entry with explicit
+hadronic dynamics, and do not retain the strange channel explicitly
+(\texttt{../../Xb.tex}, lines 399--404). The physical-light-mass result is
+an extrapolation from finite lattice spacing, not a continuum-extrapolated
+measurement of every parameter of our EFT. Do not infer an EFT uncertainty
+by propagating the small statistical error on $g_l$ alone.
+
+\subsection*{3. Why higher-order $D$ waves if $U$ contains order-one $D$ coefficients?}
+The static BO selection and the soft-momentum expansion answer different
+questions. The first row of $U$ shows that the allowed $\Sigmap$
+configuration is not a pure $S$ wave. Symmetry does not set its $D$-wave
+coefficients to zero. The compact-transition partial-wave vertices have
+different threshold behaviour: a $D$-wave vertex starts with two powers
+of soft momentum, whereas an $S$-wave vertex can start with a constant.
+
+If a mathematical demonstration is requested, first specify a local
+transition model and its radial overlap. A partial-wave overlap has the
+schematic form
+\[
+ F_{Ln}(p)\ \propto\ \int_0^\infty r^2\,dr\;j_L(pr)\,R_{1n}(r),
+ \qquad
+ j_0(x)=1+O(x^2),\quad j_2(x)=\frac{x^2}{15}+O(x^4).
+\]
+The spherical Bessels implement the momentum behaviour; they are not its
+physical cause. The compact radial function is a $P$-wave function because
+the initial bottomonium is ${}^3P_1$; the transition operator changes the
+spin--angular structure, so the final partial wave need not be $P$ wave.
+
+This is a formal low-momentum counting argument, not a quantitative
+error estimate at arbitrary momenta or for every extended radial state.
+It also does not remove tensor-induced $S$--$D$ mixing from the OME
+interaction. Do not say ``all $D$ waves are absent from the full LO problem.''
+
+\subsection*{4. What exactly is approximate about the factor two?}
+The spin recoupling and the product
+$(\sqrt3/2)(-1/\sqrt3)=-1/2$ are exact for the normalised states and
+phase conventions on the slides. If the lattice quantity is identified
+with the transition to that unprojected pseudoscalar pair, undoing the
+projection gives the factor two.
+
+Applying this state-level argument to a parameter extracted from a
+restricted lattice fit is the additional matching assumption. The
+current manuscript explicitly describes applying the factor to the
+Bulava 2024 result as an approximation pending reanalysis
+(\texttt{../../Xb.tex}, lines 454--456). It motivates the prescription
+using the earlier Bali-data reanalysis by Bicudo et al. Do not claim
+that this talk has reanalysed the Bulava correlators or proved an exact
+rescaling of their fitted Hamiltonian.
+
+A concise answer is: ``The overlap is exact; the identification needed
+to convert this fitted lattice parameter is our adopted approximation.
+That is why I call $57\MeV$ a matched LO input, not a direct lattice
+measurement of the physical decay vertex.''
+
+\subsection*{5. Why use a pseudoscalar pair if $B\bar B$ cannot have $1^{++}$?}
+We use the spin structure of the lattice static-source operator to
+identify the transition to a normalised BO component. Heavy spin is a
+spectator at this order. We then construct the physical $1^{++}$
+partial-wave state and apply the $S$-wave overlap from $U$. This is not
+a physical $B\bar B\to1^{++}$ scattering channel and not a claim
+that the spin-zero intermediate coupling on slides 28--29 is the total
+angular momentum of the final hadronic state.
+
+Likewise, a physical ${}^3S_1$ pair contains both $\Sigma$ and $\Pi$
+components in the BO basis. Only its $\Sigma$ component mixes with this
+string. The selection rule acts on the transition matrix element, not
+on the full expansion of the physical state.
+
+\subsection*{6. Can the compact probability be measured? What about energy-dependent OME?}
+The displayed compact probability is a real norm for a normalisable bound
+state in a specified Hilbert-space decomposition, with an underlying
+energy-independent Hermitian Hamiltonian and transition operator.
+It is not a basis- or scheme-independent observable. Resonance extensions
+are not ordinary positive probabilities.
+
+The derivative identity follows directly from elimination:
+\[
+ \hat V=\hat g(E-H_{QQ})^{-1}\hat g^\dagger,
+ \qquad
+ -\partial_E\hat V=\hat g(E-H_{QQ})^{-2}\hat g^\dagger.
+\]
+A constant contact has zero energy derivative, so it does not retain
+the detailed norm of the omitted compact tower. After truncation, the
+explicit derivative counts the retained compact subspace, not a unique
+microscopic total compact probability.
+
+If $H_{MM}$ is itself represented by an energy-dependent effective kernel,
+its energy derivative contributes to the full normalisation as well.
+For example, an energy-dependent meson-exchange kernel can encode
+eliminated meson--meson--light-meson configurations. The two-sector norm
+on the slide should not be applied to that enlarged effective problem
+without those terms. The compact contribution from the displayed
+$\hat V$ is still identified separately under its stated assumptions.
+
+\subsection*{7. Why can omitted levels become a constant contact?}
+Only when their poles and other omitted singularities are remote from
+the region being described, so their kernel admits a low-energy
+expansion. Its leading short-distance term is constant in energy and
+external momenta. Higher terms require derivative or energy-dependent
+operators. A nearby omitted pole cannot be replaced this way.
+The regulator and the retained-state count change the separation of
+resolved and unresolved physics, hence $C(\Lambda,N)$. The contact
+cannot repair a missing long-range nonanalytic structure at all energies.
+
+\subsection*{8. Is $g$ the full transition matrix element for every radial state?}
+No. $\hat g$ is an operator between sectors, $g_l$ is a parameter of
+the static fit, and $g$ is the matched spin--angular strength used in
+the adopted LO transition model. Momentum-space transitions also depend
+on the compact radial wave function and the corresponding overlap or
+form factor. A common, local, $r$-independent strength is an additional
+LO modelling choice, not a consequence of the orthogonality of $U$.
+The spectator picture alone does not derive its radial constancy.
+
+\subsection*{9. Is the energy-dependent potential singular at a bare level?}
+The eliminated representation contains bare poles; its resolvent formula
+is only valid away from them. At such a point return to the coupled
+Hamiltonian or use the appropriate limiting/scattering formulation.
+The bare pole is not automatically a physical pole after coupling to
+mesons. Physical energies follow from solving the full dynamical problem,
+not from reading the denominators in isolation.
+
+\subsection*{10. What should I retain after this talk?}
+Three connected statements: a compact sector can be represented by
+explicit energy-dependent poles; comparing static and hadronic channels
+requires a normalised basis transformation; and the lattice mixing
+parameter must be matched to the intended hadronic transition before
+it is used. The radial dynamics, hadronic interaction, fits, and pole
+search remain the subsequent calculation, not additional results hidden
+in the $57\MeV$ number.
+
+\clearpage
+\pdfbookmark[0]{Sources and rehearsal checks}{sources}
+\section*{Sources and rehearsal checks --- not spoken}
+\begin{itemize}
+\item \textbf{Slide authority:} \texttt{slides/main-v2.typ} and its 32-page
+PDF. Slide numbers here refer to PDF pages, including the title page.
+Commented-out slides and plot helpers are not extra talk content.
+\item \textbf{Manuscript cross-check:} \texttt{../../Xb.tex}, especially
+lines 399--461 (which lattice inputs are used and the coupling matching).
+These local line references describe the source used to prepare this note.
+\item \textbf{Supporting study note:} \texttt{s\_channel\_note.tex},
+especially the sections on string breaking, transition vertices, and
+projection-operator elimination. It is supporting material, not an
+independent lattice reanalysis.
+\item M. Born and R. Oppenheimer, \emph{Zur Quantentheorie der Molekeln},
+Annalen der Physik \textbf{389} (1927), 457--484
+(also cited as fourth-series volume 84).
+\href{https://doi.org/10.1002/andp.19273892002}{doi:10.1002/andp.19273892002}.
+\item J. Bulava et al., \emph{The quark-mass dependence of the potential
+energy between static colour sources in the QCD vacuum with light and
+strange quarks}, Phys. Lett. B \textbf{854} (2024), 138754,
+\href{https://arxiv.org/abs/2403.00754}{arXiv:2403.00754}.
+\item J. Bulava et al., Phys. Lett. B \textbf{793} (2019), 493,
+\href{https://arxiv.org/abs/1902.04006}{arXiv:1902.04006}; source-operator
+context for the heavy-spin discussion.
+\item M. Jacob and G. C. Wick, Ann. Phys. \textbf{7} (1959), 404;
+angular-momentum projection and partial-wave connection.
+\end{itemize}
+
+\textbf{Rehearsal checkpoints.} At slide 11, the audience should know the
+three destinations; at slide 16, why the compact norm involves an energy
+derivative; at slide 25, why $U$ needs both projection and recoupling;
+at slide 32, which distinct operations produced $\sqrt2$, $2$, and
+$1/\sqrt3$. If a checkpoint fails, clarify the missing distinction
+rather than add more coefficient arithmetic.
+
+\textbf{Timing check.} Rehearse the \textbf{Say} paragraphs with the actual
+slides and equation pauses. Keep a separate discussion clock. The 43:20
+allocation is a preparation target; it is not evidence that a particular
+speaker has already delivered the text in that time.
+\end{document}

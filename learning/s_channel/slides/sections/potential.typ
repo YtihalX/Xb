@@ -1,5 +1,6 @@
 #import "../style.typ": *
 #import "@preview/cetz:0.4.2"
+#import "../data.typ": *
 
 // Overview chain of s_channel_note.tex (Fig. 1), redrawn in cetz.
 // Only used by the commented-out overview slide below.
@@ -77,6 +78,147 @@
   line("lse.south", "out.north", mark: tip, stroke: link)
 })
 
+// The paper's Fig. 1: the 3P1 bottomonium turns into an S-wave B Bbar* pair through g-hat;
+// the heavy quarks are spectators.
+#let transition-diagram() = cetz.canvas(length: 1cm, {
+  import cetz.draw: *
+  let head(pos, angle) = {
+    let (x, y) = pos
+    let (c, s) = (calc.cos(angle), calc.sin(angle))
+    line(
+      (x + 0.12 * c, y + 0.12 * s),
+      (x - 0.12 * c - 0.09 * s, y - 0.12 * s + 0.09 * c),
+      (x - 0.12 * c + 0.09 * s, y - 0.12 * s - 0.09 * c),
+      close: true,
+      fill: black,
+      stroke: none,
+    )
+  }
+  let label(pos, anchor, body) = content(pos, text(size: 12pt, body), anchor: anchor, padding: 0.08)
+  // heavy quarks go straight through
+  line((0.9, 4.26), (7.9, 4.26), stroke: 0.8pt)
+  line((0.9, 1.6), (7.9, 1.6), stroke: 0.8pt)
+  head((2.6, 4.26), 180deg)
+  head((6.2, 4.26), 180deg)
+  head((2.66, 1.6), 0deg)
+  head((6.24, 1.6), 0deg)
+  // light quark pair created inside the box
+  line((5.3, 3.8), (7.9, 3.8), stroke: 0.8pt)
+  line((5.3, 2.06), (7.9, 2.06), stroke: 0.8pt)
+  arc((5.3, 3.8), start: 90deg, stop: 270deg, radius: (0.86, 0.87), stroke: 0.8pt)
+  head((6.6, 3.8), 0deg)
+  head((6.6, 2.06), 180deg)
+  head((4.44, 2.93), 90deg)
+  rect((3.0, 1.04), (5.84, 4.8), stroke: 0.6pt + red)
+  label((4.42, 1.0), "north", text(fill: red)[$hat(g)$])
+  label((0.85, 4.26), "east", [$macron(b)$])
+  label((0.85, 1.6), "east", [$b$])
+  label((7.95, 4.3), "west", [$macron(b)$])
+  label((7.95, 3.78), "west", [$q$])
+  label((7.95, 2.1), "west", [$macron(q)$])
+  label((7.95, 1.56), "west", [$b$])
+  label((2.05, 2.93), "center", [$pw(3, P, 1) thin [b macron(b)]$])
+  label((6.95, 2.93), "center", [$pw(3, S, 1) thin [B macron(B)^*]$])
+})
+
+// Stroke of curve n (0-based) in the tower plots: n < 4 solid, n >= 4 dashed (as code/figs.py).
+#let tower-stroke(n) = if n < 4 { 1.4pt + curve-colours.at(n) } else {
+  (paint: curve-colours.at(n), dash: "dashed", thickness: 0.8pt)
+}
+
+// u_n(r) of the bare Cornell tower (data: data.typ). Only used by a commented-out slide.
+#let un-plot() = line-plot(
+  size: (9.4, 4.9),
+  x-range: (0, 3),
+  y-range: (-0.6, 0.8),
+  x-ticks: (0, 0.5, 1, 1.5, 2, 2.5, 3),
+  x-digits: 1,
+  y-ticks: (-0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8),
+  y-digits: 1,
+  x-label: [$r$ [fm]],
+  y-label: [$u_n (r)$ [$"GeV"^(1\/2)$]],
+  y-label-gap: 1.25,
+  tick-size: 10pt,
+  label-size: 12pt,
+  xy => {
+    import cetz.draw: *
+    line(xy(0, 0), xy(3, 0), stroke: 0.5pt)
+    line(xy(1.21, -0.6), xy(1.21, 0.8), stroke: (paint: gray, dash: "dotted", thickness: 0.8pt))
+    content(xy(1.24, 0.78), text(size: 9pt, fill: gray)[$V(r) = hat(E)_1$ \ ($r approx 1.2$ fm)], anchor: "north-west")
+    for (n, u) in un-values.enumerate() {
+      line(..u.enumerate().map(((i, v)) => xy(i * un-r-step, v)), stroke: tower-stroke(n))
+    }
+    plot-legend(xy(1.8, -0.2), range(4).map(n => (tower-stroke(n), [$n = #(n + 1)$])), step: 0.36, sample: 0.6, size: 9pt)
+    plot-legend(xy(2.42, -0.2), range(4, 7).map(n => (tower-stroke(n), [$n = #(n + 1)$])), step: 0.36, sample: 0.6, size: 9pt)
+  },
+)
+
+// f_n(p) of the bare Cornell tower (data: data.typ). Only used by a commented-out slide.
+#let fn-plot() = line-plot(
+  size: (9.4, 4.9),
+  x-range: (0, 2.5),
+  y-range: (-10, 40),
+  x-ticks: (0, 0.5, 1, 1.5, 2, 2.5),
+  x-digits: 1,
+  y-ticks: (-10, 0, 10, 20, 30, 40),
+  x-label: [$p$ [GeV]],
+  y-label: [$f_n (p)$ [$"GeV"^(-3\/2)$]],
+  y-label-gap: 1.1,
+  tick-size: 10pt,
+  label-size: 12pt,
+  xy => {
+    import cetz.draw: *
+    line(xy(0, 0), xy(2.5, 0), stroke: 0.5pt)
+    line(xy(0.695, -10), xy(0.695, 40), stroke: (paint: gray, dash: "dotted", thickness: 0.8pt))
+    content(xy(0.72, 37), text(size: 9pt, fill: gray)[$kappa approx 0.695$ GeV \ ($E_B = 91$ MeV)], anchor: "north-west")
+    for (n, f) in fn-values.enumerate() {
+      line(..f.enumerate().map(((i, v)) => xy(i * fn-p-step, v)), stroke: tower-stroke(n))
+    }
+    plot-legend(xy(1.5, 37), range(4).map(n => (tower-stroke(n), [$f_#(n + 1) (p)$])), step: 0.36, sample: 0.6, size: 9pt)
+    plot-legend(xy(2.0, 37), range(4, 7).map(n => (tower-stroke(n), [$f_#(n + 1) (p)$])), step: 0.36, sample: 0.6, size: 9pt)
+  },
+)
+
+// V_S(0, 0; E) for N = 4, computed from E_n and f_n(0) (data.typ). Only used by a commented-out slide.
+#let v-of-e-plot() = {
+  let es = range(1201).map(i => -0.85 + i * 0.001) // GeV
+  let term(n, e) = cornell-g * cornell-g * calc.pow(cornell-f0.at(n), 2) / (e - cornell-e-bare.at(n))
+  let y-range = (-60, 60)
+  let (w, h) = (10.2, 6.4)
+  line-plot(
+    size: (w, h),
+    x-range: (-910, 410),
+    y-range: y-range,
+    x-ticks: (-800, -600, -400, -200, 0, 200, 400),
+    y-ticks: (-60, -40, -20, 0, 20, 40, 60),
+    x-label: [$E = M - M_"th"$ [MeV]],
+    y-label: [$V_S^((macron(b) b))(0, 0; E)$ [$"GeV"^(-2)$]],
+    y-label-gap: 1.2,
+    tick-size: 11pt,
+    label-size: 13pt,
+    xy => {
+      import cetz.draw: *
+      line(xy(-910, 0), xy(410, 0), stroke: 0.5pt)
+      for n in range(4) {
+        let colour = curve-colours.at(n)
+        let e-n = 1000 * cornell-e-bare.at(n)
+        line(xy(e-n, -60), xy(e-n, 60), stroke: (paint: colour, dash: "dotted", thickness: 0.6pt))
+        plot-curve(xy, es.map(e => (1000 * e, term(n, e))), y-range, (paint: colour, dash: "dashed", thickness: 0.9pt))
+      }
+      plot-curve(xy, es.map(e => (1000 * e, range(4).map(n => term(n, e)).sum())), y-range, 1.6pt)
+      line(xy(0, -60), xy(0, 60), stroke: 0.8pt + red)
+      content(xy(8, -55), text(size: 10pt, fill: red)[$B macron(B)^*$ thr.], anchor: "west")
+      plot-legend(
+        (w + 0.3, h - 0.2),
+        range(4).map(n => ((paint: curve-colours.at(n), dash: "dashed", thickness: 0.9pt), [$n = #(n + 1)$ term]))
+          + ((1.6pt, [sum, $N = 4$]),),
+        step: 0.55,
+        size: 11pt,
+      )
+    },
+  )
+}
+
 // ---------------------------------------------------------------------------
 #slide[Three kinds of interactions][
   #grid(
@@ -130,14 +272,8 @@
 //     columns: (1fr, 1fr),
 //     column-gutter: 1em,
 //     align: center,
-//     [#image(
-//         "../figs/un_r.pdf",
-//         height: 6.2cm,
-//       ) #caption[$u_n (r) = r R_(1 n)(r)$; dotted: string–$B macron(B)$ crossing]],
-//     [#image(
-//         "../figs/fn_p.pdf",
-//         height: 6.2cm,
-//       ) #caption[$f_n (p) = sqrt(4 pi) integral r^2 dif r thin j_0 (p r) R_(1 n)(r)$; dotted: $kappa$]],
+//     [#un-plot() #caption[$u_n (r) = r R_(1 n)(r)$; dotted: string–$B macron(B)$ crossing]],
+//     [#fn-plot() #caption[$f_n (p) = sqrt(4 pi) integral r^2 dif r thin j_0 (p r) R_(1 n)(r)$; dotted: $kappa$]],
 //   )
 // ]
 
@@ -159,7 +295,7 @@
       - $phi(q) = braket(q, Psi)$; $ket(q)$ are the meson-pair states, normalised as $braket(q', q) = (2 pi^2) / q^2 delta(q' - q)$
     ],
     [
-      #image("../figs/diagram.pdf", width: 8.5cm)
+      #transition-diagram()
       #caption[$pw(3, P, 1)$ bottomonium $arrow.r$ $S$-wave $B macron(B)^*$ via $hat(g)$; \ the heavy quarks are spectators]
     ],
   )
@@ -211,7 +347,7 @@
     columns: (1.55fr, 1fr),
     column-gutter: 1em,
     align: horizon,
-    image("../figs/V_of_E.pdf", width: 100%),
+    v-of-e-plot(),
     [
       at zero momenta, with $N = 4$:
       $ V_S (0, 0; E) = sum_(n <= 4) (g^2 f_n (0)^2) / (E - E_n) $
