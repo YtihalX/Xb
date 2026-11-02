@@ -1,5 +1,4 @@
-# Toy: Gamma[chi_c1(4010) -> D Dbar*] from the LO compact-continuum vertex, with the
-# Cornell 2P wave function in place of a colleague's lambda^(-3/2) estimate (shared 2026-10-29).
+# Toy: bare Cornell 2P golden-rule width for chi_c1(4010) -> D Dbar* at the physical decay momentum.
 # Run: julia --project=checks toy/chi_c1_4010_width/run.jl     (GeV natural units)
 using HadronDynamics, LinearAlgebra, Printf
 const B = HadronDynamics.BOchiEFT
@@ -43,36 +42,25 @@ width_nr(psi, p) = mu * p * g^2 * psi^2 / (4pi^2)    # golden rule with d^3p/(2p
 p0 = pdecay(M)
 @printf("Inputs: mc = %.3f GeV, sigma = %.4f GeV^2, gamma = %.3f, g = %.2f MeV, M = %.1f MeV\n",
         mc, sigma, gamma, 1e3g, 1e3M)
-@printf("Decay momentum p = %.1f MeV (colleague: 272 MeV); sqrt(2 mu (M - mD - mD*)) = %.1f MeV\n",
+@printf("Decay momentum p = %.1f MeV; sqrt(2 mu (M - mD - mD*)) = %.1f MeV\n",
         1e3p0, 1e3sqrt(2mu * (M - mD - mDs)))
 println()
 @printf("Cornell levels E_n (GeV): package %.6f %.6f | finite difference %.6f %.6f\n",
         ff.energies[1], ff.energies[2], fd_E[1], fd_E[2])
 @printf("Bare masses 2mc + V0 + E_n (MeV): 1P %.1f, 2P %.1f\n",
         1e3(2mc + V0 + ff.energies[1]), 1e3(2mc + V0 + ff.energies[2]))
-for p in (0.272, p0)
-    a, b = psi_pkg(p), psi_fd(p)
-    @printf("psi_n(p = %.0f MeV) [GeV^-3/2]: package %+.4f %+.4f | finite difference |%.4f| |%.4f|\n",
-            1e3p, a[1], a[2], abs(b[1]), abs(b[2]))
-end
+a, b = psi_pkg(p0), psi_fd(p0)
+@printf("psi_n(p = %.0f MeV) [GeV^-3/2]: package %+.4f %+.4f | finite difference |%.4f| |%.4f|\n",
+        1e3p0, a[1], a[2], abs(b[1]), abs(b[2]))
 grid = range(0.01, 2.0, length=400)
 vals = [psi_pkg(p)[2] for p in grid]
 node = [grid[i] for i in 1:length(grid)-1 if sign(vals[i]) != sign(vals[i+1])]
 @printf("Nodes of psi_2(p) below 2 GeV: %s MeV\n", join([@sprintf("%.0f", 1e3x) for x in node], ", "))
 println()
 
-psi_est = 0.1^(-1.5)
 psi2 = psi_pkg(p0)[2]
-rows = [
-    ("colleague's chain: g_rel = 5 GeV, p = 272 MeV", 5.0^2 * 0.272 / (8pi * M^2), NaN),
-    ("lambda^(-3/2) estimate, p = 272 MeV, exact prefactor", width(psi_est, 0.272), grel(psi_est)),
-    ("Cornell psi_2, p = 272 MeV", width(psi_pkg(0.272)[2], 0.272), grel(psi_pkg(0.272)[2])),
-    ("Cornell psi_2, physical p", width(psi2, p0), grel(psi2)),
-]
-for (label, G, gr) in rows
-    @printf("%-55s Gamma = %6.1f MeV   g_rel = %s\n", label, 1e3G,
-            isnan(gr) ? "5 GeV (as printed)" : @sprintf("%.2f GeV", abs(gr)))
-end
+@printf("Cornell psi_2, physical p: Gamma = %.1f MeV, |g_rel| = %.2f GeV\n",
+        1e3width(psi2, p0), abs(grel(psi2)))
 lo, hi = M - dM, M + dM
 @printf("Physical p, M = %.1f..%.1f MeV: Gamma = %.1f..%.1f MeV\n",
         1e3lo, 1e3hi, 1e3width(psi_pkg(pdecay(lo))[2], pdecay(lo); m=lo),

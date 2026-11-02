@@ -1,0 +1,11 @@
+[deps]
+CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+HadronDynamics = "65df212b-eac7-4ec6-975d-6ff22153a818"
+
+[sources]
+HadronDynamics = {path = "../../code/HadronDynamics.jl"}
+
+[compat]
+CairoMakie = "0.15"
+HadronDynamics = "0.1"
+julia = "1.13"
