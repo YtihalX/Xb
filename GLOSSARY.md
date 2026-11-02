@@ -116,7 +116,7 @@ Source: [@Zhang:2026iyr] v1, Eqs. (2), (6), (13), (82); the user, grilling 2026-
 **Spin-independent bare spectrum**:
 At LO the quark–antiquark potential carries no spin dependence, so bare states with the same $n$ and $L=1$ share one reference mass and one wave function for every $J$. In the $1^{++}$ fit the $1/m_b^2$ spin-dependent shifts, constant within about 1 MeV over the states considered, are absorbed into $V_0$, and the quark-model parameters $m_b$, $\sigma$, $\gamma$, $V_0$ fixed there are used unchanged for every $J^{PC}$.
 _Avoid_: centre-of-gravity spectrum (for the $1^{++}$ fit)
-Source: [@Zhang:2026iyr] v1, Sec. III A 1, App. B, Eqs. (B4), (B6); decisions/0004-quark-model-fixed.md; the user, slicing session 2026-10-28 ("Agree")
+Source: [@Zhang:2026iyr] v1, Sec. III A 1, App. B, Eqs. (B4), (B6); NOTEBOOK.md, Decisions, Quark model fixed
 
 **Baseline fit**:
 The LO parameter set $m_b=4.534$ GeV, $V_0=371$ MeV, $C=-16.27\ \text{GeV}^{-2}$ at $N=4$, $\Lambda=4$ GeV, obtained by minimising $\Delta M$ over the three measured $\chi_{b1}$ masses with the 10.513 GeV state taken as the $X_b$; it gives $\Delta M=0.0$ MeV. Full-precision values are in code/HadronDynamics.jl/data/bochiEFT/central.toml; the cutoff variation uses the refitted rows of Table VI.
@@ -134,11 +134,11 @@ _Avoid_: subtraction, removing the deep state (without the method)
 Source: [@Zhang:2026iyr] v1, Eq. (G1) and App. G
 
 **Spurious pole**:
-A pole whose binding momentum exceeds $\Lambda_\chi\approx1$ GeV, with $\mathcal P_{\bar bb}<1\%$ and a position that moves strongly with $\Lambda$: an artifact of the renormalised singular tensor force. A pole that continues from such a pole as $C$ varies at fixed $\Lambda$ is the same spurious pole, even where mixing with a nearby bare level raises its $\mathcal P_{\bar bb}$ above 1%, as in the shallow-$X_b$ fit; through an avoided crossing with a bare level the continuation follows the predominantly hadronic member of the two levels, not the adiabatic branch, which ends on the compact-dominated state. It is projected out when it lies above the lowest compact-dominated state of the sector ($\chi_{b1}(1P)$- or $\chi_{b2}(1P)$-dominated); otherwise it is kept and the shift its projection causes is reported.
+A pole whose binding momentum exceeds $\Lambda_\chi\approx1$ GeV, with $\mathcal P_{\bar bb}<1\%$ and a position that moves strongly with $\Lambda$: an artifact of the renormalised singular tensor force. A pole that continues from such a pole as $C$ varies at fixed $\Lambda$ is the same spurious pole, even where mixing with a nearby bare level raises its $\mathcal P_{\bar bb}$ above 1%, as in the shallow-$X_b$ fit; through an avoided crossing with a bare level the continuation follows the predominantly hadronic member of the two levels. It is projected out when it lies above the lowest compact-dominated state of the sector ($\chi_{b1}(1P)$- or $\chi_{b2}(1P)$-dominated); otherwise it is kept and the shift its projection causes is reported.
 _Avoid_: deep bound state, ghost
-Source: [@Zhang:2026iyr] v1, Sec. IV D, Fig. 5(a) and its caption ("the predominantly hadronic member of the two lowest levels"), App. G; the user, grilling 2026-10-28 ("Agree the rule"); the user, slice-02 session 2026-10-29 ("Add continuation in C"; "Follow hadronic member")
+Source: [@Zhang:2026iyr] v1, Sec. IV D, Fig. 5(a) and its caption ("the predominantly hadronic member of the two lowest levels"), App. G; the user, grilling 2026-10-28 ("Agree the rule"); NOTEBOOK.md, Decisions, Spurious-pole identification
 
 **Strict HQSS limit**:
 All heavy-meson masses set to $\bar m_B=(m_B+3m_{B^*})/4\approx5.313$ GeV in every threshold, reduced mass, and TOPT offset, with the bare $\chi_{b2}$ masses equal to the bare $\chi_{b1}$ masses (any spin-dependent shift switched off) and $g$, $C$ unchanged.
 _Avoid_: HQSS limit (for the Table VII variant, which changes only the TOPT offsets), $m_{B^*}=m_B$ (without saying where)
-Source: [@Zhang:2026iyr] v1, Table VII caption ($\bar m_B$), Sec. II F 1; the user, grilling 2026-10-28 (selected as a check); decisions/0004-quark-model-fixed.md; the user, slicing session 2026-10-28 ("Agree")
+Source: [@Zhang:2026iyr] v1, Table VII caption ($\bar m_B$), Sec. II F 1; the user, grilling 2026-10-28 (selected as a check); NOTEBOOK.md, Decisions, Quark model fixed

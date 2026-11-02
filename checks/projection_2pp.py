@@ -2,18 +2,18 @@
 # requires-python = ">=3.12"
 # dependencies = ["numpy>=2.1"]
 # ///
-"""Slice 04: all 21 independent 2++ OME entries from brute-force Eq. (80).
+"""All 21 independent 2++ OME entries from brute-force Eq. (80).
 
 Route: literal Cartesian Baru:2019xnh v2 App. B projectors, canonical
 Zhang:2026iyr v1 Eq. (68) vertices and Eqs. (72)-(77) TOPT propagators.
-Both solid angles are integrated independently by the slice-03 helper;
+Both solid angles are integrated independently by the double-solid-angle helper;
 no analytic coefficients, moments, or HQSS rotation are imported.
 See literature/Baru:2019xnh/bridge.md for phases and normalisations.
 
 Frozen before analytic derivation: seed 80402; three off-shell p',p and
 absolute-M samples; orders 12 and 18; error AND quadrature change must each
 be <= 5e-9 max(1, |V|), in GeV^-2. Pion and eta are separate comparisons.
-The missing channels_2pp API is called, never replaced by an expected value.
+The public six-channel OME supplies the package comparison.
 Run: uv run --script checks/projection_2pp.py
 """
 from pathlib import Path
@@ -24,7 +24,7 @@ from _projection import project, sphere
 from _projection_2pp import projectors_2pp, potential_2pp
 
 
-# --- input: the guarded package result, through its public potential seam ---
+# The public six-channel OME supplies the package comparison.
 def package_values(points):
     point_text = '[' + ','.join(f'({r!r},{p!r},{offset!r})'
                               for r, p, offset in points) + ']'
@@ -58,7 +58,6 @@ end
     values = np.array([complex(*map(float, line[6:].split(',')))
                        for line in result.stdout.splitlines() if line.startswith('VALUE ')])
     return tuple(map(float, constants[6:].split(','))), values.reshape(len(points), 2, 21)
-# --- end input ---
 
 
 TOLERANCE = 5e-9

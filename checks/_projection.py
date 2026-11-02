@@ -3,8 +3,7 @@
 Channel projectors are data: arrays [direction, spin state, J polarisation].
 A potential callback receives q[t,s,3], outgoing/incoming species, p', p,
 and total energy, and returns V[t,s,out-spin,in-spin]. No partial-wave
-coefficients or package moment functions enter this route. Slice 04 can
-supply six channels and its species-changing 3D potentials unchanged here.
+coefficients or package moment functions enter this route. Channel data and species-changing 3D potentials are supplied by the caller.
 """
 from dataclasses import dataclass
 import numpy as np
@@ -70,7 +69,7 @@ EPSILON[0, 1, 2] = EPSILON[1, 2, 0] = EPSILON[2, 0, 1] = 1
 EPSILON[0, 2, 1] = EPSILON[2, 1, 0] = EPSILON[1, 0, 2] = -1
 
 
-def projectors_1pp(sign):
+def projectors_1pp():
     """Eq. (D1), including its imaginary VV phase and traceless tensor."""
     def s(n):
         return np.broadcast_to(np.eye(3), (len(n), 3, 3))
@@ -80,7 +79,7 @@ def projectors_1pp(sign):
 
     def vv(n):
         tensor = np.einsum('ta,tb->tab', n, n) - np.eye(3) / 3
-        value = -sign * np.sqrt(3) / 2 * 1j * (
+        value = -np.sqrt(3) / 2 * 1j * (
             np.einsum('iak,tkb->tabi', EPSILON, tensor)
             + np.einsum('ibk,tka->tabi', EPSILON, tensor))
         return value.reshape(len(n), 9, 3)

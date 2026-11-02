@@ -1,6 +1,6 @@
 # Standards
 
-What the referee's Standards axis enforces in this project. Where a rule here and referee's built-in red-flag baseline disagree, this file wins. Rules come from research-retro findings and advisor rulings; each new rule says why it exists.
+Standards for the project's working notes, checks and paper. The rules below take precedence over generic review defaults.
 
 - **Dimensions are consistent.** Every equation in notes/ and paper/ balances in mass dimension; a dimensionless ratio is stated as one.
 - **Limits are checked.** Each result is shown to reproduce its known limits (static, massless, threshold, weak coupling, a literature special case), by a check or a stated argument.

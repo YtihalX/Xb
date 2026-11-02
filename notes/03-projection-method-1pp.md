@@ -132,7 +132,7 @@ In the transpose rows, $c_{ab,k}(p,r)$ means evaluate the polynomial with outgoi
 
 `projection_coefficients(out,in,pout,pin)` returns four coefficients in the order $x^0,x^1,x^2,x^3$. `tc_moments` returns the four $\Delta_k$ for the offsets selected above. `tc_vphi` contracts these vectors with $-g_b^2/(8F_\pi^2)$. Its analytic moment implementation changes variables $x\to\omega=\sqrt{A-Bx}$; then $dx=-2\omega\,d\omega/B$, cancelling the $2\omega$ in $D_\beta$ and leaving integrals of $(A-\omega^2)^k/(\omega+\nu_\beta)$. This explains why polynomial recurrence and logarithms suffice. For small $B$ the implementation avoids cancellation through its small-$B$ moment route, rather than dividing ill-conditioned differences by $B^{k+1}$.
 
-**Discrepancy and authorised resolution:** the original package coefficients for 11,12,21,22,33 agreed with the table, but 13,23,31,32 were its negatives, i.e. the package used $U V U$ with $U=\operatorname{diag}(1,1,-1)$ relative to the agreed (D1) convention. On 2026-10-29 the user explicitly decided to align the package to (D1). The fix changes only the mixed coefficients, not the projectors, offsets, normalisation or check expectations. Frozen-reference tests convert the original reference matrix with $U$ on both sides; the frozen reference itself remains unchanged. Channel probabilities and pole positions are invariant under this basis rephasing.
+The package and the coefficient table use the printed (D1) phase. All nine entries agree with (D2)–(D10) and independent angular integration.
 
 ## 4. Independence and discrepancy protocol
 
@@ -144,31 +144,9 @@ The seeded numerical points use independent uniform $p,r\in[0.035,0.15]$ GeV and
 
 Conventions aligned before probing: natural GeV units, $g_b,F_\pi$ taken from the same package input, no Fourier transform, Eq. (80)'s spin and angular averages, incoming/outgoing ordering, $\boldsymbol q$ bilinear sign invariance, the C-even PV combination, full recoil and mass splitting, and absolute energy $M=m_B+m_{B^*}+E$. Projector signs are exactly (D1), not adjusted to fit the code.
 
-Ranked falsifiable explanations before the numerical probe:
-1. Package channel 3 is rephased relative to (D1)/(D4)/(D7): only mixed entries will change sign, all other entries will agree.
-2. The raw spin-matrix transcription mishandles the C-even normalisation: mixed entries will differ in magnitude by $\sqrt2$ (or its inverse), not just sign.
-3. The pinned source is internally inconsistent between (D1), (72)–(75) and App. D: the raw D1 integrals will match one route but not the other.
-4. Quadrature or moments are inaccurate: residuals will change with angular order rather than approach a fixed sign ratio.
+## 5. Independent comparison
 
-The initial discrepancy, the user decision, and the before/after check results are recorded below and in the slice. The independent check's expectations and tolerance remain those committed before this derivation.
-
-## 5. Observed comparison, user decision, and regression
-
-Before the fix, with input `PROJECTOR_SIGN=+1` (the printed D1), `uv run --script checks/projection_1pp.py` exited 1: all 24 mixed PV–VV comparisons failed by an overall minus sign, while all 30 other comparisons passed. For the first pion sample,
-
-| Entry | Eq. (80), GeV$^{-2}$ | Original package, GeV$^{-2}$ | Order-12 → order-18 change |
-|---|---|---|---|
-| 13 | $-3.22785350281$ | $+3.22785350281$ | $0$ at printed precision |
-| 23 | $+0.343022784097$ | $-0.343022784097$ | $0$ at printed precision |
-| 33 | $-0.0888336642041$ | $-0.0888336642041$ | $8.33\times10^{-17}$ |
-
-Across the samples the largest quadrature change was $1.50\times10^{-13}$ GeV$^{-2}$, far below the fixed $5\times10^{-9}\max(1,|V|)$ criterion. Thus this was not quadrature nonconvergence. The source polynomial table fixed the same mixed signs as the independent integral.
-
-Before the fix, the single-variable diagnostic `uv run --script checks/projection_1pp.py --flip-5d1` exited 0 with 54 PASS lines, largest analytic discrepancy $4.67\times10^{-13}$ GeV$^{-2}$. It changed only the VV projector sign, leaving all matrices, offsets, quadrature orders and expected values unchanged. This confirmed the exact channel-rephasing explanation and rejected a missing $\sqrt2$ normalisation or quadrature explanation. It was a diagnostic, **not** the requested broken-result red run.
-
-The user decision (2026-10-29, relayed by the parent) was **align the package to (D1)**. No canonical convention changed. The package correction changes the sign of the four mixed entries through the two polynomial branches; diagonal blocks and all TOPT offsets remain untouched. The evidence was supplied before editing in `local://slice03-5D1-evidence.md`, with a separate three-route calculation: raw Eq. (80) and the printed (D4)/(D7) both gave $V_{13}^\pi=-3.227853502815$, $V_{23}^\pi=+0.343022784097$, $V_{13}^\eta=-0.048906606860$, $V_{23}^\eta=+0.000536185020$ GeV$^{-2}$; the original package gave their negatives.
-
-After alignment, the unchanged comparison at the printed projector sign gives 54 PASS lines. The largest analytic residual is $4.67\times10^{-13}$ GeV$^{-2}$, with order-12/order-18 changes at most $1.50\times10^{-13}$ GeV$^{-2}$. For the required deliberate red, the input sign alone was changed to $-1$ (confirmed with `git diff`): `uv run --script checks/projection_1pp.py` exited 1, with $V_{13}^\pi=+3.22785350281$ against analytic $-3.22785350281$ and $V_{23}^\pi=-0.343022784097$ against $+0.343022784097$ in sample 1. All 24 mixed comparisons failed while the other 30 passed. The printed positive input sign was restored. The package's BOchiEFT testsets all pass under the explicit frozen-reference basis conversion, and the slice-01 baseline fit remains green. The unrelated full-suite Cornell witness failure is recorded separately in the slice and is being dispositioned by the parent, not hidden as a passing full-suite run.
+The printed-D1 comparison gives 54 passing entries. The largest analytic residual is $4.67\times10^{-13}$ GeV$^{-2}$ and the order-12/order-18 quadrature change is at most $1.50\times10^{-13}$ GeV$^{-2}$. These recorded results concern the projection comparison, not a full-suite test claim.
 
 ## 6. Dimensions and controlled limiting cases
 

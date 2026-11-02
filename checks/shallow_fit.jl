@@ -1,5 +1,5 @@
 # Shallow-Xb fit at the fitted-parameter and bound-state seams.
-# Slice: plan/slices/02-shallow-fit-spurious-projection.md
+# NOTEBOOK.md, Established, Shallow-Xb fit
 # Independent route: [@Zhang:2026iyr] v1 Table VIII, projected row; Eq. (94).
 # Mapping: literature/Zhang:2026iyr/bridge.md. GeV, probabilities as fractions.
 const expected = [
@@ -8,10 +8,8 @@ const expected = [
     (name="chi_b1_3P", mass=10.535, compact=0.86, XS=0.13),
     (name="X_b", mass=10.60327, compact=0.08, XS=0.66),
 ]
-# --- input: the guarded computation fills this block ---
 include(joinpath(@__DIR__,"..","code","HadronDynamics.jl","examples","bochiEFT","shallow_fit.jl"))
 results = ShallowFitExample.shallow_result()
-# --- end input ---
 if results === nothing
     println("FAIL shallow-Xb fit: no computed result yet")
     exit(1)

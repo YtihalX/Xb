@@ -1,5 +1,5 @@
 # Baseline fit: four 1++ pole masses and component probabilities.
-# Slice: plan/slices/01-checks-env-baseline-fit.md
+# NOTEBOOK.md, Established, Baseline 1++ spectrum
 # Independent route: [@Zhang:2026iyr] v1 Table V (dagger rows), Table VI (Lambda=4 GeV).
 # Mapping: literature/Zhang:2026iyr/bridge.md, Eqs. (104)-(106).
 # Units: GeV; probabilities are fractions, not percent.
@@ -11,14 +11,12 @@ const expected = [
     (name="chi_b1_3P", mass=10.544, compact=0.85, S=0.14, D=0.01, three_body=0.00),
 ]
 
-# --- input: the guarded computation fills this block ---
 using HadronDynamics, TOML
 include(joinpath(@__DIR__, "..", "code", "HadronDynamics.jl", "examples", "bochiEFT", "run.jl"))
 const driver = BOchiEFTExample
 config = TOML.parsefile(driver.DEFAULT_INPUT)
 driver.BLAS.set_num_threads(config["numerics"]["blas_threads"])
 # Local neighborhoods track the four named states, not a complete pole census.
-# Broad enough for the deliberately uncorrected coupling to reach assertions.
 for state in config["states"]
     state["half_width_GeV"] = 0.014
 end
@@ -32,7 +30,6 @@ for row in rows
     println("RESULT ", row["name"], " mass_GeV=", row["mass_GeV"],
             " binding_MeV=", row["binding_MeV"], " P_compact=", row["P_compact"])
 end
-# --- end input ---
 
 if results === nothing
     println("FAIL baseline fit: no computed result yet")

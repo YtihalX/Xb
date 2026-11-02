@@ -1,0 +1,816 @@
+# Exact text removed or replaced by the 2026-10-30 cleanup (history/CLEANUP.md, all items applied).
+# "-" lines: the old text; "+" lines: what the working files hold now. Also moved: notes/03.pdf, notes/note.pdf -> history/notes-pdf/.
+
+--- a/checks/appd_contours.py
++++ b/checks/appd_contours.py
+@@ -2,18 +2,18 @@
+ # requires-python = ">=3.12"
+ # dependencies = ["mpmath>=1.3"]
+ # ///
+-"""Slice 05: the App. D example of Wu:2026wxb v1 on every contour, both sheets.
++"""Draft: the App. D example of Wu:2026wxb v1 on every contour, both sheets; prescriptions unfilled.
+ 
+ Seam: J(p;m) = int_C q dq/(p^2-q^2) [l_-(q) - l_+(q)], Wu:2026wxb v1, Eq. (D2),
+ with w_pm = (q pm p)^2 + m^2 and l_pm the continued logs of Eq. (D1).
+ Route: Cauchy's theorem. Each contour that App. D gives for a case, with the
+ term App. D adds to it, must return the same number; so must each mirrored
+ contour for p in the fourth quadrant (sheet (-) of CONVENTIONS.md "Pole position
+-and Riemann sheets"), with the terms derived in notes/05-continuation.md.
++and Riemann sheets"), with the terms pending in NOTEBOOK.md, Open questions, Kernel continuation.
+ The reference on each sheet is the deformed contour that crosses no cut
+ (C_R, or its mirror Cbar_R), on which the principal logs are the continued ones.
+ Expected: for each p, every contour agrees with the reference to 1e-6 relative
+-(decisions/0005 default). Cases follow App. D, Fig. 11: (a) 0 < |Im p| < m;
++(NOTEBOOK.md, Open questions, Tolerances need your decision). Cases follow App. D, Fig. 11: (a) 0 < |Im p| < m;
+ (b) |Im p| > m; (c)/(d) |Im p| > m with Re p near 0.
+ Bridge: literature/Wu:2026wxb/bridge.md.
+ Run: uv run --script checks/appd_contours.py
+@@ -30,7 +30,7 @@
+ }
+ 
+ 
+-# --- input: the contour prescriptions as derived in notes/05-continuation.md, Secs. 1-2 ---
++# --- input: contour prescriptions unfilled; NOTEBOOK.md, Open questions, Kernel continuation ---
+ PRESCRIPTIONS = None
+ # --- end input ---
+ 
+@@ -118,7 +118,7 @@
+ 
+ def main():
+     if PRESCRIPTIONS is None:
+-        print("FAIL App. D contours: no contour prescriptions yet (notes/05-continuation.md, Secs. 1-2)")
++        print("FAIL App. D contours: no contour prescriptions yet (NOTEBOOK.md, Open questions, Kernel continuation)")
+         raise SystemExit(1)
+     failed = False
+     for case, momenta in POINTS.items():
+--- a/checks/baseline_fit.jl
++++ b/checks/baseline_fit.jl
+@@ -1,5 +1,5 @@
+ # Baseline fit: four 1++ pole masses and component probabilities.
+-# Slice: plan/slices/01-checks-env-baseline-fit.md
++# NOTEBOOK.md, Established, Baseline 1++ spectrum
+ # Independent route: [@Zhang:2026iyr] v1 Table V (dagger rows), Table VI (Lambda=4 GeV).
+ # Mapping: literature/Zhang:2026iyr/bridge.md, Eqs. (104)-(106).
+ # Units: GeV; probabilities are fractions, not percent.
+@@ -18,7 +18,6 @@
+ config = TOML.parsefile(driver.DEFAULT_INPUT)
+ driver.BLAS.set_num_threads(config["numerics"]["blas_threads"])
+ # Local neighborhoods track the four named states, not a complete pole census.
+-# Broad enough for the deliberately uncorrected coupling to reach assertions.
+ for state in config["states"]
+     state["half_width_GeV"] = 0.014
+ end
+--- a/checks/complex_form_factors.jl
++++ b/checks/complex_form_factors.jl
+@@ -1,4 +1,4 @@
+-# Slice 05: bare-state form factors f_n(p) at complex momentum.
++# Bare-state form factors f_n(p) at complex momentum.
+ # Seam: f_n(p) = sqrt(4pi)/p int_0^inf dr u_n(r) sin(pr), Zhang:2026iyr v1, Eq. (A10),
+ # evaluated off the real axis (CONVENTIONS.md "Bare-state term off the real axis").
+ # Routes:
+--- a/checks/hqss_2pp.py
++++ b/checks/hqss_2pp.py
+@@ -2,7 +2,7 @@
+ # requires-python = ">=3.12"
+ # dependencies = ["numpy>=2.1", "sympy>=1.13"]
+ # ///
+-"""Slice 04: strict-HQSS OME checked independently by Wigner 9j/6j.
++"""Strict-HQSS OME checked independently by Wigner 9j/6j.
+ 
+ Expectations and tolerances frozen before recoupling derivation:
+ * exact symbolic orthogonality and Bruschini:2023zkb v3 Table 2 comparison;
+@@ -80,7 +80,7 @@
+         rows.append(row)
+     return sp.simplify(sp.Matrix(rows)*phases)
+ 
+-# --- input seam: missing channels_2pp is deliberately red, never bypassed ---
++# The public six-channel OME supplies the package comparison.
+ JULIA_INPUT = r'''using HadronDynamics
+ const B = HadronDynamics.BOchiEFT
+ physical = B.Parameters()
+@@ -166,11 +166,6 @@
+                     cursor += 1
+             matrices.append(matrix)
+         v2, v1 = matrices
+-        # Deliberately broken result, not a changed expectation/tolerance.
+-        # Flip canonical PP's phase to the unbridged one; main records the red run.
+-        if '--flip-pp' in sys.argv:
+-            broken = np.diag([1, 1, 1, 1, 1, -1])
+-            v2 = broken @ v2 @ broken
+         scale = max(1.0, float(np.max(np.abs(v2))), float(np.max(np.abs(v1))))
+         tolerance = TOLERANCE*scale
+         transformed2 = numeric2 @ v2 @ numeric2.T
+--- a/checks/lhc_1pp.jl
++++ b/checks/lhc_1pp.jl
+@@ -1,4 +1,4 @@
+-# Slice 05: the start of the OME left-hand cuts in 1++, from the singularity-map code.
++# The start of the OME left-hand cuts in 1++, from the singularity-map code.
+ # Seam: the branch points of the on-shell projected OME V_11(k, k; E), B Bbar*(3S1),
+ # E = k^2/(2 mu_PV), as located by the map code from the full TOPT kernel (mass
+ # splitting, recoil and energy dependence kept), pion and eta exchange separately.
+--- a/checks/lhc_scan_2pp.jl
++++ b/checks/lhc_scan_2pp.jl
+@@ -1,4 +1,4 @@
+-# Slice 05: discontinuity scan of the on-shell projected 2++ OME against the drawn cuts.
++# Discontinuity scan of the on-shell projected 2++ OME against the drawn cuts.
+ # Seam: the left-hand cuts on the 2++ singularity map, drawn from the map code
+ # (B.on_shell_cuts) in the complex on-shell momentum plane k_t of each distinct
+ # threshold t = B*Bbar* (channel 1), B Bbar* (channel 5), B Bbar (channel 6).
+--- a/checks/projected_spin_numerator_2pp.py
++++ b/checks/projected_spin_numerator_2pp.py
+@@ -2,7 +2,7 @@
+ # requires-python = ">=3.12"
+ # dependencies = ["numpy>=2.1", "sympy>=1.13"]
+ # ///
+-"""Slice 04: generated projected spin numerator, package and Eq. (80) seams.
++"""Generated projected spin numerator, package and Eq. (80) seams.
+ 
+ Expectations frozen before the symbolic route: N_m=-5 c_m; factor 1/10;
+ no isospin weights in either single-meson comparison. Seed 80429.
+--- a/checks/projection_1pp.py
++++ b/checks/projection_1pp.py
+@@ -2,7 +2,7 @@
+ # requires-python = ">=3.12"
+ # dependencies = ["numpy>=2.1"]
+ # ///
+-"""Slice 03: Eq. (80) with 3D spin matrices and D1 projectors vs analytic kernel.
++"""Eq. (80) with 3D spin matrices and D1 projectors vs analytic kernel.
+ 
+ Pinned source: Zhang:2026iyr v1 Eqs. (72)-(80), (D1). The two full solid
+ angles are integrated independently, not replaced by App. D polynomials.
+@@ -11,7 +11,7 @@
+ mesons in S-S, so that selector is NOT a per-meson comparison.
+ Tolerance fixed before derivation: |difference| <= 5e-9 max(1, |V|), with
+ independent order-12 vs order-18 double-sphere convergence at that precision.
+-The result input is D1's VV projector sign, filled after the worked note.
++The Cartesian projectors use the printed D1 phase.
+ """
+ from pathlib import Path
+ import subprocess
+@@ -19,14 +19,6 @@
+ import numpy as np
+ from _projection import project, projectors_1pp, potential_1pp
+ 
+-# --- input: filled by the guarded derivation ---
+-PROJECTOR_SIGN = +1
+-# --- end input ---
+-if PROJECTOR_SIGN is None:
+-    sys.exit("FAIL no worked projection result yet: D1 phase input is missing")
+-
+-# --flip-5d1 is the deliberate broken-result run; never changes expectations.
+-sign = -PROJECTOR_SIGN if '--flip-5d1' in sys.argv else PROJECTOR_SIGN
+ rng = np.random.default_rng(80301)
+ points = [(float(rng.uniform(.035, .15)), float(rng.uniform(.035, .15)),
+            float(rng.uniform(-.09, -.015))) for _ in range(3)]
+@@ -51,7 +43,7 @@
+ expected = np.array([complex(*map(float, line[6:].split(',')))
+                      for line in result.stdout.splitlines() if line.startswith('VALUE ')])
+ expected = expected.reshape(len(points), 2, 3, 3)
+-channels = projectors_1pp(sign)
++channels = projectors_1pp()
+ failed = False
+ for sample, (r, p, energy) in enumerate(points):
+     # Below even the lowest three-body threshold, BBπ: E < mπ - Δm.
+--- a/checks/projection_2pp.py
++++ b/checks/projection_2pp.py
+@@ -2,18 +2,18 @@
+ # requires-python = ">=3.12"
+ # dependencies = ["numpy>=2.1"]
+ # ///
+-"""Slice 04: all 21 independent 2++ OME entries from brute-force Eq. (80).
++"""All 21 independent 2++ OME entries from brute-force Eq. (80).
+ 
+ Route: literal Cartesian Baru:2019xnh v2 App. B projectors, canonical
+ Zhang:2026iyr v1 Eq. (68) vertices and Eqs. (72)-(77) TOPT propagators.
+-Both solid angles are integrated independently by the slice-03 helper;
++Both solid angles are integrated independently by the double-solid-angle helper;
+ no analytic coefficients, moments, or HQSS rotation are imported.
+ See literature/Baru:2019xnh/bridge.md for phases and normalisations.
+ 
+ Frozen before analytic derivation: seed 80402; three off-shell p',p and
+ absolute-M samples; orders 12 and 18; error AND quadrature change must each
+ be <= 5e-9 max(1, |V|), in GeV^-2. Pion and eta are separate comparisons.
+-The missing channels_2pp API is called, never replaced by an expected value.
++The public six-channel OME supplies the package comparison.
+ Run: uv run --script checks/projection_2pp.py
+ """
+ from pathlib import Path
+@@ -24,7 +24,7 @@
+ from _projection_2pp import projectors_2pp, potential_2pp
+ 
+ 
+-# --- input: the guarded package result, through its public potential seam ---
++# The public six-channel OME supplies the package comparison.
+ def package_values(points):
+     point_text = '[' + ','.join(f'({r!r},{p!r},{offset!r})'
+                               for r, p, offset in points) + ']'
+@@ -58,7 +58,6 @@
+     values = np.array([complex(*map(float, line[6:].split(',')))
+                        for line in result.stdout.splitlines() if line.startswith('VALUE ')])
+     return tuple(map(float, constants[6:].split(','))), values.reshape(len(points), 2, 21)
+-# --- end input ---
+ 
+ 
+ TOLERANCE = 5e-9
+--- a/checks/_projection.py
++++ b/checks/_projection.py
+@@ -3,8 +3,7 @@
+ Channel projectors are data: arrays [direction, spin state, J polarisation].
+ A potential callback receives q[t,s,3], outgoing/incoming species, p', p,
+ and total energy, and returns V[t,s,out-spin,in-spin]. No partial-wave
+-coefficients or package moment functions enter this route. Slice 04 can
+-supply six channels and its species-changing 3D potentials unchanged here.
++coefficients or package moment functions enter this route. Channel data and species-changing 3D potentials are supplied by the caller.
+ """
+ from dataclasses import dataclass
+ import numpy as np
+@@ -70,7 +69,7 @@
+ EPSILON[0, 2, 1] = EPSILON[2, 1, 0] = EPSILON[1, 0, 2] = -1
+ 
+ 
+-def projectors_1pp(sign):
++def projectors_1pp():
+     """Eq. (D1), including its imaginary VV phase and traceless tensor."""
+     def s(n):
+         return np.broadcast_to(np.eye(3), (len(n), 3, 3))
+@@ -80,7 +79,7 @@
+ 
+     def vv(n):
+         tensor = np.einsum('ta,tb->tab', n, n) - np.eye(3) / 3
+-        value = -sign * np.sqrt(3) / 2 * 1j * (
++        value = -np.sqrt(3) / 2 * 1j * (
+             np.einsum('iak,tkb->tabi', EPSILON, tensor)
+             + np.einsum('ibk,tka->tabi', EPSILON, tensor))
+         return value.reshape(len(n), 9, 3)
+--- a/checks/shallow_fit.jl
++++ b/checks/shallow_fit.jl
+@@ -1,5 +1,5 @@
+ # Shallow-Xb fit at the fitted-parameter and bound-state seams.
+-# Slice: plan/slices/02-shallow-fit-spurious-projection.md
++# NOTEBOOK.md, Established, Shallow-Xb fit
+ # Independent route: [@Zhang:2026iyr] v1 Table VIII, projected row; Eq. (94).
+ # Mapping: literature/Zhang:2026iyr/bridge.md. GeV, probabilities as fractions.
+ const expected = [
+--- a/checks/shallow_spurious.jl
++++ b/checks/shallow_spurious.jl
+@@ -1,5 +1,5 @@
+ # Shallow-fit spurious pole: identification, removal, fit minimum, App. G numbers.
+-# Slice: plan/slices/02-shallow-fit-spurious-projection.md (referee findings).
++# NOTEBOOK.md, Established, Shallow-Xb fit
+ # Independent routes: GLOSSARY.md "Spurious pole" (predominantly hadronic member);
+ # [@Zhang:2026iyr] v1 Table VIII ("Not projected" row), App. G text after Eq. (G2)
+ # (unprojected shallow spurious pole at 10.13 GeV) and Eq. (G2) (epsilon=5 GeV shifts);
+--- a/checks/spurious_projection.jl
++++ b/checks/spurious_projection.jl
+@@ -1,5 +1,5 @@
+ # Spurious-pole projection at the physical-pole seam.
+-# Slice: plan/slices/02-shallow-fit-spurious-projection.md
++# NOTEBOOK.md, Established, Shallow-Xb fit
+ # Independent routes: [@Zhang:2026iyr] v1 App. G (epsilon=5--50 GeV),
+ # Sec. IV D (baseline projection shift below 1 MeV).
+ # Mapping: literature/Zhang:2026iyr/bridge.md; GeV natural units.
+--- a/checks/three_body_locator.jl
++++ b/checks/three_body_locator.jl
+@@ -1,4 +1,4 @@
+-# Slice 05: the three-body singularity locator of the continued OME kernel.
++# The three-body singularity locator of the continued OME kernel.
+ # Seam: the zeros in the incoming momentum q of s_sigma + nu_beta, with
+ # s_sigma = sqrt(m_phi^2 + (p' + sigma q)^2) principal and nu_beta the TOPT offset of
+ # time ordering beta (CONVENTIONS.md "Continued angular moments", "Reduced masses and
+--- a/checks/time_reversal_2pp.jl
++++ b/checks/time_reversal_2pp.jl
+@@ -1,11 +1,10 @@
+-# Slice 04: reciprocity of the projected full OME, not a matrix-storage test.
++# Reciprocity of the projected full OME, not a matrix-storage test.
+ # Independent route: time reversal with real Condon–Shortley channel phases.
+ # Fixed tolerance before derivation: 2e-12 max(1, |forward|, |reverse|).
+ using HadronDynamics
+ const B = HadronDynamics.BOchiEFT
+-# --- input: the missing six-channel kernel, supplied by the guarded step ---
++# The public six-channel OME supplies the package comparison.
+ cfg = B.Parameters()
+-# --- end input ---
+ failed = false
+ for (r,p,E) in ((0.061,0.173,-0.11),(0.237,0.094,-0.043),(0.42,0.31,-0.019)),
+         (name,m,w) in (("pi",cfg.mpi,3.0),("eta",cfg.meta,1/3)), a in 1:6, b in a:6
+--- a/followup.tex
++++ b/followup.tex
+@@ -198,10 +198,7 @@
+ It should be checked how well their masses are reproduced with the parameters fixed in the $1^{++}$ sector. After that, a molecular pole representing the $X_{b2}$ can be searched for in the two scenarious discussed in our paper \cite{Zhang:2026iyr}:
+ (i) the scenario with $\Delta M=0$ and (ii) the scenario with the $\Xb$ binding energy fixed to 1~MeV below the $B\bar{B}^*$ threshold.
+ 
+-Preliminary work needed:
+-\begin{itemize}
+-\item The OME potentials need to be written in the $2^{++}$ channel and their partial wave projection should be done. Since all potentials and projectors are known, this is a purely technical step.
+-\end{itemize}
++The six-channel OME potential and all 21 independent partial-wave entries are derived in notes/04-ome-2pp.md and presented in the appendix of paper/main.tex.
+ 
+ \subsection{OME in $2^{++}$}
+ \begin{center}
+@@ -230,11 +227,11 @@
+ \be
+ \begin{split}
+ V_{B\bar{B}\rightarrow B^*\bar{B}^*}^{(\text{OME})}(\vep',\vep; m_\phi) = \frac{g_b^2}{4F_\pi^2}(\veepst_1 \cdot \veq)(\veepst_2 \cdot \veq)\left[2D_3(\vep',\vep;m_\phi)\right]\\
+-V_{B^*\bar{B}^8\rightarrow B\bar{B}}^{(\text{OME})}(\vep',\vep; m_\phi) = \frac{g_b^2}{4F_\pi^2}(\veep_1 \cdot \veq)(\veep_2 \cdot \veq)\left[2D_4(\vep',\vep;m_\phi)\right]
++V_{B^*\bar{B}^*\rightarrow B\bar{B}}^{(\text{OME})}(\vep',\vep; m_\phi) = \frac{g_b^2}{4F_\pi^2}(\veep_1 \cdot \veq)(\veep_2 \cdot \veq)\left[2D_4(\vep',\vep;m_\phi)\right]
+ \end{split}
+ \ee
+ 
+-{\B Partial wave projections to be added.}
++The partial-wave projections are given in the appendix of paper/main.tex.
+ 
+ \section{$\X$ and its spin-2 partner}
+ 
+--- a/GLOSSARY.md
++++ b/GLOSSARY.md
+@@ -116,7 +116,7 @@
+ **Spin-independent bare spectrum**:
+ At LO the quark–antiquark potential carries no spin dependence, so bare states with the same $n$ and $L=1$ share one reference mass and one wave function for every $J$. In the $1^{++}$ fit the $1/m_b^2$ spin-dependent shifts, constant within about 1 MeV over the states considered, are absorbed into $V_0$, and the quark-model parameters $m_b$, $\sigma$, $\gamma$, $V_0$ fixed there are used unchanged for every $J^{PC}$.
+ _Avoid_: centre-of-gravity spectrum (for the $1^{++}$ fit)
+-Source: [@Zhang:2026iyr] v1, Sec. III A 1, App. B, Eqs. (B4), (B6); decisions/0004-quark-model-fixed.md; the user, slicing session 2026-10-28 ("Agree")
++Source: [@Zhang:2026iyr] v1, Sec. III A 1, App. B, Eqs. (B4), (B6); NOTEBOOK.md, Decisions, Quark model fixed
+ 
+ **Baseline fit**:
+ The LO parameter set $m_b=4.534$ GeV, $V_0=371$ MeV, $C=-16.27\ \text{GeV}^{-2}$ at $N=4$, $\Lambda=4$ GeV, obtained by minimising $\Delta M$ over the three measured $\chi_{b1}$ masses with the 10.513 GeV state taken as the $X_b$; it gives $\Delta M=0.0$ MeV. Full-precision values are in code/HadronDynamics.jl/data/bochiEFT/central.toml; the cutoff variation uses the refitted rows of Table VI.
+@@ -134,11 +134,11 @@
+ Source: [@Zhang:2026iyr] v1, Eq. (G1) and App. G
+ 
+ **Spurious pole**:
+-A pole whose binding momentum exceeds $\Lambda_\chi\approx1$ GeV, with $\mathcal P_{\bar bb}<1\%$ and a position that moves strongly with $\Lambda$: an artifact of the renormalised singular tensor force. A pole that continues from such a pole as $C$ varies at fixed $\Lambda$ is the same spurious pole, even where mixing with a nearby bare level raises its $\mathcal P_{\bar bb}$ above 1%, as in the shallow-$X_b$ fit; through an avoided crossing with a bare level the continuation follows the predominantly hadronic member of the two levels, not the adiabatic branch, which ends on the compact-dominated state. It is projected out when it lies above the lowest compact-dominated state of the sector ($\chi_{b1}(1P)$- or $\chi_{b2}(1P)$-dominated); otherwise it is kept and the shift its projection causes is reported.
++A pole whose binding momentum exceeds $\Lambda_\chi\approx1$ GeV, with $\mathcal P_{\bar bb}<1\%$ and a position that moves strongly with $\Lambda$: an artifact of the renormalised singular tensor force. A pole that continues from such a pole as $C$ varies at fixed $\Lambda$ is the same spurious pole, even where mixing with a nearby bare level raises its $\mathcal P_{\bar bb}$ above 1%, as in the shallow-$X_b$ fit; through an avoided crossing with a bare level the continuation follows the predominantly hadronic member of the two levels. It is projected out when it lies above the lowest compact-dominated state of the sector ($\chi_{b1}(1P)$- or $\chi_{b2}(1P)$-dominated); otherwise it is kept and the shift its projection causes is reported.
+ _Avoid_: deep bound state, ghost
+-Source: [@Zhang:2026iyr] v1, Sec. IV D, Fig. 5(a) and its caption ("the predominantly hadronic member of the two lowest levels"), App. G; the user, grilling 2026-10-28 ("Agree the rule"); the user, slice-02 session 2026-10-29 ("Add continuation in C"; "Follow hadronic member")
++Source: [@Zhang:2026iyr] v1, Sec. IV D, Fig. 5(a) and its caption ("the predominantly hadronic member of the two lowest levels"), App. G; the user, grilling 2026-10-28 ("Agree the rule"); NOTEBOOK.md, Decisions, Spurious-pole identification
+ 
+ **Strict HQSS limit**:
+ All heavy-meson masses set to $\bar m_B=(m_B+3m_{B^*})/4\approx5.313$ GeV in every threshold, reduced mass, and TOPT offset, with the bare $\chi_{b2}$ masses equal to the bare $\chi_{b1}$ masses (any spin-dependent shift switched off) and $g$, $C$ unchanged.
+ _Avoid_: HQSS limit (for the Table VII variant, which changes only the TOPT offsets), $m_{B^*}=m_B$ (without saying where)
+-Source: [@Zhang:2026iyr] v1, Table VII caption ($\bar m_B$), Sec. II F 1; the user, grilling 2026-10-28 (selected as a check); decisions/0004-quark-model-fixed.md; the user, slicing session 2026-10-28 ("Agree")
++Source: [@Zhang:2026iyr] v1, Table VII caption ($\bar m_B$), Sec. II F 1; the user, grilling 2026-10-28 (selected as a check); NOTEBOOK.md, Decisions, Quark model fixed
+--- a/literature/Baru:2019xnh/bridge.md
++++ b/literature/Baru:2019xnh/bridge.md
+@@ -22,11 +22,11 @@
+ 
+ | Paper | Canonical | Relation | Checked by |
+ |---|---|---|---|
+-| g_b≈0.57, Eq. (37), source `gb`; f_pi=92.4 MeV after Eq. (21) | CONVENTIONS “Axial coupling and OME normalisation”: g_b=0.56, F_pi=92.2 MeV | Same coupling definition and signs, different numerical inputs. Replace (g_b,f_pi) by (0.56,0.0922 GeV), rather than importing the paper's numbers. A quadratic vertex prefactor consequently changes by [(0.56/0.0922)/(0.57/0.0924)]². | Compare paper vertices (35)–(36), `src/partners.tex:583–587`, with canonical Eqs. (69)–(70), `literature/Zhang:2026iyr/src/Xb.tex:1003–1010`. |
++| g_b≈0.57, Eq. (37), source `gb`; f_pi=92.4 MeV after Eq. (21) | CONVENTIONS “Axial coupling and OME normalisation”: g_b=0.56, F_pi=92.2 MeV | Same coupling definition and signs, different numerical inputs. Replace (g_b,f_pi) by (0.56,0.0922 GeV), rather than importing the paper's numbers. A quadratic vertex prefactor consequently changes by [(0.56/0.0922)/(0.57/0.0924)]². | Baru:2019xnh v2, Eqs. (34)–(37). Compare paper vertices (35)–(36), `src/partners.tex:583–587`, with canonical Eqs. (69)–(70), `literature/Zhang:2026iyr/src/Xb.tex:1003–1010`. |
+ | OPE prefactor 2g_b²/(4π f_pi)², source `V13`–`V33` | CONVENTIONS “Axial coupling and OME normalisation”: Cartesian vertex product g_b²/(4F_pi²) | At identical g_b and f_pi=F_pi, the canonical vertex product is +2π² times this displayed prefactor. This is a prefactor comparison only, not a universal conversion of all paper matrix entries: isospin, C phases, the VV vertex's additional factor 2, and explicit C-even sums remain to be accounted for. | Source `src/partners.tex:628–635` against canonical Eqs. (72)–(75), `literature/Zhang:2026iyr/src/Xb.tex:1020–1032`. The check constructs canonical vertices instead of transplanting these paper potentials. |
+ | v_ij and v_ijkl, App. B | CONVENTIONS “2++ channel basis and projectors” | Positive unit identity: v_ij=n_i n_j−delta_ij/3; rank-four v is the printed traceless tensor below. | Literal tensor construction in `checks/_projection_2pp.py`, independent of analytic moments. |
+ | A_i and S_ij, App. B | CONVENTIONS “2++ channel basis and projectors” | Positive unit identity: A_i=i epsilon_ijk epsilon_1j epsilon_2k/sqrt(2); S_ij=epsilon_1i epsilon_2j+epsilon_1j epsilon_2i−2 delta_ij(epsilon_1·epsilon_2)/3. | `src/partners.tex:1602–1605`; incoming spin kets enter projectors and outgoing ones are conjugated by Eq. (80). |
+-| Paper projector P(alpha;n), App. B | CONVENTIONS “Partial-wave projectors” | Contract the total-J indices ij with five real orthonormal symmetric-traceless tensors T^M_ij. Sum over M gives the spin-2 trace, with positive unit factor; do not multiply by sqrt(5). | Projector Gram assertions in `checks/projection_2pp.py`; not yet executed. |
++| Paper projector P(alpha;n), App. B | CONVENTIONS “Partial-wave projectors” | Contract the total-J indices ij with five real orthonormal symmetric-traceless tensors T^M_ij. Sum over M gives the spin-2 trace, with positive unit factor; do not multiply by sqrt(5). | Projector Gram assertions in `checks/projection_2pp.py`; recorded result in `notes/04-ome-2pp.md`, Sec. 8. |
+ 
+ ### Exact 2++ projectors
+ 
+@@ -94,11 +94,9 @@
+ 
+ The input calls `B.channels_2pp()`, `B.OMEInteraction(cfg;channels=...)`, and the unchanged public `B.ome_potential` seam through `julia --project=checks`. To isolate one exchanged species despite the legacy S–S selector, set mpi=meta=m_phi and exchange=:both. Then the public potential is (3+1/3)V(m_phi); multiplying by w_phi/(3+1/3) gives exactly 3V(m_pi) or V(m_eta)/3. No internal package moment function is called.
+ 
+-Frozen before analytic derivation: RNG seed 80402; p,p′ in [0.035,0.12] GeV; M=2m_Bstar+offset with offset in [−0.09,−0.015] GeV; double-sphere orders 12 and 18; both analytic residual and independent quadrature change must be at most 5×10^−9 max(1,|V|) in GeV^−2. Gram normalisation/orthogonality tolerance is 10^−12. Samples must be below BBpi threshold. These are planned assertions, **not measured convergence evidence**.
++Frozen before analytic derivation: RNG seed 80402; p,p′ in [0.035,0.12] GeV; M=2m_Bstar+offset with offset in [−0.09,−0.015] GeV; double-sphere orders 12 and 18; both analytic residual and independent quadrature change must be at most 5×10^−9 max(1,|V|) in GeV^−2. Gram normalisation/orthogonality tolerance is 10^−12. Samples must be below BBpi threshold. The recorded comparison has 141 passing assertions, maximum potential residual 2.9×10^−12 GeV^−2 and maximum order-12/18 change 2.7×10^−15 GeV^−2 (`notes/04-ome-2pp.md`, Sec. 8).
+ 
+ ## Flags
+ 
+-- The paper's C-even “+” and the canonical “−” designate the same C parity under different one-particle conventions, not different physical sectors. Applying only a fifth-channel sign flip is not the field conversion derived above.
++- Use the complete one-particle field dictionary above when converting a paper amplitude; the independent route starts directly in the canonical fields.
+ - The paper's isovector OPE expressions, numerical g_b/f_pi inputs, and displayed (4π f_pi)^−2 prefactors must not be copied verbatim as canonical isoscalar kernels.
+-- The requested check input is intentionally red while `channels_2pp()` is absent. No check, build, deliberate-break run, or convergence run was executed during this assignment; no observed red/green result is claimed.
+-- The task's “Eq. (59)” coupling pointer does not match pinned v2: its Eq. (59) is a radiative-production amplitude, not an axial vertex. The relevant coupling equations are (34)–(37); no vertex is inferred from (59). Rendered numbering was cross-checked in the [pinned v2 PDF](https://arxiv.org/pdf/1901.10319v2); all signs and factors above were read from the pinned LaTeX source.
+--- a/literature/Bruschini:2023zkb/bridge.md
++++ b/literature/Bruschini:2023zkb/bridge.md
+@@ -8,10 +8,10 @@
+ 
+ | Convention | Paper (where) | Canonical | Relation |
+ |---|---|---|---|
+-| Angular-momentum phases | Spherical components $\gamma^\pm=\mp(\gamma^1\pm i\gamma^2)/\sqrt2$ (source line 168); App. B CG/harmonic expansion (lines 763–778) | CONVENTIONS "Angular-momentum phases" | Identical Condon–Shortley convention, positive unit factor. The paper couples orbital momentum first: $|(L,S)JM\rangle$. |
++| Angular-momentum phases | Spherical components $\gamma^\pm=\mp(\gamma^1\pm i\gamma^2)/\sqrt2$ (source line 168); App. B CG/harmonic expansion (lines 763–778) | CONVENTIONS "Angular-momentum phases" | Identical Condon–Shortley convention, positive unit factor. The paper couples orbital momentum first: $\vert(L,S)JM\rangle$. |
+ | Charge conjugation | $(B\bar B^*\mp B^*\bar B)/\sqrt2$ has $CP=\pm$ (Sec. II, source line 123) | CONVENTIONS "C-parity phase" | For the even-$L$ channels here, identical $C$-even minus combination; no extra $\sqrt2$ or PV rephase. This is **not** Baru's field convention. |
+ | $1^{++}$ partial waves | Table 2, rows $(l,l')=(1,0),(1,2)$ | CONVENTIONS "Partial-wave projectors" | Canonical D1 kets equal the paper's kets times $D_1=\operatorname{diag}(1,1,-1)$ in $(PV\,{}^3S_1,PV\,{}^3D_1,VV\,{}^5D_1)$ order. Thus the last entry, and only the last entry, changes sign. Source: canonical entry and Zhang v1 footnote to Eq. (17), not a fit to the OME matrix. |
+-| $2^{++}$ partial waves | Table 2 with its orbital-first CG definition; Baru v2 App. B raw tensors, labels `BsBs5S2`, `BsBs1B2`, `BsBs5B2`, `BBs3B2`, `BB1B2` | CONVENTIONS "2++ channel basis and projectors", "Partial-wave projectors" | In canonical six-channel order, $|\alpha\rangle_{\rm can}=d_\alpha|\alpha\rangle_{\rm B}$ with $D_2=\operatorname{diag}(1,1,1,1,1,-1)$. No magnitude factor. Explicit CS/tensor comparison below fixes these signs separately from the spin recoupling. |
++| $2^{++}$ partial waves | Table 2 with its orbital-first CG definition; Baru v2 App. B raw tensors, labels `BsBs5S2`, `BsBs1B2`, `BsBs5B2`, `BBs3B2`, `BB1B2` | CONVENTIONS "2++ channel basis and projectors", "Partial-wave projectors" | In canonical six-channel order, $\vert\alpha\rangle_{\rm can}=d_\alpha\vert\alpha\rangle_{\rm B}$ with $D_2=\operatorname{diag}(1,1,1,1,1,-1)$. No magnitude factor. Explicit CS/tensor comparison below fixes these signs separately from the spin recoupling. |
+ | Spin average and HQSS | Sec. IV, source line 324: $m_{B^{(*)}}=(m_B+3m_{B^*})/4$, $\Delta=m_{B^*}-m_B$ | GLOSSARY "Strict HQSS limit" | Identical positive mass average, $\Delta\to0$. The canonical check additionally sets **all** heavy-meson masses and reduced masses to the strict-limit values, not merely selected TOPT offsets. |
+ | Energy zero | Sec. V, source line 417: energy relative to twice the spin-average meson mass | CONVENTIONS "Energy origin and on-shell momentum" | $M=2\bar m_B+E_{\rm B}$; hence $E_{\rm can}=E_{\rm B}+2\bar m_B-M_{\rm th}$. In strict HQSS, both sectors have $M_{\rm th}=2\bar m_B$ and the energies coincide, with positive unit factor. |
+ 
+@@ -97,7 +97,7 @@
+ \end{pmatrix}.
+ $$
+ 
+-The last row is essential: the $s_H=s_\ell=0$, $j_\ell=L=2$ ket is allowed in $2^{++}$. Even $L$ permits $C=(-1)^{s_H+s_\ell}=+$ for both $(1,1)$ and $(0,0)$; the mixed $(1,0),(0,1)$ combinations have $C=-$. There is no allowed $G$-wave with $j_\ell=5$ at total $J=2$ and $s_H=1$; the retained $G$ ket has $j_\ell=3$. Keeping only the five triplet-triplet kets loses a physical channel and cannot give a unitary $6\times6$ transformation.
++The sixth row has $s_H=s_\ell=0$ and $j_\ell=L=2$. For even $L$, the retained $(s_H,s_\ell)=(1,1)$ and $(0,0)$ sectors have $C=+$. At total $J=2$ the retained $G$ wave has $j_\ell=3$. These six states form the complete heavy basis.
+ 
+ For $J=1$, columns $(PV\,{}^3S_1,PV\,{}^3D_1,VV\,{}^5D_1)$ and rows $(1,1,1,0),(1,1,1,2),(1,1,2,2)$ give the D1-phase matrix
+ 
+@@ -105,7 +105,7 @@
+ U_1=\begin{pmatrix}1&0&0\\0&-1/2&\sqrt3/2\\0&\sqrt3/2&1/2\end{pmatrix}.
+ $$
+ 
+-### Table 2 is a longitudinal combination, not a pure $D$-wave row
++### Table 2 longitudinal combinations
+ 
+ Reordered into the canonical column order, the paper's $l=1$ rows are
+ 
+@@ -128,13 +128,12 @@
+ r_{2,\rm can}=\left(-\frac{e_1}{\sqrt3}+\sqrt{\frac23}e_2\right)U_2.
+ $$
+ 
+-The opposite sector-wide signs are the signed Table 2 source coefficients, not a change of the shared $(s_\ell,L)j_\ell$ basis. Both rows have unit norm. Neither row alone supplies the remaining four heavy-basis directions; the 9j/6j construction does.
++The sector-wide signs are the signed Table 2 coefficients. Both benchmark rows have unit norm. The complete heavy-basis rotation is constructed independently from 9j/6j symbols.
+ 
+ ## Check contract and flags
+ 
+-- `checks/hqss_2pp.py` freezes exact symbolic orthogonality/Table 2 assertions and numerical tolerance $2\times10^{-10}\max(1,\|V_2\|_{\max},\|V_1\|_{\max})$ GeV$^{-2}$, at $(p',p,E)=(.043,.117,-.031),(.139,.071,-.063),(.091,.091,-.019)$ GeV. These expectations were written before the guarded package coefficient derivation.
+-- Its result seam is the public `BOchiEFT.ome_potential` with `OMEInteraction(cfg; channels=BOchiEFT.channels_2pp())`. Missing `channels_2pp` is a hard failure, never skipped or replaced with a local potential. Strict inputs set `mB=mBstar=mbar` and `muPV=mbar/2`, keeping recoil and energy dependence on. The $1^{++}$ reference uses the unchanged default constructor. Only the OME seam is checked here; no full propagator or bare-spectrum claim is inferred from it.
+-- The complete $2^{++}$ matrix must separate into blocks of sizes $2,1,2,1$ labelled $(s_H,j_\ell)=(1,1),(1,2),(1,3),(0,2)$. In particular the heavy-singlet $(0,2)$ row must not mix with the triplet $(1,2)$ row despite equal $j_\ell$. The first $2\times2$ block must equal the canonical $1^{++}$ first block in the **same** light $S/D$ order.
+-- `--flip-pp` deliberately conjugates the package $2^{++}$ matrix by a PP phase flip while leaving all expectations unchanged. The parent must record its actual red run; this bridge does not claim it has run.
+-- No checks/builds/tests were run during construction. Exact Wigner entries were obtained by a standalone symbolic derivation, not by executing the acceptance check. No numerical pass or missing-API red observation is claimed until the parent runs it.
++- `checks/hqss_2pp.py` freezes exact symbolic orthogonality/Table 2 assertions and numerical tolerance $2\times10^{-10}\max(1,\|V_2\|_{\max},\|V_1\|_{\max})$ GeV$^{-2}$, at $(p',p,E)=(.043,.117,-.031),(.139,.071,-.063),(.091,.091,-.019)$ GeV.
++- The check uses the public `BOchiEFT.ome_potential` with `channels_2pp()`, setting `mB=mBstar=mbar` and `muPV=mbar/2` while retaining recoil and energy dependence. Missing `channels_2pp` is a hard failure, never skipped or replaced with a local potential. The $1^{++}$ reference uses the unchanged default constructor. Only the OME seam is checked here; no full propagator or bare-spectrum claim is inferred from it.
++- In the strict HQSS limit the OME matrix separates into blocks of sizes 2,1,2,1 labelled $(s_H,j_l)=(1,1),(1,2),(1,3),(0,2)$. The first block equals the canonical 1++ block in the same light S/D order; the recorded residuals are given in `notes/04-ome-2pp.md`, Sec. 8.
++- The recorded HQSS comparison has 15 passing assertions, forbidden entries at most 1.1×10^−15 GeV^−2 and common-block residual at most 9.7×10^−14 GeV^−2 (`notes/04-ome-2pp.md`, Sec. 8).
+ - The paper explicitly neglects light-meson exchange in its simple di-meson threshold potentials (source lines 552–562). Table 2 is used for **recoupling**, not as an OME benchmark; the OME assertion is the independently conserved heavy spin and total light angular momentum.
+--- a/literature/Wu:2026wxb/bridge.md
++++ b/literature/Wu:2026wxb/bridge.md
+@@ -12,23 +12,23 @@
+ | Loop measure | Eq. (63) | CONVENTIONS "Loop measure and regulator" | Identical $l^2dl/(2\pi^2)$. The paper integrates to $\infty$ (its potential falls as $l^{-2}$); the canonical loop stops at the sharp cutoff $\Lambda$. |
+ | Energy origin | text below Eq. (64) | CONVENTIONS "Energy origin and on-shell momentum" | Paper: $E$ from the threshold of its first channel, the lowest one in its example. Canonical: from the $S$-wave channel's threshold, which in $2^{++}$ is the highest two-body threshold. Only $\delta_\alpha$ changes; no sign changes. |
+ | Logarithms | App. D, text after Eq. (D1) | CONVENTIONS "Continued angular moments" | Paper's $\operatorname{Log}$ is the principal logarithm, cut on the negative real axis, as canonical. $n_\pm$ change by $+1$ ($-1$) when the argument crosses its negative real axis from above to below (below to above). |
+-| Sheets | App. D, case (c) ("first Riemann sheet") | CONVENTIONS "Pole position and Riemann sheets" | Paper's first sheet of one channel, $\operatorname{Im}p>0$, is canonical $(+)$; the fourth quadrant of $p$, used in `notes/05-continuation.md` for the mirrored example, is canonical $(-)$. |
+-| Contour | App. D, Fig. 11 | CONVENTIONS "Continuation to other sheets" | Paper contours start at $q=0$ and run to $+\infty$; canonical contours end at $\Lambda$. The paper continues only into the first quadrant of $p$; the fourth-quadrant mirror images are this project's (`notes/05-continuation.md`). |
++| Sheets | App. D, case (c) ("first Riemann sheet") | CONVENTIONS "Pole position and Riemann sheets" | Paper's first sheet of one channel, $\operatorname{Im}p>0$, is canonical $(+)$; the fourth quadrant of $p$, used for the mirrored example in NOTEBOOK.md, Open questions, Kernel continuation, is canonical $(-)$. |
++| Contour | App. D, Fig. 11 | CONVENTIONS "Continuation to other sheets" | Paper contours start at $q=0$ and run to $+\infty$; canonical contours end at $\Lambda$. The paper continues only into the first quadrant of $p$; the fourth-quadrant mirror images are this project's (NOTEBOOK.md, Open questions, Kernel continuation). |
+ 
+ ## Symbols and equations
+ 
+ | Paper | Canonical | Relation | Checked by |
+ |---|---|---|---|
+-| $\mathbb V_{ij}(p_i,q_j)$, Eq. (64) | $V_{\alpha'\alpha}(p',p)$ of CONVENTIONS "Lippmann–Schwinger equation" | Same object for an $S$-wave static Yukawa exchange: $\frac{c}{4pq}\log\frac{w_-}{w_+}$ for equal masses. It is written as the principal log of a ratio; App. D replaces it by $\ell_--\ell_+$. | `checks/appd_contours.py` (red run with the ratio restored) |
+-| $w_\pm=(q\pm p)^2+m^2$, Eq. (D2) | $s_\pm^2$ of CONVENTIONS "Continued angular moments", with $(p',p)\to(q,p)$ and $m\to m_\phi$ | Identical: $w_\pm=s_\pm^2$. The TOPT kernel takes $\log(s_\pm+\nu_\beta)$ where the static Yukawa log takes $\frac12\log w_\pm$; they coincide at $\nu_\beta=0$. | `notes/05-continuation.md`, Sec. 3 |
+-| $\ell_\pm=\operatorname{Log}w_\pm+2\pi i\,n_\pm$, Eq. (D1) | $L^{(\beta)}_\pm=\operatorname{Log}(s_\pm+\nu_\beta)+2\pi i\,n_\pm$ | Same continuation rule (continuous from real momenta, where $n_\pm=0$), applied to different arguments. | `checks/appd_contours.py`; `checks/continued_moments.jl` |
+-| $J(p;m)$, Eq. (D2) | — | Used only as the worked example; $p$ is the on-shell momentum $k$, $q$ the loop momentum, $m$ the exchange mass $m_\phi$. | `checks/appd_contours.py` |
+-| Cuts of $\operatorname{Log}w_\pm$, Eq. (D3) | — | $\operatorname{Re}q=\pm\operatorname{Re}p$, $|\operatorname{Im}q\mp\operatorname{Im}p|\geq m$; identical for $\sqrt{w_\pm}$, so they are the cuts of $s_\pm$ too. | `checks/appd_contours.py` |
+-| $u_\pm=q+p\pm im$, Eq. (D4) | — | $\ell_+=\operatorname{Log}u_-+\operatorname{Log}u_+$ moves the $w_+$ cuts to horizontal rays. | `checks/appd_contours.py` |
+-| $C_{R0}$, $C_R$, $C_R'$, $C_L$, $C_L'$, $C_S$, Fig. 11 and text of App. D | — | $C_{R0}$: $[0,\infty)$. $C_R$: $0\to ih\to\infty+ih$, $\operatorname{Im}p-m<h<\operatorname{Im}p$. $C_R'$: $[0,\infty)$ plus $2\pi i\int_{\operatorname{Re}p}^{p-im}\frac{q\,dq}{p^2-q^2}$. $C_L$: $0\to-r\to-r+ih\to\infty+ih$ plus $-2\pi i\int_{C_S}\frac{q\,dq}{p^2-q^2}$, $C_S$: $-\operatorname{Re}p\to-r\to-r+ih\to-\operatorname{Re}p+ih$. $C_L'$: a left bulge from $0$ to $ih$, then to $\infty+ih$, with Eq. (D4). | `checks/appd_contours.py` |
++| $\mathbb V_{ij}(p_i,q_j)$, Eq. (64), App. D | $V_{\alpha'\alpha}(p',p)$ of CONVENTIONS "Lippmann–Schwinger equation" | $c(\ell_- - \ell_+)/(4pq)$ | Eq. (64), App. D; NOTEBOOK.md, Open questions, Branch discrepancy. |
++| $w_\pm=(q\pm p)^2+m^2$, Eq. (D2) | $s_\pm^2$ of CONVENTIONS "Continued angular moments", with $(p',p)\to(q,p)$ and $m\to m_\phi$ | Identical: $w_\pm=s_\pm^2$. The TOPT kernel takes $\log(s_\pm+\nu_\beta)$ where the static Yukawa log takes $\frac12\log w_\pm$; they coincide at $\nu_\beta=0$. | NOTEBOOK.md, Open questions, Kernel continuation |
++| $\ell_\pm=\operatorname{Log}w_\pm+2\pi i\,n_\pm$, Eq. (D1) | $L^{(\beta)}_\pm=\operatorname{Log}(s_\pm+\nu_\beta)+2\pi i\,n_\pm$ | Same continuation rule (continuous from real momenta, where $n_\pm=0$), applied to different arguments. | `checks/appd_contours.py` (draft, prescriptions unfilled); NOTEBOOK.md, Open questions, Kernel continuation |
++| $J(p;m)$, Eq. (D2) | — | Used only as the worked example; $p$ is the on-shell momentum $k$, $q$ the loop momentum, $m$ the exchange mass $m_\phi$. | `checks/appd_contours.py` (draft, prescriptions unfilled) |
++| Cuts of $\operatorname{Log}w_\pm$, Eq. (D3) | — | $\operatorname{Re}q=\pm\operatorname{Re}p$, $\lvert\operatorname{Im}q\mp\operatorname{Im}p\rvert\geq m$; identical for $\sqrt{w_\pm}$, so they are the cuts of $s_\pm$ too. | `checks/appd_contours.py` (draft, prescriptions unfilled) |
++| $u_\pm=q+p\pm im$, Eq. (D4) | — | $\ell_+=\operatorname{Log}u_-+\operatorname{Log}u_+$ moves the $w_+$ cuts to horizontal rays. | `checks/appd_contours.py` (draft, prescriptions unfilled) |
++| $C_{R0}$, $C_R$, $C_R'$, $C_L$, $C_L'$, $C_S$, Fig. 11 and text of App. D | — | $C_{R0}$: $[0,\infty)$. $C_R$: $0\to ih\to\infty+ih$, $\operatorname{Im}p-m<h<\operatorname{Im}p$. $C_R'$: $[0,\infty)$ plus $2\pi i\int_{\operatorname{Re}p}^{p-im}\frac{q\,dq}{p^2-q^2}$. $C_L$: $0\to-r\to-r+ih\to\infty+ih$ plus $-2\pi i\int_{C_S}\frac{q\,dq}{p^2-q^2}$, $C_S$: $-\operatorname{Re}p\to-r\to-r+ih\to-\operatorname{Re}p+ih$. $C_L'$: a left bulge from $0$ to $ih$, then to $\infty+ih$, with Eq. (D4). | `checks/appd_contours.py` (draft, prescriptions unfilled) |
+ 
+ ## Flags
+ 
+-- App. D treats only $p$ in the first quadrant (canonical sheet $(+)$). Its statement that the ratio of Eq. (64) "may lead to an incorrect result" names no case; `checks/appd_contours.py` records which contours the ratio breaks.
+-- The paper's potential is a static Yukawa log ($t$-channel, no TOPT offset). Every statement about the TOPT kernel is this project's (`notes/05-continuation.md`), not the paper's.
++- The explicit failing-contour cases for the ratio-log representation remain unestablished in this project; App. D treats first-quadrant p only.
++- The paper treats static Yukawa exchange without TOPT offsets. Extension to the full TOPT kernel remains an Open question in NOTEBOOK.md, Kernel continuation.
+ - This bridge covers App. D, Eqs. (63)–(64) only.
+--- a/literature/Zhang:2026iyr/bridge.md
++++ b/literature/Zhang:2026iyr/bridge.md
+@@ -25,21 +25,18 @@
+ | $\mathcal P_D$, Eq. (106), Table V caption | GLOSSARY "Compact probability" (two-body weights) | Identical, positive sum `P_PV_D + P_VV_D`; not either channel alone. | Table V caption and text following Eq. (106). |
+ | $\mathcal P_{\text{3-body}}$, Eq. (104), App. F | GLOSSARY "Compact probability" (three-body weight) | Identical: `P_OME_derivative`; negative expectation of ∂_E V_OME, not the unweighted derivative. | Source `eq:P-3body` and `MomentumDynamics.jl`: both use -⟨Ψ∣∂_E V_OME∣Ψ⟩ with the dressed wave function. |
+ | $X_S$, Eq. (107) | GLOSSARY "S-wave compositeness" | Identical: `P_PV_S + derivative_blocks[1,1]`; not the two-body S-wave probability alone. | Eq. (107), `BOchiEFT.bound_state`. |
+-| $g$, $g_l$, Eq. (18) | GLOSSARY "Bare–continuum coupling" | g = (2/√3)√2 g_l; g_l = 35 MeV gives g ≈ 57 MeV. The red run drops 2/√3, using √2 g_l. | Eq. (18) against static matrix element and recoupling discussion; package `compact_coupling`. |
++| $g$, $g_l$, Eq. (18) | GLOSSARY "Bare–continuum coupling" | g = (2/√3)√2 g_l; g_l = 35 MeV gives g ≈ 57 MeV. | Eq. (18) against static matrix element and recoupling discussion; package `compact_coupling`. |
+ | $g_b$, Eq. (66) | CONVENTIONS "Axial coupling and OME normalisation" | Identical g_b = 0.56; distinct from g. | Source axial input, Eq. (66), and OME vertices, Eqs. (69)–(70); canonical entry. |
+ | $m_b, C, V_0$, Table VI, Λ = 4 GeV | GLOSSARY "Baseline fit" | Identical parameters; printed 4.534 GeV, -16.27 GeV⁻², 371 MeV are rounded. Full precision is in `code/HadronDynamics.jl/data/bochiEFT/central.toml`. | Table VI central row against baseline input block. |
+-| Masses and probabilities, Table V dagger rows | GLOSSARY "Baseline fit", "Compact probability"; CONVENTIONS "State labels" | Identical observable labels and positive probabilities; mass tolerance 0.001 GeV, probability tolerance 0.01 absolute. | `checks/baseline_fit.jl`, fixed published expectations. |
++| Masses and probabilities, Table V dagger rows | GLOSSARY "Baseline fit", "Compact probability"; CONVENTIONS "State labels" | Identical observable labels and positive probabilities; mass tolerance 0.001 GeV, probability tolerance 0.01 absolute. Integer percentages are rounded; a printed zero permits a contribution below 0.5%. The 10.544 GeV state is the predicted chi_b1(3P)-dominated state; the fitted 10.513 GeV state is X_b. | `checks/baseline_fit.jl`, fixed published expectations. |
+ | $E_{B^{(*)}}(p)$, Eq. (77) | CONVENTIONS "Binding energy and meson energies": $\omega_{B^{(*)}}(p)$ | Positive unit rename only: $\omega_H(p)=m_H+p^2/(2m_H)$. Not the binding energy $E_B$. | Eq. (77) expansion of the intermediate energies. |
+ | $\mu_\beta$, Eqs. (76)–(77) | CONVENTIONS "Reduced masses and TOPT energy offsets": $\nu_\beta$ | Positive unit rename only: $D_\beta=[2\omega(\omega+\nu_\beta)]^{-1}$; not a reduced mass. $\nu_{1,2}=\mp\Delta m+(p^2+p'^2)/(2m_{B^{(*)}})-E$, $\nu_3=p^2/(2m_B)+p'^2/(2m_{B^*})-E$, $\nu_4=\nu_3(p,p')$. | Eq. (77) with $M=m_B+m_{B^*}+E$; `exchange.jl:1–14`. |
+-| $P({}^5D_1)$ and mixed $V_{13},V_{23}$, Eqs. (D1),(D4),(D7) | CONVENTIONS "Partial-wave projectors" | Package now uses the identical (D1) phase. Relative to its original frozen extraction, $V_{\rm D1}=U V_{\rm frozen}U$, $U=\operatorname{diag}(1,1,-1)$: precisely entries 13,23,31,32 change sign; diagonal blocks, poles and probabilities do not. The user directed alignment to (D1) on 2026-10-29. | Raw double-angle Eq. (80) in `checks/projection_1pp.py`; all published coefficients in `notes/03-projection-method-1pp.md`; package frozen comparisons explicitly transform both sides of each continuum matrix. |
++| $P({}^5D_1)$ and mixed $V_{13},V_{23}$, Eqs. (D1),(D4),(D7) | CONVENTIONS "Partial-wave projectors" | The package uses the printed (D1) phase and reproduces (D4), (D7) and their transposes. | Independent double-angle Eq. (80) integration in `checks/projection_1pp.py` and the coefficient derivation in `notes/03-projection-method-1pp.md`. |
+ | $\Psi^{\rm(spur)}_\alpha$, App. G, Eq. (G1) | GLOSSARY "Spurious-pole projection"; CONVENTIONS "Loop measure and regulator" | Positive separable addition $\varepsilon\Psi_{\alpha'}(p')\Psi_\alpha(p)$, no extra $2\pi$ factor. Renormalise the two-meson component alone: $\sum_\alpha\int_0^\Lambda q^2dq/(2\pi^2)\,\Psi_\alpha^2=1$, not the compact-plus-derivative norm of a physical bound state. | App. G text preceding Eq. (G1), Eq. (106); `checks/spurious_projection.jl`. |
+ | $C,V_0$, Table VIII projected row | GLOSSARY "Shallow-$X_b$ fit" | Identical units and signs: $C=2.66$ GeV$^{-2}$, $V_0=0.362$ GeV are rounded; $C$ imposes $E_B[X_b]=0.001$ GeV and $V_0$ minimises Eq. (94). | Table VIII caption and projected row; `checks/shallow_fit.jl`. |
+ | $\Delta M$, Eq. (94), Table VIII | GLOSSARY "Fit deviation"; CONVENTIONS "State labels" | Identical RMS with factor $1/3$: in the shallow fit compare the three compact-dominated states with the measured $\chi_{b1}(9893)$, $\chi_{b1}(10255)$, $\chi_{b1}(10513)$ masses. The shallow $X_b$ is constrained separately, not a fourth fitted mass; baseline instead matches $X_b$ to 10513 MeV. | Eq. (94), Sec. IV F and Table VIII caption; `checks/shallow_fit.jl`. |
+-| Predominantly hadronic member of the two lowest levels, Fig. 5(a) caption, App. G | GLOSSARY "Spurious pole" | Identical content-following label: at the avoided $1P$ crossing follow the member with smaller $\mathcal P_{\bar bb}$, not the adiabatic eigenpole that ends compact-dominated. The user agreed this clarification on 2026-10-29; the shallow endpoint may have $\mathcal P_{\bar bb}>1\%$. | Fixed-$\Lambda$, fixed-$V_0$ ordered-pair and overlap scans in `examples/bochiEFT/shallow_fit.jl` (`hadronic`, `continuation`); source caption at `src/Xb.tex:1494`. |
++| Predominantly hadronic member of the two lowest levels, Fig. 5(a) caption, App. G | GLOSSARY "Spurious pole" | At the avoided 1P crossing, follow the predominantly hadronic member with smaller compact probability. The shallow endpoint may have compact probability above 1%. | Zhang:2026iyr v1, Fig. 5(a) caption; `checks/shallow_spurious.jl`. |
+ 
+ ## Flags
+ 
+-- Table V percentages are rounded to integers; zero permits a contribution below 0.5%. The check does not interpret zero as an exactly absent channel.
+-- The 10.544 GeV χ_b1(3P)-dominated state is predicted, not one of the three fitted masses (Sec. IV D). The 10.513 GeV fitted state is X_b.
+-- This bridge covers only the quantities used by slice 01, not every convention of the paper.
+-- Slice 03 extends the original slice-01 coverage with the OME conventions above. Resolved package phase mismatch: the original mixed PV–VV entries had the negative of (D4),(D7) and their transposes; direct Eq. (80) integration with printed (D1) agreed with the source. On the user's 2026-10-29 instruction, the package was aligned to (D1), not the check rephased. The canonical convention did not change; the frozen reference stays untouched and is converted only in comparisons.
++- This bridge covers the two 1++ fits, OME projection conventions and spurious-pole projection used in the working files.
+--- a/NOTEBOOK.md
++++ b/NOTEBOOK.md
+@@ -35,6 +35,7 @@
+ - **Renormalisation and uncertainty.** Does $C$ alone give a stable $2^{++}$ prediction across $\Lambda=3$–$5$ GeV? The shallow-$X_b$ fit still needs $1^{++}$ refits at $3,5$ GeV. Tower, projection-strength and grid dependence remain to be determined for $2^{++}$; a change of pole nature reopens the counterterm question.
+ - **Contour definition needs your decision.** The agreed wording in `CONVENTIONS.md`, “Continuation to other sheets”, excludes every contour once $|\operatorname{Im}k_\alpha|>m_\phi$: a kernel branch point then lies between the real axis and the contour. The proposed replacement criterion is that no singularity crosses $\mathcal C$ during deformation; it awaits your OK.
+ - **Branch discrepancy.** Scratch probes recorded 62–134 disagreements out of 6144 pion contour pairs between the continuity tracker and principal split-log moments at depth $0.2$ GeV. The ratio-log route disagrees at about as many pairs. Cause not known: homotopy crossing, tracker step control and contour admissibility remain candidates; resolve this before choosing a correction.
++- **Ratio-log representation ([@Wu:2026wxb], App. D).** For which admissible App. D contours does the principal ratio log differ from continuously tracked split logs, and how does this extend from the static Yukawa example to the full TOPT kernel? Establish the contour and branch prescriptions before claiming a failing case.
+ - **Tolerances need your decision.** The $10^{-6}$ relative target for complex $f_n$ is not reached over the full stated domain: matched-tail differences are about $10^{-6}$–$4\times10^{-6}$ on the refined coordinate grid and $7.6\times10^{-6}$ on the production grid. Draft checks use $5\times10^{-6}$ and $10^{-5}$; these are proposals, not approved replacements. The continuation directions below keep targets of $0.1$ MeV for poles, $10^{-6}$ relative for on-shell $T$, and next-order estimates for the ERE and $g^2$ comparisons.
+ - **Kernel continuation.** The continued TOPT moments, direct angular comparison, three-body locator, left-hand-cut maps and complex form factors are not yet established. Drafts: `checks/appd_contours.py` (App. D contour prototype), `checks/three_body_locator.jl`, `checks/complex_form_factors.jl`, `checks/lhc_1pp.jl`, `checks/lhc_scan_2pp.jl`.
+ - **Continued LSE: possible direction.** How to solve on finite contours with channel-by-channel sheet signs, recover the real-axis amplitude and unitarity, reproduce the baseline bound states, and establish contour independence? Candidate independent routes are the on-shell-point method for $|\operatorname{Im}k_\alpha|<m_\pi$ and an exactly soluble two-channel model. The requested contour-deformation figures remain open; virtual states may need a short negative-$\operatorname{Re}q$ excursion with $\kappa_v<m_\pi/2$.
+--- a/notes/03-projection-method-1pp.md
++++ b/notes/03-projection-method-1pp.md
+@@ -132,7 +132,7 @@
+ 
+ `projection_coefficients(out,in,pout,pin)` returns four coefficients in the order $x^0,x^1,x^2,x^3$. `tc_moments` returns the four $\Delta_k$ for the offsets selected above. `tc_vphi` contracts these vectors with $-g_b^2/(8F_\pi^2)$. Its analytic moment implementation changes variables $x\to\omega=\sqrt{A-Bx}$; then $dx=-2\omega\,d\omega/B$, cancelling the $2\omega$ in $D_\beta$ and leaving integrals of $(A-\omega^2)^k/(\omega+\nu_\beta)$. This explains why polynomial recurrence and logarithms suffice. For small $B$ the implementation avoids cancellation through its small-$B$ moment route, rather than dividing ill-conditioned differences by $B^{k+1}$.
+ 
+-**Discrepancy and authorised resolution:** the original package coefficients for 11,12,21,22,33 agreed with the table, but 13,23,31,32 were its negatives, i.e. the package used $U V U$ with $U=\operatorname{diag}(1,1,-1)$ relative to the agreed (D1) convention. On 2026-10-29 the user explicitly decided to align the package to (D1). The fix changes only the mixed coefficients, not the projectors, offsets, normalisation or check expectations. Frozen-reference tests convert the original reference matrix with $U$ on both sides; the frozen reference itself remains unchanged. Channel probabilities and pole positions are invariant under this basis rephasing.
++The package and the coefficient table use the printed (D1) phase. All nine entries agree with (D2)–(D10) and independent angular integration.
+ 
+ ## 4. Independence and discrepancy protocol
+ 
+@@ -144,31 +144,9 @@
+ 
+ Conventions aligned before probing: natural GeV units, $g_b,F_\pi$ taken from the same package input, no Fourier transform, Eq. (80)'s spin and angular averages, incoming/outgoing ordering, $\boldsymbol q$ bilinear sign invariance, the C-even PV combination, full recoil and mass splitting, and absolute energy $M=m_B+m_{B^*}+E$. Projector signs are exactly (D1), not adjusted to fit the code.
+ 
+-Ranked falsifiable explanations before the numerical probe:
+-1. Package channel 3 is rephased relative to (D1)/(D4)/(D7): only mixed entries will change sign, all other entries will agree.
+-2. The raw spin-matrix transcription mishandles the C-even normalisation: mixed entries will differ in magnitude by $\sqrt2$ (or its inverse), not just sign.
+-3. The pinned source is internally inconsistent between (D1), (72)–(75) and App. D: the raw D1 integrals will match one route but not the other.
+-4. Quadrature or moments are inaccurate: residuals will change with angular order rather than approach a fixed sign ratio.
+-
+-The initial discrepancy, the user decision, and the before/after check results are recorded below and in the slice. The independent check's expectations and tolerance remain those committed before this derivation.
++## 5. Independent comparison
+ 
+-## 5. Observed comparison, user decision, and regression
+-
+-Before the fix, with input `PROJECTOR_SIGN=+1` (the printed D1), `uv run --script checks/projection_1pp.py` exited 1: all 24 mixed PV–VV comparisons failed by an overall minus sign, while all 30 other comparisons passed. For the first pion sample,
+-
+-| Entry | Eq. (80), GeV$^{-2}$ | Original package, GeV$^{-2}$ | Order-12 → order-18 change |
+-|---|---|---|---|
+-| 13 | $-3.22785350281$ | $+3.22785350281$ | $0$ at printed precision |
+-| 23 | $+0.343022784097$ | $-0.343022784097$ | $0$ at printed precision |
+-| 33 | $-0.0888336642041$ | $-0.0888336642041$ | $8.33\times10^{-17}$ |
+-
+-Across the samples the largest quadrature change was $1.50\times10^{-13}$ GeV$^{-2}$, far below the fixed $5\times10^{-9}\max(1,|V|)$ criterion. Thus this was not quadrature nonconvergence. The source polynomial table fixed the same mixed signs as the independent integral.
+-
+-Before the fix, the single-variable diagnostic `uv run --script checks/projection_1pp.py --flip-5d1` exited 0 with 54 PASS lines, largest analytic discrepancy $4.67\times10^{-13}$ GeV$^{-2}$. It changed only the VV projector sign, leaving all matrices, offsets, quadrature orders and expected values unchanged. This confirmed the exact channel-rephasing explanation and rejected a missing $\sqrt2$ normalisation or quadrature explanation. It was a diagnostic, **not** the requested broken-result red run.
+-
+-The user decision (2026-10-29, relayed by the parent) was **align the package to (D1)**. No canonical convention changed. The package correction changes the sign of the four mixed entries through the two polynomial branches; diagonal blocks and all TOPT offsets remain untouched. The evidence was supplied before editing in `local://slice03-5D1-evidence.md`, with a separate three-route calculation: raw Eq. (80) and the printed (D4)/(D7) both gave $V_{13}^\pi=-3.227853502815$, $V_{23}^\pi=+0.343022784097$, $V_{13}^\eta=-0.048906606860$, $V_{23}^\eta=+0.000536185020$ GeV$^{-2}$; the original package gave their negatives.
+-
+-After alignment, the unchanged comparison at the printed projector sign gives 54 PASS lines. The largest analytic residual is $4.67\times10^{-13}$ GeV$^{-2}$, with order-12/order-18 changes at most $1.50\times10^{-13}$ GeV$^{-2}$. For the required deliberate red, the input sign alone was changed to $-1$ (confirmed with `git diff`): `uv run --script checks/projection_1pp.py` exited 1, with $V_{13}^\pi=+3.22785350281$ against analytic $-3.22785350281$ and $V_{23}^\pi=-0.343022784097$ against $+0.343022784097$ in sample 1. All 24 mixed comparisons failed while the other 30 passed. The printed positive input sign was restored. The package's BOchiEFT testsets all pass under the explicit frozen-reference basis conversion, and the slice-01 baseline fit remains green. The unrelated full-suite Cornell witness failure is recorded separately in the slice and is being dispositioned by the parent, not hidden as a passing full-suite run.
++The printed-D1 comparison gives 54 passing entries. The largest analytic residual is $4.67\times10^{-13}$ GeV$^{-2}$ and the order-12/order-18 quadrature change is at most $1.50\times10^{-13}$ GeV$^{-2}$. These recorded results concern the projection comparison, not a full-suite test claim.
+ 
+ ## 6. Dimensions and controlled limiting cases
+ 
+--- a/notes/04-ome-2pp-contractions.py
++++ b/notes/04-ome-2pp-contractions.py
+@@ -1,7 +1,7 @@
+ # /// script
+ # dependencies = ["sympy>=1.13"]
+ # ///
+-"""Slice 04 derivation aid (notes/04-ome-2pp.md): Eq. (80) spin contractions.
++"""Derivation aid (notes/04-ome-2pp.md): Eq. (80) spin contractions.
+ 
+ Not a check. Contracts the literal Cartesian projectors with the isospin-free
+ spin numerators N of the note at n=z, n'=(s,0,x), s=sqrt(1-x^2), reduces s^2,
+--- a/notes/04-ome-2pp.md
++++ b/notes/04-ome-2pp.md
+@@ -516,34 +516,30 @@
+ 
+ The map is verified by reading dispatch, intermediate species, offset arithmetic, the single-ordering integrand/recurrence, array accumulation and final prefactors at the stated lines. The executed comparison recorded in §8 independently checks the $-5$ relation. Diagnostic switches preserve inherited semantics: channel 1 always keeps both mesons, `tensor_scale` affects all other entries, and `third_scale` species-changing entries (`exchange.jl:99–112`). Defaults do not alter full OME; no package coefficient convention is changed.
+ 
+-## 8. Checks and their red runs
++## 8. Independent checks
+ 
+ 
+-All three slice-04 checks call the public seam `OMEInteraction(cfg; channels=channels_2pp())` with expectations and tolerances frozen before this derivation (commits `c992b60`, `e49af82`).
++All three checks call the public seam `OMEInteraction(cfg; channels=channels_2pp())` with expectations and tolerances frozen before this derivation (commits `c992b60`, `e49af82`).
+ 
+-| Check | Green result (2026-10-29) | Deliberate red |
+-|---|---|---|
+-| `checks/projection_2pp.py`: brute-force Eq. (80), 21 entries, $\pi$ and $\eta$, 3 seeded samples | 141 PASS: 12 projector Gram assertions, 3 below-$B\bar B\pi$ samples, 126 entries; largest residual $2.9\times10^{-12}$ GeV$^{-2}$, largest order-12/18 change $2.7\times10^{-15}$ GeV$^{-2}$ (tolerance $5\times10^{-9}\max(1,|V|)$) | $B\bar B\leftrightarrow B^*\bar B^*$ sign reversed in the package: exit 1, the 24 lines of entries 16, 26, 36, 46 FAIL (below) |
+-| `checks/time_reversal_2pp.jl`: $V_{\alpha'\alpha}(p',p)=V_{\alpha\alpha'}(p,p')$, 21 entries, 3 points, $\pi$ and $\eta$ | 126 PASS, largest residual $6.7\times10^{-16}$ GeV$^{-2}$ | entry 16 alone given the $D_4$ offsets ($\nu_3\to\nu_4$ in `tc_alphas`): exit 1, the six entry-16 lines FAIL with residuals $3.0\times10^{-4}$ ($\pi$) to $1.2\times10^{-6}$ ($\eta$) GeV$^{-2}$, 120 PASS |
+-| `checks/hqss_2pp.py`: 9j/6j rotation, block structure, $J_\ell=1$ block vs $1^{++}$ | 15 PASS; forbidden entries $\le1.1\times10^{-15}$, $J_\ell=1$ blocks equal to $9.7\times10^{-14}$ GeV$^{-2}$ | PP projector sign flipped in the package (entries with one PP leg negated): exit 1, all 3 block-diagonality and all 3 $J_\ell=1$ comparisons FAIL (forbidden entries up to 3.9 GeV$^{-2}$), the 1++ and exact Wigner assertions still PASS |
++| Check | Green result (2026-10-29) |
++|---|---|
++| `checks/projection_2pp.py`: brute-force Eq. (80), 21 entries, $\pi$ and $\eta$, 3 seeded samples | 141 PASS: 12 projector Gram assertions, 3 below-$B\bar B\pi$ samples, 126 entries; largest residual $2.9\times10^{-12}$ GeV$^{-2}$, largest order-12/18 change $2.7\times10^{-15}$ GeV$^{-2}$ (tolerance $5\times10^{-9}\max(1,|V|)$) |
++| `checks/time_reversal_2pp.jl`: $V_{\alpha'\alpha}(p',p)=V_{\alpha\alpha'}(p,p')$, 21 entries, 3 points, $\pi$ and $\eta$ | 126 PASS, largest residual $6.7\times10^{-16}$ GeV$^{-2}$ |
++| `checks/hqss_2pp.py`: 9j/6j rotation, block structure, $J_\ell=1$ block vs $1^{++}$ | 15 PASS; forbidden entries $\le1.1\times10^{-15}$, $J_\ell=1$ blocks equal to $9.7\times10^{-14}$ GeV$^{-2}$ |
+ 
+-All deliberate breaks were temporary one-line package edits (or, for `--flip-pp`, the check's own switch), reverted byte-for-byte before the green runs were repeated. The exact-arithmetic consistency of the table (Sec. 6) and these three numerical routes agree. The projection route shares the [@Baru:2019xnh] v2 projectors and the Eq. (68) spin numerators of Sec. 1, including the $+q_aq_b$ of $B\bar B\leftrightarrow B^*\bar B^*$, with this derivation, so it tests the contraction and the denominators, not that sign. The HQSS route shares no projector tensor or numerator; it uses the bridged channel phases $D_2=\operatorname{diag}(1,1,1,1,1,-1)$, so it tests the sign of the $B\bar B\leftrightarrow B^*\bar B^*$ entries relative to the bridged $B\bar B({}^1D_2)$ projector phase. The absolute sign rests on the Sec. 1 argument, which agrees with the bridge's independent vertex-by-vertex argument and with followup.tex Eq. (5).
++The exact-arithmetic table and the three numerical routes agree. The projection route shares the [@Baru:2019xnh] v2 projectors and the Eq. (68) spin numerators of Sec. 1, including the $+q_aq_b$ of $B\bar B\leftrightarrow B^*\bar B^*$, with this derivation, so it tests the contraction and the denominators, not that sign. The HQSS route shares no projector tensor or numerator; it uses the bridged channel phases $D_2=\operatorname{diag}(1,1,1,1,1,-1)$, so it tests the sign of the $B\bar B\leftrightarrow B^*\bar B^*$ entries relative to the bridged $B\bar B({}^1D_2)$ projector phase. The absolute sign rests on the Sec. 1 argument, which agrees with the bridge's independent vertex-by-vertex argument and with followup.tex Eq. (5).
+ 
+ Further recorded runs (2026-10-29):
+ 
+-- **Projection check, broken result.** With the $B\bar B\leftrightarrow B^*\bar B^*$ sign reversed in the package (the same one-line edit as the HQSS red: every $2^{++}$ entry with exactly one PP leg negated), `uv run --script checks/projection_2pp.py` exits 1: the 24 comparisons of entries 16, 26, 36, 46 FAIL (e.g. $\pi$, sample 1, entry 16: package $+3.0662$, integral $-3.0662$ GeV$^{-2}$); the other 117 assertions PASS.
+-- **HQSS check, `--flip-pp`.** On the green package, `uv run --script checks/hqss_2pp.py --flip-pp` exits 1 with the same six FAIL lines and numbers as the package-edit red.
+-- **Package tests, red then green.** The interface testset was added first and errored on `UndefVarError: channels_2pp`. After the channel sets landed, the analytic-vs-quadrature assertion (`rtol=1e-8, atol=1e-9`) failed for entries 45 and 46 at $p'=0.02$, $p=0.4$ GeV: $3.2432\times10^{-6}$ against $3.2420\times10^{-6}$ and $-2.8928\times10^{-6}$ against $-2.8914\times10^{-6}$ GeV$^{-2}$ (a 1024-node rule showed errors up to $1.3\times10^{-9}$ GeV$^{-2}$ in entries 42–46). Moving the $2^{++}$ quadrature switch to 0.3 made all 309 assertions pass. Measured at $\mathcal A_\phi=1\,\mathrm{GeV}^2$, $\nu\in\{0.5,0.01,-0.3,-0.8\}$ against the 256-bit recurrence: the order-4 Float64 recurrence errs by up to $5\times10^{-9}$ (relative) at $|\mathcal B|/\mathcal A_\phi=0.06$, $10^{-10}$ at 0.1, $3\times10^{-12}$ at 0.2, $1.3\times10^{-12}$ at 0.3; the 64-node rule stays below $4\times10^{-15}$ up to 0.3. The other BOchiEFT testsets, including every frozen-reference `==` comparison, pass unchanged; no $1^{++}$ assertion needed relaxing.
+-- **Recurrence branch against the brute-force integral (diagnostic, not a committed check).** The committed projection samples have $|\mathcal B|/{\rm scale}\le0.30$ and so exercise the kernel's quadrature branch. A copy of the check with points $(p',p,E)=(0.30,0.40,-0.05),(0.45,0.35,-0.03),(0.25,0.50,-0.07)$ GeV (recurrence branch for both mesons) and orders 18 and 26 gives $|V_{\rm package}-V_{\rm integral}|\le2.2\times10^{-10}$ GeV$^{-2}$ for all 126 entries ($|V|\le10.9$ GeV$^{-2}$); the order-18→26 change reaches $2.2\times10^{-7}$ GeV$^{-2}$, so at these momenta the agreement is limited by the brute-force integral's own convergence, and that run's convergence assertion fails on 24 lines for that reason. The package test compares the same branch with the independent 256-node angular rule.
++- For $2^{++}$ the real-momentum small-product branch uses 64-node quadrature below $|\mathcal B|/\max(|\mathcal A_\phi|,|\nu|^2,10^{-30}\,\mathrm{GeV}^2)=0.3$. In the recorded comparison with a 256-bit recurrence at $\mathcal A_\phi=1\,\mathrm{GeV}^2$, $\nu\in\{0.5,0.01,-0.3,-0.8\}$, the quadrature's relative error stays below $4\times10^{-15}$ up to that boundary; the ordinary recurrence's relative moment error is about $1.3\times10^{-12}$ there. The $1^{++}$ switch is 0.06.
++- The committed double-solid-angle samples exercise the quadrature branch. The ordinary-recurrence branch is compared with an independent 256-node angular rule in the package test; the low-momentum comparison alone does not establish high-momentum double-solid-angle convergence.
+ 
+ ### New projected-spin-numerator check
+ 
+-`plan/slices/04-ome-2pp.md:40–47` records `checks/projected_spin_numerator_2pp.py`: regenerated-table byte identity; all 21 entries and five powers obeying $\mathcal N^{(m)}=-5c_m$ and matching unordered offsets; reduced angular moments against independent double-solid-angle Eq. (80) quadrature for pion and eta. Seed 80429, three below-threshold samples, coefficient tolerance $2\times10^{-13}$; potential agreement/convergence tolerance $5\times10^{-9}\max(1,|V|)$ GeV$^{-2}$; double-sphere orders 12/18 and moment orders 64/96.
++`checks/projected_spin_numerator_2pp.py` checks regenerated-table byte identity; all 21 entries and five powers obeying $\mathcal N^{(m)}=-5c_m$ and matching unordered offsets; reduced angular moments against independent double-solid-angle Eq. (80) quadrature for pion and eta. Seed 80429, three below-threshold samples, coefficient tolerance $2\times10^{-13}$; potential agreement/convergence tolerance $5\times10^{-9}\max(1,|V|)$ GeV$^{-2}$; double-sphere orders 12/18 and moment orders 64/96.
+ 
+-- Missing-result red (`47976ea`): `FAIL generated table: symbolic helper does not exist`, exit 1.
+-- Amendment (`9d928fb`): pairs compared unordered because the sum is symmetric; package $(2,3)$ and Eq. (73)'s $(3,2)$ are equivalent. No tolerance changed.
+-- Broken-result red: flip PP $\to$ VV and its reverse in the helper and regenerate. Table identity PASS; package FAIL (`max_error=0.255 offsets_match=True`); Eq. (80) FAIL (`max_scaled_error=1.56`, quadrature change $9.26\times10^{-14}$). Restore signs and regenerate.
+-- Stale-table red: change only entry 11's constant coefficient in the generated table. Table identity FAIL while both physics groups PASS; restore by regeneration.
++Offset pairs are compared unordered because $D_{\beta_1}+D_{\beta_2}$ is symmetric in the two labels.
++
+ - Recorded green: all three groups PASS; package error $2.78\times10^{-17}$, offsets match; maximum scaled potential error $8.1\times10^{-15}$, quadrature change $9.26\times10^{-14}$, all samples below threshold.
+ 
+ These are recorded runs, not newly rerun results. Table identity is a consistency guard; double-solid-angle quadrature independently checks angular reduction and prefactor, not the shared spin-numerator sign. Neither replaces the sign argument or Wigner-based HQSS check.
+--- a/paper/main.tex
++++ b/paper/main.tex
+@@ -1,5 +1,5 @@
+ % paper/main.tex: the follow-up paper. Preamble from followup.tex, without \usepackage[T2A]{fontenc}: tectonic has no T2A fonts.
+-% Claim slices write paragraphs into sections/*.tex; each section file is \input below, in reading order.
++% Section sources are input below in reading order.
+ \documentclass[aps,prl,showpacs,amsmath,onecolumn,superscriptaddress,floatfix,nofootinbib,notitlepage]{revtex4-2}
+ 
+ \usepackage{bm,color,xcolor,amsfonts,amsmath,amssymb,epsfig,esint,orcidlink,slashed,braket}
+--- a/paper/sections/app-ome-2pp.tex
++++ b/paper/sections/app-ome-2pp.tex
+@@ -13,7 +13,7 @@
+ Symbol & Meaning & Ref.~\cite{Zhang:2026iyr}\\
+ \midrule
+ $\nu_\beta$ & Intermediate-pair energy minus $M$ & $\mu_\beta$\\
+-$\omega_{B^{(*)}}(p)$ & Heavy-meson energy $\sqrt{m_{B^{(*)}}^2+p^2}$ & $E_{B^{(*)}}(p)$\\
++$\omega_{B^{(*)}}(p)$ & Heavy-meson energy $m_{B^{(*)}}+p^2/(2m_{B^{(*)}})$ & $E_{B^{(*)}}(p)$\\
+ $\mathcal N(\bm q)$ & Spin numerator, including its sign & New\\
+ $\mathcal N_{\alpha'\alpha}$ & Projected spin numerator & New\\
+ $\mathcal N^{(m)}_{\alpha'\alpha}$ & Coefficient of $x^m$ in $\mathcal N_{\alpha'\alpha}$ & New\\
+@@ -241,7 +241,7 @@
+ \end{equation}
+ We first group the projected spin numerator by these three powers,
+ then collect powers of $x$.
+-% Exact contractions: /tmp/ome-route/steps-2pp.md; checks/_spin_numerator.py --steps.
++% Exact contractions: checks/_spin_numerator.py --steps; notes/04-ome-2pp.md.
+ 
+ \paragraph{Entry 44: $VV({}^5G_2)\to VV({}^5G_2)$.}
+ Use $\mathcal N$ from Eq.~\eqref{eq:spin-vv}. Both projectors have the
+--- a/paper/sections/framework.tex
++++ b/paper/sections/framework.tex
+@@ -126,4 +126,4 @@
+ the quadrature of the form factors changes every mass by less than
+ 0.01~MeV and every probability by less than 0.04 percentage points in both
+ fits. These are numerical uncertainties only.
+-% Convergence runs: plan/slices/01-checks-env-baseline-fit.md and 02-shallow-fit-spurious-projection.md.
++% Numerical-convergence summary: NOTEBOOK.md, Established; checks/baseline_fit.jl and checks/shallow_fit.jl identify the computations.
+--- a/STANDARDS.md
++++ b/STANDARDS.md
+@@ -1,6 +1,6 @@
+ # Standards
+ 
+-What the referee's Standards axis enforces in this project. Where a rule here and referee's built-in red-flag baseline disagree, this file wins. Rules come from research-retro findings and advisor rulings; each new rule says why it exists.
++Standards for the project's working notes, checks and paper. The rules below take precedence over generic review defaults.
+ 
+ - **Dimensions are consistent.** Every equation in notes/ and paper/ balances in mass dimension; a dimensionless ratio is stated as one.
+ - **Limits are checked.** Each result is shown to reproduce its known limits (static, massless, threshold, weak coupling, a literature special case), by a check or a stated argument.
+--- a/toy/chi_c1_4010_width/README.md
++++ b/toy/chi_c1_4010_width/README.md
+@@ -1,15 +1,12 @@
+ # chi_c1_4010_width
+ 
+-Question: A colleague's estimate (shared 2026-10-29; not in followup.tex) gives $\Gamma[\chi_{c1}(4010)\to D\bar D^*]\simeq20$ MeV from the LO vertex $\frac{1}{\sqrt{4\pi}}g\psi_n(p)=g\,f_n(p)$ [@Zhang:2026iyr] v1, Eqs. (52)–(53) (CONVENTIONS.md "Bare–continuum vertex"), with $\psi_n(p)\approx\lambda^{-3/2}$, $\lambda=100$ MeV, and $p\approx272$ MeV. What width does the same vertex give with the Cornell $2P$ wave function at $m_c=1.328$ GeV (followup.tex) and the physical decay momentum? Near the measured $62.7$ MeV, the estimate supports the follow-up's reading of $\chi_{c1}(4010)$ as $\chi_{c1}(2P)$-dominated; far from it, that reading needs the full above-threshold pole search before the charm repeat relies on it.
++Question: What bare-state golden-rule width does the LO vertex $g f_2(p)=g\psi_2(p)/\sqrt{4\pi}$ give for $\chi_{c1}(4010)\to D\bar D^*$ with the Cornell $2P$ wave function at $m_c=1.328$ GeV and the physical decay momentum?
+ 
+ Run: `julia --project=checks toy/chi_c1_4010_width/run.jl`
+ 
+-Verdict: $\Gamma\approx14$ MeV ($11$–$17$ MeV over the $\pm5.7$ MeV mass uncertainty), a factor $\approx4.5$ below the measured $62.7^{+7.0+6.4}_{-6.4-6.6}$ MeV [@LHCb:2024vfz]. Two things change against the colleague's estimate:
+-
+-- The decay momentum is $p=519$ MeV, not $272$ MeV ($\sqrt{2\mu(M-m_D-m_{D^*})}=514$ MeV; $p^2=0.269$ GeV$^2$, so the printed value is probably $p^2$ without the square root).
+-- $\psi_2(p)$ has a node at $p=439$ MeV. At $p=519$ MeV, $|\psi_2|=18.6$ GeV$^{-3/2}$, against the estimate $\lambda^{-3/2}=31.6$ GeV$^{-3/2}$; at $272$ MeV it would be $61.9$ GeV$^{-3/2}$ and $\Gamma=81$ MeV.
++The bare Cornell $2P$ estimate gives $\Gamma=13.9$ MeV ($11$–$17$ MeV over the mass uncertainty), compared with the measured $62.7$ MeV. The physical momentum is $p=519$ MeV; the nonrelativistic kinematic estimate is $514$ MeV. The wave function has a node at $439$ MeV and $|\psi_2(519\,\mathrm{MeV})|=18.6\,\mathrm{GeV}^{-3/2}$, making the estimate sensitive to shifts of that node. At fixed wave function, matching the measured width would require $g\approx121$ MeV. This bare-state calculation omits dressing, OME and contact interactions.
+ 
+-The colleague's $\simeq20$ MeV agrees with this result only by accident. Because the physical momentum lies just above the node, the width is sensitive to anything that moves it ($m_c$, $\sigma$, $\gamma$, $1/m_c$ corrections): the $\pm5.7$ MeV mass range alone spans $11$–$17$ MeV. Reaching $62.7$ MeV at fixed wave function would need $g\approx121$ MeV instead of $57$ MeV. Write-up: `briefs/2026-10-29-chi-c1-4010-width.md`.
++Current result: NOTEBOOK.md, Established, Charm width toy.
+ 
+ Cross-checks in the output: the package's Cornell levels and $\psi_n(p)$ agree with an independent finite-difference solve to all printed digits; the nonrelativistic golden rule with measure $d^3p/(2\pi)^3$ gives $14.4$ MeV, consistent with the relativistic conversion ($13.9$ MeV) up to $(m_D+m_{D^*})/M$; with $V_0=-36$ MeV the bare $1P$ and $2P$ masses are $3511.9$ and $4014.4$ MeV.
+ 
+--- a/toy/chi_c1_4010_width/run.jl
++++ b/toy/chi_c1_4010_width/run.jl
+@@ -1,5 +1,4 @@
+-# Toy: Gamma[chi_c1(4010) -> D Dbar*] from the LO compact-continuum vertex, with the
+-# Cornell 2P wave function in place of a colleague's lambda^(-3/2) estimate (shared 2026-10-29).
++# Toy: bare Cornell 2P golden-rule width for chi_c1(4010) -> D Dbar* at the physical decay momentum.
+ # Run: julia --project=checks toy/chi_c1_4010_width/run.jl     (GeV natural units)
+ using HadronDynamics, LinearAlgebra, Printf
+ const B = HadronDynamics.BOchiEFT
+@@ -43,36 +42,25 @@
+ p0 = pdecay(M)
+ @printf("Inputs: mc = %.3f GeV, sigma = %.4f GeV^2, gamma = %.3f, g = %.2f MeV, M = %.1f MeV\n",
+         mc, sigma, gamma, 1e3g, 1e3M)
+-@printf("Decay momentum p = %.1f MeV (colleague: 272 MeV); sqrt(2 mu (M - mD - mD*)) = %.1f MeV\n",
++@printf("Decay momentum p = %.1f MeV; sqrt(2 mu (M - mD - mD*)) = %.1f MeV\n",
+         1e3p0, 1e3sqrt(2mu * (M - mD - mDs)))
+ println()
+ @printf("Cornell levels E_n (GeV): package %.6f %.6f | finite difference %.6f %.6f\n",
+         ff.energies[1], ff.energies[2], fd_E[1], fd_E[2])
+ @printf("Bare masses 2mc + V0 + E_n (MeV): 1P %.1f, 2P %.1f\n",
+         1e3(2mc + V0 + ff.energies[1]), 1e3(2mc + V0 + ff.energies[2]))
+-for p in (0.272, p0)
+-    a, b = psi_pkg(p), psi_fd(p)
+-    @printf("psi_n(p = %.0f MeV) [GeV^-3/2]: package %+.4f %+.4f | finite difference |%.4f| |%.4f|\n",
+-            1e3p, a[1], a[2], abs(b[1]), abs(b[2]))
+-end
++a, b = psi_pkg(p0), psi_fd(p0)
++@printf("psi_n(p = %.0f MeV) [GeV^-3/2]: package %+.4f %+.4f | finite difference |%.4f| |%.4f|\n",
++        1e3p0, a[1], a[2], abs(b[1]), abs(b[2]))
+ grid = range(0.01, 2.0, length=400)
+ vals = [psi_pkg(p)[2] for p in grid]
+ node = [grid[i] for i in 1:length(grid)-1 if sign(vals[i]) != sign(vals[i+1])]
+ @printf("Nodes of psi_2(p) below 2 GeV: %s MeV\n", join([@sprintf("%.0f", 1e3x) for x in node], ", "))
+ println()
+ 
+-psi_est = 0.1^(-1.5)
+ psi2 = psi_pkg(p0)[2]
+-rows = [
+-    ("colleague's chain: g_rel = 5 GeV, p = 272 MeV", 5.0^2 * 0.272 / (8pi * M^2), NaN),
+-    ("lambda^(-3/2) estimate, p = 272 MeV, exact prefactor", width(psi_est, 0.272), grel(psi_est)),
+-    ("Cornell psi_2, p = 272 MeV", width(psi_pkg(0.272)[2], 0.272), grel(psi_pkg(0.272)[2])),
+-    ("Cornell psi_2, physical p", width(psi2, p0), grel(psi2)),
+-]
+-for (label, G, gr) in rows
+-    @printf("%-55s Gamma = %6.1f MeV   g_rel = %s\n", label, 1e3G,
+-            isnan(gr) ? "5 GeV (as printed)" : @sprintf("%.2f GeV", abs(gr)))
+-end
++@printf("Cornell psi_2, physical p: Gamma = %.1f MeV, |g_rel| = %.2f GeV\n",
++        1e3width(psi2, p0), abs(grel(psi2)))
+ lo, hi = M - dM, M + dM
+ @printf("Physical p, M = %.1f..%.1f MeV: Gamma = %.1f..%.1f MeV\n",
+         1e3lo, 1e3hi, 1e3width(psi_pkg(pdecay(lo))[2], pdecay(lo); m=lo),
+
+# Follow-ups the user approved after the cleanup: LHCb pin restored (toy README), validity condition restored (Wu row 22), guarded-input markers dropped (four fit checks).
+
+--- a/toy/chi_c1_4010_width/README.md
++++ b/toy/chi_c1_4010_width/README.md
+@@ -4,7 +4,7 @@
+ 
+ Run: `julia --project=checks toy/chi_c1_4010_width/run.jl`
+ 
+-The bare Cornell $2P$ estimate gives $\Gamma=13.9$ MeV ($11$–$17$ MeV over the mass uncertainty), compared with the measured $62.7$ MeV. The physical momentum is $p=519$ MeV; the nonrelativistic kinematic estimate is $514$ MeV. The wave function has a node at $439$ MeV and $|\psi_2(519\,\mathrm{MeV})|=18.6\,\mathrm{GeV}^{-3/2}$, making the estimate sensitive to shifts of that node. At fixed wave function, matching the measured width would require $g\approx121$ MeV. This bare-state calculation omits dressing, OME and contact interactions.
++The bare Cornell $2P$ estimate gives $\Gamma=13.9$ MeV ($11$–$17$ MeV over the mass uncertainty), compared with the measured $62.7^{+7.0+6.4}_{-6.4-6.6}$ MeV [@LHCb:2024vfz]. The physical momentum is $p=519$ MeV; the nonrelativistic kinematic estimate is $514$ MeV. The wave function has a node at $439$ MeV and $|\psi_2(519\,\mathrm{MeV})|=18.6\,\mathrm{GeV}^{-3/2}$, making the estimate sensitive to shifts of that node. At fixed wave function, matching the measured width would require $g\approx121$ MeV. This bare-state calculation omits dressing, OME and contact interactions.
+ 
+ Current result: NOTEBOOK.md, Established, Charm width toy.
+ 
+--- a/literature/Wu:2026wxb/bridge.md
++++ b/literature/Wu:2026wxb/bridge.md
+@@ -19,7 +19,7 @@
+ 
+ | Paper | Canonical | Relation | Checked by |
+ |---|---|---|---|
+-| $\mathbb V_{ij}(p_i,q_j)$, Eq. (64), App. D | $V_{\alpha'\alpha}(p',p)$ of CONVENTIONS "Lippmann–Schwinger equation" | $c(\ell_- - \ell_+)/(4pq)$ | Eq. (64), App. D; NOTEBOOK.md, Open questions, Branch discrepancy. |
++| $\mathbb V_{ij}(p_i,q_j)$, Eq. (64), App. D | $V_{\alpha'\alpha}(p',p)$ of CONVENTIONS "Lippmann–Schwinger equation" | Same object for an $S$-wave static Yukawa exchange with equal masses: $c(\ell_- - \ell_+)/(4pq)$. | Eq. (64), App. D; NOTEBOOK.md, Open questions, Branch discrepancy. |
+ | $w_\pm=(q\pm p)^2+m^2$, Eq. (D2) | $s_\pm^2$ of CONVENTIONS "Continued angular moments", with $(p',p)\to(q,p)$ and $m\to m_\phi$ | Identical: $w_\pm=s_\pm^2$. The TOPT kernel takes $\log(s_\pm+\nu_\beta)$ where the static Yukawa log takes $\frac12\log w_\pm$; they coincide at $\nu_\beta=0$. | NOTEBOOK.md, Open questions, Kernel continuation |
+ | $\ell_\pm=\operatorname{Log}w_\pm+2\pi i\,n_\pm$, Eq. (D1) | $L^{(\beta)}_\pm=\operatorname{Log}(s_\pm+\nu_\beta)+2\pi i\,n_\pm$ | Same continuation rule (continuous from real momenta, where $n_\pm=0$), applied to different arguments. | `checks/appd_contours.py` (draft, prescriptions unfilled); NOTEBOOK.md, Open questions, Kernel continuation |
+ | $J(p;m)$, Eq. (D2) | — | Used only as the worked example; $p$ is the on-shell momentum $k$, $q$ the loop momentum, $m$ the exchange mass $m_\phi$. | `checks/appd_contours.py` (draft, prescriptions unfilled) |
+--- a/checks/baseline_fit.jl
++++ b/checks/baseline_fit.jl
+@@ -11,7 +11,6 @@
+     (name="chi_b1_3P", mass=10.544, compact=0.85, S=0.14, D=0.01, three_body=0.00),
+ ]
+ 
+-# --- input: the guarded computation fills this block ---
+ using HadronDynamics, TOML
+ include(joinpath(@__DIR__, "..", "code", "HadronDynamics.jl", "examples", "bochiEFT", "run.jl"))
+ const driver = BOchiEFTExample
+@@ -31,7 +30,6 @@
+     println("RESULT ", row["name"], " mass_GeV=", row["mass_GeV"],
+             " binding_MeV=", row["binding_MeV"], " P_compact=", row["P_compact"])
+ end
+-# --- end input ---
+ 
+ if results === nothing
+     println("FAIL baseline fit: no computed result yet")
+--- a/checks/shallow_fit.jl
++++ b/checks/shallow_fit.jl
+@@ -8,10 +8,8 @@
+     (name="chi_b1_3P", mass=10.535, compact=0.86, XS=0.13),
+     (name="X_b", mass=10.60327, compact=0.08, XS=0.66),
+ ]
+-# --- input: the guarded computation fills this block ---
+ include(joinpath(@__DIR__,"..","code","HadronDynamics.jl","examples","bochiEFT","shallow_fit.jl"))
+ results = ShallowFitExample.shallow_result()
+-# --- end input ---
+ if results === nothing
+     println("FAIL shallow-Xb fit: no computed result yet")
+     exit(1)
+--- a/checks/shallow_spurious.jl
++++ b/checks/shallow_spurious.jl
+@@ -6,10 +6,8 @@
+ # Eq. (94) (V0 minimises Delta M at fixed E_B[X_b]).
+ # Mapping: literature/Zhang:2026iyr/bridge.md; GeV natural units.
+ 
+-# --- input: the guarded computation fills this block ---
+ include(joinpath(@__DIR__,"..","code","HadronDynamics.jl","examples","bochiEFT","shallow_fit.jl"))
+ results = ShallowFitExample.referee_results()
+-# --- end input ---
+ 
+ if results === nothing
+     println("FAIL shallow spurious pole: no computed result yet")
+--- a/checks/spurious_projection.jl
++++ b/checks/spurious_projection.jl
+@@ -4,11 +4,9 @@
+ # Sec. IV D (baseline projection shift below 1 MeV).
+ # Mapping: literature/Zhang:2026iyr/bridge.md; GeV natural units.
+ 
+-# --- input: the guarded computation fills this block ---
+ include(joinpath(@__DIR__,"..","code","HadronDynamics.jl","examples","bochiEFT","shallow_fit.jl"))
+ computed = ShallowFitExample.projection_results(;perturb=false)
+ results = merge(computed, (shallow_energies=computed.physical_energies,))
+-# --- end input ---
+ 
+ if results === nothing
+     println("FAIL spurious-pole projection: no computed result yet")

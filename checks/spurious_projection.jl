@@ -1,14 +1,12 @@
 # Spurious-pole projection at the physical-pole seam.
-# Slice: plan/slices/02-shallow-fit-spurious-projection.md
+# NOTEBOOK.md, Established, Shallow-Xb fit
 # Independent routes: [@Zhang:2026iyr] v1 App. G (epsilon=5--50 GeV),
 # Sec. IV D (baseline projection shift below 1 MeV).
 # Mapping: literature/Zhang:2026iyr/bridge.md; GeV natural units.
 
-# --- input: the guarded computation fills this block ---
 include(joinpath(@__DIR__,"..","code","HadronDynamics.jl","examples","bochiEFT","shallow_fit.jl"))
 computed = ShallowFitExample.projection_results(;perturb=false)
 results = merge(computed, (shallow_energies=computed.physical_energies,))
-# --- end input ---
 
 if results === nothing
     println("FAIL spurious-pole projection: no computed result yet")

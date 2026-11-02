@@ -1,7 +1,7 @@
 # /// script
 # dependencies = ["sympy>=1.13"]
 # ///
-"""Slice 04 derivation aid (notes/04-ome-2pp.md): Eq. (80) spin contractions.
+"""Derivation aid (notes/04-ome-2pp.md): Eq. (80) spin contractions.
 
 Not a check. Contracts the literal Cartesian projectors with the isospin-free
 spin numerators N of the note at n=z, n'=(s,0,x), s=sqrt(1-x^2), reduces s^2,

@@ -2,7 +2,7 @@
 # requires-python = ">=3.12"
 # dependencies = ["numpy>=2.1", "sympy>=1.13"]
 # ///
-"""Slice 04: generated projected spin numerator, package and Eq. (80) seams.
+"""Generated projected spin numerator, package and Eq. (80) seams.
 
 Expectations frozen before the symbolic route: N_m=-5 c_m; factor 1/10;
 no isospin weights in either single-meson comparison. Seed 80429.

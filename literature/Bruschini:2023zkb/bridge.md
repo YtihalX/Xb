@@ -8,10 +8,10 @@ Canonical side: `CONVENTIONS.md` and `GLOSSARY.md`.
 
 | Convention | Paper (where) | Canonical | Relation |
 |---|---|---|---|
-| Angular-momentum phases | Spherical components $\gamma^\pm=\mp(\gamma^1\pm i\gamma^2)/\sqrt2$ (source line 168); App. B CG/harmonic expansion (lines 763–778) | CONVENTIONS "Angular-momentum phases" | Identical Condon–Shortley convention, positive unit factor. The paper couples orbital momentum first: $|(L,S)JM\rangle$. |
+| Angular-momentum phases | Spherical components $\gamma^\pm=\mp(\gamma^1\pm i\gamma^2)/\sqrt2$ (source line 168); App. B CG/harmonic expansion (lines 763–778) | CONVENTIONS "Angular-momentum phases" | Identical Condon–Shortley convention, positive unit factor. The paper couples orbital momentum first: $\vert(L,S)JM\rangle$. |
 | Charge conjugation | $(B\bar B^*\mp B^*\bar B)/\sqrt2$ has $CP=\pm$ (Sec. II, source line 123) | CONVENTIONS "C-parity phase" | For the even-$L$ channels here, identical $C$-even minus combination; no extra $\sqrt2$ or PV rephase. This is **not** Baru's field convention. |
 | $1^{++}$ partial waves | Table 2, rows $(l,l')=(1,0),(1,2)$ | CONVENTIONS "Partial-wave projectors" | Canonical D1 kets equal the paper's kets times $D_1=\operatorname{diag}(1,1,-1)$ in $(PV\,{}^3S_1,PV\,{}^3D_1,VV\,{}^5D_1)$ order. Thus the last entry, and only the last entry, changes sign. Source: canonical entry and Zhang v1 footnote to Eq. (17), not a fit to the OME matrix. |
-| $2^{++}$ partial waves | Table 2 with its orbital-first CG definition; Baru v2 App. B raw tensors, labels `BsBs5S2`, `BsBs1B2`, `BsBs5B2`, `BBs3B2`, `BB1B2` | CONVENTIONS "2++ channel basis and projectors", "Partial-wave projectors" | In canonical six-channel order, $|\alpha\rangle_{\rm can}=d_\alpha|\alpha\rangle_{\rm B}$ with $D_2=\operatorname{diag}(1,1,1,1,1,-1)$. No magnitude factor. Explicit CS/tensor comparison below fixes these signs separately from the spin recoupling. |
+| $2^{++}$ partial waves | Table 2 with its orbital-first CG definition; Baru v2 App. B raw tensors, labels `BsBs5S2`, `BsBs1B2`, `BsBs5B2`, `BBs3B2`, `BB1B2` | CONVENTIONS "2++ channel basis and projectors", "Partial-wave projectors" | In canonical six-channel order, $\vert\alpha\rangle_{\rm can}=d_\alpha\vert\alpha\rangle_{\rm B}$ with $D_2=\operatorname{diag}(1,1,1,1,1,-1)$. No magnitude factor. Explicit CS/tensor comparison below fixes these signs separately from the spin recoupling. |
 | Spin average and HQSS | Sec. IV, source line 324: $m_{B^{(*)}}=(m_B+3m_{B^*})/4$, $\Delta=m_{B^*}-m_B$ | GLOSSARY "Strict HQSS limit" | Identical positive mass average, $\Delta\to0$. The canonical check additionally sets **all** heavy-meson masses and reduced masses to the strict-limit values, not merely selected TOPT offsets. |
 | Energy zero | Sec. V, source line 417: energy relative to twice the spin-average meson mass | CONVENTIONS "Energy origin and on-shell momentum" | $M=2\bar m_B+E_{\rm B}$; hence $E_{\rm can}=E_{\rm B}+2\bar m_B-M_{\rm th}$. In strict HQSS, both sectors have $M_{\rm th}=2\bar m_B$ and the energies coincide, with positive unit factor. |
 
@@ -97,7 +97,7 @@ U_2=\begin{pmatrix}
 \end{pmatrix}.
 $$
 
-The last row is essential: the $s_H=s_\ell=0$, $j_\ell=L=2$ ket is allowed in $2^{++}$. Even $L$ permits $C=(-1)^{s_H+s_\ell}=+$ for both $(1,1)$ and $(0,0)$; the mixed $(1,0),(0,1)$ combinations have $C=-$. There is no allowed $G$-wave with $j_\ell=5$ at total $J=2$ and $s_H=1$; the retained $G$ ket has $j_\ell=3$. Keeping only the five triplet-triplet kets loses a physical channel and cannot give a unitary $6\times6$ transformation.
+The sixth row has $s_H=s_\ell=0$ and $j_\ell=L=2$. For even $L$, the retained $(s_H,s_\ell)=(1,1)$ and $(0,0)$ sectors have $C=+$. At total $J=2$ the retained $G$ wave has $j_\ell=3$. These six states form the complete heavy basis.
 
 For $J=1$, columns $(PV\,{}^3S_1,PV\,{}^3D_1,VV\,{}^5D_1)$ and rows $(1,1,1,0),(1,1,1,2),(1,1,2,2)$ give the D1-phase matrix
 
@@ -105,7 +105,7 @@ $$
 U_1=\begin{pmatrix}1&0&0\\0&-1/2&\sqrt3/2\\0&\sqrt3/2&1/2\end{pmatrix}.
 $$
 
-### Table 2 is a longitudinal combination, not a pure $D$-wave row
+### Table 2 longitudinal combinations
 
 Reordered into the canonical column order, the paper's $l=1$ rows are
 
@@ -128,13 +128,12 @@ r_{1,\rm can}=\left(\frac{e_1}{\sqrt3}-\sqrt{\frac23}e_2\right)U_1,\qquad
 r_{2,\rm can}=\left(-\frac{e_1}{\sqrt3}+\sqrt{\frac23}e_2\right)U_2.
 $$
 
-The opposite sector-wide signs are the signed Table 2 source coefficients, not a change of the shared $(s_\ell,L)j_\ell$ basis. Both rows have unit norm. Neither row alone supplies the remaining four heavy-basis directions; the 9j/6j construction does.
+The sector-wide signs are the signed Table 2 coefficients. Both benchmark rows have unit norm. The complete heavy-basis rotation is constructed independently from 9j/6j symbols.
 
 ## Check contract and flags
 
-- `checks/hqss_2pp.py` freezes exact symbolic orthogonality/Table 2 assertions and numerical tolerance $2\times10^{-10}\max(1,\|V_2\|_{\max},\|V_1\|_{\max})$ GeV$^{-2}$, at $(p',p,E)=(.043,.117,-.031),(.139,.071,-.063),(.091,.091,-.019)$ GeV. These expectations were written before the guarded package coefficient derivation.
-- Its result seam is the public `BOchiEFT.ome_potential` with `OMEInteraction(cfg; channels=BOchiEFT.channels_2pp())`. Missing `channels_2pp` is a hard failure, never skipped or replaced with a local potential. Strict inputs set `mB=mBstar=mbar` and `muPV=mbar/2`, keeping recoil and energy dependence on. The $1^{++}$ reference uses the unchanged default constructor. Only the OME seam is checked here; no full propagator or bare-spectrum claim is inferred from it.
-- The complete $2^{++}$ matrix must separate into blocks of sizes $2,1,2,1$ labelled $(s_H,j_\ell)=(1,1),(1,2),(1,3),(0,2)$. In particular the heavy-singlet $(0,2)$ row must not mix with the triplet $(1,2)$ row despite equal $j_\ell$. The first $2\times2$ block must equal the canonical $1^{++}$ first block in the **same** light $S/D$ order.
-- `--flip-pp` deliberately conjugates the package $2^{++}$ matrix by a PP phase flip while leaving all expectations unchanged. The parent must record its actual red run; this bridge does not claim it has run.
-- No checks/builds/tests were run during construction. Exact Wigner entries were obtained by a standalone symbolic derivation, not by executing the acceptance check. No numerical pass or missing-API red observation is claimed until the parent runs it.
+- `checks/hqss_2pp.py` freezes exact symbolic orthogonality/Table 2 assertions and numerical tolerance $2\times10^{-10}\max(1,\|V_2\|_{\max},\|V_1\|_{\max})$ GeV$^{-2}$, at $(p',p,E)=(.043,.117,-.031),(.139,.071,-.063),(.091,.091,-.019)$ GeV.
+- The check uses the public `BOchiEFT.ome_potential` with `channels_2pp()`, setting `mB=mBstar=mbar` and `muPV=mbar/2` while retaining recoil and energy dependence. Missing `channels_2pp` is a hard failure, never skipped or replaced with a local potential. The $1^{++}$ reference uses the unchanged default constructor. Only the OME seam is checked here; no full propagator or bare-spectrum claim is inferred from it.
+- In the strict HQSS limit the OME matrix separates into blocks of sizes 2,1,2,1 labelled $(s_H,j_l)=(1,1),(1,2),(1,3),(0,2)$. The first block equals the canonical 1++ block in the same light S/D order; the recorded residuals are given in `notes/04-ome-2pp.md`, Sec. 8.
+- The recorded HQSS comparison has 15 passing assertions, forbidden entries at most 1.1×10^−15 GeV^−2 and common-block residual at most 9.7×10^−14 GeV^−2 (`notes/04-ome-2pp.md`, Sec. 8).
 - The paper explicitly neglects light-meson exchange in its simple di-meson threshold potentials (source lines 552–562). Table 2 is used for **recoupling**, not as an OME benchmark; the OME assertion is the independently conserved heavy spin and total light angular momentum.

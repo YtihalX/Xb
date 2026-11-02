@@ -2,7 +2,7 @@
 # requires-python = ">=3.12"
 # dependencies = ["numpy>=2.1"]
 # ///
-"""Slice 03: Eq. (80) with 3D spin matrices and D1 projectors vs analytic kernel.
+"""Eq. (80) with 3D spin matrices and D1 projectors vs analytic kernel.
 
 Pinned source: Zhang:2026iyr v1 Eqs. (72)-(80), (D1). The two full solid
 angles are integrated independently, not replaced by App. D polynomials.
@@ -11,7 +11,7 @@ BOchiEFT.tc_vphi directly: OMEInteraction(exchange=:pion|:eta) leaves both
 mesons in S-S, so that selector is NOT a per-meson comparison.
 Tolerance fixed before derivation: |difference| <= 5e-9 max(1, |V|), with
 independent order-12 vs order-18 double-sphere convergence at that precision.
-The result input is D1's VV projector sign, filled after the worked note.
+The Cartesian projectors use the printed D1 phase.
 """
 from pathlib import Path
 import subprocess
@@ -19,14 +19,6 @@ import sys
 import numpy as np
 from _projection import project, projectors_1pp, potential_1pp
 
-# --- input: filled by the guarded derivation ---
-PROJECTOR_SIGN = +1
-# --- end input ---
-if PROJECTOR_SIGN is None:
-    sys.exit("FAIL no worked projection result yet: D1 phase input is missing")
-
-# --flip-5d1 is the deliberate broken-result run; never changes expectations.
-sign = -PROJECTOR_SIGN if '--flip-5d1' in sys.argv else PROJECTOR_SIGN
 rng = np.random.default_rng(80301)
 points = [(float(rng.uniform(.035, .15)), float(rng.uniform(.035, .15)),
            float(rng.uniform(-.09, -.015))) for _ in range(3)]
@@ -51,7 +43,7 @@ mb, mv, gb, fpi, mpi, meta = map(float, constants[6:].split(','))
 expected = np.array([complex(*map(float, line[6:].split(',')))
                      for line in result.stdout.splitlines() if line.startswith('VALUE ')])
 expected = expected.reshape(len(points), 2, 3, 3)
-channels = projectors_1pp(sign)
+channels = projectors_1pp()
 failed = False
 for sample, (r, p, energy) in enumerate(points):
     # Below even the lowest three-body threshold, BBπ: E < mπ - Δm.

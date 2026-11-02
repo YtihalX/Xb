@@ -2,7 +2,7 @@
 # requires-python = ">=3.12"
 # dependencies = ["numpy>=2.1", "sympy>=1.13"]
 # ///
-"""Slice 04: strict-HQSS OME checked independently by Wigner 9j/6j.
+"""Strict-HQSS OME checked independently by Wigner 9j/6j.
 
 Expectations and tolerances frozen before recoupling derivation:
 * exact symbolic orthogonality and Bruschini:2023zkb v3 Table 2 comparison;
@@ -80,7 +80,7 @@ def rotation(total, particles, heavy_basis, phases):
         rows.append(row)
     return sp.simplify(sp.Matrix(rows)*phases)
 
-# --- input seam: missing channels_2pp is deliberately red, never bypassed ---
+# The public six-channel OME supplies the package comparison.
 JULIA_INPUT = r'''using HadronDynamics
 const B = HadronDynamics.BOchiEFT
 physical = B.Parameters()
@@ -166,11 +166,6 @@ def main():
                     cursor += 1
             matrices.append(matrix)
         v2, v1 = matrices
-        # Deliberately broken result, not a changed expectation/tolerance.
-        # Flip canonical PP's phase to the unbridged one; main records the red run.
-        if '--flip-pp' in sys.argv:
-            broken = np.diag([1, 1, 1, 1, 1, -1])
-            v2 = broken @ v2 @ broken
         scale = max(1.0, float(np.max(np.abs(v2))), float(np.max(np.abs(v1))))
         tolerance = TOLERANCE*scale
         transformed2 = numeric2 @ v2 @ numeric2.T

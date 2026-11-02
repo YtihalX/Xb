@@ -11,13 +11,13 @@
 - `Xb.tex`: the finished paper [@Zhang:2026iyr]. Do not edit it during follow-up work; its bibliography is the frozen `Xb.bib`.
 - `followup.tex`: the collaborators' follow-up list. Starting material for grill-research; the paper itself lives in `paper/`.
 - `learning/`: the user's study notes. Not a source of truth: never draft GLOSSARY or CONVENTIONS entries from it, never cite it, never count its scripts as checks.
-- `old/`: archive of superseded drafts. Never a source.
 - `code/HadronDynamics.jl`: submodule of fkguo/HadronDynamics.jl. Changes go upstream by pull request.
 
 <!-- research-skills:start -->
 ## Research skills
 
-- **Notebook**: `NOTEBOOK.md` is the project's state: read it first. At the end of each task, update it (rewrite the state at the top; append dated decisions and dead ends to the log) and show the diff in your report.
+- **Notebook**: `NOTEBOOK.md` holds the current state: the question, established results, decisions in force, open questions, the next step. Read it first; at the end of each task, update it and show the diff in your report.
+- **History**: once the user agrees that something no longer holds (a decision replaced, a route abandoned, a result or a source's value shown wrong, code dropped), correct the working files to the current state and move the old material to `history/`, with a dated entry in `history/LOG.md`: what, why, who decided, what replaced it. Working files keep only the corrected version; for a paper, its bridge carries the corrected form. Read `history/` when the user asks.
 - **One task at a time**: do the task the user names and show every intermediate step and assumption. Halt at each physics choice not yet settled (route, approximation, convention, what counts as a check) and put it to the user. End by proposing the next step; start it when the user says so.
 - **Subagents** may take any part of the work, physics included; they return every step, and their result counts once the user has read it.
 - **Checks**: a result counts as checked when an independent route confirms it (a limit, a symmetry, dimensions, a Ward identity, a second method, a pinned literature value). Propose candidate checks; the user picks (`cross-check`).
