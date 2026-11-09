@@ -1,0 +1,43 @@
+% Shared preamble of the project's LaTeX notes: notes/*.tex and the documents in literature/.
+% Project macros go at the end. A macro copied from a paper's source goes in the note that
+% quotes it, between its \input of this file and \begin{document}.
+\usepackage[a4paper,margin=25mm]{geometry}
+\usepackage{amsmath,amssymb,mathtools,bm}
+\usepackage{graphicx,booktabs,xltabular}
+\usepackage{xcolor}
+\usepackage{xspace}
+\usepackage[numbers,sort&compress]{natbib}
+\bibliographystyle{apsrev4-2} % prints the arXiv ID of each entry in refs.bib
+\usepackage[colorlinks,allcolors=blue!60!black]{hyperref}
+\usepackage[notref,notcite]{showkeys} % prints each \label in the margin, so a pointer by label is found in the PDF
+\renewcommand*\showkeyslabelformat[1]{\normalfont\tiny\ttfamily#1}
+
+% Ragged-right X column for tables with prose cells: bridges, the survey's term map.
+\newcolumntype{L}{>{\raggedright\arraybackslash}X}
+
+% Project macros, in the notation of CONVENTIONS.md.
+\newcommand{\GeV}{\mathrm{GeV}}
+\newcommand{\MeV}{\mathrm{MeV}}
+\newcommand{\vep}{{\bm p}}
+\newcommand{\vek}{{\bm k}}
+\newcommand{\veq}{{\bm q}}
+\newcommand{\ver}{{\bm r}}
+\newcommand{\vex}{{\bm x}}
+\newcommand{\veA}{{\bm A}}
+\newcommand{\vetau}{{\bm \tau}}
+\newcommand{\veL}{{\bm L}}
+\newcommand{\veS}{{\bm S}}
+\newcommand{\ven}{{\bm n}}
+\newcommand{\veep}{{\bm \epsilon}}
+\newcommand{\veepst}{{\bm \epsilon}^{\prime*}}
+\newcommand{\bbnP}{[\bar{b}b]_1(nP)}
+\newcommand{\bbarb}{[\bar{b}b]_1}
+\newcommand{\psibb}{\Psi^{(\bar{b}b)}}
+\newcommand{\Mbb}{M^{(\bar{b}b)}}
+\newcommand{\X}{X(3872)}
+\newcommand{\Xb}{X_b}
+\newcommand{\VQQ}{V^{(\bar{b}b)}}
+\newcommand{\VOME}{V^{\rm (OME)}}
+\newcommand{\TOME}{T^{\rm (OME)}}
+\newcommand{\BOchiEFT}{BO$\chi$EFT\xspace}
+\newcommand{\cyan}[1]{\textcolor{cyan}{#1}}
