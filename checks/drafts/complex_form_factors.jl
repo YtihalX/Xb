@@ -19,7 +19,7 @@
 #  - box (30 -> 34 GeV^-1 at fixed step) and tail (36 -> 42 GeV^-1): 1e-6 on the same scale.
 #  - Schwarz reflection: 1e-10 relative to |f_n(p)|.
 # Inputs: the baseline-fit Cornell parameters, code/HadronDynamics.jl/data/bochiEFT/central.toml.
-# Run: julia --project=checks --startup-file=no checks/complex_form_factors.jl
+# Run: julia --project=checks --startup-file=no checks/drafts/complex_form_factors.jl
 using HadronDynamics, TOML
 const B = HadronDynamics.BOchiEFT
 config = TOML.parsefile(joinpath(pkgdir(HadronDynamics), "data", "bochiEFT", "central.toml"))

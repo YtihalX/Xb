@@ -15,7 +15,7 @@
 # Expected: every located principal zero inside the box has a brute-force zero within
 # 1e-6 GeV and vice versa; real-axis limits within 1e-6 GeV of the thresholds; the lowest
 # is B Bbar pi, +92.8 MeV above m_B + m_B* in 1++ and +47.6 MeV above 2 m_B* in 2++.
-# Run: julia --project=checks --startup-file=no checks/three_body_locator.jl
+# Run: julia --project=checks --startup-file=no checks/drafts/three_body_locator.jl
 using HadronDynamics
 const B = HadronDynamics.BOchiEFT
 const mB, mBs, mpi, meta = 5.27952, 5.32475, 0.138039, 0.548  # GLOSSARY.md "Isospin limit"

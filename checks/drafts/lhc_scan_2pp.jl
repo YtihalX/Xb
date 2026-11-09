@@ -12,7 +12,7 @@
 # each k_alpha for these even-L channels, so the branch of k_alpha does not matter.
 # Expected: a jump (above 1e-4 of the local |V|) within one scan step of every point
 # where a drawn cut crosses a scan line, and no jump anywhere else.
-# Run: julia --project=checks --startup-file=no checks/lhc_scan_2pp.jl
+# Run: julia --project=checks --startup-file=no checks/drafts/lhc_scan_2pp.jl
 using HadronDynamics
 const B = HadronDynamics.BOchiEFT
 const P = B.Parameters()

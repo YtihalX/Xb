@@ -7,7 +7,7 @@
 # The start is the real branch point below threshold nearest to it; that it starts a cut
 # is checked on the imaginary k axis: V_11 jumps across it 1% above kappa_lhc, not 1% below.
 # Expected: round(kappa) = 65 and 273 MeV; jump above, none below.
-# Run: julia --project=checks --startup-file=no checks/lhc_1pp.jl
+# Run: julia --project=checks --startup-file=no checks/drafts/lhc_1pp.jl
 using HadronDynamics
 const B = HadronDynamics.BOchiEFT
 model = B.OMEInteraction(B.Parameters(); channels=B.channels_1pp())
