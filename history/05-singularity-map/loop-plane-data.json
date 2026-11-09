@@ -1,0 +1,1222 @@
+{
+  "probes": [
+    {
+      "E_MeV": [
+        -22.62,
+        -10.0
+      ],
+      "sheet": [
+        -1,
+        -1,
+        1
+      ],
+      "parameters": [
+        0.06470140301734889,
+        0.17148422501370184,
+        1.1818651359017482
+      ],
+      "margin_MeV": 64.59498022712854,
+      "limiting": "log \u03b21 \u03c0; external k5",
+      "homotopy_margin_MeV": 50.35291350943253,
+      "homotopy_limiting": "log \u03b21 \u03c0; external k5",
+      "homotopy_pass": true
+    },
+    {
+      "E_MeV": [
+        23.79,
+        -10.0
+      ],
+      "sheet": [
+        -1,
+        -1,
+        -1
+      ],
+      "parameters": [
+        -1.5,
+        0.95,
+        1.5
+      ],
+      "margin_MeV": 62.41521608482288,
+      "limiting": "G:B*B*:+1k",
+      "homotopy_margin_MeV": 63.46743550294332,
+      "homotopy_limiting": "log \u03b21 \u03c0; external k5",
+      "homotopy_pass": true
+    },
+    {
+      "E_MeV": [
+        -22.62,
+        -60.0
+      ],
+      "sheet": [
+        -1,
+        -1,
+        1
+      ],
+      "parameters": [
+        -0.8,
+        0.95,
+        1.5
+      ],
+      "margin_MeV": 38.48289692597731,
+      "limiting": "G:BB*:+1k",
+      "homotopy_margin_MeV": 61.53788736230978,
+      "homotopy_limiting": "other-sqrt candidate \u03b22 \u03c0; external k1",
+      "homotopy_pass": true,
+      "enclosed_external_log_MeV": [
+        476.0149036886892,
+        -198.65442912515573
+      ],
+      "enclosed_external_log_winding": -1,
+      "Im_k5_MeV": -331.7234612869942
+    },
+    {
+      "E_MeV": [
+        -0.5,
+        -0.1
+      ],
+      "sheet": [
+        -1,
+        -1,
+        -1
+      ],
+      "margin_MeV": 0.10000000000000005,
+      "limiting": "G:BB*:+1k",
+      "virtual_parameters": [
+        0.002,
+        0.0001
+      ],
+      "homotopy_margin_MeV": 0.35017605389004586,
+      "homotopy_pass": true,
+      "homotopy_limiting": "log \u03b21 \u03c0; C"
+    },
+    {
+      "E_MeV": [
+        -22.62,
+        -0.5
+      ],
+      "sheet": [
+        -1,
+        -1,
+        -1
+      ],
+      "margin_MeV": 0.0,
+      "limiting": "sqrt \u03c0; C",
+      "virtual_parameters": [
+        0.002,
+        0.0001
+      ]
+    }
+  ],
+  "scan": [
+    {
+      "Re_E_MeV": -67.85,
+      "sheet": [
+        -1,
+        1,
+        1
+      ],
+      "rows": [
+        {
+          "y_MeV": 0,
+          "margin_MeV": 51.914995368736044,
+          "limiting": "sqrt \u03b7; external k1",
+          "homotopy_margin_MeV": 51.914995368736044,
+          "homotopy_pass": true,
+          "homotopy_limiting": "sqrt \u03b7; external k1",
+          "parameters": [
+            0.05219275104918489,
+            0.6006497024341091,
+            3.9525007016594955
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 5,
+          "margin_MeV": 48.829478196707456,
+          "limiting": "G:BB:+1k",
+          "homotopy_margin_MeV": 52.51315089741002,
+          "homotopy_pass": true,
+          "homotopy_limiting": "sqrt \u03b7; external k1",
+          "parameters": [
+            -0.8,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 10,
+          "margin_MeV": 47.278978408097394,
+          "limiting": "G:BB:+1k",
+          "homotopy_margin_MeV": 52.51315089741002,
+          "homotopy_pass": true,
+          "homotopy_limiting": "sqrt \u03b7; external k1",
+          "parameters": [
+            -0.8,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 15,
+          "margin_MeV": 45.19677041442475,
+          "limiting": "G:BB:+1k",
+          "homotopy_margin_MeV": 52.51315089741002,
+          "homotopy_pass": true,
+          "homotopy_limiting": "sqrt \u03b7; external k1",
+          "parameters": [
+            -0.8,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 20,
+          "margin_MeV": 44.085133580751126,
+          "limiting": "G:BB:+1k",
+          "homotopy_margin_MeV": 52.51315089741002,
+          "homotopy_pass": true,
+          "homotopy_limiting": "sqrt \u03b7; external k1",
+          "parameters": [
+            -0.8,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 25,
+          "margin_MeV": 41.91170321609912,
+          "limiting": "G:BB:+1k",
+          "homotopy_margin_MeV": 46.32346144937266,
+          "homotopy_pass": true,
+          "homotopy_limiting": "sqrt \u03b7; external k1",
+          "parameters": [
+            -0.8,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 30,
+          "margin_MeV": 38.24870495877523,
+          "limiting": "G:BB:+1k",
+          "homotopy_margin_MeV": 52.51315089741002,
+          "homotopy_pass": true,
+          "homotopy_limiting": "sqrt \u03b7; external k1",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 35,
+          "margin_MeV": 36.3709809211143,
+          "limiting": "G:BB:+1k",
+          "homotopy_margin_MeV": 52.51315089741002,
+          "homotopy_pass": true,
+          "homotopy_limiting": "sqrt \u03b7; external k1",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 40,
+          "margin_MeV": 36.37098092111431,
+          "limiting": "G:BB:+1k",
+          "homotopy_margin_MeV": 52.51315089741002,
+          "homotopy_pass": true,
+          "homotopy_limiting": "sqrt \u03b7; external k1",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 45,
+          "margin_MeV": 36.370980921114295,
+          "limiting": "G:BB:+1k",
+          "homotopy_margin_MeV": 52.51315089741002,
+          "homotopy_pass": true,
+          "homotopy_limiting": "sqrt \u03b7; external k1",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 50,
+          "margin_MeV": 36.37098092111427,
+          "limiting": "G:BB:+1k",
+          "homotopy_margin_MeV": 50.674595496501766,
+          "homotopy_pass": true,
+          "homotopy_limiting": "other-sqrt candidate \u03b22 \u03b7; external k1",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 55,
+          "margin_MeV": 36.370980921114274,
+          "limiting": "G:BB:+1k",
+          "homotopy_margin_MeV": 40.040288280521345,
+          "homotopy_pass": true,
+          "homotopy_limiting": "other-sqrt candidate \u03b22 \u03b7; external k1",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 60,
+          "margin_MeV": 31.407378970684018,
+          "limiting": "G:BB:+1k",
+          "homotopy_margin_MeV": 33.662200504866256,
+          "homotopy_pass": true,
+          "homotopy_limiting": "other-sqrt candidate \u03b22 \u03b7; external k1",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 65,
+          "margin_MeV": 26.4849830349628,
+          "limiting": "G:BB:+1k",
+          "homotopy_margin_MeV": 28.065451303737774,
+          "homotopy_pass": true,
+          "homotopy_limiting": "other-sqrt candidate \u03b22 \u03b7; external k1",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 70,
+          "margin_MeV": 21.9111869270119,
+          "limiting": "G:BB:+1k",
+          "homotopy_margin_MeV": 22.851370865618055,
+          "homotopy_pass": true,
+          "homotopy_limiting": "other-sqrt candidate \u03b22 \u03b7; external k1",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 75,
+          "margin_MeV": 20.73464931650207,
+          "limiting": "G:BB:+1k",
+          "homotopy_margin_MeV": 43.171054068912404,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -3.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 80,
+          "margin_MeV": 20.73464931650208,
+          "limiting": "G:BB:+1k",
+          "homotopy_margin_MeV": 43.12906580016144,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -3.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 85,
+          "margin_MeV": 20.73464931650207,
+          "limiting": "G:BB:+1k",
+          "homotopy_margin_MeV": 43.1033615776981,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -3.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 90,
+          "margin_MeV": 20.73464931650207,
+          "limiting": "G:BB:+1k",
+          "homotopy_margin_MeV": 43.096696196459206,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -3.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 95,
+          "margin_MeV": 20.7346493165021,
+          "limiting": "G:BB:+1k",
+          "homotopy_margin_MeV": 43.06931482963716,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -3.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 100,
+          "margin_MeV": 20.734649316502047,
+          "limiting": "G:BB:+1k",
+          "homotopy_margin_MeV": 43.03248034110543,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -3.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        }
+      ]
+    },
+    {
+      "Re_E_MeV": -22.62,
+      "sheet": [
+        -1,
+        -1,
+        1
+      ],
+      "rows": [
+        {
+          "y_MeV": 0,
+          "margin_MeV": 64.00829813927614,
+          "limiting": "G:BB*:+1k",
+          "homotopy_margin_MeV": 64.62892862301752,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; external k5",
+          "parameters": [
+            -3.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 5,
+          "margin_MeV": 64.87485958625662,
+          "limiting": "G:BB*:+1k",
+          "homotopy_margin_MeV": 59.43175631175929,
+          "homotopy_pass": true,
+          "homotopy_limiting": "other-sqrt candidate \u03b24 \u03c0; external k6",
+          "parameters": [
+            0.06488441432023215,
+            0.04475493034492878,
+            2.3825793724636988
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 10,
+          "margin_MeV": 64.59498022712854,
+          "limiting": "log \u03b21 \u03c0; external k5",
+          "homotopy_margin_MeV": 50.35291350943253,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; external k5",
+          "parameters": [
+            0.06470140301734889,
+            0.17148422501370184,
+            1.1818651359017482
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 15,
+          "margin_MeV": 61.89825197798982,
+          "limiting": "G:BB*:+1k",
+          "homotopy_margin_MeV": 51.87398416412326,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; external k5",
+          "parameters": [
+            0.06196303372619266,
+            0.2878871157611299,
+            1.047867073750889
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 20,
+          "margin_MeV": 62.63646837791478,
+          "limiting": "log \u03b21 \u03c0; C",
+          "homotopy_margin_MeV": 47.99270128296935,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; external k5",
+          "parameters": [
+            0.06279017062448122,
+            0.5892155121158476,
+            0.9211349839462961
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 25,
+          "margin_MeV": 58.48930899084527,
+          "limiting": "log \u03b21 \u03c0; C",
+          "homotopy_margin_MeV": 55.31687254185482,
+          "homotopy_pass": true,
+          "homotopy_limiting": "other-sqrt candidate \u03b24 \u03c0; external k6",
+          "parameters": [
+            0.05860838763630463,
+            0.6631257748220274,
+            0.9643788414238563
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 30,
+          "margin_MeV": 51.77483197421923,
+          "limiting": "G:BB*:+1k",
+          "homotopy_margin_MeV": 48.69184974637575,
+          "homotopy_pass": true,
+          "homotopy_limiting": "other-sqrt candidate \u03b24 \u03c0; external k6",
+          "parameters": [
+            0.051812570243795986,
+            0.6096518647851878,
+            1.044264874724539
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 35,
+          "margin_MeV": 48.72740399980886,
+          "limiting": "G:BB*:+1k",
+          "homotopy_margin_MeV": 65.8533607509402,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; external k5",
+          "parameters": [
+            -0.8,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 40,
+          "margin_MeV": 48.700655967023266,
+          "limiting": "G:BB*:+1k",
+          "homotopy_margin_MeV": 65.68506315621238,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; external k5",
+          "parameters": [
+            -0.8,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 45,
+          "margin_MeV": 48.678531297542406,
+          "limiting": "G:BB*:+1k",
+          "homotopy_margin_MeV": 65.524055693295,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; external k5",
+          "parameters": [
+            -0.8,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 50,
+          "margin_MeV": 48.660163715109896,
+          "limiting": "G:BB*:+1k",
+          "homotopy_margin_MeV": 65.36969717687222,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; external k5",
+          "parameters": [
+            -0.8,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 55,
+          "margin_MeV": 44.94605474778105,
+          "limiting": "G:BB*:+1k",
+          "homotopy_margin_MeV": 63.700060213325415,
+          "homotopy_pass": true,
+          "homotopy_limiting": "other-sqrt candidate \u03b22 \u03c0; external k1",
+          "parameters": [
+            -0.8,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 60,
+          "margin_MeV": 38.48289692597731,
+          "limiting": "G:BB*:+1k",
+          "homotopy_margin_MeV": 61.53788736230978,
+          "homotopy_pass": true,
+          "homotopy_limiting": "other-sqrt candidate \u03b22 \u03c0; external k1",
+          "parameters": [
+            -0.8,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 65,
+          "margin_MeV": 35.479653028092606,
+          "limiting": "G:BB*:+1k",
+          "homotopy_margin_MeV": 60.15260078393166,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 70,
+          "margin_MeV": 35.50451958050779,
+          "limiting": "G:BB*:+1k",
+          "homotopy_margin_MeV": 60.17524778637796,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 75,
+          "margin_MeV": 35.5301056549133,
+          "limiting": "G:BB*:+1k",
+          "homotopy_margin_MeV": 60.17524780871821,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 80,
+          "margin_MeV": 35.55626183615487,
+          "limiting": "G:BB*:+1k",
+          "homotopy_margin_MeV": 60.15260085279948,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 85,
+          "margin_MeV": 35.58286981335319,
+          "limiting": "G:BB*:+1k",
+          "homotopy_margin_MeV": 60.289264710328325,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 90,
+          "margin_MeV": 35.60983503182867,
+          "limiting": "G:BB*:+1k",
+          "homotopy_margin_MeV": 55.830656380291785,
+          "homotopy_pass": true,
+          "homotopy_limiting": "other-sqrt candidate \u03b22 \u03c0; external k1",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 95,
+          "margin_MeV": 35.63708127908919,
+          "limiting": "G:BB*:+1k",
+          "homotopy_margin_MeV": 51.36227035188751,
+          "homotopy_pass": true,
+          "homotopy_limiting": "other-sqrt candidate \u03b22 \u03c0; external k1",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 100,
+          "margin_MeV": 35.6645466499878,
+          "limiting": "G:BB*:+1k",
+          "homotopy_margin_MeV": 47.21230458517147,
+          "homotopy_pass": true,
+          "homotopy_limiting": "other-sqrt candidate \u03b22 \u03c0; external k1",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        }
+      ]
+    },
+    {
+      "Re_E_MeV": 23.79,
+      "sheet": [
+        -1,
+        -1,
+        -1
+      ],
+      "rows": [
+        {
+          "y_MeV": 0,
+          "margin_MeV": 64.08196789746415,
+          "limiting": "G:B*B*:+1k",
+          "homotopy_margin_MeV": 64.64845979738169,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b23 \u03c0; external k1",
+          "parameters": [
+            -3.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 5,
+          "margin_MeV": 63.53968144798645,
+          "limiting": "G:BB*:+1k",
+          "homotopy_margin_MeV": 63.862616911301544,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; external k5",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 10,
+          "margin_MeV": 62.41521608482288,
+          "limiting": "G:B*B*:+1k",
+          "homotopy_margin_MeV": 63.46743550294332,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; external k5",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 15,
+          "margin_MeV": 60.64192961004797,
+          "limiting": "G:B*B*:+1k",
+          "homotopy_margin_MeV": 62.909860713986255,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; external k5",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 20,
+          "margin_MeV": 59.00190449184369,
+          "limiting": "G:B*B*:+1k",
+          "homotopy_margin_MeV": 60.69429169750731,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 25,
+          "margin_MeV": 57.56768999980044,
+          "limiting": "G:B*B*:+1k",
+          "homotopy_margin_MeV": 57.64043048288356,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 30,
+          "margin_MeV": 55.15150656761818,
+          "limiting": "log \u03b21 \u03c0; C",
+          "homotopy_margin_MeV": 55.15150656761818,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -1.5,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": -0.004374046511088081
+        },
+        {
+          "y_MeV": 35,
+          "margin_MeV": 53.42150568413917,
+          "limiting": "log \u03b21 \u03c0; C",
+          "homotopy_margin_MeV": 53.42150568413917,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -3.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": -0.0031609969572687913
+        },
+        {
+          "y_MeV": 40,
+          "margin_MeV": 51.86215185810305,
+          "limiting": "log \u03b21 \u03c0; C",
+          "homotopy_margin_MeV": 51.862245678881635,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -6.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": -9.382077856279203e-05
+        },
+        {
+          "y_MeV": 45,
+          "margin_MeV": 50.62301366853447,
+          "limiting": "log \u03b21 \u03c0; C",
+          "homotopy_margin_MeV": 50.62301366853447,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -6.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": -0.009566204565547576
+        },
+        {
+          "y_MeV": 50,
+          "margin_MeV": 49.612090110573455,
+          "limiting": "log \u03b21 \u03c0; C",
+          "homotopy_margin_MeV": 49.622234923746504,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -6.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": -0.010144813173046385
+        },
+        {
+          "y_MeV": 55,
+          "margin_MeV": 48.7471157537143,
+          "limiting": "log \u03b21 \u03c0; C",
+          "homotopy_margin_MeV": 48.7471157537143,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -6.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": -0.008919456974801343
+        },
+        {
+          "y_MeV": 60,
+          "margin_MeV": 47.9757690550325,
+          "limiting": "log \u03b21 \u03c0; C",
+          "homotopy_margin_MeV": 47.98741845018234,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -6.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": -0.011649395149838926
+        },
+        {
+          "y_MeV": 65,
+          "margin_MeV": 47.269124914116226,
+          "limiting": "log \u03b21 \u03c0; C",
+          "homotopy_margin_MeV": 47.269124914116226,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -6.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": -0.02358533851588157
+        },
+        {
+          "y_MeV": 70,
+          "margin_MeV": 46.61395299924335,
+          "limiting": "log \u03b21 \u03c0; C",
+          "homotopy_margin_MeV": 46.61395299924335,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -3.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": -0.03630345721067352
+        },
+        {
+          "y_MeV": 75,
+          "margin_MeV": 45.990832188129474,
+          "limiting": "log \u03b21 \u03c0; C",
+          "homotopy_margin_MeV": 46.00261977806056,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -3.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": -0.011787589931089304
+        },
+        {
+          "y_MeV": 80,
+          "margin_MeV": 45.40086282561293,
+          "limiting": "log \u03b21 \u03c0; C",
+          "homotopy_margin_MeV": 45.41884596082929,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -6.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": 0.0
+        },
+        {
+          "y_MeV": 85,
+          "margin_MeV": 44.838836037520934,
+          "limiting": "log \u03b21 \u03c0; C",
+          "homotopy_margin_MeV": 44.85819937363254,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -6.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": -0.04293994256223538
+        },
+        {
+          "y_MeV": 90,
+          "margin_MeV": 44.30116771736404,
+          "limiting": "log \u03b21 \u03c0; C",
+          "homotopy_margin_MeV": 44.31821483132514,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -3.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": -0.017047113961103644
+        },
+        {
+          "y_MeV": 95,
+          "margin_MeV": 43.788190423088686,
+          "limiting": "log \u03b21 \u03c0; C",
+          "homotopy_margin_MeV": 43.788190423088686,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -6.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": -0.005667972843105551
+        },
+        {
+          "y_MeV": 100,
+          "margin_MeV": 43.28358238420756,
+          "limiting": "log \u03b21 \u03c0; C",
+          "homotopy_margin_MeV": 43.28358238420756,
+          "homotopy_pass": true,
+          "homotopy_limiting": "log \u03b21 \u03c0; C",
+          "parameters": [
+            -3.0,
+            0.95,
+            1.5
+          ],
+          "mesh_shift_MeV": -0.05093531272711699
+        }
+      ]
+    }
+  ],
+  "virtual_limit": {
+    "kappa_MeV": 52.132224114859476,
+    "E_MeV": -0.5104030782969972,
+    "residual_GeV": 1.3877787807814457e-17
+  },
+  "channel_virtual_limit": {
+    "excursion_clearance_MeV": 0.01,
+    "kappa_MeV": 69.00969982147215,
+    "E_MeV": -0.8943778899384371,
+    "blocks": {
+      "PV\u2190PV": {
+        "distance_MeV": 104.05777099757238,
+        "limiting": "log \u03b21 \u03c0"
+      },
+      "VV\u2190PV": {
+        "distance_MeV": 61.28922438165971,
+        "limiting": "log \u03b23 \u03c0"
+      },
+      "PV\u2190VV": {
+        "distance_MeV": 61.01602908716519,
+        "limiting": "log \u03b24 \u03c0"
+      },
+      "VV\u2190VV": {
+        "distance_MeV": 7.357055714640737e-06,
+        "limiting": "sqrt \u03c0"
+      },
+      "VV\u2190PP": {
+        "distance_MeV": 61.28922438165971,
+        "limiting": "log \u03b23 \u03c0"
+      },
+      "PP\u2190VV": {
+        "distance_MeV": 61.01602908716519,
+        "limiting": "log \u03b24 \u03c0"
+      }
+    }
+  },
+  "quartic_example": {
+    "1": {
+      "p_out_MeV": 0,
+      "E_MeV": -22.62,
+      "roots_MeV": [
+        [
+          10627.334742233406,
+          -1.166815364598964e-58
+        ],
+        [
+          -10627.334742233406,
+          -6.077163357286271e-61
+        ],
+        [
+          0.0,
+          119.44645110345726
+        ],
+        [
+          0.0,
+          -119.44645110345726
+        ]
+      ],
+      "principal_physical": [
+        false,
+        false,
+        true,
+        true
+      ],
+      "principal_residual_GeV": [
+        21.256462415121298,
+        21.256462415121298,
+        1.3877787807814457e-17,
+        1.3877787807814457e-17
+      ],
+      "other_residual_GeV": [
+        1.1820074567753585e-61,
+        6.15628883737166e-64,
+        0.13838241512130134,
+        0.13838241512130134
+      ]
+    },
+    "2": {
+      "p_out_MeV": 0,
+      "E_MeV": -22.62,
+      "roots_MeV": [
+        [
+          10627.731936913608,
+          0.0
+        ],
+        [
+          -10627.731936913608,
+          0.0
+        ],
+        [
+          0.0,
+          136.45238324575266
+        ],
+        [
+          0.0,
+          -136.45238324575266
+        ]
+      ],
+      "principal_physical": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "principal_residual_GeV": [
+        21.257256737479402,
+        21.257256737479402,
+        0.041743262520598026,
+        0.041743262520598026
+      ],
+      "other_residual_GeV": [
+        0.0,
+        0.0,
+        1.0408340855860843e-17,
+        1.0408340855860843e-17
+      ]
+    },
+    "3": {
+      "p_out_MeV": 0,
+      "E_MeV": -22.62,
+      "roots_MeV": [
+        [
+          -10582.498148172766,
+          -1.9446922743316068e-59
+        ],
+        [
+          10582.498148172766,
+          0.0
+        ],
+        [
+          0.0,
+          135.87327066070293
+        ],
+        [
+          0.0,
+          -135.87327066070293
+        ]
+      ],
+      "principal_physical": [
+        false,
+        false,
+        true,
+        true
+      ],
+      "principal_residual_GeV": [
+        21.16679682275662,
+        21.16679682275662,
+        2.0816681711721685e-17,
+        2.0816681711721685e-17
+      ],
+      "other_residual_GeV": [
+        1.9534984219083403e-62,
+        0.0,
+        0.04871682275662136,
+        0.04871682275662136
+      ]
+    },
+    "4": {
+      "p_out_MeV": 0,
+      "E_MeV": -22.62,
+      "roots_MeV": [
+        [
+          -10672.950993314209,
+          3.8893845486632136e-59
+        ],
+        [
+          10672.950993314209,
+          9.723461371658034e-60
+        ],
+        [
+          6.077163357286271e-61,
+          135.87592018737152
+        ],
+        [
+          6.077163357286271e-61,
+          -135.87592018737152
+        ]
+      ],
+      "principal_physical": [
+        false,
+        false,
+        true,
+        true
+      ],
+      "principal_residual_GeV": [
+        21.347687254929674,
+        21.347687254929674,
+        4.85722573273506e-17,
+        4.85722573273506e-17
+      ],
+      "other_residual_GeV": [
+        1.7763568394002505e-15,
+        1.7763568394002505e-15,
+        0.04868725492967103,
+        0.04868725492967103
+      ]
+    }
+  }
+}

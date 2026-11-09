@@ -1,0 +1,60 @@
+[
+  {
+    "transition": "VV\u2013PV \u03c0",
+    "A_zero_E_MeV": -24.31182832220288,
+    "seam_probe_E_MeV": [
+      -24.645854816994706,
+      10.0
+    ],
+    "principal_loop_samples": 1733,
+    "seam_crossings": [
+      {
+        "epsilon_GeV": 1e-06,
+        "principal_difference_abs": 23.965057207329583,
+        "tracked_difference_abs": 0.0007218525480855257,
+        "principal_jump_limit_2pi_over_absB": 23.9655648179497
+      },
+      {
+        "epsilon_GeV": 1e-07,
+        "principal_difference_abs": 23.96551405599101,
+        "tracked_difference_abs": 7.218525475161721e-05,
+        "principal_jump_limit_2pi_over_absB": 23.9655648179497
+      },
+      {
+        "epsilon_GeV": 1e-08,
+        "principal_difference_abs": 23.965559741744862,
+        "tracked_difference_abs": 7.218525481378919e-06,
+        "principal_jump_limit_2pi_over_absB": 23.9655648179497
+      }
+    ]
+  },
+  {
+    "transition": "VV\u2013PP \u03c0",
+    "A_zero_E_MeV": -46.83398829763036,
+    "seam_probe_E_MeV": [
+      -46.91249763442337,
+      10.0
+    ],
+    "principal_loop_samples": 1800,
+    "seam_crossings": [
+      {
+        "epsilon_GeV": 1e-06,
+        "principal_difference_abs": 12.79874521670437,
+        "tracked_difference_abs": 0.00018792241924039854,
+        "principal_jump_limit_2pi_over_absB": 12.798912827997329
+      },
+      {
+        "epsilon_GeV": 1e-07,
+        "principal_difference_abs": 12.798896066636212,
+        "tracked_difference_abs": 1.8792241918347245e-05,
+        "principal_jump_limit_2pi_over_absB": 12.798912827997329
+      },
+      {
+        "epsilon_GeV": 1e-08,
+        "principal_difference_abs": 12.798911151858903,
+        "tracked_difference_abs": 1.879224189147337e-06,
+        "principal_jump_limit_2pi_over_absB": 12.798912827997329
+      }
+    ]
+  }
+]

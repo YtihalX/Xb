@@ -1,0 +1,518 @@
+\documentclass[11pt]{article}
+\input{../preamble}
+% File names in prose: typewriter, breakable at / . - like a URL (as in note 06).
+\newcommand{\file}[1]{\nolinkurl{#1}}
+% Numbered statements, each with one status tag (see "Reading the statements").
+\newcounter{stmt}
+\newenvironment{stmt}[1]{\par\smallskip\refstepcounter{stmt}\noindent\textbf{S\thestmt}\enspace[\textsf{#1}]\enspace\ignorespaces}{\par\smallskip}
+\newcommand{\Sr}[1]{S\ref{#1}}
+\title{The continued $2^{++}$ Lippmann--Schwinger equation with TOPT one-meson exchange: the contract for the pole search}
+\author{}
+\date{2026-11-04}
+\begin{document}
+\maketitle
+
+\noindent This note fixes what the continued $2^{++}$ calculation computes, why it is the analytic continuation, how the one-meson exchange (OME) is evaluated at complex momenta, what the admissibility validator certifies, and what each stage delivers and how it is checked. The problem and its motivation are in \file{notes/06-xb2-pole-problem.tex} (note~06), whose labels are quoted as \texttt{06:eq:Dflip} and so on. Notation follows \file{CONVENTIONS.md}, terms follow \file{GLOSSARY.md}, and the decisions quoted are those of \file{NOTEBOOK.md}, Decisions, of 2026-11-04 (Admissibility, Continued-LSE plan, Records and code, Checks per stage, Tolerances, Search domain and uncertainty). Energies are in MeV and measured from $2m_{B^*}$; masses are those of \file{GLOSSARY.md}, ``Isospin limit''; $P=B$ and $V=B^*$. The command \texttt{uv run --script notes/07-continued-lse/quoted\_numbers.py} prints every computed number below; it evaluates this note's formulas and is not a check.
+
+\paragraph{Reading the statements.} Each numbered statement carries one tag.
+\begin{description}
+\item[definition] a convention or a decided choice, with its source.
+\item[theorem] proved here; it counts as checked only once a check of Sec.~\ref{sec:checks} confirms it.
+\item[assumption] used without proof; the statement names what would test it.
+\item[numerical evidence] a computed result, with its source and whether it is a recorded check.
+\item[proposal] a method choice not yet made; the stage named in it settles it.
+\end{description}
+Local abbreviations, used only in this note: $w_\pm$, $Z_\pm$, $a$ (Sec.~\ref{sec:moments}), $R(\mathcal C)$, $P_\alpha(\mathcal C)$, $\Sigma(\mathcal C)$ (Sec.~\ref{sec:continuation}).
+
+\section{Scope}\label{sec:scope}
+
+\begin{stmt}{definition}\label{st:scope}
+This phase computes the zeros of the pole condition $D_{\mathcal C}$ of \Sr{st:lse} on $(-,+,+)$ for $-90.46<\operatorname{Re}E<-45.23$ and on $(-,-,+)$ for $-45.23<\operatorname{Re}E<0$, with $-10\le\operatorname{Im}E<0$ ($\Gamma\le20$~MeV). States below $2m_B$ come from $\mathcal C=[0,\Lambda]$, as in $1^{++}$. Source: Decisions, Search domain and uncertainty; Continued-LSE plan.
+\end{stmt}
+
+\begin{stmt}{definition}\label{st:outside}
+Outside this phase: $\Gamma>20$~MeV and $(-,-,-)$, each a widening task of its own ($\Gamma\le100$~MeV first, then $(-,-,-)$ above threshold); virtual states with respect to $B^*\bar B^*$; one path per channel; on-shell residues and couplings; $\operatorname{Re}E\ge47.58$~MeV and the three-body sheets. Source: Decisions, Continued-LSE plan (Stage~8); Search domain and uncertainty.
+\end{stmt}
+
+The inputs are those of the $1^{++}$ fits: $g_b=0.56$, $F_\pi=92.2$~MeV, $\Lambda=4$~GeV ($3$--$5$~GeV for the uncertainty), and $C$, $V_0$ and the tower size $N$ of each fit. The bare $\chi_{b2}$ energies are not chosen (\file{NOTEBOOK.md}, Open questions, Bare $\chi_{b2}$ masses); Stages 2--6 use test values of $\hat v$.
+
+\section{The equation on a path}\label{sec:equation}
+
+\subsection{Channels and the exchange}\label{sec:exchange}
+
+\begin{center}
+\begin{tabular}{cllrr}
+\toprule
+$\alpha$ & channel & species & $\delta_\alpha$ & $\mu_\alpha$\\
+\midrule
+1--4 & $B^*\bar B^*$: $^5S_2$, $^1D_2$, $^5D_2$, $^5G_2$ & $VV$ & $0$ & $2662.38$\\
+5 & $B\bar B^*(^3D_2)$, $C$-even & $PV$ & $-45.23$ & $2651.02$\\
+6 & $B\bar B(^1D_2)$ & $PP$ & $-90.46$ & $2639.76$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Channel $\alpha$ has $k_\alpha^2=2\mu_\alpha(E-\delta_\alpha)$; channels 1--4 share $k_1$. On a sheet $s$, channel $\alpha$ is a flipped channel when $s$ carries $-$ at its threshold (\file{GLOSSARY.md}).
+
+\begin{stmt}{definition}\label{st:offsets}
+The exchange is \texttt{06:eq:VOME},
+\[
+V^{\rm(OME)}_{\alpha'\alpha}(p',q;E)=\frac1{10}\frac{g_b^2}{4F_\pi^2}\sum_{m=0}^{4}\mathcal N^{(m)}_{\alpha'\alpha}(p',q)\bigl[M_m(\nu_{\beta_1})+M_m(\nu_{\beta_2})\bigr],\qquad
+M_m(\nu)=\int_{-1}^{1}\frac{x^m\,dx}{2s(s+\nu)},
+\]
+with $s=\sqrt{m_\phi^2+p'^2+q^2-2p'qx}$, summed as $3V(m_\pi)+\frac13V(m_\eta)$; $q$ is the incoming and $p'$ the outgoing momentum. The offsets are
+\begin{equation}\label{eq:nu}
+\nu_\beta(p',q;E)=t_\beta+h_\beta p'^2+a_\beta q^2-E,
+\end{equation}
+\begin{center}
+\begin{tabular}{cllll}
+\toprule
+$\beta$ & intermediate heavy pair & $t_\beta$ & $h_\beta$ & $a_\beta$\\
+\midrule
+1 & $P(p')\,P(q)$ & $-2\Delta m$ & $1/(2m_B)$ & $1/(2m_B)$\\
+2 & $V\,V$ & $0$ & $1/(2m_{B^*})$ & $1/(2m_{B^*})$\\
+3 & $P(q)\,V(p')$ & $-\Delta m$ & $1/(2m_{B^*})$ & $1/(2m_B)$\\
+4 & $P(p')\,V(q)$ & $-\Delta m$ & $1/(2m_B)$ & $1/(2m_{B^*})$\\
+\bottomrule
+\end{tabular}
+\end{center}
+and the orderings $(\beta_1,\beta_2)$ of the blocks are $(2,2)$ for $VV\leftarrow VV$, $(1,2)$ for $PV\leftarrow PV$, $(2,3)$ for $VV\leftarrow PV$, $(2,4)$ for $PV\leftarrow VV$, $(3,3)$ for $VV\leftarrow PP$ and $(4,4)$ for $PP\leftarrow VV$, counted with multiplicity; $PP\leftarrow PP$ and $PP\leftrightarrow PV$ have no exchange. Source: \file{notes/04-ome-2pp.md}, Sec.~2, with $p\to q$; \file{CONVENTIONS.md}, ``Projected OME potential'', ``Reduced masses and TOPT energy offsets''.
+\end{stmt}
+
+\begin{stmt}{theorem}\label{st:numerators}
+Each $\mathcal N^{(m)}_{\alpha'\alpha}(p',q)$ is a polynomial of degree two in $(p',q)$ with real coefficients. Hence $V^{\rm(OME)}$ is singular only where some $M_m(\nu_\beta)$ is.
+\end{stmt}
+\noindent\emph{Proof.} $\mathcal N(\boldsymbol q)$ is quadratic in $\boldsymbol q=q\hat z-p'\hat n'$ (\file{CONVENTIONS.md}, ``OME spin numerator and its projection''), whose components are linear in $(p',q)$ with coefficients that depend only on directions. The projection and the $\varphi$ average are linear and act on the directions; the odd powers of $\sqrt{1-x^2}$ cancel in the $\varphi$ average. The explicit entries are \file{notes/04-ome-2pp.md}, Sec.~4, and \file{code/HadronDynamics.jl/src/models/BOchiEFT/projection.jl}:86--123. $\square$
+
+\begin{stmt}{theorem}\label{st:E3}
+For real momenta, $\operatorname{Re}(s+\nu_\beta)\ge E_{3,\beta}-\operatorname{Re}E$ with $E_{3,\beta}=m_\phi+t_\beta$:
+\begin{center}
+\begin{tabular}{lccc}
+\toprule
+& $\beta=1$ & $\beta=2$ & $\beta=3,4$\\
+\midrule
+$\pi$ & $47.58$ & $138.04$ & $92.81$\\
+$\eta$ & $457.54$ & $548.00$ & $502.77$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The lowest, $E_{3,1}=47.58$~MeV, occurs only in $PV\leftarrow PV$. On $[0,\Lambda]$ with $\operatorname{Re}E<47.58$~MeV every $s+\nu_\beta$ has a positive real part.
+\end{stmt}
+\noindent\emph{Proof.} For real momenta $s\ge m_\phi$ and $h_\beta p'^2+a_\beta q^2\ge0$. $\square$
+
+\subsection{The bare-state term}
+
+\begin{stmt}{definition}\label{st:bare}
+In channel 1 the potential carries $\sum_{n=1}^{N}f_n(p')\,v_n\,f_n(q)+C$, with $v_n=g^2/(E-\varepsilon_n)$, $\varepsilon_n=E^{(0)}_n+V_0$, and $f_n(p)=\frac{\sqrt{4\pi}}{p}\int_0^\infty dr\,u_n(r)\sin(pr)$ at every complex $p$; no complex conjugation. On the nodes, $F_{(\alpha j),n}=\delta_{\alpha1}f_n(q_j)$ for $n\le N$, $F_{(\alpha j),N+1}=\delta_{\alpha1}$, and $\hat v=\operatorname{diag}(v_1,\dots,v_N,C)$. Source: \file{CONVENTIONS.md}, ``Bare-state term off the real axis'', ``2++ bare--continuum vertex''.
+\end{stmt}
+
+\begin{stmt}{theorem}\label{st:entire}
+$f_n$ is entire.
+\end{stmt}
+\noindent\emph{Proof.} At large $r$ the radial equation of \file{CONVENTIONS.md}, ``Quark--antiquark Hamiltonian'', is $u''\simeq m_b\sigma r\,u$, so the bound states fall as $\exp[-\frac23(m_b\sigma)^{1/2}r^{3/2}]$, faster than any exponential. With $|\sin(pr)|\le e^{|\operatorname{Im}p|r}$ the integral converges uniformly on compact sets of $p$, and $\sin(pr)/p$ is entire. $\square$
+
+\begin{stmt}{assumption}\label{st:ffnum}
+The numerical $f_n$ (coordinate grid with matched tail, \cite{Zhang:2026iyr} v1, Eqs.~(A10)--(A12)) is accurate at complex $p$ on the path to the complex-$f_n$ tolerance, which is not yet set (\file{NOTEBOOK.md}, Open questions, Complex $f_n$ tolerance). Tested in Stage~6 by the draft \file{checks/drafts/complex_form_factors.jl}.
+\end{stmt}
+
+\subsection{The equation on a path and the pole condition}
+
+\begin{stmt}{definition}\label{st:lse}
+For a path $\mathcal C$ from $0$ to $\Lambda$,
+\[
+T_{\alpha'\alpha}(p',p)=V_{\alpha'\alpha}(p',p)-\sum_{\alpha''}\int_{\mathcal C}\frac{q^2dq}{2\pi^2}\,V_{\alpha'\alpha''}(p',q)\,G_{\alpha''}(q)\,T_{\alpha''\alpha}(q,p),\qquad G_\alpha(q)=\frac{2\mu_\alpha}{q^2-k_\alpha^2},
+\]
+with no $i\epsilon$, because the path avoids $q=\pm k_\alpha$. With a real rule $(t_j,w_j)$ on the parameter interval, the nodes are $q_j=\gamma(t_j)$ and the weights $\omega_j=w_j\gamma'(t_j)$; $\mathcal G=\operatorname{diag}[\omega_jq_j^2G_\alpha(q_j)/(2\pi^2)]$, $(1+V\mathcal G)T=V$, and the pole condition is $D_{\mathcal C}(E)=\det(1+V\mathcal G)=0$. Only transposes occur: nodes, weights, form factors and kernel are never conjugated. The code keeps one node set per channel; in this phase all equal $\mathcal C$. Source: \file{CONVENTIONS.md}, ``Continuation to other sheets'', ``Bare-state term off the real axis''; note~06, \texttt{06:eq:D}; Decisions, Records and code.
+\end{stmt}
+
+$G_\alpha$ depends on $E$ only through $k_\alpha^2$, so it is single valued; which sheet the equation computes is fixed by the path alone (\Sr{st:sheet}).
+
+\begin{stmt}{theorem}\label{st:factor}
+Wherever $D^{\rm(OME)}_{\mathcal C}=\det(1+V^{\rm(OME)}\mathcal G)\ne0$,
+\[
+D_{\mathcal C}=D^{\rm(OME)}_{\mathcal C}\det\bigl(1+\hat v\hat J_{\mathcal C}\bigr),\qquad
+\hat J_{\mathcal C}=F^{\rm T}\mathcal G\bigl(1+V^{\rm(OME)}\mathcal G\bigr)^{-1}F .
+\]
+\end{stmt}
+\noindent\emph{Proof.} \texttt{06:eq:Dfactor}; it uses only $\det(1+AB)=\det(1+BA)$ and transposes, so it holds unchanged with complex nodes. $\square$
+
+\begin{stmt}{theorem}\label{st:diagpoles}
+(i) $D_{\mathcal C}$ has at most a simple pole at each bare energy $\varepsilon_n$; $D_{\mathcal C}(E)\prod_n(E-\varepsilon_n)$ is analytic wherever $V^{\rm(OME)}$ and $G$ are analytic on the nodes. (ii) $\det(\hat v^{-1}+\hat J_{\mathcal C})=D_{\mathcal C}/(D^{\rm(OME)}_{\mathcal C}\det\hat v)$ has poles at the zeros of $D^{\rm(OME)}_{\mathcal C}$, the poles of the OME-only amplitude; $D_{\mathcal C}$ is generically finite and nonzero there.
+\end{stmt}
+\noindent\emph{Proof.} (i) Near $\varepsilon_n$, $V\mathcal G=K'+\frac{g^2}{E-\varepsilon_n}uw^{\rm T}$ with $u_{(\alpha j)}=\delta_{\alpha1}f_n(q_j)$, $w^{\rm T}=u^{\rm T}\mathcal G$ and $K'$ analytic at $\varepsilon_n$; $\det(1+K'+cuw^{\rm T})=\det(1+K')+c\,w^{\rm T}\operatorname{adj}(1+K')\,u$. (ii) From \Sr{st:factor}. $\square$
+
+\section{The exchange at complex momenta}\label{sec:moments}
+
+For one ordering write $A=m_\phi^2+p'^2+q^2$, $B=2p'q$, $w_\pm=A\pm B=m_\phi^2+(p'\pm q)^2$, $s_\pm=\sqrt{w_\pm}$, $Z_\pm=s_\pm+\nu$, $L_\pm=\log Z_\pm$ and $a=A-\nu^2$. The angular endpoints are $s(-1)=s_+$ and $s(+1)=s_-$.
+
+\begin{stmt}{theorem}\label{st:closed}
+Let $(a+2\nu u-u^2)^m=\sum_{k=0}^{2m}c^{(m)}_ku^k$, that is
+\[
+c^{(m)}_k=\sum_{j+2l=k}\frac{m!}{(m-j-l)!\,j!\,l!}\,a^{m-j-l}(2\nu)^j(-1)^l .
+\]
+Then
+\begin{equation}\label{eq:closed}
+M_m(\nu)=\frac{1}{B^{m+1}}\Bigl[a^m\bigl(L_+-L_-\bigr)+\sum_{k=1}^{2m}\frac{c^{(m)}_k}{k}\bigl(Z_+^k-Z_-^k\bigr)\Bigr],
+\end{equation}
+where $L_+-L_-=\int_\Gamma dZ/Z$ along the image $\Gamma$ of the angular path under $x\mapsto s(x)+\nu$, from $Z_-$ to $Z_+$. In particular
+\begin{align}
+M_0&=\frac{L_+-L_-}{B},\qquad
+M_1=\frac{a(L_+-L_-)+2\nu(Z_+-Z_-)-\frac12(Z_+^2-Z_-^2)}{B^2},\nonumber\\
+M_2&=\frac{a^2(L_+-L_-)+4a\nu(Z_+-Z_-)+(2\nu^2-a)(Z_+^2-Z_-^2)-\frac{4\nu}{3}(Z_+^3-Z_-^3)+\frac14(Z_+^4-Z_-^4)}{B^3}.\label{eq:M012}
+\end{align}
+\end{stmt}
+\noindent\emph{Proof.} From $s^2=A-Bx$: $dx=-2s\,ds/B$ and $x^m=(A-s^2)^m/B^m$, so $M_m=B^{-m-1}\int_{s_-}^{s_+}(A-s^2)^m\,ds/(s+\nu)$, the sign of $dx$ reversing the limits. With $u=s+\nu$, $A-s^2=a+2\nu u-u^2$ and $ds=du$; $\int(a+2\nu u-u^2)^m\,du/u=a^m\log u+\sum_{k\ge1}c^{(m)}_ku^k/k$. $\square$
+
+On the real axis, with principal logarithms, Eq.~\eqref{eq:closed} is the $J_j$ form of \file{notes/04-ome-2pp.md}, Sec.~5, rearranged in powers of $Z$. The differences are evaluated without cancellation as $Z_+-Z_-=s_+-s_-=2B/(s_++s_-)$ and $Z_+^k-Z_-^k=(Z_+-Z_-)\sum_{j=0}^{k-1}Z_+^jZ_-^{k-1-j}$.
+
+\begin{stmt}{theorem}\label{st:germ}
+For real $0\le p',q\le\Lambda$ and $\operatorname{Im}E_0>0$ (or $\operatorname{Im}E_0=0$ with $E_0<E_{3,\beta}$): $w_\pm\ge m_\phi^2$, $s_\pm>0$, $\Gamma$ is the segment $[s_-,s_+]+\nu$ on the line $\operatorname{Im}Z=-\operatorname{Im}E_0$, and $M_m$ is Eq.~\eqref{eq:closed} with principal $s_\pm$ and $L_\pm=\operatorname{Log}Z_\pm$.
+\end{stmt}
+\noindent\emph{Proof.} For real $x$, $s(x)>0$, so $\Gamma$ is horizontal with $\operatorname{Im}Z=-\operatorname{Im}E_0<0$ (for $\operatorname{Im}E_0=0$ it lies on the positive real axis, \Sr{st:E3}); $\operatorname{Log}$ is continuous on it and $\int_\Gamma dZ/Z=\operatorname{Log}Z_+-\operatorname{Log}Z_-$. $\square$
+
+\begin{stmt}{theorem}\label{st:structure}
+Continued along any curve of $(p',q,E)$, $M_m$ is analytic except possibly where $w_+$, $w_-$, $Z_+$ or $Z_-$ vanishes, or $B=0$. As $B\to0$: if $L_+-L_-\to0$, $M_m$ is analytic there; if $L_+-L_-\to2\pi in$ with $n\ne0$, then $M_m\simeq2\pi in\,a^m/B^{m+1}$, a pole.
+\end{stmt}
+\noindent\emph{Proof.} $s_\pm$ is analytic where $w_\pm\ne0$ and $L_\pm$ where $Z_\pm\ne0$; the bracket of Eq.~\eqref{eq:closed} is then analytic. As $B\to0$, $s_+-s_-\to0$. If $L_+-L_-\to0$, the bracket is $\int(A-s^2)^m\,ds/(s+\nu)$ along the straight segment $[s_-,s_+]$, on which $A-s^2=O(B)$ and whose length is $O(B)$; it is $O(B^{m+1})$, so $M_m$ is bounded near $B=0$ and extends analytically. Otherwise the bracket tends to $2\pi in\,a^m$. $\square$
+
+\begin{stmt}{theorem}\label{st:Bzero}
+On an admissible homotopy of graph paths (\Sr{st:admissible}), $B=0$ only where $p'=0$ or $q=0$, the fixed starting point of the paths. There $w_+=w_-$ and $Z_+=Z_-$ at every $\lambda$, so $L_+=L_-$, and every lifted moment is analytic at $B=0$.
+\end{stmt}
+\noindent\emph{Proof.} On a graph path $\gamma(t)=0$ only at $t=0$. At $t=0$ the curves of $Z_+$ and $Z_-$ in $\lambda$ coincide, so do their continuations from the common germ, and $L_+-L_-\to0$ nearby by continuity; apply \Sr{st:structure}. $\square$
+
+\begin{stmt}{theorem}\label{st:singset}
+A moment lifted along an admissible homotopy of graph paths is analytic at every pair of the paths where all $w_\pm$ and $Z_\pm$ are nonzero; by \Sr{st:numerators}, so is $V^{\rm(OME)}$. The condition is sufficient, not necessary: a projected numerator or a sum of orderings can cancel a singular point, and the validator does not rely on such cancellations.
+\end{stmt}
+
+\begin{stmt}{definition}\label{st:branch}
+$s_\pm$ and $L_\pm$ are continued separately along the homotopy from the germ of \Sr{st:germ}; $L_\pm=\operatorname{Log}Z_\pm+2\pi i\,n_\pm$, where $n_\pm$ grows by one when $Z_\pm$ crosses the negative real axis from $\operatorname{Im}Z>0$ to $\operatorname{Im}Z<0$ and drops by one the other way. Never $\operatorname{Log}(Z_+/Z_-)$. Source: \file{CONVENTIONS.md}, ``Continued angular moments''.
+\end{stmt}
+
+\begin{stmt}{proposal}\label{st:tracker}
+(Stage~2.) Continue $z(\lambda)\in\{w_\pm,Z_\pm\}$ step by step by the product rule
+\begin{gather*}
+\log z(\lambda_{i+1})=\log z(\lambda_i)+\operatorname{Log}\frac{z(\lambda_{i+1})}{z(\lambda_i)},\\
+\sqrt{z(\lambda_{i+1})}=\sqrt{z(\lambda_i)}\,\sqrt{\frac{z(\lambda_{i+1})}{z(\lambda_i)}}\quad\text{(principal roots on the right)},
+\end{gather*}
+on steps where $|z(\lambda)-z(\lambda_i)|\le\frac12|z(\lambda_i)|$ for all $\lambda$ in the step. In that disk $z\ne0$ and $|\arg(z/z_i)|\le\pi/6$, so the rule is the continuation and counts seam crossings without detecting them. The step condition is certified by a bound on $|\partial_\lambda z|$, which the explicit forms of $w$ and $Z$ supply; without the bound, halving until the condition holds at the ends and midpoint gives numerical evidence only. The tracker stops with a failure, and never guesses, when $|z|$ falls below a floor or the step below a minimum. Then $n_\pm=(L_\pm-\operatorname{Log}Z_\pm)/(2\pi i)$.
+\end{stmt}
+
+\begin{stmt}{theorem}\label{st:energyexact}
+At fixed momenta, $Z_\pm=s_\pm+t_\beta+h_\beta p'^2+a_\beta q^2-E$ is affine in $E$. Along a straight energy segment from $E_a$ to $E_b$ that avoids $E^*_\pm=s_\pm+t_\beta+h_\beta p'^2+a_\beta q^2$, $s_\pm$ does not change and $L_\pm(E_b)=L_\pm(E_a)+\operatorname{Log}[Z_\pm(E_b)/Z_\pm(E_a)]$ exactly.
+\end{stmt}
+\noindent\emph{Proof.} The image of the segment is a straight segment of the $Z$ plane that misses $0$; it subtends less than $\pi$ at $0$, so the continuous change of $\arg Z$ is the principal argument of the ratio. $\square$
+
+\paragraph{The angular variable.} The following two statements are the basis of the Stage~2 checks.
+
+\begin{stmt}{theorem}\label{st:xplane}
+In $x$, the integrand of $M_m$ has a square-root branch point at $x_0=A/B$ and, on the sheet of $s(x)$ on which $s(x_1)=-\nu$, a simple pole at $x_1=(A-\nu^2)/B$ with residue $-a^m/B^{m+1}$. It has no other singularity at finite $x$.
+\end{stmt}
+\noindent\emph{Proof.} $s^2=A-Bx$ vanishes only at $x_0$; $s+\nu=0$ requires $s^2=\nu^2$, i.e.\ $x=x_1$, and the sign. Near $x_1$, $s+\nu\simeq(ds/dx)(x-x_1)$ with $ds/dx=-B/(2s)=B/(2\nu)$, so the integrand is $x_1^m/[2(-\nu)(B/2\nu)(x-x_1)]=-x_1^m/[B(x-x_1)]$, and $x_1^m=a^m/B^m$. $\square$
+
+\begin{stmt}{theorem}\label{st:straightx}
+Let $S=\int_{-1}^{1}x^m\,dx/[2s(s+\nu)]$ be taken with $s$ continued along $[-1,1]$ from $s(-1)=s_+$. If, along an admissible homotopy, neither $x_0$ nor the pole $x_1$ meets $[-1,1]$, then $S$ equals the lifted $M_m$ at its end. Each passage of the pole $x_1$ through $[-1,1]$ changes $S-M_m$ by $\pm2\pi i\,a^m/B^{m+1}$, one step $2\pi i$ of $L_+-L_-$ in Eq.~\eqref{eq:closed}; after a passage of $x_0$, $S$ follows the other sheet of $s$ on part of the segment.
+\end{stmt}
+\noindent\emph{Proof.} At the germ $S=M_m$ (\Sr{st:germ}). While $x_0$ and $x_1$ avoid the segment, the integrand is analytic on a neighbourhood of it, so $S$ is analytic in $(p',q,E)$ and is its own continuation; by uniqueness of continuation $S=M_m$. When $x_1$ crosses, the segment deformed to keep $x_1$ on its former side gives the continuation; it differs from the straight segment by a small circle around $x_1$, i.e.\ by $\pm2\pi i$ times the residue of \Sr{st:xplane}. $\square$
+
+\begin{stmt}{proposal}\label{st:evaluation}
+(Stage~2.) Production evaluates Eq.~\eqref{eq:closed} with the tracked $L_\pm$: in double precision where $|B|\ge\beta\sigma$, $\sigma=\max(|A|,|\nu|^2)$, with $\beta=0.06$ for the $1^{++}$ kernel (moments to $m=3$) and $0.3$ for $2^{++}$ (to $m=4$), and below that in extended precision with guard bits growing as $(m+1)\log_2(\sigma/|B|)$, since the bracket of order $m$ loses about $(\sigma/|B|)^{m+1}$ ulps. These are the package's thresholds and its precision rule for complex momenta (\file{code/HadronDynamics.jl/src/models/BOchiEFT/exchange.jl}:18--23; \file{src/common/ExchangeMoments.jl}:41--57). The straight integral of \Sr{st:straightx} is the Stage~2 oracle, never the production route. Target: relative error $10^{-12}$ per moment, provisional until the Stage~2 report.
+\end{stmt}
+
+\section{Continuation}\label{sec:continuation}
+
+\begin{stmt}{definition}\label{st:admissible}
+A homotopy $(\mathcal C_\lambda,E_\lambda)$, $0\le\lambda\le1$, piecewise $C^1$, with $\gamma_\lambda(0)=0$, $\gamma_\lambda(1)=\Lambda$, $\mathcal C_0=[0,\Lambda]$ and $\operatorname{Im}E_0>0$, is admissible when at every $\lambda$: (P)~no pole $\pm k_\alpha(E_\lambda)$ lies on $\mathcal C_\lambda$; (K)~$V(p',q;E_\lambda)$ is analytic at every pair of $\mathcal C_\lambda\times\mathcal C_\lambda$. The validator tests (K) through the sufficient condition of \Sr{st:singset}: every $w_\pm$ and $Z^{(\beta)}_\pm$ of every block, ordering and meson is nonzero. It is certified with margin $d$ when, over the whole homotopy, $|\gamma_\lambda(t)\mp k_\alpha(E_\lambda)|$ and $|Z^{(\beta)}_\pm|$ stay at least $d$ (in MeV). The kernel at $(\mathcal C_1,E_1)$ is the one reached along the homotopy. Source: \file{CONVENTIONS.md}, ``Continuation to other sheets''; Decisions, Admissibility.
+\end{stmt}
+
+\begin{stmt}{theorem}\label{st:lift}
+On an admissible homotopy of graph paths the kernel lifts uniquely from the germ to every $(\lambda,u,t)$; the lift is analytic on a neighbourhood of $\mathcal C_\lambda\times\mathcal C_\lambda$ and coincides with the separate continuation of $s_\pm$ and $L_\pm$ of \Sr{st:branch}.
+\end{stmt}
+\noindent\emph{Proof.} The map $(\lambda,u,t)\mapsto(\gamma_\lambda(u),\gamma_\lambda(t),E_\lambda)$ is continuous on the simply connected cube and avoids the singular points of \Sr{st:singset}, with $B=0$ handled by \Sr{st:Bzero}. A lift then exists and is unique once fixed on the face $\lambda=0$, where \Sr{st:germ} fixes it. $\square$
+
+\begin{stmt}{theorem}\label{st:continuation}
+For an admissible homotopy, $D_{\mathcal C_1}(E_1)$ is the analytic continuation of the physical-sheet $D_{[0,\Lambda]}$ from $E_0$ along $\lambda\mapsto E_\lambda$.
+\end{stmt}
+\noindent\emph{Proof.} (a) Fredholm series. With $K_{\alpha'\alpha''}(p',q)=V_{\alpha'\alpha''}(p',q;E)\,q^2G_{\alpha''}(q)/(2\pi^2)$,
+\[
+D_{\mathcal C}(E)=\sum_{n\ge0}\frac1{n!}\sum_{\alpha_1\dots\alpha_n}\int_{\mathcal C^n}\det\bigl[K_{\alpha_i\alpha_j}(q_i,q_j)\bigr]_{i,j=1}^{n}\,dq_1\cdots dq_n .
+\]
+Hadamard's inequality bounds the $n$-th term by $(6\ell M)^nn^{n/2}/n!$, with $M$ a bound of $|K|$ and $\ell$ the length of the path, so the series converges uniformly where $K$ stays bounded.
+(b) Fixed $E$. With $q_i=\gamma_\lambda(t_i)$ the $n$-th term is $\int_{[0,1]^n}F(\gamma_\lambda(t_1),\dots,\gamma_\lambda(t_n))\prod_i\partial_t\gamma_\lambda(t_i)\,dt$, with $F$ holomorphic in each argument near $\mathcal C_\lambda^n$ (\Sr{st:lift}). Since $\partial_\lambda\partial_t\gamma=\partial_t\partial_\lambda\gamma$,
+\[
+\partial_\lambda\Bigl[F\prod_i\partial_t\gamma_\lambda(t_i)\Bigr]=\sum_i\partial_{t_i}\Bigl[F\,\partial_\lambda\gamma_\lambda(t_i)\prod_{j\ne i}\partial_t\gamma_\lambda(t_j)\Bigr],
+\]
+both sides being $\sum_i[\partial_iF\,\partial_\lambda\gamma(t_i)\,\partial_t\gamma(t_i)+F\,\partial_t\partial_\lambda\gamma(t_i)]\prod_{j\ne i}\partial_t\gamma(t_j)$. The $t_i$ integration leaves boundary terms with $\partial_\lambda\gamma_\lambda$ at $t_i=0,1$, which vanish because the ends are fixed. So $D_{\mathcal C_\lambda}(E)$ does not depend on $\lambda$ while $(\mathcal C_\lambda,E)$ is admissible.
+(c) Fixed $\mathcal C$. Where (P) and (K) hold, $K$ is analytic in $E$, and so is $D_{\mathcal C}$.
+(d) Let $\Lambda^*$ be the set of $\lambda$ at which $D_{\mathcal C_\lambda}$ agrees near $E_\lambda$ with the continuation of $D_{[0,\Lambda]}$ along $E_{[0,\lambda]}$; $0\in\Lambda^*$. The singular sets are closed and $\mathcal C_\lambda\times\mathcal C_\lambda$ is compact, so admissibility holds with a margin on a neighbourhood of each $(\mathcal C_\lambda,E_\lambda)$; by (b) and (c), $\Lambda^*$ is open and closed in $[0,1]$. $\square$
+
+\begin{stmt}{assumption}\label{st:nystrom}
+The discrete determinant of \Sr{st:lse} converges to $D_{\mathcal C}$ as the nodes increase, at a rate set by the distance of the kernel's singular points and of the propagator poles from the path. Tested by the convergence tables of Stages~6 and~7.
+\end{stmt}
+
+\subsection{Sheets and the energy plane}\label{sec:sheets}
+
+Write a graph path as $q=x+ih(x)$, $0\le x\le\Lambda$, with $h\le0$ and $h(0)=h(\Lambda)=0$, and let $R(\mathcal C)=\{x+iy:\,0<x<\Lambda,\ h(x)<y<0\}$ be the region between $[0,\Lambda]$ and $\mathcal C$.
+
+\begin{stmt}{theorem}\label{st:sheet}
+Let $\operatorname{Re}E_1$ differ from every $\delta_\alpha$, let the energy run down the vertical segment from $E_0=\operatorname{Re}E_1+i\eta_0$ ($\eta_0>0$) to $E_1$, and let the homotopy be admissible. Then $D_{\mathcal C}(E_1)$ is the pole condition on the sheet with flipped set $F=\{\alpha:\delta_\alpha<\operatorname{Re}E_1\}$, and at $E_1$: $+k_\alpha\in R(\mathcal C)$ for $\alpha\in F$, and the fourth-quadrant pole $-k_\alpha$ lies outside $R(\mathcal C)$ for $\alpha\notin F$. This is Table~\texttt{06:tab:paths}.
+\end{stmt}
+\noindent\emph{Proof.} Sheet: by \Sr{st:continuation}, $D_{\mathcal C}(E_1)$ continues the physical $D$ down the segment, which crosses the real axis once, at $\operatorname{Re}E_1$, onto the sheet attached there (\file{CONVENTIONS.md}, ``Pole position and Riemann sheets''). Placement: at $E_0$, $+k_\alpha$ lies in the open first quadrant and $-k_\alpha$ in the open third, both off the closed fourth quadrant, which contains $\mathcal C$ and $R(\mathcal C)$. A pole enters or leaves $R(\mathcal C)$ only through $[0,\Lambda]$ or through $\mathcal C$, and (P) excludes $\mathcal C$. For $\alpha\in F$, $+k_\alpha$ is real in $(0,\Lambda)$ when $E$ crosses the real axis, enters $R(\mathcal C)$ there, and cannot leave it. For $\alpha\notin F$, $+k_\alpha=i\kappa_\alpha$ at the crossing and then moves into the second quadrant; $-k_\alpha=-i\kappa_\alpha$ sits on the imaginary axis, outside $R(\mathcal C)$, and below the axis has $\operatorname{Im}(-k_\alpha)<0$, so it cannot reach $[0,\Lambda]$. $\square$
+
+\begin{stmt}{theorem}\label{st:eplane}
+Fix a graph path $\mathcal C$ and define
+\[
+P_\alpha(\mathcal C)=\Bigl\{\delta_\alpha+\frac{q^2}{2\mu_\alpha}:q\in\mathcal C\Bigr\},\qquad
+\Sigma(\mathcal C)=\bigcup_{\phi,\beta,\pm}\bigl\{s_\pm(p',q)+t_\beta+h_\beta p'^2+a_\beta q^2:\ (p',q)\in\mathcal C\times\mathcal C\bigr\},
+\]
+with principal $s_\pm$ and $\beta$ over the orderings of the blocks. Then (P) holds at $E$ if and only if $E\notin\bigcup_\alpha P_\alpha(\mathcal C)$, and the sufficient form of (K) if and only if $E\notin\Sigma(\mathcal C)$. With $\mathcal C$ fixed, $D_{\mathcal C}$ is analytic on every simply connected open set of energies free of these sets, and on such a set the logarithms follow from one reference energy by \Sr{st:energyexact}.
+\end{stmt}
+\noindent\emph{Proof.} $\pm k_\alpha(E)\in\mathcal C$ if and only if $k_\alpha^2=q^2$ for some $q\in\mathcal C$. $Z^{(\beta)}_\pm=0$ if and only if $E$ equals the point of $\Sigma$ for that pair, because $Z$ is affine in $E$ with unit coefficient; $w_\pm\ne0$ holds on graph paths by \Sr{st:graph}. The rest is \Sr{st:continuation}(c) and \Sr{st:energyexact}. $\square$
+
+For $\mathcal C=[0,\Lambda]$ the sets are the right-hand cuts $P_\alpha=[\delta_\alpha,\delta_\alpha+\Lambda^2/2\mu_\alpha]$ and the three-body cuts, $\Sigma\subset[47.58,\infty)$. Deforming the path swings them into the lower half plane: a pole on the sheet where $\alpha$ is flipped lies between the real axis and $P_\alpha(\mathcal C)$. A steep first leg puts $p'$ and $q$ near the imaginary axis, where $s_\pm$ can become small, and thereby brings $\Sigma(\mathcal C)$ close to the real axis below $47.58$~MeV. This is the energy-plane form of the lead recorded under \file{NOTEBOOK.md}, Open questions, Branch discrepancy; Stage~2 computes it.
+
+\begin{stmt}{theorem}\label{st:depthscaling}
+If $\mathcal C$ is a graph path, so is every $\mathcal C_\lambda:\ x+i\lambda h(x)$, $0\le\lambda\le1$. For $\operatorname{Im}E_0>0$, (P) holds on every $\mathcal C_\lambda$, and every $P_\alpha(\mathcal C_\lambda)$ lies in the closed lower half plane.
+\end{stmt}
+\noindent\emph{Proof.} $\operatorname{Re}$ still increases strictly and $\lambda h\le0$. The poles at $E_0$ lie off the closed fourth quadrant (\Sr{st:sheet}), and $q^2$ has $\operatorname{Im}q^2\le0$ there. $\square$
+
+\begin{stmt}{proposal}\label{st:default}
+(Stages~3--4.) Default homotopy. (a)~At $E_0=E_1^*$, i.e.\ $\eta_0=|\operatorname{Im}E_1|$, scale the depth, $\mathcal C_\lambda:\ x+i\lambda h(x)$. (b)~With $\mathcal C$ fixed, lower $E$ vertically from $E_1^*$ to $E_1$. By \Sr{st:eplane} and \Sr{st:depthscaling} it satisfies (P) and the sufficient form of (K) if and only if $E_1^*\notin\Sigma(\mathcal C_\lambda)$ for every $\lambda$ and the segment $[E_1^*,E_1]$ misses $\Sigma(\mathcal C)\cup\bigcup_\alpha P_\alpha(\mathcal C)$. Only stage (a) needs the tracker of \Sr{st:tracker}; stage (b) is exact by \Sr{st:energyexact}. Second family, for the Stage~4 check: the joint homotopy, $x+i\lambda h(x)$ together with $E_\lambda=\operatorname{Re}E_1+i[(1-\lambda)\eta_0+\lambda\operatorname{Im}E_1]$.
+\end{stmt}
+
+\begin{stmt}{theorem}\label{st:unique}
+Two admissible homotopies that end at the same $(\mathcal C,E_1)$, and whose energy paths together have winding number zero around every $E_{3,\beta}$, give the same lifted kernel on $\mathcal C\times\mathcal C$, hence the same $D_{\mathcal C}(E_1)$.
+\end{stmt}
+\noindent\emph{Proof.} For each $(u,t)$, run the first homotopy's curve $\lambda\mapsto(\gamma_\lambda(u),\gamma_\lambda(t),E_\lambda)$ and then the second one's backwards. This closed loop avoids every zero of $w_\pm$ and $Z_\pm$. The winding of $Z_\pm$ along it and the sign change of $s_\pm$ are integers that depend continuously on $(u,t)$, hence are constant on the square. At $(u,t)=(0,0)$ both momenta vanish for every $\lambda$, so $w_\pm=m_\phi^2$ and $Z_\pm=E_{3,\beta}-E$: the loop winds around $0$ exactly as the energy loop winds around $E_{3,\beta}$, i.e.\ zero times. $\square$
+
+The two families of \Sr{st:default} share the vertical energy path, so \Sr{st:unique} predicts identical $n_\pm$ at every node pair; the Stage~4 check tests that prediction.
+
+\subsection{Fixed external momenta}
+
+\begin{stmt}{theorem}\label{st:external}
+On-shell $T$, couplings and the on-shell-point identities \texttt{06:eq:onshellpoint}--\texttt{06:eq:Dflip} contain the half-off-shell kernel $V(k_F,q;E)$ with $k_F$ continued. It must be analytic for $q\in\mathcal C_\lambda$ along the homotopy, and the identities need, in addition, no singularity of $V(k_F,q;E)$ between $[0,\Lambda]$ and $\mathcal C$. The latter holds for $|\operatorname{Im}k_F|<m_\pi$ as far as the exchanged-meson points are concerned, and up to about $130$~MeV for the $B\bar B\pi$ point of $PV\leftarrow PV$ near $\operatorname{Re}E=-22.6$~MeV, reached at $\Gamma=36.3$~MeV. In stage (a) of \Sr{st:default}, a path deeper than $m_\phi$ at $\operatorname{Re}q\simeq\operatorname{Re}k_F$ crosses $k_F-im_\phi$. On-shell quantities therefore need a homotopy that keeps the depth at $\operatorname{Re}k_F$ between $|\operatorname{Im}k_F|$ and $|\operatorname{Im}k_F|+m_\phi$. Derived in note~06, Sec.~\texttt{06:sec:external}.
+\end{stmt}
+
+\section{Singular points near the path}\label{sec:singular}
+
+\begin{stmt}{theorem}\label{st:emb}
+At fixed $p'$, $w_\pm=0$ exactly at the exchanged-meson branch points $q=\pm p'\pm im_\phi$ (all four sign choices). As $p'$ runs over $\mathcal C$ they sweep $\mathcal C\pm im_\phi$ and $-\mathcal C\pm im_\phi$.
+\end{stmt}
+
+\begin{stmt}{theorem}\label{st:graph}
+If $p'$ and $q$ lie on one graph path, $w_\pm\notin(-\infty,0]$. Hence $s_\pm$ is the principal root along every homotopy of graph paths, and no exchanged-meson branch point lies on the path.
+\end{stmt}
+\noindent\emph{Proof.} $z^2\in(-\infty,0]$ only for imaginary $z$. For $p'=\gamma(u)$, $q=\gamma(t)$: if $u\ne t$, $\operatorname{Re}(p'-q)\ne0$; if $u=t$, $w_-=m_\phi^2$. $\operatorname{Re}(p'+q)>0$ unless $p'=q=0$, where $w_+=m_\phi^2$. So $w_\pm=m_\phi^2+z^2$ never reaches $(-\infty,0]$ (note~06, Sec.~\texttt{06:sec:both}). $\square$
+
+\begin{stmt}{theorem}\label{st:quartic}
+At fixed $p'$ and $E$, write $s_\tau=\sqrt{m_\phi^2+(p'+\tau q)^2}$, $\tau=\pm$. The three-body branch points, the zeros in $q$ of $s_\tau+\nu_\beta$, are among the roots of
+\begin{equation}\label{eq:quartic}
+a_\beta^2q^4+(2a_\beta c_\beta-1)q^2-2\tau p'q+c_\beta^2-m_\phi^2-p'^2=0,\qquad c_\beta=t_\beta+h_\beta p'^2-E .
+\end{equation}
+A root is a branch point exactly when $s_\tau+\nu_\beta=0$ with $s_\tau$ on the lifted branch, and not when $s_\tau-\nu_\beta=0$. The roots for $\tau=-$ are the negatives of those for $\tau=+$. On graph paths the lifted $s_\tau$ is principal (\Sr{st:graph}); it remains the continuation at a root reached from the path by a segment along which $w_\tau$ stays off $(-\infty,0]$.
+\end{stmt}
+\noindent\emph{Proof.} Squaring $s_\tau=-(c_\beta+a_\beta q^2)$ gives Eq.~\eqref{eq:quartic}, which admits also $s_\tau=+\nu_\beta$. $\nu_\beta$ depends on $q^2$ only, so $q\to-q$ maps $\tau$ to $-\tau$. $\square$
+
+\begin{stmt}{theorem}\label{st:pzero}
+At $p'=0$, with $T=q^2$ and $c=t_\beta-E$, the candidates solve $a^2T^2+(2ac-1)T+c^2-m_\phi^2=0$. The near one is
+\[
+T=\frac{2(c^2-m_\phi^2)}{1-2ac+\sqrt{1-4ac+4a^2m_\phi^2}},
+\]
+and on the branch with real $s$ it moves as $dT/dE=2s/(1+2as)$, reaching $q=0$ at $E=E_{3,\beta}$. For the pion:
+\begin{center}
+\begin{tabular}{lcccc}
+\toprule
+$E$ & $\beta=1$ & $\beta=2$ & $\beta=3$ & $\beta=4$\\
+\midrule
+$-22.62$ & $\pm119.45\,i$ & none ($s=+\nu$) & $\pm135.87\,i$ & $\pm135.88\,i$\\
+$0$ & $\pm103.38\,i$ & $\pm138.03\,i$ & $\pm129.85\,i$ & $\pm129.86\,i$\\
+\bottomrule
+\end{tabular}
+\end{center}
+At $E=0$ the $\beta=2$ point lies next to the exchanged-meson point $\pm im_\pi$, because $\nu_2\to0$ there.
+\end{stmt}
+\noindent\emph{Proof.} At $p'=0$, $s_\pm=\sqrt{m_\phi^2+T}$ and $\nu_\beta=c+aT$; square $s=-\nu_\beta$. Differentiating $\sqrt{m_\phi^2+T}+c+aT=0$ with $dc/dE=-1$ gives $dT/dE$. At $T=0$ the condition is $m_\phi+t_\beta-E=0$. The filter decides $\beta=2$ at $-22.62$~MeV, where $\nu_2>0$. $\square$
+
+For orientation (an estimate, not derived in full): for $p'$ on the path, the $\tau=-$ roots sit near $q\simeq p'\pm i\sqrt{m_\phi^2-\bar\nu^2}$, with $\bar\nu=\nu_\beta(p',p';E)$, and the $\tau=+$ roots near $-p'$. They are the curves ``close to $\mathcal C\pm i\sqrt{m_\phi^2-\nu_\beta^2}$'' of note~06. Such a root meets a graph path only where the path's slope times the root's small horizontal offset reaches its vertical offset: on steep legs, or as $\bar\nu^2\to m_\phi^2$ near $E_{3,\beta}$.
+
+\begin{stmt}{proposal}\label{st:validator}
+(Stage~4.) The validator takes a homotopy of the form of \Sr{st:default}, the blocks with their orderings, and $\phi\in\{\pi,\eta\}$, and reports, each with its location and units:
+(V1)~every $\mathcal C_\lambda$ is a graph path with fixed ends;
+(V2)~stage~(a): the minimum of $|Z^{(\beta)}_\pm|$ over $(\lambda,u,t)$ at $E_0$; stage~(b): the distance of the segment $[E_1^*,E_1]$ from $\Sigma(\mathcal C)$ and from every $P_\alpha(\mathcal C)$;
+(V3)~the placement of \Sr{st:sheet} at $E_1$; for Stage~7, the distance of a whole energy rectangle from $\Sigma(\mathcal C)\cup\bigcup_\alpha P_\alpha(\mathcal C)$;
+(V4)~the minimum distance of $w_\pm$ from $(-\infty,0]$, which \Sr{st:graph} predicts to be positive; it is a check, not a condition;
+(V5)~for Stage~2, at the sampled pairs, whether $x_0$ or $x_1$ crossed $[-1,1]$ along the homotopy.
+A minimum is certified on a cell of the sampling grid when the sampled value exceeds a bound on the gradient over the cell times the cell radius. Uncertified cells are refined down to a floor and then reported; a configuration with an uncertified cell is not admissible. A grid without the bound is numerical evidence only. The node count that a margin requires is set by the Stage~6 convergence run.
+\end{stmt}
+
+\section{Paths}\label{sec:paths}
+
+\begin{stmt}{definition}\label{st:family}
+Paths are graph paths (\file{GLOSSARY.md}) in the closed fourth quadrant, one common path for all channels in this phase. Source: note~06, Sec.~\texttt{06:sec:task}; \file{CONVENTIONS.md}, ``Continuation to other sheets''; \file{NOTEBOOK.md}, Open questions, One contour or one per channel.
+\end{stmt}
+
+\begin{stmt}{proposal}\label{st:shape}
+(Stage~3.) $h$ is piecewise linear, with Gauss--Legendre nodes on each segment. Default: three segments $0\to x_1+ih_1\to x_2+ih_1\to\Lambda$. The depth is $-h_1=\max_F|\operatorname{Im}k_F|+d_k$, the flat part covers $\operatorname{Re}k_F$ for every flipped channel, and the first leg passes above every unflipped $-k_\alpha$ with margin $d_k$ and is kept as gentle as these allow. A path counts only after the validator passes it. An energy where no default path passes is reported as excluded, not forced. The node count of each segment comes from the Stage~6 convergence run.
+\end{stmt}
+
+The poles the path must respect at $\operatorname{Im}E=-10$~MeV:
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+sheet, $E$ & pole & side of $\mathcal C$\\
+\midrule
+$(-,+,+)$, $-67.85-10i$ & $+k_6=353.48-74.68i$ & between $[0,\Lambda]$ and $\mathcal C$\\
+ & $-k_5=74.82-354.30i$ & outside (path passes above)\\
+ & $-k_1=44.17-602.69i$ & outside\\
+$(-,-,+)$, $-22.62-10i$ & $+k_5=354.23-74.84i$ & between\\
+ & $+k_6=600.08-43.99i$ & between\\
+ & $-k_1=74.98-355.06i$ & outside\\
+\bottomrule
+\end{tabular}
+\end{center}
+As $\operatorname{Re}E$ approaches a threshold, the flipped pole just above it, or the unflipped pole just below it, tends to $\sqrt{\mu|\operatorname{Im}E|}\,(1-i)$: $162.8(1-i)$ for $PV$ and $162.5(1-i)$ for $PP$. Near thresholds the first leg therefore steepens to slope $\simeq1$ (flipped) or flattens below it (unflipped). That is where the three-body branch points come close to the path and where excluded strips are expected.
+
+\section{Pole search}\label{sec:poles}
+
+\begin{stmt}{proposal}\label{st:diagnostic}
+(Stage~7.)
+\begin{itemize}
+\item \emph{Diagnostic.} $\tilde D_{\mathcal C}(E)=D_{\mathcal C}(E)\prod_n(E-\varepsilon_n)/\GeV^N$, analytic wherever (P) and (K) hold (\Sr{st:diagpoles}). It is computed as $\log|\tilde D|$ with a continuous phase from the LU factors.
+\item \emph{Counts.} The argument principle on rectangles of one sheet in $\operatorname{Im}E<0$. Each rectangle has one path certified for the whole rectangle (\Sr{st:eplane}), reached by a certified homotopy at one of its points.
+\item \emph{Refinement.} Secant iteration on $\tilde D_{\mathcal C}$, seeded inside the rectangle.
+\item \emph{Error budget.} Doubled nodes; a second certified path; the second homotopy family; the tracker step bound halved; $\Lambda=3$--$5$~GeV, $N=4$--$7$, and $\varepsilon=5$--$50$~GeV if a spurious pole is projected out.
+\item \emph{Report.} Each pole gets a neutral label, its position, its sheet and its checks (\file{NOTEBOOK.md}, Open questions, Pole identification).
+\end{itemize}
+\end{stmt}
+
+\begin{stmt}{proposal}\label{st:projection}
+(Stage~6.) If a $2^{++}$ spurious pole has to be projected out (Decisions, LO contact term), its wave function is computed on $\mathcal C$ itself at its physical-sheet energy, and the projector enters with transposes.
+\end{stmt}
+
+\section{Checks}\label{sec:checks}
+
+\begin{stmt}{definition}\label{st:checks}
+The checks of each stage, their routes, and what a failure would reveal. Source: Decisions, Checks per stage.
+\end{stmt}
+\begin{xltabular}{\textwidth}{@{}lLL@{}}
+\toprule
+stage & route and prediction & a failure reveals\\
+\midrule
+\endhead
+2 & Straight $x$-quadrature where $x_0$, $x_1$ never crossed $[-1,1]$: equal to the lifted $M_m$ (\Sr{st:straightx}) & a formula, sign, factor or branch error in $M_m$\\
+2 & Net windings $\operatorname{Log}Z(0)+\int_0^1\partial_\lambda Z/Z\,d\lambda$ by adaptive quadrature: equal to the tracker's $L_\pm$ & a step-control error of the tracker\\
+2 & $x$-path deformed with the homotopy where $x_0$ or $x_1$ crossed & an error after interior crossings\\
+2 & \cite{Wu:2026wxb} v1, App.~D, $J(p;m)$ on every contour of both sheets (draft \file{checks/drafts/appd_contours.py}) & a representation error on a literature case\\
+3 & Rank-one model \Sr{st:rankone} against the path solver at probe energies on $(-,+,+)$, $(-,-,+)$, $(-,-,-)$, and its continuity to the real axis & wrong pole placement, a wrong sheet sign, conjugated weights, the sign of $+i\rho$\\
+4 & Three-body locator against a brute-force grid; real-axis limits at $E_{3,\beta}$ (draft \file{checks/drafts/three_body_locator.jl}) & missed or spurious three-body branch points\\
+4 & Graph theorem: (V4) positive, exchanged-meson points at $\pm p'\pm im_\phi$ (\Sr{st:graph}, \Sr{st:emb}) & an error in the margins themselves\\
+4 & Two homotopy families certify the same domain and give identical $n_\pm$ (\Sr{st:unique}) & a branch assignment that depends on the homotopy\\
+5 & Every $1^{++}$ and $2^{++}$ entry on $[0,\Lambda]$ below $E_{3,1}$ against the package's \texttt{ome\_potential} & assembly, index or normalisation errors\\
+5 & $V_{\alpha'\alpha}(p',q;E)=V_{\alpha\alpha'}(q,p';E)$ without conjugation at complex momenta & transpose or conjugation errors; a $\nu_3\leftrightarrow\nu_4$ swap\\
+5 & Strict-HQSS $J_\ell=1$ block of $2^{++}$ equals the $1^{++}$ kernel at complex momenta & channel-specific continuation errors\\
+6 & Continuity: as $\operatorname{Im}E\to0^-$ on the adjacent sheet, on-shell $T$ on $\mathcal C$ tends to the real-axis $T(E+i0)$ with $\operatorname{Im}T^{-1}=\rho$ & a wrong sheet or a wrong lift\\
+6 & Path independence, including a shallow against a deep path at a narrow probe energy (\Sr{st:continuation}) & a wrong lift; or the homotopy wording itself, since only it admits the deep path\\
+6 & $[0,\Lambda]$ and a deformed physical-sheet path reproduce the $1^{++}$ bound states of both fits (\file{checks/baseline_fit.jl}, \file{checks/shallow_fit.jl}) & a regression of the solver\\
+6 & On-shell-point route \texttt{06:eq:Dflip} where it holds (\Sr{st:external}) & an error in $D_{\mathcal C}$ against a second method\\
+6 & $D_{\mathcal C}$ against $D^{\rm(OME)}_{\mathcal C}\det(1+\hat v\hat J_{\mathcal C})$ away from $\varepsilon_n$ and the zeros of $D^{\rm(OME)}_{\mathcal C}$ (\Sr{st:factor}) & an error in the separable sector or $\hat J_{\mathcal C}$\\
+7 & Stability of each refined pole under the error budget of \Sr{st:diagnostic} & an unconverged pole\\
+7 & Argument-principle counts against the refined zeros & a missed or spurious zero\\
+7 & For a narrow pole: $M$, $\Gamma$ against the speed peak of the real-axis $T(E+i0)$ & a pole that is not the physical structure\\
+7 & For a narrow compact-dominated state: $\Gamma$ against the $O(g^2)$ self-energy width at the bare mass & a wrong coupling or sheet\\
+\bottomrule
+\end{xltabular}
+
+\begin{stmt}{theorem}\label{st:rankone}
+Let $V_{\alpha'\alpha}=\lambda$ in three channels, one at each threshold, with constant $\lambda$. On a path $\mathcal C$ of sheet $s$, $T^{(s)}=\bigl[\lambda^{-1}+\sum_\alpha f_\alpha(k^{(s)}_\alpha)\bigr]^{-1}$, with
+\begin{equation}\label{eq:rankone}
+f_\alpha(k)=\frac{\mu_\alpha}{\pi^2}\Bigl[\Lambda+\frac k2\Bigl(\operatorname{Log}\frac{\Lambda-k}{\Lambda+k}+i\pi\Bigr)\Bigr],
+\end{equation}
+and $k^{(s)}_\alpha$ the root of $k_\alpha^2$ whose imaginary part has the sign that $s$ assigns to channel $\alpha$. On the real axis above threshold, $\operatorname{Im}f_\alpha=\mu_\alpha k_\alpha/(2\pi)=\rho_\alpha$, the $\operatorname{Im}T^{-1}=\rho$ of \file{CONVENTIONS.md}, ``Multichannel S matrix and unitarity''.
+\end{stmt}
+\noindent\emph{Proof.} The equation is algebraic: $T=\lambda-\lambda\sum_\alpha J_{\alpha}T$ with $J_\alpha=\int_{\mathcal C}q^2dq\,G_\alpha/(2\pi^2)$. For $\operatorname{Im}k>0$ and $|\operatorname{Re}k|<\Lambda$, $\int_0^\Lambda\frac{q^2dq}{q^2-k^2}=\Lambda+\frac k2[\operatorname{Log}(\Lambda-k)-\operatorname{Log}(\Lambda+k)-\operatorname{Log}(-k)+\operatorname{Log}k]$, where $\operatorname{Log}(\Lambda-k)-\operatorname{Log}(\Lambda+k)=\operatorname{Log}\frac{\Lambda-k}{\Lambda+k}$ because the two arguments differ by less than $\pi$, and $\operatorname{Log}k-\operatorname{Log}(-k)=i\pi$; so $J_{[0,\Lambda]}=f(k_\uparrow)$, $k_\uparrow$ the upper root. If the lower root $k_\downarrow=-k_\uparrow$ lies in $R(\mathcal C)$, \texttt{06:eq:residue} adds $2i\rho(k_\downarrow)=i\mu k_\downarrow/\pi$; and $f(-k)=f(k)-i\mu k/\pi$, so $J_{\mathcal C}=f(k_\downarrow)$. Otherwise $J_{\mathcal C}=f(k_\uparrow)$. By \Sr{st:sheet}, $k_\downarrow\in R(\mathcal C)$ exactly for the flipped channels. $\square$
+
+\begin{stmt}{definition}\label{st:gate2}
+Stage~2 gate: no unexplained mismatch on a new recorded probe set. The set: $\pi$ and $\eta$, all orderings, gentle graph paths, and the steep first legs $0\to0.01-0.2i$~GeV at depth $0.2$~GeV near $E=-67.85-100i$ and $-22.62-50i$~MeV, the two recorded regions. A mismatch is explained if it is a genuine seam crossing, or if its homotopy passes closer to a branch point than its stated margin, in which case the path is inadmissible, not the tracker wrong; \Sr{st:eplane} decides the second case. The old count, 62--134 of 6144 pairs, cannot be reproduced (\file{history/LOG.md}, 2026-11-04). Source: Decisions, Checks per stage.
+\end{stmt}
+
+\begin{stmt}{definition}\label{st:tolerances}
+Each check states a tolerance derived from its independent route's error estimate, with the convergence run behind it; the tolerance is provisional until the user approves it in that task's report. Targets: $0.1$~MeV for poles and $10^{-6}$ relative for on-shell $T$. Source: Decisions, Tolerances.
+\end{stmt}
+
+\section{Stages}\label{sec:stages}
+
+Each stage is one task. It ends with the stage report, the \file{NOTEBOOK.md} diff and a proposed next task, and starts when the user says so (Decisions, Continued-LSE plan). Code goes to \file{code/Xb2Continuation}, a package that develops \file{code/HadronDynamics.jl} (branch \texttt{xb-followup}) by path and imports from it only \texttt{channels\_1pp}, \texttt{channels\_2pp}, \texttt{projection\_coefficients}, \texttt{tc\_alphas}, \texttt{Parameters}/\texttt{central.toml} and the Cornell $u_n$. Code behaviour is tested under \texttt{tdd} in its \texttt{test/}, physics in \file{checks/}, and its API is documented in its \texttt{docs/} (Decisions, Records and code).
+\begin{xltabular}{\textwidth}{@{}lLL@{}}
+\toprule
+stage & delivers & gate\\
+\midrule
+\endhead
+0 & This note; the five drafts parked in \file{checks/drafts/}; a baseline run of \texttt{just checks} and of the package tests; \file{notes/05-singularity-map.md} and its scripts in \file{history/}, note~06 repointed & both notes build; the baseline is recorded\\
+2 & The tracker (\Sr{st:tracker}); the moments (\Sr{st:closed}, \Sr{st:evaluation}); the probe set; the package's untracked continuity tracker moved into \texttt{test/} as an independent implementation & the four Stage-2 checks; \Sr{st:gate2}\\
+3 & Graph paths (\Sr{st:shape}); pole placement and $P_\alpha(\mathcal C)$ (\Sr{st:sheet}, \Sr{st:eplane}); the rank-one model & the rank-one check\\
+4 & The validator (\Sr{st:validator}) and the three-body locator (\Sr{st:quartic}) & the three Stage-4 checks; a certified domain inside \Sr{st:scope}, with its excluded strips listed\\
+5 & The $2^{++}$ and $1^{++}$ kernels at complex momenta & the three Stage-5 checks\\
+6 & $D^{\rm(OME)}_{\mathcal C}$, then $\hat J_{\mathcal C}$ and the separable sector with complex $f_n$ & the five Stage-6 checks; the complex-$f_n$ tolerance set\\
+7 & The pole search (\Sr{st:diagnostic}) & the four Stage-7 checks. Before it starts: the bare $\chi_{b2}$ masses chosen; the shallow fit refitted at $\Lambda=3$ and $5$~GeV\\
+\bottomrule
+\end{xltabular}
+
+\section{Edges}\label{sec:edges}
+
+What would falsify the method:
+\begin{itemize}
+\item two certified paths, or two certified homotopies with the same energy path, that give different $D_{\mathcal C}$ beyond the discretisation error: a wrong lift, or a failure of \Sr{st:continuation} or \Sr{st:unique}, whose hypotheses would then not hold as stated;
+\item a deep path, admissible only under the homotopy wording, that disagrees with a shallow one at a narrow probe energy: the admissibility wording itself (Decisions, Admissibility);
+\item no continuity to the real-axis $T(E+i0)$, or a $1^{++}$ regression failure.
+\end{itemize}
+Not covered: everything in \Sr{st:outside}; the multichannel form of \texttt{06:eq:Dflip} in full TOPT and the iterated cuts (\file{NOTEBOOK.md}, Open questions, Pole condition in full TOPT); energies where no certified path exists, which are reported as excluded.
+
+\appendix
+\section{On-shell branch points of the exchange}\label{app:onshell}
+
+Carried from the retired singularity map, \file{history/05-singularity-map.md}, Sec.~4.2, and recomputed here. These points make on-shell matrix elements singular; they enter $D_{\mathcal C}$ only through \texttt{06:eq:Dflip} on sheets where the channels involved are flipped.
+
+\begin{stmt}{theorem}\label{st:onshell}
+On shell, with $p=k_{\rm in}(E)$ and $p'=k_{\rm out}(E)$, the two orderings of every block have offsets $\pm\nu_{\rm on}$, so that $D_{\beta_1}+D_{\beta_2}=1/(s^2-\nu_{\rm on}^2)$. With $U=p'^2$ and $W=p^2$:
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+block & $U$ & $W$ & $\nu_{\rm on}$\\
+\midrule
+$VV\leftarrow VV$ & $m_{B^*}E$ & $m_{B^*}E$ & $0$\\
+$PV\leftarrow PV$ & $2\mu_5(E+\Delta m)$ & $2\mu_5(E+\Delta m)$ & $\Delta m\,(E-2m_B)/(m_B+m_{B^*})$\\
+$VV\leftarrow PV$ & $m_{B^*}E$ & $2\mu_5(E+\Delta m)$ & $\Delta m\,(2m_B-E)/[2(m_B+m_{B^*})]$\\
+$VV\leftarrow PP$ & $m_{B^*}E$ & $m_B(E+2\Delta m)$ & $0$\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{stmt}
+\noindent\emph{Proof.} $2\mu_1=m_{B^*}$, $2\mu_5=2m_Bm_{B^*}/(m_B+m_{B^*})$, $2\mu_6=m_B$. $VV\leftarrow VV$: $\nu_2=(p^2+p'^2)/(2m_{B^*})-E=0$. $PV\leftarrow PV$: $\nu_1=-2\Delta m+2\mu_5(E+\Delta m)/m_B-E=\Delta m(E-2m_B)/(m_B+m_{B^*})$, and $\nu_2=2\mu_5(E+\Delta m)/m_{B^*}-E=-\nu_1$. $VV\leftarrow PV$: $\nu_2=(W-U)/(2m_{B^*})=\Delta m(2m_B-E)/[2(m_B+m_{B^*})]$, and $\nu_3=-\Delta m+W/(2m_B)+U/(2m_{B^*})-E=-\nu_2$. $VV\leftarrow PP$: $\nu_3=-\Delta m+(E+2\Delta m)/2+E/2-E=0$. Finally $\frac1{2s(s+\nu)}+\frac1{2s(s-\nu)}=\frac1{s^2-\nu^2}$. $\square$
+
+\begin{stmt}{theorem}\label{st:endpoints}
+The angular integrand then has its pole at $x_0=A_{\rm on}/B$, $A_{\rm on}=U+W+m_\phi^2-\nu_{\rm on}^2$. It reaches $x=\pm1$ where $(p\mp p')^2+m_\phi^2-\nu_{\rm on}^2=0$; eliminating the momentum roots,
+\begin{equation}\label{eq:F}
+F(E)=\bigl(U+W+m_\phi^2-\nu_{\rm on}^2\bigr)^2-4UW=0,
+\end{equation}
+a polynomial of degree at most four in $E$. A root marks a branch point of a given sheet's on-shell entry only after the momenta of that sheet are put back, and only where the projected numerator does not cancel it.
+\end{stmt}
+
+The near real roots, with physical-sheet momenta (roots beyond $2$~GeV, artefacts of the nonrelativistic energies, omitted):
+\begin{center}
+\begin{tabular}{llrll}
+\toprule
+block & $\phi$ & $E_L$ & endpoint & $k_1$, $k_5$, $k_6$\\
+\midrule
+$VV\leftarrow VV$ & $\pi$ & $-0.8946$ & $x=-1$ & $69.02i$, $484.84$, $687.65$\\
+$VV\leftarrow VV$ & $\eta$ & $-14.099$ & $x=-1$ & $274.00i$, $406.27$, $634.94$\\
+$PV\leftarrow PV$ & $\pi$ & $-46.032$ & $x=-1$ & $495.09i$, $65.21i$, $484.31$\\
+$PV\leftarrow PV$ & $\eta$ & $-59.293$ & $x=-1$ & $561.89i$, $273.06i$, $405.64$\\
+$VV\leftrightarrow PV$ & $\pi$ & $-174.32$ & $x=+1$ & $963.44i$, $827.31i$, $665.39i$\\
+$VV\leftrightarrow PV$ & $\eta$ & $-45.776$ & $x=-1$ & $493.71i$, $53.82i$, $485.70$\\
+$VV\leftrightarrow PP$ & $\pi$ & $-686.06$ & $x=+1$ & $1911.31i$, $1843.29i$, $1773.27i$\\
+$VV\leftrightarrow PP$ & $\eta$ & $-95.661$ & $x=+1$ & $713.70i$, $517.09i$, $165.70i$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The elastic entries are those of \texttt{06:tab:lhc}. Which side of each root is cut on a given sheet, and which cuts are doubled up to the lower threshold (the cases of \cite{Wu:2026wxb} v1, Eq.~(A8)), is not derived here; it matters for on-shell quantities, which belong to Stage~8. $PP\leftarrow PP$ and $PP\leftrightarrow PV$ have no exchange, so $T_{56}$ and $T_{66}$ have no tree-level left-hand cut.
+
+\bibliography{../refs}
+\end{document}
