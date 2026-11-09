@@ -86,6 +86,31 @@ The integral $\Delta^{(\beta_1\beta_2)}_m(p',p;m_\phi)=\int_{-1}^1x^m\,[D_{\beta
 _Avoid_: auxiliary function, $I_k$
 Source: [@Zhang:2026iyr] v1, Eq. (D11); the user, grilling 2026-10-29 ("Xb's Δ")
 
+**Flipped channel**:
+A channel whose threshold carries $-$ in the sheet label $s$; on that sheet its pole $q=k_\alpha$ with $\operatorname{Im}k_\alpha<0$ lies between $[0,\Lambda]$ and the path $\mathcal C$.
+_Avoid_: open channel, decay channel
+Source: notes/06-xb2-pole-problem.tex, Eq. (Dflip) ("$F$ the set of flipped channels"); CONVENTIONS.md, "Continuation to other sheets"; the user, grilling 2026-11-04
+
+**Probe energy**:
+A complex energy at which the continued equation is evaluated to test a path, a kernel continuation or a check, chosen without reference to any pole position.
+_Avoid_: test pole, expected pole
+Source: notes/06-xb2-pole-problem.tex, Fig. 2 caption ("probe energies, not predicted poles"); NOTEBOOK.md, Decisions, Singularity map; the user, grilling 2026-11-04
+
+**Exchanged-meson branch point**:
+A point where the exchanged-meson energy $s_\pm$ of the angular-integrated OME vanishes, $m_\phi^2+(p'\pm q)^2=0$.
+_Avoid_: family (a)
+Source: notes/06-xb2-pole-problem.tex, Sec. 5.1; the user, grilling 2026-11-04
+
+**Three-body branch point**:
+A point where $s_\pm+\nu_\beta=0$: the intermediate $B^{(*)}\bar B^{(*)}\phi$ state of time ordering $\beta$ is on shell at an end of the angular integral.
+_Avoid_: family (b), three-body cut (its image in $E$)
+Source: notes/06-xb2-pole-problem.tex, Sec. 5.1; the user, grilling 2026-11-04
+
+**Graph path**:
+A loop path $\mathcal C$ from $q=0$ to $q=\Lambda$ on which $\operatorname{Re}q$ increases strictly.
+_Avoid_: monotone contour
+Source: notes/06-xb2-pole-problem.tex, Sec. 5.2; the user, grilling 2026-11-04
+
 ## Approximations and schemes
 
 **LO BOχEFT**:

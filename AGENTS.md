@@ -1,6 +1,10 @@
-## Markdown compilation
+## Research note-taking
 
-- Compile markdown notes to pdf with `pandoc` and the `typst` pdf engine, always with citeproc, the project bibliography, and the math filter:
+- **Write research notes in LaTeX (`.tex`), not Markdown.** Follow **Research texts** below for document creation and compilation. Markdown is for bookkeeping and existing legacy files.
+
+### Existing Markdown compilation
+
+- Compile existing Markdown files to PDF with `pandoc` and the `typst` pdf engine, always with citeproc, the project bibliography, and the math filter:
 
   ```bash
   pandoc file.md -o file.pdf --pdf-engine=typst --citeproc --bibliography=refs.bib --lua-filter=pandoc-typst.lua
@@ -24,7 +28,8 @@
 - **Language**: `GLOSSARY.md` (terms) and `CONVENTIONS.md` (notation) are binding; an entry is added or changed with the user's OK (`research-language`).
 - **Writing**: paper text in `paper/` is physics prose for a journal reader; file paths, check names, and provenance stay in `notes/`. When the user gives a route or notation for a derivation, follow it and fill in every intermediate step.
 - **Commits** happen when the user asks for one.
-- **Layout**: derivations in `notes/`, checks in `checks/`, numerics in `code/`, toy models in `toy/`, the paper in `paper/`; create a folder when first needed. Working files are Markdown with LaTeX math (`$…$`); the paper is LaTeX, built with tectonic.
-- **Literature**: `literature/<citekey>/` holds a paper's notes, source, and (once its formulas are used) its notation bridge. Add papers with `just add-paper <arXiv ID or DOI>`. `refs.bib` is exported by Zotero: fix the Zotero item, not the file. Cite `[@key]` in Markdown, `\cite{key}` in LaTeX.
+- **Layout**: derivations in `notes/`, checks in `checks/`, numerics in `code/`, toy models in `toy/`, the paper in `paper/`; create a folder when first needed.
+- **Research texts** are LaTeX, built with tectonic: derivations (`notes/*.tex`), a paper's notes and bridge, the literature survey, and the paper. Start each one outside `paper/` with `just new <file> ["<title>"]`, a standalone article on the shared `preamble.tex` (packages and project macros) and `refs.bib`. It is finished when `just tex <file>` builds it with no undefined citation or reference. From another file, point at a note's equation by file and `\label`. Bookkeeping is Markdown with `$…$` math: the notebook, glossary, conventions, standards, history log, and toy READMEs.
+- **Literature**: `literature/<citekey>/` holds a paper's notes (`notes.tex`), its source (`src/`), and, once its formulas are used, its notation bridge (`bridge.tex`). Add papers with `just add-paper <arXiv ID or DOI>`. `refs.bib` is exported by Zotero: fix the Zotero item, not the file. Cite `\cite{key}` in LaTeX, `[@key]` in Markdown.
 - **Skill map**: cross-check over tdd, referee over code-review, discrepancy-hunt over diagnosing-bugs, toy-model over prototype, lit-check over research, research-language over domain-modeling; the code skills apply to `code/`.
 <!-- research-skills:end -->

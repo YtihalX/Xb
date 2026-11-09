@@ -114,9 +114,9 @@ Source: [@Zhang:2026iyr] v1, Eq. (108); code/HadronDynamics.jl/docs/BOCHIEFT.md:
 
 ### Continuation to other sheets
 Object: the $T$-matrix off the physical sheet, and the loop path that defines it
-Symbol: $\mathcal C$, $T^{(s)}_{\alpha'\alpha}(p',p;E)$, $s=(\pm,\pm,\pm)$
-Choice: $T^{(s)}$ solves the equation of "Lippmann–Schwinger equation" with $\int_0^\Lambda dq$ replaced by $\int_{\mathcal C}dq$, where $\mathcal C$ runs from $q=0$ to $q=\Lambda$ such that, for every channel whose threshold carries $-$ in $s$, the pole $q=k_\alpha(E)$ with $\operatorname{Im}k_\alpha<0$ lies between $[0,\Lambda]$ and $\mathcal C$, and no other singularity of the integrand does; such a $\mathcal C$ is admissible; on the physical sheet $\mathcal C=[0,\Lambda]$; $s$ is labelled as in "Pole position and Riemann sheets"
-Source: the user, grilling 2026-10-29/30 ("Contour + node check"; entry agreed as written); [@Wu:2026wxb] v1, App. D (contour $C_R$, mirrored to the fourth quadrant)
+Symbol: $\mathcal C$, $(\mathcal C_\lambda,E_\lambda)$, $T^{(s)}_{\alpha'\alpha}(p',p;E)$, $s=(\pm,\pm,\pm)$
+Choice: $T^{(s)}$ solves the equation of "Lippmann–Schwinger equation" with $\int_0^\Lambda dq$ replaced by $\int_{\mathcal C}dq$, both momenta of the kernel on $\mathcal C$, a path from $q=0$ to $q=\Lambda$. $\mathcal C$ is admissible at $E$ if a homotopy $(\mathcal C_\lambda,E_\lambda)$, $0\le\lambda\le1$, joins $([0,\Lambda],E_0)$, with $\operatorname{Im}E_0>0$ on the physical sheet, to $(\mathcal C,E)$ such that at every $\lambda$ no pole $q=\pm k_\alpha(E_\lambda)$ lies on $\mathcal C_\lambda$ and $V(p',q;E_\lambda)$ is analytic at every $(p',q)\in\mathcal C_\lambda\times\mathcal C_\lambda$; the kernel takes the branch reached along that homotopy. Channel $\alpha$ carries $-$ in $s$ exactly when its pole $q=k_\alpha(E)$ with $\operatorname{Im}k_\alpha<0$ ends between $[0,\Lambda]$ and $\mathcal C$. With a momentum fixed at $k$ off $\mathcal C$ (on-shell $T$, couplings), $V(k,q;E_\lambda)$ must also be analytic for $q\in\mathcal C_\lambda$ along the homotopy; a relation between $\mathcal C$ and $[0,\Lambda]$ at fixed $k$ (the on-shell-point route) needs that no singularity of $V(k,q;E)$ in $q$ lies between them. On the physical sheet $\mathcal C=[0,\Lambda]$; $s$ is labelled as in "Pole position and Riemann sheets"
+Source: the user, grilling 2026-10-29/30 ("Contour + node check") and 2026-11-04 ("Adopt homotopy wording"); [@Wu:2026wxb] v1, App. D (contour $C_R$, mirrored to the fourth quadrant)
 
 ### Bare-state term off the real axis
 Object: the separable $s$-channel term and the transition form factors at complex momenta
@@ -127,8 +127,8 @@ Source: [@Zhang:2026iyr] v1, footnote 13 to Eq. (58) and Eqs. (A10)–(A12); the
 ### Continued angular moments
 Object: the angular moments $\Delta^{(\beta_1\beta_2)}_m$ at complex momenta and energy
 Symbol: $s_\pm$, $L^{(\beta)}_\pm$, $n_\pm$
-Choice: with $s_\pm=\sqrt{m_\phi^2+(p'\pm p)^2}$ and $L^{(\beta)}_\pm=\log(s_\pm+\nu_\beta)$, every $\Delta_m$ is written through $s_\pm$ and $L^{(\beta)}_+-L^{(\beta)}_-$, never through $\log[(s_++\nu_\beta)/(s_-+\nu_\beta)]$; each of $s_\pm$ and $L^{(\beta)}_\pm$ is the continuous continuation from real momenta below the lowest three-body threshold, where all are principal, so $L^{(\beta)}_\pm=\operatorname{Log}(s_\pm+\nu_\beta)+2\pi i\,n_\pm$ with $n_\pm$ fixed by the cut crossings as in [@Wu:2026wxb] v1, App. D
-Source: [@Wu:2026wxb] v1, App. D, Eq. (D1) and the text after it; the user, grilling 2026-10-29/30 ("Split logs + tracker"; entry agreed as written)
+Choice: with $s_\pm=\sqrt{m_\phi^2+(p'\pm p)^2}$ and $L^{(\beta)}_\pm=\log(s_\pm+\nu_\beta)$, every $\Delta_m$ is written through $s_\pm$ and $L^{(\beta)}_+-L^{(\beta)}_-$, never through $\log[(s_++\nu_\beta)/(s_-+\nu_\beta)]$; each of $s_\pm$ and $L^{(\beta)}_\pm$ is continued continuously along the homotopy of "Continuation to other sheets", from real momenta at its starting energy $E_0$ ($\operatorname{Im}E_0>0$), where all are principal, so $L^{(\beta)}_\pm=\operatorname{Log}(s_\pm+\nu_\beta)+2\pi i\,n_\pm$, where $n_\pm$ grows by one each time $s_\pm+\nu_\beta$ crosses the negative real axis from above and drops by one each time it crosses from below, as in [@Wu:2026wxb] v1, App. D
+Source: [@Wu:2026wxb] v1, App. D, Eq. (D1) and the text after it; the user, grilling 2026-10-29/30 ("Split logs + tracker") and 2026-11-04 (continuation along the admissibility homotopy)
 
 ### Resonance couplings
 Object: the residues of $T$ at a pole off the physical sheet, and the partial widths

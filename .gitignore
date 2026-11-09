@@ -42,6 +42,7 @@ old
 
 # research-skills
 literature/*/src/
+build/
 paper/build/
 __pycache__/
 .venv/
