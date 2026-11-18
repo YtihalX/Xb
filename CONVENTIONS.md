@@ -118,6 +118,12 @@ Symbol: $\mathcal C$, $(\mathcal C_\lambda,E_\lambda)$, $T^{(s)}_{\alpha'\alpha}
 Choice: $T^{(s)}$ solves the equation of "Lippmann–Schwinger equation" with $\int_0^\Lambda dq$ replaced by $\int_{\mathcal C}dq$, both momenta of the kernel on $\mathcal C$, a path from $q=0$ to $q=\Lambda$. $\mathcal C$ is admissible at $E$ if a homotopy $(\mathcal C_\lambda,E_\lambda)$, $0\le\lambda\le1$, joins $([0,\Lambda],E_0)$, with $\operatorname{Im}E_0>0$ on the physical sheet, to $(\mathcal C,E)$ such that at every $\lambda$ no pole $q=\pm k_\alpha(E_\lambda)$ lies on $\mathcal C_\lambda$ and $V(p',q;E_\lambda)$ is analytic at every $(p',q)\in\mathcal C_\lambda\times\mathcal C_\lambda$; the kernel takes the branch reached along that homotopy. Channel $\alpha$ carries $-$ in $s$ exactly when its pole $q=k_\alpha(E)$ with $\operatorname{Im}k_\alpha<0$ ends between $[0,\Lambda]$ and $\mathcal C$. With a momentum fixed at $k$ off $\mathcal C$ (on-shell $T$, couplings), $V(k,q;E_\lambda)$ must also be analytic for $q\in\mathcal C_\lambda$ along the homotopy; a relation between $\mathcal C$ and $[0,\Lambda]$ at fixed $k$ (the on-shell-point route) needs that no singularity of $V(k,q;E)$ in $q$ lies between them. On the physical sheet $\mathcal C=[0,\Lambda]$; $s$ is labelled as in "Pole position and Riemann sheets"
 Source: the user, grilling 2026-10-29/30 ("Contour + node check") and 2026-11-04 ("Adopt homotopy wording"); [@Wu:2026wxb] v1, App. D (contour $C_R$, mirrored to the fourth quadrant)
 
+### Pole margin of a path
+Object: the distance, in the loop-momentum plane, between a path and the free-propagator poles at the energy where the path is used
+Symbol: $d_k$
+Choice: a path $\mathcal C$ built at $E$ has pole margin $d_k$ (in MeV; the `margin` argument of `graph_path` is in GeV) when $|q\mp k_\alpha(E)|\ge d_k$ for every $q\in\mathcal C$ and every channel $\alpha$; the default path (notes/07-continued-lse.tex, S40) takes $d_k$ as input and has depth $\max_F|\operatorname{Im}k_F|+d_k$. Distinct from the certification margin $d$ of S23, which holds along the whole homotopy and also bounds $|Z^{(\beta)}_\pm|$
+Source: notes/07-continued-lse.tex, S40; code/Xb2Continuation/src/paths.jl, `graph_path(E, ths; margin)`; the user, 2026-11-13 ("d_k is approved to be in conventions")
+
 ### Bare-state term off the real axis
 Object: the separable $s$-channel term and the transition form factors at complex momenta
 Symbol: $f_n(p)$
@@ -141,13 +147,13 @@ Source: the user, grilling 2026-10-29/30 ("Residue of our T"; entry agreed as wr
 ### Binding energy and meson energies
 Object: symbols that [@Zhang:2026iyr] v1 uses for two things
 Symbol: $E_B$, $\omega_{B^{(*)}}(p)$
-Choice: $E_B$ is the binding energy only; the paper's on-shell meson energies $E_{B^{(*)}}(p)$ in Eq. (77) are written $\omega_{B^{(*)}}(p)$
+Choice: $E_B$ is the binding energy only; the paper's on-shell meson energies $E_{B^{(*)}}(p)$ in Eq. (77) are written $\omega_{B^{(*)}}(p)$. Scope exception approved by the user on 2026-11-15: `learning/pre/slides/BOchiEFT.typ` follows the paper's $E_{B^{(*)}}(p)$ notation; its explicit momentum argument distinguishes it from the binding energy.
 Source: [@Zhang:2026iyr] v1, Eq. (77) against Eq. (97) and Sec. IV C; the user, grilling 2026-10-28
 
 ### Reduced masses and TOPT energy offsets
 Object: symbols that [@Zhang:2026iyr] v1 uses for two things
 Symbol: $\mu_\alpha$, $\nu_\beta$
-Choice: $\mu_\alpha$ is the reduced mass of two-body channel $\alpha$; the TOPT energy offsets $\mu_\beta$ of Eq. (77) are written $\nu_\beta$, so $D_\beta=\bigl[2E_\phi(q)(E_\phi(q)+\nu_\beta)\bigr]^{-1}$
+Choice: $\mu_\alpha$ is the reduced mass of two-body channel $\alpha$; the TOPT energy offsets $\mu_\beta$ of Eq. (77) are written $\nu_\beta$, so $D_\beta=\bigl[2E_\phi(q)(E_\phi(q)+\nu_\beta)\bigr]^{-1}$. Scope exception approved by the user on 2026-11-15: `learning/pre/slides/BOchiEFT.typ` follows the paper's $\mu_\beta$ for these offsets and $\mu$ for the $B\bar B^*$ reduced mass. Notes and code retain the project notation.
 Source: [@Zhang:2026iyr] v1, Eq. (3) against Eqs. (76)–(77); the user, grilling 2026-10-28
 
 ### OME spin numerator and its projection

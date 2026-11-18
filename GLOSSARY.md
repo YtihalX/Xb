@@ -167,3 +167,8 @@ Source: [@Zhang:2026iyr] v1, Sec. IV D, Fig. 5(a) and its caption ("the predomin
 All heavy-meson masses set to $\bar m_B=(m_B+3m_{B^*})/4\approx5.313$ GeV in every threshold, reduced mass, and TOPT offset, with the bare $\chi_{b2}$ masses equal to the bare $\chi_{b1}$ masses (any spin-dependent shift switched off) and $g$, $C$ unchanged.
 _Avoid_: HQSS limit (for the Table VII variant, which changes only the TOPT offsets), $m_{B^*}=m_B$ (without saying where)
 Source: [@Zhang:2026iyr] v1, Table VII caption ($\bar m_B$), Sec. II F 1; the user, grilling 2026-10-28 (selected as a check); NOTEBOOK.md, Decisions, Quark model fixed
+
+**Deformed SP method**:
+The continued LSE on a contour chosen per search rectangle to avoid the kernel's singular points, with an on-shell node and Sokhotski–Plemelj subtraction at every propagator pole the contour passes on the side opposite to the sheet's, or runs through; the sheet enters only as the sign of $i\pi$ in $I(k)=[\operatorname{Log}\frac{\Lambda-k}{\Lambda+k}\pm i\pi]/2k$.
+_Avoid_: route 3, SP polygon
+Source: the user, 2026-11-13 ("deformed SP method (let's call it that way)"; entry approved 2026-11-13); notes/07-continued-lse.tex, S40; notes/07-continued-lse/s40-proposal.tex, Sec. "Sheet as a sign"
