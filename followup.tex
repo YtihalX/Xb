@@ -127,6 +127,10 @@
 \newcommand{\calH}{{\cal H}}
 \newcommand{\hatH}{H}
 \newcommand{\tilH}{\tilde{{\cal H}}}
+\newcommand{\BB}{B\bar B}
+\newcommand{\BBst}{B\bar B^*}
+\newcommand{\BstBst}{B^*\bar B^*}
+\newcommand{\veps}{\bm\epsilon}
 
 
 \newcommand{\rub}{\affiliation{Institut f\"ur Theoretische Physik II, Ruhr-Universit\"at Bochum, D-44780 Bochum, Germany }}
@@ -178,7 +182,7 @@ Technical University of Munich, TUM School of Natural Sciences, Physics Departme
 
 \section{$\Xb$ spin-2 partner}
 
-We have the interaction in the $b$-sector fully fixed in Ref.~\cite{Zhang:2026iyr}. With these parameters, we proceed to the $J^{PC}=2^{++}$ sector and make prediction for the spin-2 partner of the $\Xb$. This is possible since the contact term $C$ is the same in the $1^{++}$ and $2^{++}$ sectors and
+We have the interaction in the $b$-sector fully fixed in Ref.~\cite{Zhang:2026iyr}. With these parameters, we proceed to the $J^{PC}=2^{++}$ sector and make prediction for the spin-2 partner of the $\Xb$. This is possible since the contact term $C$ is the same in the $1^{++}$ and $2^{++}$ sectors and \cite{Bulava:2024jpj}
 \be
 g[(\bar{b}b)_2\mbox{-}B^*\bar{B}^*(^5S_2)]=
 g[(\bar{b}b)_1\mbox{-}B\bar{B}^*(^3S_1)]=\frac{2}{\sqrt{3}}\sqrt{2}g_l
@@ -189,122 +193,505 @@ A complete information on the coupled open-bottom channels, partial waves, and p
 In the $2^{++}$ channel with the threshold at 10.650~GeV, we have three generic bottomonium states with the masses
 \be
 \begin{split}
-M[\chi_{b2}(1P)]&=9912.21~\mbox{MeV},\\
-M[\chi_{b2}(2P)]&=10268.65~\mbox{MeV},\\
-M[\chi_{b2}(3P)]&=10524.0~\mbox{MeV}.
+	M[\chi_{b2}(1P)] & =9912.21~\mbox{MeV},  \\
+	M[\chi_{b2}(2P)] & =10268.65~\mbox{MeV}, \\
+	M[\chi_{b2}(3P)] & =10524.0~\mbox{MeV}.
 \end{split}
 \ee
 
 It should be checked how well their masses are reproduced with the parameters fixed in the $1^{++}$ sector. After that, a molecular pole representing the $X_{b2}$ can be searched for in the two scenarious discussed in our paper \cite{Zhang:2026iyr}:
 (i) the scenario with $\Delta M=0$ and (ii) the scenario with the $\Xb$ binding energy fixed to 1~MeV below the $B\bar{B}^*$ threshold.
 
-The six-channel OME potential and all 21 independent partial-wave entries are derived in notes/04-ome-2pp.md and presented in the appendix of paper/main.tex.
+Preliminary work needed:
+\begin{itemize}
+	\item The OME potentials need to be written in the $2^{++}$ channel and their partial wave projection should be done. Since all potentials and projectors are known, this is a purely technical step.
+\end{itemize}
 
 \subsection{OME in $2^{++}$}
 \begin{center}
-    
-    \begin{tabular*}{0.5\textwidth}{@{\extracolsep{\fill}}lccc@{}}    \toprule
-    pair & $S$ & $L$ & $^{2S+1}L_J$\\
-    \midrule
-    $B\bar{B}$ & 0   &  2 & $^1D_2$\\
-    $B\bar{B}^*$, $C$-even & 1 & 2 & $^3D_2$\\
-    $B^*\bar{B}^*$ & 0 & 2 & $^1D_2$\\
-    $B^* \bar{B}^*$ & 2 & 0,2,4 & $^5S_2$, $^5D_2$, $^5G_2$\\
-    \bottomrule
-    \end{tabular*}
+
+	\begin{tabular*}{0.5\textwidth}{@{\extracolsep{\fill}}lccc@{}}    \toprule
+		pair & $S$ & $L$ & $^{2S+1}L_J$\\
+		\midrule
+		$B\bar{B}$ & 0   &  2 & $^1D_2$\\
+		$B\bar{B}^*$, $C$-even & 1 & 2 & $^3D_2$\\
+		$B^*\bar{B}^*$ & 0 & 2 & $^1D_2$\\
+		$B^* \bar{B}^*$ & 2 & 0,2,4 & $^5S_2$, $^5D_2$, $^5G_2$\\
+		\bottomrule
+	\end{tabular*}
 \end{center}
 
 All the possible $2^{++}$ channels
 \be
 B^*\bar{B}^*(^5S_2),\quad B^*\bar{B}^*(^1D_2),\quad B^*\bar{B}^*(^5D_2),\quad B^*\bar{B}^*(^5G_2),\quad B\bar{B}^*(^3D_2),\quad B\bar{B}(^1D_2).
 \ee
+and are labeled from 1 to 6.
 
 Since $BB\phi$ vertex violates parity and is absent in lagrangian, so the interactions:
 \be
-V_{B\bar{B}->B\bar{B}}, \quad V_{B\bar{B} -> B\bar{B}^*},\quad V_{B\bar{B}^* -> B\bar{B}}
+V_{B\bar{B}\to B\bar{B}}, \quad V_{B\bar{B} \to B\bar{B}^*},\quad V_{B\bar{B}^* \to B\bar{B}}
 \ee
 all vanish and the only new transition is $B\bar{B} \leftrightarrow B^*\bar{B}^*$.
 \be
 \begin{split}
-V_{B\bar{B}\rightarrow B^*\bar{B}^*}^{(\text{OME})}(\vep',\vep; m_\phi) = \frac{g_b^2}{4F_\pi^2}(\veepst_1 \cdot \veq)(\veepst_2 \cdot \veq)\left[2D_3(\vep',\vep;m_\phi)\right]\\
-V_{B^*\bar{B}^*\rightarrow B\bar{B}}^{(\text{OME})}(\vep',\vep; m_\phi) = \frac{g_b^2}{4F_\pi^2}(\veep_1 \cdot \veq)(\veep_2 \cdot \veq)\left[2D_4(\vep',\vep;m_\phi)\right]
+	V_{B\bar{B}\rightarrow B^*\bar{B}^*}^{(\text{OME})}(\vep',\vep; m_\phi) = \frac{g_b^2}{4F_\pi^2}(\veepst_1 \cdot \veq)(\veepst_2 \cdot \veq)\left[2D_3(\vep',\vep;m_\phi)\right] \\
+	V_{B^*\bar{B}^*\rightarrow B\bar{B}}^{(\text{OME})}(\vep',\vep; m_\phi) = \frac{g_b^2}{4F_\pi^2}(\veep_1 \cdot \veq)(\veep_2 \cdot \veq)\left[2D_4(\vep',\vep;m_\phi)\right]
 \end{split}
 \ee
 
-The partial-wave projections are given in the appendix of paper/main.tex.
+Since $\mu$ is also used to denote the two-body reduced mass, here I renamed $\mu_\beta$ functions to $\nu_\beta$ with $\beta$ the same definition of index for intermediate states as previous.
 
+Then potential from Feynman diagram can be separated into a tensor part(which I called spin numerators) as well as a scalar part for the TOPT denominators.
+\be
+V(\vep',\vep;m_\phi)=\frac{g_b^2}{4F_\pi^2}\mathcal{N}(\veq)[D_{\beta_1}+D_{\beta_2}], \quad \veq = \vep-\vep'
+\ee
+With energy measured from the $B^*\bar{B}^*$ threshold $M = 2m_{B^*}+E$ and $\Delta m = m_{B^*} - m_B$
+\be
+\begin{aligned}
+	\nu_1 & =-2\Delta m+\frac{p^2+p'^2}{2m_B}-E,                 &
+	\nu_2 & =\frac{p^2+p'^2}{2m_{B^*}}-E,                          \\
+	\nu_3 & =-\Delta m+\frac{p^2}{2m_B}+\frac{p'^2}{2m_{B^*}}-E, &
+	\nu_4 & =-\Delta m+\frac{p'^2}{2m_B}+\frac{p^2}{2m_{B^*}}-E.
+\end{aligned}
+\ee
+and the spin numerators for different transition types
+
+\begin{align}
+	VV\to VV:\quad \mathcal N & =-2(\bm A_1\cdot\bm q)(\bm A_2\cdot\bm q),
+	                          &                                                            & (\beta_1,\beta_2)=(2,2),\label{eq:spin-vv}     \\
+	PV\to VV:\quad \mathcal N & =(\bm A_1\cdot\bm q)(\bm\epsilon_2'^*\cdot\bm q)
+	+(\bm A_2\cdot\bm q)(\bm\epsilon_1'^*\cdot\bm q),
+	                          &                                                            & (\beta_1,\beta_2)=(3,2),\label{eq:spin-pvv}    \\
+	PP\to VV:\quad \mathcal N & =(\bm\epsilon_1'^*\cdot\bm q)(\bm\epsilon_2'^*\cdot\bm q),
+	                          &                                                            & (\beta_1,\beta_2)=(3,3),\label{eq:ome-bb-bsbs} \\
+	PV\to PV:\quad \mathcal N & =-(\bm\epsilon\cdot\bm q)(\bm\epsilon'^*\cdot\bm q),
+	                          &                                                            & (\beta_1,\beta_2)=(1,2).\label{eq:spin-pv}
+\end{align}
+Choose the coordinates
+\be
+\vep = p\hat{z},\quad \vep' = p'(\sqrt{1-x^2}, 0, x),\quad \veq = \vep-\vep' = (-p'\sqrt{1-x^2}, 0, p - p'x)
+\ee
+where $x = \hat{n}\cdot\hat{n}' = \cos\theta$
+
+The projected spin numerator is
+\be
+\mathcal{N}_{\alpha'\alpha}(x;p',p) = \text{Tr}\left[P^\dagger(\alpha';\hat{n}')\mathcal{N}(\veq)P(\alpha;\hat{z})\right] = \sum_{m=0}^{4}\mathcal{N}_{\alpha'\alpha}^{(m)}(p',p)x^m
+\ee
+
+The projected potential is
+
+\be
+\begin{aligned}
+	\Delta_m^{(\beta_1\beta_2)}(p',p;m_\phi)
+	 & =\int_{-1}^{1}x^m[D_{\beta_1}+D_{\beta_2}]\,dx,
+	\\
+	V^{\rm(OME)}_{\alpha'\alpha}(p',p;m_\phi)
+	 & =\frac1{10}\frac{g_b^2}{4F_\pi^2}\sum_{m=0}^4
+	\mathcal N^{(m)}_{\alpha'\alpha}(p',p)
+	\Delta_m^{(\beta_1\beta_2)}(p',p;m_\phi).
+\end{aligned}
+\ee
+
+Projectors from \cite{Baru:2019xnh}
+\be
+\begin{aligned}
+	P_{ij}\big(\BstBst(^5S_2)\big) & =\tfrac12\,S_{ij},                                                                          \\
+	P_{ij}\big(\BstBst(^1D_2)\big) & =-\sqrt{\tfrac52}\,(\veps_1\cdot\veps_2)\,v_{ij},                                           \\
+	P_{ij}\big(\BstBst(^5D_2)\big) & =-\sqrt{\tfrac{45}{56}}\Big(S_{ik}v_{kj}+S_{jk}v_{ki}-\tfrac23\delta_{ij}S_{kl}v_{kl}\Big), \\
+	P_{ij}\big(\BstBst(^5G_2)\big) & =\sqrt{\tfrac{175}{32}}\,S_{kl}\,v_{ijkl},                                                  \\
+	P_{ij}\big(\BBst(^3D_2)\big)   & =-\tfrac{\sqrt5}{2}\,\epsilon_k\big(i\varepsilon_{ikl}v_{lj}+i\varepsilon_{jkl}v_{li}\big), \\
+	P_{ij}\big(\BB(^1D_2)\big)     & =-\sqrt{\tfrac{15}{2}}\,v_{ij},
+\end{aligned}
+\ee
+\begin{gather}
+	v_{ij}=n_in_j-\tfrac13\delta_{ij},\qquad
+	S_{ij}=\epsilon_{1i}\epsilon_{2j}+\epsilon_{1j}\epsilon_{2i}-\tfrac23\delta_{ij}\,\veps_1\cdot\veps_2,\notag\\
+	v_{ijkl}=n_in_jn_kn_l-\tfrac17\big(n_in_j\delta_{kl}+n_in_k\delta_{jl}+n_in_l\delta_{jk}+n_jn_k\delta_{il}+n_jn_l\delta_{ik}+n_kn_l\delta_{ij}\big)\notag\\
+	\hspace{5cm}+\tfrac1{35}\big(\delta_{ij}\delta_{kl}+\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk}\big).
+\end{gather}
+
+The different values of $\mathcal{N}_{\alpha'\alpha}^{(m)}$ is collected in Table~\ref{tab:projected-spin-numerator-2pp}
+
+\begin{table*}[t]
+	\caption{Projected spin numerator for the $2^{++}$ channels in their canonical order. Rows are outgoing first; $p$ is incoming and $p^\prime$ outgoing. An empty offset pair denotes an absent OME diagram.}
+	\label{tab:projected-spin-numerator-2pp}
+	\centering
+	\begingroup\footnotesize
+	\setlength{\tabcolsep}{3pt}
+	\renewcommand{\arraystretch}{1.7}
+	\begin{tabular}{cc|ccccc}
+		$\alpha^\prime\alpha$ & $(\beta_1,\beta_2)$ & $\mathcal N^{(0)}$                             & $\mathcal N^{(1)}$              & $\mathcal N^{(2)}$                             & $\mathcal N^{(3)}$              & $\mathcal N^{(4)}$               \\ \hline
+		$11$                  & $(2,2)$             & $- \frac{5 (p^{2} + p'^{2})}{3}$               & $\frac{10 p p'}{3}$             & $0$                                            & $0$                             & $0$                              \\
+		$12$                  & $(2,2)$             & $\frac{\sqrt{10} (2 p^{2} - p'^{2})}{6}$       & $- \frac{2 \sqrt{10} p p'}{3}$  & $\frac{\sqrt{10} p'^{2}}{2}$                   & $0$                             & $0$                              \\
+		$13$                  & $(2,2)$             & $- \frac{\sqrt{70} (2 p^{2} - p'^{2})}{6}$     & $\frac{2 \sqrt{70} p p'}{3}$    & $- \frac{\sqrt{70} p'^{2}}{2}$                 & $0$                             & $0$                              \\
+		$14$                  & $(2,2)$             & $0$                                            & $0$                             & $0$                                            & $0$                             & $0$                              \\
+		$15$                  & $(3,2)$             & $- \frac{\sqrt{10} (2 p^{2} - p'^{2})}{2}$     & $2 \sqrt{10} p p'$              & $- \frac{3 \sqrt{10} p'^{2}}{2}$               & $0$                             & $0$                              \\
+		$16$                  & $(3,3)$             & $- \frac{\sqrt{30} (2 p^{2} - p'^{2})}{6}$     & $\frac{2 \sqrt{30} p p'}{3}$    & $- \frac{\sqrt{30} p'^{2}}{2}$                 & $0$                             & $0$                              \\
+		$22$                  & $(2,2)$             & $- \frac{5 (p^{2} + p'^{2})}{3}$               & $\frac{10 p p'}{3}$             & $5 (p^{2} + p'^{2})$                           & $- 10 p p'$                     & $0$                              \\
+		$23$                  & $(2,2)$             & $\frac{5 \sqrt{7} (p^{2} + p'^{2})}{21}$       & $\frac{5 \sqrt{7} p p'}{21}$    & $- \frac{5 \sqrt{7} (p^{2} + p'^{2})}{7}$      & $\frac{5 \sqrt{7} p p'}{7}$     & $0$                              \\
+		$24$                  & $(2,2)$             & $- \frac{\sqrt{35} (4 p^{2} - 3 p'^{2})}{28}$  & $\frac{6 \sqrt{35} p p'}{7}$    & $\frac{3 \sqrt{35} (2 p^{2} - 5 p'^{2})}{14}$  & $- \frac{10 \sqrt{35} p p'}{7}$ & $\frac{5 \sqrt{35} p'^{2}}{4}$   \\
+		$25$                  & $(3,2)$             & $0$                                            & $0$                             & $0$                                            & $0$                             & $0$                              \\
+		$26$                  & $(3,3)$             & $- \frac{5 \sqrt{3} (p^{2} + p'^{2})}{6}$      & $\frac{5 \sqrt{3} p p'}{3}$     & $\frac{5 \sqrt{3} (p^{2} + p'^{2})}{2}$        & $- 5 \sqrt{3} p p'$             & $0$                              \\
+		$33$                  & $(2,2)$             & $\frac{25 (p^{2} + p'^{2})}{21}$               & $- \frac{55 p p'}{42}$          & $- \frac{25 (p^{2} + p'^{2})}{7}$              & $\frac{85 p p'}{14}$            & $0$                              \\
+		$34$                  & $(2,2)$             & $\frac{\sqrt{5} (4 p^{2} - 3 p'^{2})}{14}$     & $- \frac{12 \sqrt{5} p p'}{7}$  & $- \frac{3 \sqrt{5} (2 p^{2} - 5 p'^{2})}{7}$  & $\frac{20 \sqrt{5} p p'}{7}$    & $- \frac{5 \sqrt{5} p'^{2}}{2}$  \\
+		$35$                  & $(3,2)$             & $- \frac{5 \sqrt{7} (p^{2} + p'^{2})}{14}$     & $- \frac{5 \sqrt{7} p p'}{14}$  & $\frac{15 \sqrt{7} (p^{2} + p'^{2})}{14}$      & $- \frac{15 \sqrt{7} p p'}{14}$ & $0$                              \\
+		$36$                  & $(3,3)$             & $- \frac{5 \sqrt{21} (p^{2} + p'^{2})}{21}$    & $- \frac{5 \sqrt{21} p p'}{21}$ & $\frac{5 \sqrt{21} (p^{2} + p'^{2})}{7}$       & $- \frac{5 \sqrt{21} p p'}{7}$  & $0$                              \\
+		$44$                  & $(2,2)$             & $\frac{15 (p^{2} + p'^{2})}{56}$               & $\frac{15 p p'}{7}$             & $- \frac{75 (p^{2} + p'^{2})}{28}$             & $- \frac{25 p p'}{7}$           & $\frac{25 (p^{2} + p'^{2})}{8}$  \\
+		$45$                  & $(3,2)$             & $\frac{\sqrt{35} (3 p^{2} - 4 p'^{2})}{14}$    & $\frac{12 \sqrt{35} p p'}{7}$   & $- \frac{3 \sqrt{35} (5 p^{2} - 2 p'^{2})}{7}$ & $- \frac{20 \sqrt{35} p p'}{7}$ & $\frac{5 \sqrt{35} p^{2}}{2}$    \\
+		$46$                  & $(3,3)$             & $- \frac{\sqrt{105} (3 p^{2} - 4 p'^{2})}{28}$ & $- \frac{6 \sqrt{105} p p'}{7}$ & $\frac{3 \sqrt{105} (5 p^{2} - 2 p'^{2})}{14}$ & $\frac{10 \sqrt{105} p p'}{7}$  & $- \frac{5 \sqrt{105} p^{2}}{4}$ \\
+		$55$                  & $(1,2)$             & $0$                                            & $- \frac{5 p p'}{2}$            & $0$                                            & $\frac{5 p p'}{2}$              & $0$                              \\
+		$56$                  & $\varnothing$       & $0$                                            & $0$                             & $0$                                            & $0$                             & $0$                              \\
+		$66$                  & $\varnothing$       & $0$                                            & $0$                             & $0$                                            & $0$                             & $0$                              \\
+	\end{tabular}
+	\endgroup
+\end{table*}
+
+\subsection{Coupled LSE and it's continuation to different sheets}
+
+The coupled Lippmann-Schwinger Equation reads
+\be
+\begin{aligned}
+	T_{\alpha' \alpha}(p',p;E) = V_{\alpha' \alpha}(p',p;E) - \sum_{\alpha''=1}^{6}\int_0^\infty \frac{q^2dq}{2\pi^2}V_{\alpha'\alpha''}(p',q;E)G_{\alpha''}(k,q)T_{\alpha''\alpha}(q,p;E) \\
+	G_\alpha(k,q) = \left[\frac{q^2}{2\mu_\alpha}+\delta_\alpha-E-i\epsilon\right]^{-1} = \frac{2\mu_\alpha}{q^2-k_\alpha^2-i\epsilon}
+\end{aligned}
+\ee
+
+The three thresholds:
+\begin{center}
+	\begin{tabular}{clrr}
+		\toprule
+		$\alpha$ & channel                                           & $\delta_\alpha$ [MeV] & $\mu_\alpha$ [MeV] \\
+		\midrule
+		1--4     & $B^*\bar B^*$: $^5S_2$, $^1D_2$, $^5D_2$, $^5G_2$ & $0$                   & $2662.38$          \\
+		5        & $B\bar B^*(^3D_2)$, $C$-even                      & $-45.23$              & $2651.02$          \\
+		6        & $B\bar B(^1D_2)$                                  & $-90.46$              & $2639.76$          \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+
+In the HQSS limit the binding energy is either around 91 $\MeV$ or 1 $\MeV$ where $B\bar B^*(^3D_2)$ and $B\bar B(^1D_2)$ can be open, and since they can decay into these states, $X_b2$ can be a reasonance, thus analytic continuation from $E+i0$(physical sheet) to $E-i0$ is needed.
+
+First we take care of the onshell propagator pole and rhc in~\ref{fig:energy}
+
+\begin{figure}[t]
+	\centering
+	\begin{tikzpicture}[x=0.062cm,y=1cm,font=\footnotesize]
+		% which sheet a pole is reported on, per region of Re E
+		\node[anchor=east] at (-116,2.3) {sheet$(B\bar B, B\bar B^*, B^* \bar B^*)$:};
+		\node at (-104,2.3) {$(+,+,+)$};
+		\node at (-67.85,2.3) {$(-,+,+)$};
+		\node at (-22.62,2.3) {$(-,-,+)$};
+		\node at (23.79,2.3) {$(-,-,-)$};
+		\node at (60,2.3) {three-body};
+		% threshold guides
+		\foreach \e in {-90.46,-45.23,0,47.58} \draw[gray!60] (\e,0) -- (\e,2.0);
+		% right-hand cuts
+		\draw[line width=1.6pt] (-90.46,0.4) -- (70,0.4);
+		\draw[line width=1.6pt] (-45.23,0.8) -- (70,0.8);
+		\draw[line width=1.6pt] (0,1.2) -- (70,1.2);
+		\draw[line width=1.6pt,dashed] (47.58,1.6) -- (70,1.6);
+		\node[anchor=south west,inner sep=1.5pt] at (-90.46,0.4) {$B\bar B$ ($\alpha=6$)};
+		\node[anchor=south west,inner sep=1.5pt] at (-45.23,0.8) {$B\bar B^*$ ($\alpha=5$)};
+		\node[anchor=south west,inner sep=1.5pt] at (0,1.2) {$B^*\bar B^*$ ($\alpha=1$--$4$)};
+		\node[anchor=south west,inner sep=1.5pt] at (47.58,1.6) {$B\bar B\pi$};
+		\node[anchor=east,align=right] at (-116,0.8) {right-hand cuts\\(from $G_\alpha$)};
+		% energy axis
+		\draw[->] (-115,0) -- (72,0) node[right] {$E$ [MeV]};
+		\node[anchor=north,fill=white,inner sep=1pt] at (-90.46,-0.05) {$-90.46$};
+		\node[anchor=north,fill=white,inner sep=1pt] at (-45.23,-0.05) {$-45.23$};
+		\node[anchor=north,fill=white,inner sep=1pt] at (0,-0.05) {$0$};
+		\node[anchor=north,fill=white,inner sep=1pt] at (47.58,-0.05) {$47.58$};
+		% on-shell left-hand cuts
+		\draw[line width=1.4pt,densely dotted] (-0.89,-0.75) -- (-115,-0.75);
+		\node[anchor=west] at (1,-0.75) {$V_{VV\leftarrow VV}$, $\pi$: from $-0.89$};
+		\draw[line width=1.4pt,densely dotted] (-46.03,-1.15) -- (-115,-1.15);
+		\node[anchor=west] at (-44.5,-1.15) {$V_{PV\leftarrow PV}$, $\pi$: from $-46.03$};
+		\node[anchor=east,align=right] at (-116,-0.95) {on-shell OME\\left-hand cuts};
+	\end{tikzpicture}
+	\caption{The energy axis near $2m_{B^*}$. Top row: the sheet we will end up in if cross the real axis from above. Solid bars: two-body right-hand cuts, each starting at its threshold; dashed: the $B\bar B\pi$ three-body cut of the TOPT exchange. Dotted, below: the nearest left-hand cuts of the on-shell exchange; the $VV$ pion cut starts $0.89$~MeV below $2m_{B^*}$. }
+	\label{fig:energy}
+\end{figure}
+
+For $X_b2$ we need to study poles not only in $(+,+,+)$ sheet, but also $(-,+,+)$ $(-,-,+)$ sheets where it develops decay width. As energy of interest goes from $E+i0$ to $E-i0$, the onshell propagator pole moves from $k + i0$ to $k-i0$ which crosses the real integration path $[0,\Lambda]$. Denote the real path integration as
+\be
+\begin{aligned}
+	I_{[0,\Lambda]} = \int_0^\Lambda \frac{q^2dq}{2\pi^2}\frac{2\mu_\alpha h(q)}{q^2-k_\alpha^2} \\
+	I_{[0,\Lambda]}(E\pm i0) = I_{\rm PV} \pm i \rho_\alpha h(k_\alpha),\quad \rho_\alpha = \frac{\mu_\alpha k_\alpha}{2\pi}.
+\end{aligned}
+\ee
+
+$I_\alpha$ jumps by $2i\rho_\alpha h(k_\alpha)$ across the real axis. So we need to find the function that's analytic during the cross and reduces to $I(E+i0)$ properly.
+To do this we deform the integration contour such that as onshell propagator pole approaches it, the contour bends and never let the pole cross it, which should satisfy
+\be
+I_\mathcal{C}(E+i0) = I_{[0,\Lambda](E+i0)}.
+\ee
+
+Such deformation can be complemented by the residue of the propagator pole
+\be
+\begin{aligned}
+	\int_\mathcal C \frac{q^2dq}{2\pi^2}G_\alpha (k,q)h(q) & = \int_0^\Lambda \frac{q^2dq}{2\pi^2}G_\alpha(k,q)h(q) + 2\pi i {\rm Res}_{q=k_\alpha}\left[\frac{q^2}{2\pi^2}\frac{2\mu_\alpha h(q)}{q^2-k_\alpha^2}\right] \\
+	                                                       & =\int_0^\Lambda \frac{q^2dq}{2\pi^2}G_\alpha(k,q)h(q) + 2i\rho_\alpha h(k_\alpha).
+\end{aligned}
+\ee
+
+Thus the deformed Green's function can be written as $G_\mathcal C = G_{[0,\Lambda]} + 2i\rho\ket{k}\bra{k}$. Multiplying deformed LSE $(1+VG_\mathcal C)T_\mathcal C = V$ by $(1 + VG_{[0,\Lambda]})^{-1}$ gives $(1 + 2i\rho T\ket{k}\bra{k})T_\mathcal C = T $
+
+The reasonance solution of LSE can be found as
+\be
+T_\mathcal C (p',p) = T(p',p) - \frac{2i\rho T(p',k)T(k,p)}{1 + 2i\rho T(k,k)},\quad \frac{1}{T_\mathcal C (k,k)} = \frac{1}{T(k,k)} + 2i\rho
+\ee
+and the determinant problem becomes
+\be
+D_\mathcal C (E) = D_{[0,\Lambda]}(E)\det\left[1 + 2i\rho T(k,k;E)\right]
+\ee
+This would be the end of the story if potential is analytic, which is not. So we need to handle the singularities and cuts introduced by the OME. {\B To be done}
 \section{$\X$ and its spin-2 partner}
 
 We have three known $J^{PC}=1^{++}$ states in the spectrum of charmonium:
 \begin{itemize}
-\item $\chi_{c1}(1P)$ as a generic charmonium with
-\be
-M[\chi_{c1}(1P)]=3510.67~\mbox{MeV},\quad \Gamma[\chi_{c1}(1P)]=0.82\pm 0.04~\mbox{MeV}.
-\ee
-\item $\X$ as a pure molecular state with
-\be
-E_B[\X]\simeq 160~\mbox{keV}.
-\ee
-\item $\chi_{c1}(4010)$ as candidate to generic $\chi_{c1}(2P)$ state but lying above the open-charm threshold $D\bar{D}^*$, with \cite{LHCb:2024vfz}
-\be
-M[\chi_{c1}(4010)]=4012.5\,_{-3.9}^{+3.6}{}\,_{-3.7}^{+4.1}~\mbox{MeV},\quad \Gamma[\chi_{c1}(4010)]=62.7\,_{-6.4}^{+7.0}{}\,_{-6.6}^{+6.4}~\mbox{MeV}.
-\ee
+	\item $\chi_{c1}(1P)$ as a generic charmonium with
+	      \be
+	      M[\chi_{c1}(1P)]=3510.67~\mbox{MeV},\quad \Gamma[\chi_{c1}(1P)]=0.82\pm 0.04~\mbox{MeV}.
+	      \ee
+	\item $\X$ as a pure molecular state with
+	      \be
+	      E_B[\X]\simeq 160~\mbox{keV}.
+	      \ee
+	\item $\chi_{c1}(4010)$ as candidate to generic $\chi_{c1}(2P)$ state but lying above the open-charm threshold $D\bar{D}^*$, with \cite{LHCb:2024vfz}
+	      \be
+	      M[\chi_{c1}(4010)]=4012.5\,_{-3.9}^{+3.6}{}\,_{-3.7}^{+4.1}~\mbox{MeV},\quad \Gamma[\chi_{c1}(4010)]=62.7\,_{-6.4}^{+7.0}{}\,_{-6.6}^{+6.4}~\mbox{MeV}.
+	      \label{masswidth}
+	      \ee
+	      It is instructive to check what estimate for the width we can get for this state assuming that its total width is mainly saturated by the open-charm decay $\chi_{c1}(4010)\to D\bar{D}^*$ and employing the decay vertex that we have,
+	      \be
+	      \braket{D\bar{D}^*|\hat{g}|\chi_{c1}(4010)}=\frac{1}{\sqrt{4\pi}}g\psi_2(p_0),
+	      \label{psigMM}
+	      \ee
+	      where
+	      \be
+	      \psi_2(p)=
+	      4\pi \int_0^\infty r^2dr\, j_0(pr)R_{1,n=2}(r)
+	      \label{psinp}
+	      \ee
+	      and $p_0$ is the decay momentum,
+	      \be
+	      p_0=\frac{1}{2M[\chi_{c1}(4010)]}\lambda^{1/2}(M[\chi_{c1}(4010)],m_D,m_{D^*})\approx 519~\mbox{MeV}.
+	      \ee
+	      Then
+	      %\be
+	      %\psi_2(p_0) = -18.6~\GeV^{-3/2}\approx -\frac{1}{(142~\mbox{MeV})^{3/2}}.
+	      %\ee
+	      \be
+	      \psi_2(p_0) = -19.7~\GeV^{-3/2}\approx -\frac{1}{(137~\mbox{MeV})^{3/2}}.
+	      \ee
+	      Since we deal with nonrelativistic fields, the relativistic coupling is
+	      \be
+	      |g_{\rm rel}|=\sqrt{2M[\chi_{c1}(4010)]2m_D2m_{D^*}}\frac{1}{\sqrt{4\pi}}g|\psi_2(p_0)|= %3.29
+	      3.48~\GeV.
+	      \ee
+	      Then the width is calculated as
+	      \be
+	      \Gamma[\chi_{c1}(4010)\to D\bar{D}^*]=\frac{g_{\rm rel}^2 p_0}{8\pi M[\chi_{c1}(4010)]^2}\simeq %13.9
+	      15.6~\mbox{MeV},
+	      \ee
+	      which agrees in the order of magnitude with the experimental value in Eq.~\eqref{masswidth}. Note that coupling $g$ has intrinsic uncertaintly in the charm sector of around 30\%, so when squared, it can enhance the result for the width up to 70\%, that is, the width estimate around 20-25~MeV should be regarded as consistent with the lattice data in Ref.~\cite{Bulava:2024jpj} employed to extract $g_l$.
+	      The profile of the form factor $\psi(p)$ and the dependence of the width $\Gamma[\chi_{c1}(4010)\to D\bar{D}^*]$ on the mass of $\chi_{c1}(4010)$ are shown in Fig.~\ref{fig:width}. Noite that, for the momentum
+	      \be
+	      p_{\rm min}=673.5~\mbox{MeV}
+	      \ee
+	      that corresponds to the minimum of $\psi(p)$, we find
+	      \be
+	      \psi_2(p_{\rm min})=-31.5~\GeV^{-3/2}
+	      \ee
+	      and
+	      \be
+	      \Gamma_{\rm max}[\chi_{c1}(4010)\to D\bar{D}^*]=51.6~\mbox{MeV}.
+	      \label{width2}
+	      \ee
+
+	      It should be noted that, although the open-charm decay $\chi_{c1}(4010)\to D\bar{D}^*$ is expected to provide the dominating contribution to the total width of the $\chi_{c1}(4010)$, its branching should not necessarily be close to unity. Then, for example, the width in Eq.~\eqref{width2} corresponds to the branching $\sim 80\%$ that is a reasonable estimate for the latter.
+	      We therefore conclude that the lattice data on string breaking in Ref.~\cite{Bulava:2024jpj} is consistent with the experimental data on the $\chi_{c1}(4010)$ \cite{LHCb:2024vfz} treated as a generic $2P$ charmonium.
+
+	      %{\B Yu:
+	      %$\psi_2(0) = 133.29\GeV^{-3/2}$. $%\Gamma\propto p\psi_2(p)^2$ peaks where $d\ln|\psi_2|/d\ln p=-1/2$, so $p= 159.7\MeV$($\psi_2=+104.9\ \mathrm{GeV}^{-3/2}$) and $\Gamma_{\rm max} = 135.9\MeV$. 
+
+	      %At minimal $\psi_2(p) = -31.48$, $p = 673.5$, $\Gamma = 51.61\MeV$.
+	      %}
+
+	      \begin{figure}[t!]
+		      \centering
+		      \includegraphics[width=0.45\textwidth]{psi2_band.pdf}
+		      \includegraphics[width=0.45\textwidth]{width_vs_mass.pdf}\\
+		      \includegraphics[width=0.9\textwidth]{width_vs_momentum.pdf}
+		      \caption{Dependence of the width $\Gamma_{\rm max}[\chi_{c1}(4010)\to D\bar{D}^*]$ on the momentum in the final state and the $\chi_{c1}(4010)$ mass.
+		      }
+		      \label{fig:width}
+	      \end{figure}
+
+	      %\be
+	      %\begin{aligned}
+	      %    &\psi_2(p) = 4\pi\int_0^\infty r^2drj_0(pr)R_{1n=2}(r) = -18.6\GeV^{-3/2}\\
+	      %    &g_{\rm rel}=\sqrt{2M\,2m_D\,2m_{D^*}}\;\frac{1}{\sqrt{4\pi}}\,g\,\psi_2(p) = 3.29\GeV\\
+	      %    &\Gamma = \frac{g_{\rm rel}^2\,p}{8\pi M^2} = 13.9 \MeV
+	      %\end{aligned}
+	      %\ee
 \end{itemize}
 
-Thus, we first repeat the calculation of the paper \cite{Zhang:2026iyr} in the charm sector:
+\begin{table*}[t!]
+	\caption{Parameters of the potential in Eq.~\eqref{Cornell} as provided in Ref.~\cite{Bulava:2024jpj}, given in lattice units (upper row) and physical units (lower row). The conversion from lattice to physical units is performed using the scale $\sqrt{t_0}=0.1443(7)(13)$~fm.}
+	\label{tab:parametersalt}
+	\begin{ruledtabular}
+		\begin{tabular}{cccccccc}
+			Quantity          & $\hat{E}_1$            & $\hat{E}_2$            & $g_l$                  & $g_s$                  & $\sigma$        & $\hat{V}_0$            & $\gamma$     \\
+			\hline
+			In units of $t_0$ & $0.0034(3)/\sqrt{t_0}$ & $0.1005(7)/\sqrt{t_0}$ & $0.0256(3)/\sqrt{t_0}$ & $0.0134(4)/\sqrt{t_0}$ & $0.1061(7)/t_0$ & $-0.835(7)/\sqrt{t_0}$ & $-0.434(11)$ \\
+			Physical units    & 5 MeV                  & 137 MeV                & 35 MeV                 & 18 MeV                 & 0.198 GeV$^2$   & $-1.14$ GeV            & $-0.434$
+			\label{tab:parameters}
+		\end{tabular}
+	\end{ruledtabular}
+\end{table*}
+
+\begin{table}[ht]
+	\centering
+	\begin{ruledtabular}
+		\begin{tabular}{c c c c c c c c}
+			$n$ & State                     & $M_0$ (GeV)         & $\Delta M_{\rm SL}$ (MeV)
+			    & $\Delta M_{\rm ST}$ (MeV) & $\Delta M$ (MeV)
+			    & $M$ (GeV)                 & $M_{\rm exp}$ (GeV)                                                                 \\
+			\hline
+			1   & $^3P_0$                   &                     & -25                       & -22 & -47 & 3.465         & 3.416 \\
+			1   & $^3P_1$                   & 3.512               & -12                       & 11  & -1  & \boxed{3.511} & 3.511 \\
+			1   & $^3P_2$                   &                     & 12                        & -2  & 10  & 3.522         & 3.556 \\
+			\hline
+			2   & $^3P_0$                   &                     & -30                       & -21 & -51 & 3.966         & ?     \\
+			2   & $^3P_1$                   & 4.018               & -15                       & 10  & -5  & \boxed{4.013} & 4013  \\
+			2   & $^3P_2$                   &                     & 15                        & -2  & 13  & 4.030         & ?
+		\end{tabular}
+	\end{ruledtabular}
+	\caption{The centres of gravity $M_0$, spin-dependent corrections to them, and the predicted masses of the $P$-level charnonia. The boxed values were used as anchors to determine the parameters in Eqs.~\eqref{mc} and \eqref{V0}.}
+	\label{tab:spindep}
+\end{table}
+
+Thus, we first repeat the calculation of the paper \cite{Zhang:2026iyr} in the charm sector but now include spin-dependent corrections that are sizable for charmonia---see Table~\ref{tab:spindep}. The spin-dependent interaction in a charmonium system takes a well-known form ~\cite{Eichten:1980mw,Gromes:1984ma},
+\be
+\begin{split}
+	V_{\rm SD}(r)=V_{\rm SS}(r)(\veS_1\cdot\veS_2)+V_{\rm SL}(r)\left(\veS\cdot\veL\right)
+	+V_{\rm ST}(r)S_{12},
+	\label{VSD0}
+\end{split}
+\ee
+where $\hat \ver=\ver/r$, then $\veS_1$, $\veS_2$, and $\veS=\veS_1+\veS_2$ are the spins of the quark and the total spin of the $\bar{b}b$ pair, respectively, $S_{12}=12(\veS_1\cdot\hat\ver)(\veS_2\cdot\hat\ver)-4(\veS_1\cdot\veS_2)$ denotes the spin-tensor structure. The hyperfine, spin--orbit, and spin-tensor potentials in Eq.~\eqref{VSD0}, derived from the general expressions in Refs.~\cite{Eichten:1980mw,Gromes:1984ma}, read
+\be
+\begin{split}
+	 & V_{\rm SS}(r)=-\frac{8\pi\gamma}{3m_c^2}\left|\Psi(0)\right|^2,  \\
+	 & V_{\rm SL}(r)=-\frac{\sigma}{2m_c^2r}-\frac{3\gamma}{2m_c^2r^3}, \\
+	 & V_{\rm ST}(r)=-\frac{\gamma}{4m_c^2r^3},
+\end{split}
+\label{VSD}
+\ee
+where the static potential was taken in the form
+\be
+V(r)=V_0+\sigma r+\frac{\gamma}{r},\quad \gamma\equiv-\frac43\alpha_s<0.
+\label{Cornell}
+\ee
+
 \begin{itemize}
-\item The $c$-quark mass $m_c$ is fixed to reproduce the splitting between the $\chi_{c1}(1P)$ and $\chi_{c1}(4010)$ (taken as generic $\chi_{c1}(2P)$ meson dressed through the interaction with the open-charm channel),
-\be
-m_c=1.328~\mbox{GeV},
-\ee
-which is consistent with natural values of the $c$-quark mass adopted in various quark model calculations.
-\item The parameter $V_0$ is fixed to reproduce the exact position of the $\chi_{c1}$ states in the spectrum,
-\be
-V_0=-36~\mbox{MeV}.
-\ee
-\item The contact term $C$ is fixed to have a shallow bound molecular state $\X$.
+	\item The $c$-quark mass $m_c$ is fixed to reproduce the splitting between the $\chi_{c1}(1P)$ and $\chi_{c1}(4010)$ (taken as generic $\chi_{c1}(2P)$ meson dressed through the interaction with the open-charm channel),
+	      \be
+	      m_c=1.297~\mbox{GeV}~\mbox{(1.328 GeV without spin-dependent corrections)},
+	      \label{mc}
+	      \ee
+	      which is consistent with natural values of the $c$-quark mass adopted in various quark model calculations.
+	\item The parameter $V_0$ is fixed to reproduce the exact position of the $\chi_{c1}$ states in the spectrum,
+	      \be
+	      V_0=17~\mbox{MeV}~\mbox{($-36$ MeV without spin-dependent corrections)}.
+	      \label{V0}
+	      \ee
+	\item The contact term $C$ is fixed to have a shallow bound molecular state $\X$.
 \end{itemize}
+It has to be noted that, while the potential quark model is able to describe well the centres of gravity of the spin multiplets,
+\be
+\bar{M}[\chi_c]=\frac{1}{9}
+\sum_{J=0}^2(2J+1)M[\chi_{cJ}]=M_0,
+\label{chis}
+\ee
+it underestimates the spin splittings within each multiplet, which is a well known problem of the potential quark model---see, for example, Ref.~\cite{Franzini:1992nk}. Thus, the parameters in Eqs.~\eqref{mc} and \eqref{V0} are adjusted to reproduce the spectrum of $\chi_{c1}$ states, that are known to have the masses lying close to the corresponding centres of gravity. However, these parameters may need to be re-adjusted after coupling of the charmonia to open-charm channels is taken into account.
+
 The LSE for the coupled $D\bar{D}$, $D\bar{D}^*$, and $D^*\bar{D}^*$ channels with all partial waves are identical to those in the bottom sector. Thus we simply repeat the calculation for the $X_{b2}$ and make prediction for the $\X$ spin-2 partner $X_2$.
 
-Preliminary work needed:
+\subsection{Preliminary work needed}
 \begin{itemize}
-\item The pole search procedure needs to be generalised to above-threshold poles since $\chi_{c1}(4010)$ lies above the $D\bar{D}^*$ threshold. The poles lies in the complex plane away from the real axis and has a sizable imeginary part around 60~MeV.
+	\item The pole search procedure needs to be generalised to above-threshold poles since $\chi_{c1}(4010)$ lies above the $D\bar{D}^*$ threshold. The poles lies in the complex plane away from the real axis and has a sizable imeginary part around 60~MeV.
 \end{itemize}
 
 \section{CMS line shape analysis}
 
 \begin{thebibliography}{99}
-%\cite{Zhang:2026iyr}
-\bibitem{Zhang:2026iyr}
-Y.~Zhang, F.~K.~Guo, C.~Hanhart, A.~Nefediev and P.~P{\"u}tz,
-%``Born-Oppenheimer chiral effective field theory and its application to $X_b$,''
-[arXiv:2610.19066 [hep-ph]].
-%0 citations counted in INSPIRE as of 19 Oct 2026
-%\cite{Baru:2019xnh}
-%\cite{Bruschini:2023zkb}
-\bibitem{Bruschini:2023zkb}
-R.~Bruschini,
-%``Heavy-quark spin symmetry breaking in the Born-Oppenheimer approximation,''
-JHEP \textbf{08}, 219 (2023)
-doi:10.1007/JHEP08(2023)219
-[arXiv:2303.17533 [hep-ph]].
-%23 citations counted in INSPIRE as of 19 Oct 2026
-\bibitem{Baru:2019xnh}
-V.~Baru, E.~Epelbaum, A.~A.~Filin, C.~Hanhart, A.~V.~Nefediev and Q.~Wang,
-%``Spin partners $W_{bJ}$ from the line shapes of the $Z_b(10610)$ and $Z_b(10650)$,''
-Phys. Rev. D \textbf{99}, no.9, 094013 (2019)
-doi:10.1103/PhysRevD.99.094013
-[arXiv:1901.10319 [hep-ph]].
-%55 citations counted in INSPIRE as of 19 Oct 2026
+	%\cite{Zhang:2026iyr}
+	\bibitem{Zhang:2026iyr}
+	Y.~Zhang, F.~K.~Guo, C.~Hanhart, A.~Nefediev and P.~P{\"u}tz,
+		%``Born-Oppenheimer chiral effective field theory and its application to $X_b$,''
+		[arXiv:2610.19066 [hep-ph]].
+	%0 citations counted in INSPIRE as of 19 Oct 2026
+	%\cite{Baru:2019xnh}
+	%\cite{Bruschini:2023zkb}
 
-%\cite{LHCb:2024vfz}
-\bibitem{LHCb:2024vfz}
-R.~Aaij \textit{et al.} [LHCb],
-%``Observation of New Charmonium or Charmoniumlike States in B+{\textrightarrow}D*{\ensuremath{\pm}}D{\ensuremath{\mp}}K+ Decays,''
-Phys. Rev. Lett. \textbf{133}, no.13, 131902 (2024)
-doi:10.1103/PhysRevLett.133.131902
-[arXiv:2406.03156 [hep-ex]].
-%72 citations counted in INSPIRE as of 21 Oct 2026
+	%\cite{Bulava:2024jpj}
+	\bibitem{Bulava:2024jpj}
+	J.~Bulava, F.~Knechtli, V.~Koch, C.~Morningstar and M.~Peardon,
+	%``The quark-mass dependence of the potential energy between static colour sources in the QCD vacuum with light and strange quarks,''
+	Phys. Lett. B \textbf{854}, 138754 (2024)
+	doi:10.1016/j.physletb.2024.138754
+		[arXiv:2403.00754 [hep-lat]].
+	%34 citations counted in INSPIRE as of 30 Oct 2026
+
+	\bibitem{Bruschini:2023zkb}
+	R.~Bruschini,
+	%``Heavy-quark spin symmetry breaking in the Born-Oppenheimer approximation,''
+	JHEP \textbf{08}, 219 (2023)
+	doi:10.1007/JHEP08(2023)219
+		[arXiv:2303.17533 [hep-ph]].
+	%23 citations counted in INSPIRE as of 19 Oct 2026
+	\bibitem{Baru:2019xnh}
+	V.~Baru, E.~Epelbaum, A.~A.~Filin, C.~Hanhart, A.~V.~Nefediev and Q.~Wang,
+	%``Spin partners $W_{bJ}$ from the line shapes of the $Z_b(10610)$ and $Z_b(10650)$,''
+	Phys. Rev. D \textbf{99}, no.9, 094013 (2019)
+	doi:10.1103/PhysRevD.99.094013
+		[arXiv:1901.10319 [hep-ph]].
+	%55 citations counted in INSPIRE as of 19 Oct 2026
+
+	%\cite{LHCb:2024vfz}
+	\bibitem{LHCb:2024vfz}
+	R.~Aaij \textit{et al.} [LHCb],
+	%``Observation of New Charmonium or Charmoniumlike States in B+{\textrightarrow}D*{\ensuremath{\pm}}D{\ensuremath{\mp}}K+ Decays,''
+	Phys. Rev. Lett. \textbf{133}, no.13, 131902 (2024)
+	doi:10.1103/PhysRevLett.133.131902
+		[arXiv:2406.03156 [hep-ex]].
+	%72 citations counted in INSPIRE as of 21 Oct 2026
+
+	%\cite{Eichten:1980mw}
+	\bibitem{Eichten:1980mw}
+	E.~Eichten and F.~Feinberg,
+	%``Spin Dependent Forces in QCD,''
+	Phys. Rev. D \textbf{23}, 2724 (1981)
+	doi:10.1103/PhysRevD.23.2724
+	%891 citations counted in INSPIRE as of 01 Nov 2026
+
+	%\cite{Gromes:1984ma}
+	\bibitem{Gromes:1984ma}
+	D.~Gromes,
+	%``Spin Dependent Potentials in QCD and the Correct Long Range Spin Orbit Term,''
+	Z. Phys. C \textbf{26}, 401 (1984)
+	doi:10.1007/BF01452566
+	%325 citations counted in INSPIRE as of 01 Nov 2026
+
+	%\cite{Franzini:1992nk}
+	\bibitem{Franzini:1992nk}
+	P.~J.~Franzini,
+	%``Fine structure of the P states in heavy quarkonium and the nature of the spin dependent potential,''
+	Phys. Lett. B \textbf{296}, 199-208 (1992)
+	doi:10.1016/0370-2693(92)90827-Q
+	%14 citations counted in INSPIRE as of 01 Nov 2026
 
 \end{thebibliography}
 
