@@ -1,0 +1,118 @@
+\documentclass[11pt]{article}
+\input{../../preamble}
+\begin{document}
+
+I'm gonnal talk about \BOchiEFT and its application to $\Xb$
+
+\cyan{But the slide BOχEFT approach to ordinary and exotic hadrons is too dense in text, it's good, but is it possible to short the text, use some fancy plot, or maybe slightly split the slide}
+
+so why a \BOchiEFT? well we have two sources of information in hadronic physics
+
+one is lattice QCD which we believe to be a first principle calculations, and here we use it's results about static interquark potential as a input for short-range physics
+
+another is high energy experiment, whose line shapes and branching fractions give us information about long range physics
+
+but how do we incorporate both sources of infomation in a single approach?
+
+in BOEFT, they solved coupled schrodinger equations in coordinate space, in this formalism they have direct correspondence to lattice potentials, so short range physics is naturally captured
+but they are lack of the hadronic degrees of freedom, and long range force can only be parameterised
+
+here in \BOchiEFT we solve a coupled LSE in momentum space
+where we can include long range physics systematically, including multibody effects and exchanges, but the tricky part is that connection to short range physics is nontrivial.
+
+We hope that we can merge both approaches to a unified systematically improvable method
+
+\textcolor{red}{I think here we need a simple slide to introduce the picture of the physical system we are considering, which is Xb, maybe just put Proof-of-concept BO𝜒EFT calculation at LO here}
+
+Before diving into the formalism, let's first explore the BO symmetry, since here we are considering doubly heavy system where two heavy source exist, BO symmetry specifically refers to cylindrical symmery
+
+as you know, angular momentum come fromthe SO(3) rotational symmetry of the theory, but in Born Oppenheimer separation, the light degrees of freedom only see two static heavy color source, so only rotation about the axis remain, and SO(3) reduces to cylindrical symmetry.
+
+thus only the projection to the axis of total angular momentum from LDF is conserved which is called $\Lambda$
+
+and there're two discrete symmetries, the combined CP parity $\eta$ and a reflection symmetry $\sigma$. since a reflecition will flip the sign of angular momentum, only states with $\Lambda=0$ is a $\sigma$ eigenstate
+
+these quantity are conserved as long as BO separation holds, so we can use it to \textcolor{red}{actually I don't know how to  introduce this slide, I have now idea why it's here, I don't even think BO levels and string breaking is needed, what do you say?}
+
+now what lattice sees is breaking, here as you can there there are two adiabatic levels which gives you avoided level crossing, those values are calculated from lattice, and fit the data to the spectrum of such a hamiltonian we can obtain the parameters needed to construct our theory, particularly the transition strength between quarkonium and heavy mesons, as well as the potential for the string.
+
+\textcolor{red}{ I don't know how to transit to the quantum number slide}
+
+this will be central in later analysis about BO symmetry. since we are studying 1++ state, L is made even by parity, and so is $s_H + j_l$ which means they are both 1, and they give total spin 0,1,2,combining with even L to J = 1, there  are three channels available. And this is the detailed table about reasons I'm not going to explain too carefully here.
+
+so the last piece of puzzle to the s-channel exchange is the actual formalism, to allow transition between hadonic degrees of freedom and the bottomonium, we write down the coupled channel hamiltonian, it should describe the dynamics of the entire system consisting hadrons and \textcolor{red}{what? I'm not sure about the words here}. Note that at LO bottonmonia only couples to S wave BB*bar, coupling to other partial wave appear at higher orders
+
+next we will need to derive the interaction from hamiltonian, establish relation between \BOchiEFT channels and BOEFT levels and finally obtain the coupling from lattice with results established in first two tasks.
+
+to write down the interaction we first need to split the hilbert space into compact sector and heavy meson sector. such projectors should be orthorgonal to each other
+
+the projectors separate the hamiltonian into four blocks, this is nothing but rewrite of the original hamiltonian, the $H_QQ$ can be diagonalized numerically using the potential obtained from lattice, these terms connecting different sector is our transition operator.
+
+next we need to project the schrodinger equation,  of course you also need to insert an identity here, these intermediate steps are not interesting here, after projection you get two equations coupled by the g operator, if g is 0, then we would get two decoupled schrodinger equation.
+
+now we can invert one of the equations and plug into another, the schrodinger equation of only heavy meson sector is obtained, the compact states contributes through a energy dependent potential. We can split this potential into two pieces, where the second piece has pole only far away from threshold to it's absorbed into the contact term at LO.
+
+now with this formalism we can also compute the compact probability. this projection gives us the coefficients in front of the compact states, since hamiltonian is energy independent, we have this derivative rule.
+
+It's taking too long to write down all the details, now I'll omit many details, only keep the main structure.
+\cyan{equation details are omitted}
+later we will see how this probability is related to scattering amplitude.
+
+next we work out the relationg between BO coupling and partial wave coupling.
+\cyan{manipulation on quantum numbers are ommited}
+there are three possible BO configurations, $J_l = 2, \lambda_l = 0$ is absent later because it's parity odd
+
+the BO states only have definite projection $\lambda_l$, we need to connect it with states have definite orbital angular momentum, which is the Jacob Wick formula. you can think of it as a modified version of CG coupling, because in normal CG coupling is... why Jacob Wick handles ...\cyan{complete this statement for me}
+
+First, starting from the usual CG coupling, here we use this representation in the position space and since angular momentum is always given along a quantized axis, say z here, but the BO state needs lambda l So the idea is to first set this R to the z axis and we have the CG coupling, as said earlier, the orbital angular momentum is R cross P, so it's by definition zero along the axis, which you can also see from the spherical harmonics, Next, we use a rotation that takes z back to the arbitrary direction r, that introduces a Wigner-D matrix.
+
+And now you see how this multiplet with the definition J is transformed. We just plug this into the CG coupling obtained previously, and arrive at this equation. Next, We can see that the build state in position space is just the combinatioious slide we have the transformation between the build states and the states with definite orbital angular momentum. But what we really need is the inverse  be easily inverted as the transformation itself is orthogonal So it just takes the transpose. And the next slide, this is just evaluation of the formula derived above. Anou see there's no, these data arentum. So it's excluded from our 1++ sector. Okay, so not interesting here. Just an evaluation. And next we need to, okay, now we have take from the BO states, converted it into states with definite orbital angular momentum.
+
+Next, we need to recouple it into a scheme, into the partial wave scheme so that heavy swing and the light swing. This is just the Wigner 6G symbol. Oka matrix looks like this. Okay, so this is ingredients two, task two. Next, we need to relate what's computed in lattice with what we need in our calculation. So the lattice works in the BB bar basis, which is not ours. And we need a coupling of a one plus plus to the S wave BB star b we need the Biot symmetry here, a cylindrical symmetry. So we are going to start from the lattice coupling, which is square roots of two times GL, Next, we use the WIGGLE 9J symbol to recouple it into the configuration of our interest, and then using the 6J symbol to recouple it into our partial wave states, channels, or whatever. And so, the first step, schematically, the coupling from lattice can be written as such a matrix element, the square root of 2 comes from the isosceles effect, and the outstate W inherits its quantum number from the interpolating operator, this one used to calculate in lattice, and it gives 1, 0 for the heavy spin. Since heavy quark spin is conserved, Also, the BO-Quantum numbers are also conserved. We will arrive at this equation. To show this, first the BB bar is coupled in such a way that the heavy quark spin and the light quark spin couples first into the meson spin. And then the two mesons couple their spin to give the total angular momentum. And then we need to recouple it such that the heavy spin coupled first, the light spin coupled with each other, and then the total angular momentum
+
+This is just the wigner 9j symbol, And after evaluation it gives such a relation and we need to further break up this coupling, state with heavy spin one and also with the BO quantum number one zero in this state with a coefficient one over two negative one over two and so this gives us an extra factor of two and it's the the the extra sign in front of this coefficient doesn't matter because we are going to use the square with the coupling And then next.
+
+This is not the end of the story yet we need the transition between the S-wave meson pair and the string. So we insert the completeness relation of the BO basis into here. And by BO selection rule, only sigma G plus prime, only such cothe final result. The coupling with square root 2 times 2 comes from spin, and times 1 over square root of 3 comes from the S-wave coupling to BO state. And finally, the GL comes from lattice.
+
+So by now I think I have give you a complete picture about s-channel exchange here, next we need to tackle the t-channel meson exchanges.
+
+So one meson exchange is given by the leading order heavy meson kai-pt.Here, the H annihilates the B-Q bar mesons and H-bar annihilates the B-bar-Q mesons.where P stands for pseudo scalarar and V stands for vector meson. And the charge conjugation is defined in such a way so that the b with a bar parity positive c parity states is defined to be the subtraction of two states.
+
+\cyan{there's nothing too much to talk about int task5, step 2,3, just give the definiton of u, PHi, and lagrangian after evalutaion}
+
+\cyan{about T5, S4,S5 I don't need to explain every feynmann rule, just give the vertices, do not over explian, and show that P wave vertex enables partial wave mixing}
+
+\cyan{T5S8 not needed bullshit}
+
+\cyan{T5S10 not needed}
+
+\cyan{I have a hand written note about partial wave projection, use the style and conventions I have in my notes PW.png} The potential is defined on plane wave in and out states, to get potential in partial wave channel, we need to project into partial wave basis \cyan{First show V is defined on momentum eigen states, then show the projection, finally show the projection formula in paper, be brief, don't be super long}
+
+\cyan{T5S12 don't show specific computation, just list all potential}
+
+\cyan{T5S13S14 too long, simply show the potential is two isospin generator multiplied, and isoscalar has an eigenvalue 3 for pi, 1/3 for eta}
+
+\cyan{T6S3 non even needed, just show the solution of T is enough, maybe integrating into T6S2}
+
+\cyan{I have your T6S5, I'm sloppy physicsist, it's more intuitive to definet S using the vector, it's trivial to generalize, I don't need your overemphasize, just define it via $S\lvert \phi_U \rangle = W\lvert \psi \rangle$}
+
+\cyan{actually replace incident state $\lvert \varphi \rangle$ with $\lvert \phi \rangle$ everywhere, I never used $\lvert \varphi \rangle$, what's fucking wrong with you????}
+
+\cyan{T6S6 use this
+	\begin{align}
+		T\lvert \psi \rangle & = T\lvert \phi \rangle - TVG\lvert \psi \rangle = V\lvert \psi \rangle - TVG\lvert \psi \rangle \\
+		T\lvert \phi \rangle & = V\lvert \psi \rangle = V\lvert \phi \rangle - VGT\lvert \phi \rangle
+	\end{align}
+	and didn't define the $F$ to be the operator $\lvert f \rangle\langle a \rvert$???? then who the hell knows what the fuck are you talking about ????
+}
+
+\cyan{I don't understand the caveat you are talking about, why do you meaan by separating the transition operator, what do you mean to identify the self energy and exchange, what do you mean }
+
+\cyan{I'm not going to talk about T4 this time, with the order I gave above, as well as some opinions about how the slides should organize, you can make a single slide from what's in the two existing files, make into a new, say, BOchiEFT.typ, we are going to expand gradually until this become a complete slide, and at footnotes use the format current/total for page counting}
+
+\cyan{some of the texts are transcribed from speech so it may contain errors, also make what's above into a speech note, for those I didn't write above, you don't need to generate the speech yourself\\
+	if anything unclear, grill me and also if any statement is problematic
+}
+
+\bibliography{../../refs}
+\end{document}
