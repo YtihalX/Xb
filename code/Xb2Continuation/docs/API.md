@@ -115,7 +115,8 @@ label is instead written in ascending threshold order **PP, PV, VV**.
 - `PathExclusion(reason::String)` records an excluded probe energy, never a
   forced path or an empty quadrature rule.
 - `graph_path(E::Number, ths; Lambda::Real=4.0, margin::Real)::Union{GraphPath,PathExclusion}`
-  builds the S40 polygon described below. `margin` is required and positive.
+  builds the margin path (former S40 default) described below, retained as
+  the second path of the Stage 6 path-independence check. `margin` is required and positive.
   An upper-half-plane target, or a target with no flipped channel, uses
   `[0,Lambda]` if that real segment clears all endpoint poles by `margin`.
 - `inside_region(path::GraphPath, q::Number)::Bool` tests the **open** region
@@ -133,7 +134,7 @@ label is instead written in ascending threshold order **PP, PV, VV**.
 
 For a lower-half-plane target with flipped set `F`, the polygon is
 `0 -> x1-iH -> x2-iH -> Lambda`, where
-`H=max(abs(imag(k_alpha)) for alpha in F)+margin` (S40).
+`H=max(abs(imag(k_alpha)) for alpha in F)+margin` (former S40 default).
 The depth is rounded upward by one floating-point step so that subtracting a
 pole depth cannot undershoot the requested margin. The flat part covers all
 flipped real pole positions. The first and last legs have slope magnitude
@@ -202,6 +203,96 @@ else
 end
 ```
 
+## S40 deformed SP contours (sheet as a sign)
+
+All energies and rectangle bounds use GeV relative to `2mBstar`; momenta,
+`Lambda`, `Lp`, `r_near`, `qspacing`, and tiling `floor` use GeV.
+No node or oriented weight is conjugated.
+
+- `Sheet((VV,PV,PP))` stores three Boolean flipped signs. `Sheet("(-,-,+)")`
+  reads signs in the conventional **PP,PV,VV** order, accepting ASCII or Unicode
+  minus. `sheet_label(sheet)` returns the ASCII label. `adjacent_sheet(E,ths)`
+  flips precisely the thresholds strictly below `real(E)`.
+- `principal_momentum(E,th)` is the closed-fourth-quadrant root of
+  `2mu*(E-delta)` for `imag(E)<=0`, including the limit **from below** on the
+  real axis: below threshold it is negative imaginary, above it positive real.
+- `pole_integral(k,below; Lambda=4.0)` returns
+  `(log((Lambda-k)/(Lambda+k)) + (below ? 1 : -1)*im*pi)/(2k)`.
+  The nonzero root must be in the closed fourth quadrant and inside the cutoff.
+  A flipped sheet wants `below=true`, independently of the actual polygon.
+- `EnergyRectangle((re_lo,re_hi),(im_lo,im_hi))` requires strictly ordered
+  finite bounds and `im_hi<=0`; `center(Q)` returns its complex center.
+  `vertex_channels(Q,sheet,ths)` includes every flipped channel and every
+  channel whose threshold is strictly below `re_hi`.
+- `sp_path(Ec,channels,ths; Lambda=4.0)` places each selected vertex at
+  `real(k)-im*min(abs(imag(k)),real(k))`, sorting by real part. It returns a
+  `GraphPath`, or `PathExclusion` for cutoff, coincident-real-part or slope
+  failure. `path_height(path,x)` interpolates its signed height (zero outside).
+- `panel_rule(path; Lp=0.25,np=16)` uses `np` Gauss–Legendre nodes per panel,
+  with `ceil(abs(b-a)/Lp)` panels per segment. Panels end at every vertex;
+  no quadrature node is a panel endpoint. Weights include the complex Jacobian.
+- `onshell_nodes(q,w,E,sheet,ths,channels; Lambda=4.0)` returns
+  `OnShellNode(channel,k,flipped,weight)` with
+  `weight=2mu*k^2*(pole_integral(k,flipped)-sum(w./(q.^2-k^2)))`.
+  Add `weight*Phi(k)` to the continuum sum for each selected channel; the
+  correction remains valid when the polygon passes above, below, or through
+  the pole. Avoid placing a quadrature node exactly at the pole.
+  At `k==0` the node weight is its continuous limit, zero.
+- `certify_rectangle(Q,sheet,ths; Lambda=4.0,r_near=0.1,n_sub=8,
+  qspacing=0.001,params=HadronDynamics.BOchiEFT.Parameters())` constructs one
+  fixed path for the entire rectangle. Vertex channels are mandatory nodes;
+  other channels that cannot be certified at least `r_near` away are optional
+  nodes, retained only when their window, row/column and all active node-pair
+  conditions pass; dropped nodes require rigorously positive path clearance.
+  It checks C1 slopes, C2 S35, C3 non-node clearance, C4 the pion exchange
+  window, and C5 positive real exchange arguments at row, column and node-node
+  pairs, with both mesons and all applicable orderings.
+  Every node momentum must remain strictly inside `abs(k)<Lambda` over the rectangle.
+  Monotonic root bounds and outward-rounded interval arithmetic on
+  `n_sub × n_sub` energy sub-cells bound the **entire energy rectangle**.
+  Non-primitive root, interpolation, geometry and path-coordinate evaluations
+  include an outward error allowance of `64eps(Float64)*max(1, operand scale)`.
+  C5 bounds each entire straight piece between points spaced at most `qspacing`,
+  including every vertex, jointly with each energy sub-cell; inconclusive pieces
+  with positive endpoint bounds are bisected down to 0.01 MeV before exclusion.
+  Endpoint lower bounds minimize the square-root and recoil terms separately.
+  `RectangleCertificate` holds `rectangle`, `sheet`, `path`, `nodes`, `dropped`,
+  `slope`, `s35_margin`, `window_margin`, `z_margin`, and `clearance`, with
+  `dropped` listing rejected optional channels and all margins referring to
+  the final node set (clearance includes dropped channels). The last four
+  margins use GeV, GeV, GeV, and GeV respectively; absent nodes/non-nodes
+  give `Inf` where appropriate. `RectangleExclusion(rectangle,sheet,reason)`
+  records the first failed condition.
+- `tile_rectangles(region,sheet,ths; initial=(1,1),floor=1e-4,kwargs...)`
+  certifies an initial grid and recursively quarters failed cells. Only cells
+  with maximum side strictly below `floor` remain excluded. It returns
+  `(certified=Vector{RectangleCertificate},excluded=Vector{RectangleExclusion})`;
+  accepted and excluded cells together cover the region without overlapping
+  interiors.
+
+## Three-body locator (S36)
+
+- `three_body_roots(pout,E,ord::Ordering,mphi; tau=1)` returns every
+  polynomial candidate `(pin,principal)` of note 07, S36 (`st:quartic`).
+  Units are GeV; `tau` must be `+1` or `-1`. A companion-matrix eigensolve
+  followed by polynomial Newton polishing handles the quartic, or the
+  quadratic when `ord.a == 0`. Candidates are not discarded after squaring.
+- `principal` is true when the unsquared equation satisfies
+  `abs(s+nu) <= 1e-10*max(1,abs(s),abs(nu))`, with the principal complex
+  square root `s`. This provisional relative tolerance includes a 1 GeV
+  absolute scale floor; a false flag denotes the extraneous `s=+nu` branch.
+- `three_body_points(model,out,incoming,pout,E; meson=:pion)` returns
+  `(pin,ordering,sign,principal)` for both signs and every entry-local
+  ordering returned by `HadronDynamics.BOchiEFT.tc_alphas`. It recovers
+  the affine coefficients from incoming momenta 0 and 1 GeV and checks
+  the form at 0.5 GeV (128 ulps on the coefficient scale). Meson masses
+  come from `model.parameters.mpi` or `.meta`; other mesons are rejected.
+  The energy origin is that of the supplied model's `tc_alphas`.
+- `test/three_body.jl` checks the S37 (`st:pzero`) printed pion table
+  to 0.01 MeV, sign symmetry, unsquared residuals on both branches, and
+  the entry-local wrapper. `checks/three_body_locator.jl` compares against
+  a direct unsquared brute-force grid and real-axis threshold onsets.
+
 ## Tests
 
 Run from the repository root:
@@ -220,7 +311,7 @@ oracle remain test-only. The established HadronDynamics `J_j` moments are
 requested with `order=4` (its public convenience wrapper defaults to 3).
 Printed tolerances derive from oracle precision comparisons and roundoff
 estimates and remain provisional under S46 (`st:tolerances`).
-The graph-path tests use the independently rounded S40 pole table, exact
+The graph-path tests use the independently rounded pole table, exact
 sheet placements and margin inequalities, plus dense vertical-energy probes.
 Path quadrature integrates polynomials through degree `2n-1` and `exp(q)` on
 an asymmetric polygon. Polynomial tolerances are an operation-count

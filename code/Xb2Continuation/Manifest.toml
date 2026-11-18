@@ -2,7 +2,7 @@
 
 julia_version = "1.13.3"
 manifest_format = "2.1"
-project_hash = "d32b82d1d5e66c61292a450dbd30d88f4dc30c7e"
+project_hash = "ac4ddea0adb8724dc9dab9bc460d41497b607a8d"
 
 [[deps.ADTypes]]
 deps = ["PrecompileTools"]
@@ -747,7 +747,7 @@ uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
 version = "1.11.0"
 
 [[deps.Xb2Continuation]]
-deps = ["HadronDynamics"]
+deps = ["HadronDynamics", "LinearAlgebra"]
 path = "."
 uuid = "20c383b8-8dc4-4c9f-b60d-05e586c91cb5"
 version = "0.1.0"

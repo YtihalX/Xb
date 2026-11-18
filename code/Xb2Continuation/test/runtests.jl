@@ -4,6 +4,7 @@ using HadronDynamics
 const HD = HadronDynamics
 const BO = HD.BOchiEFT
 include("continuity_tracker.jl")
+include("three_body.jl")
 # The recorded probe helper's quadrature dependency lives in the shared checks environment.
 push!(LOAD_PATH, normpath(joinpath(@__DIR__, "../../../checks")))
 include("../../../checks/_stage2_probes.jl")
@@ -308,4 +309,5 @@ end
     println("Quadrature tolerance: polynomials ≤ $roundoff (8 ulps × (2n+3n) × absolute-sum scale); ",
             "exp = $tol (analytic n=8 GL remainder $(Float64(remainder)) + same roundoff)")
 end
+include("sp_contours.jl")
 println("Package test runtime: ", time() - started, " s")

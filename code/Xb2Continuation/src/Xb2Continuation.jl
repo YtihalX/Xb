@@ -10,6 +10,10 @@ using HadronDynamics
 export Ordering, nu, ordering, block_orderings, LiftedPair, lift_default, moments
 export Threshold, thresholds_2pp, flipped, sheet_momentum
 export GraphPath, PathExclusion, graph_path, inside_region, path_distance, path_rule
+export Sheet, sheet_label, adjacent_sheet, principal_momentum, pole_integral, path_height
+export EnergyRectangle, center, vertex_channels, sp_path, panel_rule, OnShellNode, onshell_nodes
+export RectangleCertificate, RectangleExclusion, certify_rectangle, tile_rectangles
+export three_body_roots, three_body_points
 include("paths.jl")
 
 struct Ordering
@@ -38,6 +42,9 @@ function block_orderings(block::Symbol)::NTuple{2,Int}
     block === :PP_VV && return (4,4)
     throw(ArgumentError("block has no OME orderings: $block"))
 end
+include("three_body.jl")
+
+include("sp_contours.jl")
 
 struct LiftedPair
     pout::ComplexF64

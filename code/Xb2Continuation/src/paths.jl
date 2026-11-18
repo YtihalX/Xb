@@ -87,7 +87,8 @@ end
 """
     graph_path(E, ths; Lambda=4.0, margin)
 
-Build the S40 three-segment graph path, or explain why it is excluded.
+Build the margin path (former S40 default), or explain why it is excluded.
+Kept as the second path of the Stage 6 path-independence check.
 The pole margin is in GeV. Certifies pole placement and (P), not Stage-4 (K).
 """
 function graph_path(E::Number, ths; Lambda::Real=4.0, margin::Real)::Union{GraphPath,PathExclusion}
