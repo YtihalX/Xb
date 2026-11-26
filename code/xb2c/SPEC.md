@@ -4,12 +4,9 @@
 
 The follow-up study asks whether LO BOχEFT, with every parameter fixed by the baseline fit of the $1^{++}$ sector, produces a molecule-dominated spin-2 partner $X_{b2}$ near the $B^*\bar B^*$ threshold, and where the $\chi_{b2}(1P)$-, $\chi_{b2}(2P)$- and $\chi_{b2}(3P)$-dominated states lie. The method is settled and checked up to Stage 4. The continued Lippmann–Schwinger equation is solved by the deformed SP method on an S40 path built per rectangle of the energy plane, with a certificate that the kernel is analytic at every momentum pair the equation uses. That certificate covers the whole search domain: $\Gamma\le20$ MeV on the sheets $(-,+,+)$ and $(-,-,+)$, below the $B^*\bar B^*$ threshold.
 
-No code yet produces the poles. The Julia reference that carried Stages 0–4 does not run in this checkout: a private dependency cannot be cloned, and its HadronDynamics checkout is no longer at the pinned commit. It was also never built for the search. Stages 5–7 are still missing:
-- the full OME at complex momenta;
-- the determinant with the separable sector;
-- the argument-principle search over certified rectangles.
+The C library evaluates $\tilde D$ and refines individual zeros. The Zig driver (`src/driver.zig`, command `xb2c`) runs the whole search from one configuration file: it certifies, counts, refines and subdivides rectangles on a pool of workers and writes JSON lines. No $2^{++}$ pole has been reported yet (NOTEBOOK, "Order of the remaining Stage 6 checks"). The Julia reference that carried Stages 0–4 does not run in this checkout: a private dependency cannot be cloned, and its HadronDynamics checkout is no longer at the pinned commit.
 
-They must run fast enough to repeat under variations of the quadrature, the path, the sharp cutoff and the tower truncation. Today no tool can answer the $X_{b2}$ question.
+The search must run fast enough to repeat under variations of the quadrature, the path, the sharp cutoff and the tower truncation. Today no tool can answer the $X_{b2}$ question.
 
 ## Solution
 
@@ -28,7 +25,7 @@ The physicist runs one command with one configuration file. The same tool first 
 1. As the physicist, I want to run the $2^{++}$ pole search over the search domain with one command and one configuration file, so that the $X_{b2}$ question is answered without assembling stages by hand.
 2. As the physicist, I want every pole reported as $E=M-i\Gamma/2$ relative to $2m_{B^*}$, with $M$, $\Gamma$, its sheet label and the rectangle that certified it, so that I can compare it with the measured peaks.
 3. As the physicist, I want each refined pole reported with its residual $|\tilde D|$ and its number of refinement iterations, so that I can judge its convergence.
-4. As the physicist, I want rectangles without a zero reported with their certificate, so that "no pole here" is a certified statement rather than missing output.
+4. As the physicist, I want empty rectangles reported with their path certificate and empirical zero count, distinct from unresolved rectangles and from missing output.
 5. As the physicist, I want a rectangle that fails the certificate reported with its first failed condition, (C1)–(C5), and that condition's margin, and never counted, so that no zero count rests on a kernel continued past a branch point.
 6. As the physicist, I want excluded rectangles split down to a minimum size before they are given up, so that a thin excluded band does not hide the certified area around it.
 7. As the physicist, I want the $X_{b2}$ candidate and the $\chi_{b2}(1P,2P,3P)$-dominated states from the same run, so that the spectrum comes from one consistent set of inputs.
@@ -57,7 +54,7 @@ The physicist runs one command with one configuration file. The same tool first 
 30. As the physicist, I want the bare–continuum coupling and the contact term to act only in the $^5S_2$ channel, so that the $2^{++}$ separable sector matches CONVENTIONS.
 31. As the physicist, I want $\tilde D=D\prod_n(E-\varepsilon_n)$ computed directly, never by dividing out the bare-state poles, so that the zero count sees an analytic function.
 32. As the physicist, I want $\log|\tilde D|$ and the phase taken from the LU factors, so that $\tilde D$ neither overflows nor loses its phase.
-33. As the physicist, I want the zero count to follow a published argument-principle scheme with a stated reliability guarantee, so that a zero close to a rectangle's edge is not missed.
+33. As the physicist, I want the first search to use Delves–Lyness Method B with explicit complex root solves near suspect boundary segments, so that changes of count or signs of a near-edge zero are investigated rather than silently accepted.
 34. As the physicist, I want a rectangle with two or more zeros, or an unresolved count, split until each child holds at most one, so that refinement always starts in the right basin.
 35. As the physicist, I want split lines placed off-centre and moved away from any zero found on them, so that no zero sits on a child's edge.
 36. As the physicist, I want a refined pole accepted only inside its rectangle, so that one zero is never reported twice or credited to the wrong rectangle.
@@ -184,7 +181,7 @@ The physicist runs one command with one configuration file. The same tool first 
 - **Public primitives (seam 1).**
   - one-time initialisation;
   - model create/destroy, and access to its bare energies;
-  - workspace create/destroy;
+  - workspace create/destroy, and its cumulative timing by stage (`xb_ws_timing`);
   - plan size;
   - certify: rectangle, sheet label and path family in; plan and certificate record out;
   - on a plan at energy $E$: $\tilde D$, the free loop of each channel, the on-shell $T$, $\hat J_{\mathcal C}$;
@@ -203,19 +200,20 @@ The physicist runs one command with one configuration file. The same tool first 
 
 ### Zig driver
 
-- **Threads.** Zig 0.17.1. `std.Io.Threaded` with an `Io.Group` starts $N$ persistent workers, which take rectangles from an `Io.Queue`. A pending counter closes the queue after the last rectangle. The translated header is called directly.
+- **Threads.** Zig 0.17.1. `std.Io.Threaded` with an `Io.Group` starts $N$ persistent workers, which take rectangles and scan energies from an `Io.Queue`. A pending counter closes the queue after the last job. Children that do not fit in the queue stay with the worker that made them. The translated header is called directly.
 - **Jobs.** One job is one rectangle, run on one worker:
   1. Certify.
   2. Excluded: record it and split, down to the minimum size.
-  3. Certified: walk the boundary and count zeros. Zero: done. One: refine. Two or more, or unresolved at the minimum step: split.
+  3. Certified: walk the boundary and count zeros. An accepted empirical count of zero ends the job. A count of one is refined; if refinement does not converge, the count stands without a pole. Two or more, or an unresolved count, trigger subdivision down to the minimum size. A rectangle still unresolved at that size is reported as unresolved.
 
-  Children go back on the queue.
-- **Sampling.** Boundary samples follow a published argument-principle scheme with a stated reliability guarantee, from the Delves–Lyness line. The exact scheme is chosen and cited during implementation; it is not an ad hoc phase threshold.
-- **Splits.** They are placed off-centre. A split line along which $|\tilde D|$ shows a zero is moved.
-- **Ids.** Rectangle ids encode the subdivision path. Records are keyed by id, so their content does not depend on scheduling.
-- **Configuration.** In ZON: sector, parameters, domain, sheets, quadrature starting values, minimum rectangle size, worker count, outputs. The library validates the parameters when it creates the model.
-- **Output.** JSON lines: one record per rectangle (bounds, sheet, certificate or exclusion, zero count, poles with $E$, $M$, $\Gamma$ and residual, optional samples), plus a run summary with timings.
-- **Real-axis scans.** They run as per-energy jobs with no rectangle state.
+  Children go back on the queue. A split cuts the longer side at $1/\sqrt5$ of its length from the lower end. A splittable rectangle longer than 2.5 times its width is certified and split without a count: its corner-started meshes give the long sides segments that can span several zeros near the real axis, and three such meshes agreed on 2 instead of 4 zeros for the $1^{++}$ box $[-750,-1]\times[-10,10]$ MeV.
+- **Sampling.** `src/rectangle.zig` uses [Delves–Lyness (1967), §5, Method B](https://doi.org/10.1090/S0025-5718-1967-0228165-4), Eq. (5.17) for signed phase crossings. Start with the four corners and bisect each contour segment, evaluating only the new midpoints. Accept three successive matching counts, subject to the boundary safeguard. The default limit is 64 segments per side. This is empirical: the path certificate concerns analyticity, not sampling completeness.
+- **Boundary safeguard and splits.** Mark an exact sampled zero directly. A change in a segment's signed crossing count on bisection, antipodal endpoint phases, or a modulus at least eight times smaller than both neighbours prompts a complex root solve near the suspect sample. Use a secant prediction from existing samples to seed `xb_refine` within the certificate. A solved root outside the boundary-clearance band contributes a lower bound to the empirical count, and later warnings within its segment are not solved again; a failed solve or a root within that band leaves the count unresolved. The default clearance is $10^{-10}$ GeV. The rectangle job reports the suspect sample and any located boundary root without moving the boundary. In the subdivision driver, splits are off-centre; move an internal split away from a located zero too close to assign and recount both children. Report outer-boundary candidates separately; keep the specified outer limits unchanged.
+- **Split families** (`src/driver.zig`). The two children of a split are settled together once both are counted. The line moves when a child locates a root within the clearance band of the line, or when a child's boundary solve fails on the line or within 20% of the parent's side of a root the other child located: such a sibling dips eightfold at a corner on the coarsest mesh. The moved line keeps 20% of the parent's side from every such root and from the lines it replaces; at most four moves, after which the children are resolved as they stand. Children inherit the roots located inside them by their ancestors, and a count of one is refined from those before the centre: otherwise a zero just inside an outer edge, already located by the parent, escapes the refinement and is reported as an unconverged count.
+- **Ids.** Rectangle ids encode the subdivision path: the region index, then one digit per split, $2m$ for the lower and $2m+1$ for the upper child of the line after $m$ moves (`0/0121`). Records are keyed by id, so their content does not depend on scheduling.
+- **Configuration.** In ZON (`config/*.zon`, run with `zig build run -Doptimize=ReleaseFast -- config/search-2pp.zon`): sector, parameters, domain regions with their sheets and path family, quadrature starting values, minimum rectangle size, sampling, worker count, output path. The library validates the parameters when it creates the model.
+- **Output.** JSON lines of four kinds, energies in GeV from $M_{\rm th}$, non-finite numbers as `null`: `run` (every input, the thresholds and bare energies), one `rectangle` record per rectangle (bounds, sheet, certificate or exclusion, empirical zero count or unresolved, the pole with $E$, $M$, $\Gamma$, residual and iterations, the boundary warning with whether its root lies next to the split line, another internal line or an outer edge, optional samples), one `scan` record per scan energy, and a `summary` with the poles, the outer-boundary candidates, the open records and the timings (the kernel in double precision, the moments in extended precision, assembly, LU, from `xb_ws_timing`). Superseded children of a moved line keep their records. Outer-boundary candidates are distinct from the counted interior poles.
+- **Real-axis scans.** They run as per-energy jobs with no rectangle state: a box of half-width $10^{-6}$ GeV certified with the energy on its top edge, by default on the sheet that flips every threshold below the energy, which gives $T(E+i0)$.
 
 ## Testing Decisions
 
@@ -248,13 +246,15 @@ The physicist runs one command with one configuration file. The same tool first 
   12. Removable node collisions: the determinant at and near a collision agrees with its Cauchy circle mean. With OME and the bare coupling turned off, $\tilde D$, $T_{SS}$, $\hat J_{CC}$ and the free loops agree with their closed forms at collisions, including at a threshold endpoint and in a very narrow rectangle.
 - **Seam 2, the Zig rectangle job** (rectangle and sheet in; certificate, count, refined poles and samples out), plus a small domain run.
   1. $1^{++}$ physical sheet:
-     - a rectangle straddling the real axis around $X_b$ counts one zero, refined to the recorded energy within $10^{-10}$ GeV;
+     - a rectangle straddling the real axis around $X_b$ counts one zero, refined on the reference's single 24-node rule to the recorded energy within $10^{-8}$ GeV (the seam-1 bar for the same comparison; user, 2026-11-26);
      - a rectangle without a bound state counts zero;
      - a rectangle holding both $X_b$ and $\chi_{b1}(3P)$ splits and yields both poles, neither lost on a split line.
+     - a pole on or too near an internal split line causes the split to move; an unresolved outer edge remains unresolved and is not silently moved.
   2. $2^{++}$: in a certified rectangle where a flipped pole crosses the S40 path, the count equals the sum of its children's counts, and equals the count of the same rectangle on the margin-path plan.
   3. F5 is reported as excluded by (C5), split to the minimum size, and never counted.
   4. A small domain run gives identical records with 1 worker and with $N$ workers.
   5. With sampling on, every record's count equals the winding number computed from its own samples.
+  6. Single-job pilot (`zig build test-seam2 -Doptimize=ReleaseFast`): reproduce $X_b$ on the small reference rule, distinguish an empty box from one with two decoupled bare levels, locate a zero $5\times10^{-11}$ GeV inside an edge without assigning it, and leave an edge unresolved when its nearby zero is outside. A decoupled two-level rectangle with three aliased zero counts must not be reported empty.
 - **No other seams.** Angular moments, node weights, path geometry and the boundary walk get no tests of their own; the two seams cover them.
 - **Milestone order.** Quark model → $1^{++}$ bound states → angular moments → $2^{++}$ kernel → nodes and certificate → $\tilde D$ → search. Each milestone's tests pass before the next one starts.
 - **Prior art.**
@@ -284,16 +284,16 @@ The physicist runs one command with one configuration file. The same tool first 
 
 ## Further Notes
 
-- **Pending sign-offs.** Stage 7 results do not count as validated until three items are settled: S30 (the default homotopy), S38 (the validator's certification) and the provisional Stage 4 tolerances.
+- **Pending sign-off.** Stage 7 results do not count as validated until S30 (the default homotopy) is signed off. S38, for the search domain, and the Stage 3, Stage 4 and milestone 6 tolerances were approved on 2026-11-26.
 - **No Julia oracle.** Kernel entries are compared with the reference's OME on $[0,\Lambda]$ below $E_{3,1}$ only once the reference runs again. Until then the oracles are recorded values, closed forms and identities.
 - **Measured and unmeasured costs.**
   - LU at $n=1200$, measured: 0.036 s with Accelerate, 0.32 s with GSL's own CBLAS.
   - Extended-precision moments, not measured: estimated at 1.5–4 s per energy, possibly the dominant cost. The angular-moment milestone measures it.
-- **Form factors.** The complex form factors reach $7.6\times10^{-6}$ against a target of $10^{-6}$ on the production grid. This carries into Stage 6.
+- **Form factors.** The complex form factors reach $7.6\times10^{-6}$ on the production grid; the user accepted $10^{-5}$ for the pole search (2026-11-26). The $10^{-6}$ target returns for on-shell $T$ in Stage 8.
 - **Channel order.** The generator's write mode for the paper table still uses the earlier channel order, so the C tables must be generated in the current order. Comparisons with HadronDynamics map its code channel $i$ to $(3,4,5,6,2,1)_i$.
 - **Accuracy targets.** On-shell $T$: $10^{-6}$ relative. Pole positions: 0.1 MeV.
 - **Decisions this spec rests on.**
-  - NOTEBOOK: "C implementation", "Purpose of the path deformation", "Bare $\chi_{b2}$ masses, provisional", "§I scope", "Moment precision", "Checks per stage", "LO contact term", "$2^{++}$ channel order".
-  - note 07: S22, S23, S30, S40, S41.
+  - NOTEBOOK: "C implementation", "Purpose of the path deformation", "Bare $\chi_{b2}$ masses, provisional", "§I scope", "Moment precision", "Checks per stage", "LO contact term", "$2^{++}$ channel order", "Certification in the search domain", "Complex $f_n$ tolerance", "Order of the remaining Stage 6 checks".
+  - note 07: S22, S23, S30, S38, S40, S41.
   - CONVENTIONS: "Continuation to other sheets", "2++ channel basis and projectors", "2++ bare–continuum vertex".
   - Glossary: "Deformed SP method".

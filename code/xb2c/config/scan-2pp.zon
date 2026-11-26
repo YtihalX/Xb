@@ -1,0 +1,25 @@
+// D~ and the on-shell T(E + i0) of the 2++ baseline on the real axis, 1 MeV apart, half a step
+// off the thresholds, up to below the BB*pi threshold E_31 = 47.58 MeV (SPEC.md, user story 18).
+// Parameters as config/search-2pp.zon. Energies in GeV from 2 m_B*.
+.{
+    .sector = .@"2++",
+    .parameters = .{
+        .m_b = 4.534047672900046,
+        .sigma = 0.19840639309997352,
+        .gamma = -0.434,
+        .v0 = 0.3714694358359325,
+        .contact = -16.26782020427067,
+        .g = 0.05715476066494084,
+        .g_b = 0.56,
+        .f_pi = 0.0922,
+        .n_bare = 4,
+        .cutoff = 4.0,
+        .m_B = 5.27952,
+        .m_Bstar = 5.32475,
+        .m_pi = 0.138039407,
+        .m_eta = 0.548,
+    },
+    .quadrature = .{ .panel_nodes = 16, .panel_length = 0.25, .pole_margin = 0.05 },
+    .scan = .{ .re = .{ -0.0995, 0.0445 }, .points = 145 },
+    .output = "out/scan-2pp.jsonl",
+}

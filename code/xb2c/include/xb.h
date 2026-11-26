@@ -131,6 +131,21 @@ xb_status xb_model_info(const xb_model *model, xb_info info[static 1]);
 xb_status xb_ws_create(const xb_model *model, xb_ws *ws[static 1]);
 void xb_ws_destroy(xb_ws *ws);
 
+/* Where a workspace's time went since its creation, summed over the calls on it (SPEC.md,
+ * user story 21), in nanoseconds of the monotonic clock. */
+typedef struct xb_timing {
+    int64_t kernel_double_ns;    /* the kernel outside extended precision: the moments in
+                                    double precision and their contraction with the tables */
+    int64_t moments_extended_ns; /* moments in extended precision (MPFR/MPC) */
+    int64_t assembly_ns;         /* the rest of the matrix assembly */
+    int64_t lu_ns;               /* LU factorisation, log D~, and the solves for T or J^ */
+    int64_t moments_double;      /* moment sets in double precision */
+    int64_t moments_extended;    /* moment sets in extended precision */
+    int64_t matrices;            /* matrices assembled */
+} xb_timing;
+
+xb_status xb_ws_timing(const xb_ws *ws, xb_timing timing[static 1]);
+
 xb_status xb_plan_size(const xb_model *model, size_t size[static 1]);
 
 /* Builds the path of a rectangle and certifies it. An excluded rectangle is a result

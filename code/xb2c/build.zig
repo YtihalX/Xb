@@ -57,22 +57,60 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
     gsl.addSystemIncludePath(.{ .cwd_relative = include });
-    const test_mod = b.createModule(.{
-        .root_source_file = b.path("test/seam1.zig"),
+    const xb = header.createModule();
+    const rectangle = b.createModule(.{
+        .root_source_file = b.path("src/rectangle.zig"),
         .target = target,
         .optimize = optimize,
-        .link_libc = true,
-        .imports = &.{
-            .{ .name = "xb", .module = header.createModule() },
-            .{ .name = "gsl", .module = gsl.createModule() },
-        },
+        .imports = &.{.{ .name = "xb", .module = xb }},
     });
-    test_mod.linkLibrary(lib);
-    test_mod.addLibraryPath(.{ .cwd_relative = libdir });
+    const driver = b.createModule(.{
+        .root_source_file = b.path("src/driver.zig"),
+        .target = target,
+        .optimize = optimize,
+        .imports = &.{ .{ .name = "xb", .module = xb }, .{ .name = "rectangle", .module = rectangle } },
+    });
+
+    const exe = b.addExecutable(.{
+        .name = "xb2c",
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("src/main.zig"),
+            .target = target,
+            .optimize = optimize,
+            .link_libc = true,
+            .imports = &.{ .{ .name = "xb", .module = xb }, .{ .name = "driver", .module = driver } },
+        }),
+    });
+    exe.root_module.linkLibrary(lib);
+    exe.root_module.addLibraryPath(.{ .cwd_relative = libdir });
+    b.installArtifact(exe);
+    const run_exe = b.addRunArtifact(exe);
+    run_exe.setCwd(b.path("."));
+    run_exe.addPassthruArgs();
+    b.step("run", "Run the search on a configuration file: zig build run -- config/search-2pp.zon").dependOn(&run_exe.step);
     const filters = b.option([]const []const u8, "test-filter", "Run only the tests whose names contain this") orelse &.{};
-    const tests = b.addTest(.{ .root_module = test_mod, .filters = filters });
-    const run = b.addRunArtifact(tests);
-    b.step("test", "Run the seam-1 tests").dependOn(&run.step);
+    const test_step = b.step("test", "Run both test seams");
+    for ([_][]const u8{ "seam1", "seam2" }) |seam| {
+        const test_mod = b.createModule(.{
+            .root_source_file = b.path(b.fmt("test/{s}.zig", .{seam})),
+            .target = target,
+            .optimize = optimize,
+            .link_libc = true,
+            .imports = &.{.{ .name = "xb", .module = xb }},
+        });
+        if (std.mem.eql(u8, seam, "seam1")) {
+            test_mod.addImport("gsl", gsl.createModule());
+        } else {
+            test_mod.addImport("rectangle", rectangle);
+            test_mod.addImport("driver", driver);
+        }
+        test_mod.linkLibrary(lib);
+        test_mod.addLibraryPath(.{ .cwd_relative = libdir });
+        const tests = b.addTest(.{ .name = seam, .root_module = test_mod, .filters = filters });
+        const run = b.addRunArtifact(tests);
+        test_step.dependOn(&run.step);
+        b.step(b.fmt("test-{s}", .{seam}), b.fmt("Run the {s} tests", .{seam})).dependOn(&run.step);
+    }
 
     // GCC 16 builds every file with the same strict warnings plus its static analyzer. GCC does
     // not implement #pragma STDC CX_LIMITED_RANGE; -fcx-limited-range is its equivalent.

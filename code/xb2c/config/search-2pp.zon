@@ -1,0 +1,37 @@
+// The 2++ pole search of the baseline fit (SPEC.md, Problem Statement; NOTEBOOK.md, "Search
+// domain and uncertainty"): Gamma <= 20 MeV on (-,+,+) between the BB and BB* thresholds and
+// on (-,-,+) between the BB* and B*B* thresholds, and the physical sheet below the BB threshold
+// for bound states. Parameters as config/baseline-1pp.zon; the bare chi_b2 levels sit at the
+// bare chi_b1 masses (NOTEBOOK.md, "Bare chi_b2 masses, provisional"). Energies in GeV from
+// 2 m_B*; thresholds at -0.09046, -0.04523 and 0. Its poles are not reported before the
+// remaining Stage 6 checks fix the quadrature (NOTEBOOK.md, "Order of the remaining Stage 6
+// checks").
+.{
+    .sector = .@"2++",
+    .parameters = .{
+        .m_b = 4.534047672900046,
+        .sigma = 0.19840639309997352,
+        .gamma = -0.434,
+        .v0 = 0.3714694358359325,
+        .contact = -16.26782020427067,
+        .g = 0.05715476066494084,
+        .g_b = 0.56,
+        .f_pi = 0.0922,
+        .n_bare = 4,
+        .cutoff = 4.0,
+        .m_B = 5.27952,
+        .m_Bstar = 5.32475,
+        .m_pi = 0.138039407,
+        .m_eta = 0.548,
+    },
+    .quadrature = .{ .panel_nodes = 16, .panel_length = 0.25, .pole_margin = 0.05 },
+    .domain = .{
+        // Straddling the real axis, so its right edge stays below the computed BB threshold.
+        .{ .sheet = .{ 1, 1, 1 }, .re = .{ -0.8, -0.0904601 }, .im = .{ -0.005, 0.005 } },
+        .{ .sheet = .{ -1, 1, 1 }, .re = .{ -0.09046, -0.04523 }, .im = .{ -0.01, 0 } },
+        .{ .sheet = .{ -1, -1, 1 }, .re = .{ -0.04523, 0 }, .im = .{ -0.01, 0 } },
+    },
+    // 0.1 MeV, the floor of the Stage 4 tiling in the search domain.
+    .search = .{ .min_size = 1e-4 },
+    .output = "out/search-2pp.jsonl",
+}
