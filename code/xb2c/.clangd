@@ -1,0 +1,19 @@
+If:
+  PathMatch: '(include|src|test)/.*\.[ch]'
+CompileFlags:
+  Remove: [-x, '-std=*']
+  Add:
+    # Parse standalone .h files as C, not clangd's default C++/Objective-C++.
+    - -xc
+    - -std=gnu2y
+    - -fms-extensions
+    - -Wno-microsoft-anon-tag
+    # Match build.zig's GSL complex representation and default macOS backend.
+    - -fgnuc-version=14
+    - -DHAVE_INLINE
+    - -DGSL_RANGE_CHECK_OFF
+    - -DXB_BLAS_ACCELERATE
+    # With no compile database, clangd runs from the file's parent directory.
+    - -I../include
+    - -isystem
+    - /opt/homebrew/include
