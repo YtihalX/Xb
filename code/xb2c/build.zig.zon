@@ -1,0 +1,8 @@
+.{
+    .name = .xb2c,
+    .version = "0.1.0",
+    .fingerprint = 0xfd572cb25288c7c8,
+    .minimum_zig_version = "0.17.1",
+    .dependencies = .{},
+    .paths = .{ "build.zig", "build.zig.zon", "include", "src", "test" },
+}
