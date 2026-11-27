@@ -88,6 +88,21 @@ pub fn build(b: *std.Build) void {
     run_exe.setCwd(b.path("."));
     run_exe.addPassthruArgs();
     b.step("run", "Run the search on a configuration file: zig build run -- config/search-2pp.zon").dependOn(&run_exe.step);
+
+    const onshell_mod = b.createModule(.{ .target = target, .optimize = optimize, .link_libc = true });
+    onshell_mod.addCSourceFile(.{
+        .file = b.path("../../checks/stage6_onshell_point.c"),
+        .flags = &flags,
+    });
+    onshell_mod.addIncludePath(b.path("include"));
+    onshell_mod.addIncludePath(b.path("src"));
+    onshell_mod.addSystemIncludePath(.{ .cwd_relative = include });
+    onshell_mod.addLibraryPath(.{ .cwd_relative = libdir });
+    onshell_mod.linkLibrary(lib);
+    const onshell = b.addExecutable(.{ .name = "stage6-onshell-point", .root_module = onshell_mod });
+    const run_onshell = b.addRunArtifact(onshell);
+    b.step("check-onshell-point", "Compare S40 with the independent Stage 6 on-shell-point route").dependOn(&run_onshell.step);
+
     const filters = b.option([]const []const u8, "test-filter", "Run only the tests whose names contain this") orelse &.{};
     const test_step = b.step("test", "Run both test seams");
     for ([_][]const u8{ "seam1", "seam2" }) |seam| {

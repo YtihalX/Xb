@@ -4,7 +4,7 @@
 
 The follow-up study asks whether LO BOχEFT, with every parameter fixed by the baseline fit of the $1^{++}$ sector, produces a molecule-dominated spin-2 partner $X_{b2}$ near the $B^*\bar B^*$ threshold, and where the $\chi_{b2}(1P)$-, $\chi_{b2}(2P)$- and $\chi_{b2}(3P)$-dominated states lie. The method is settled and checked up to Stage 4. The continued Lippmann–Schwinger equation is solved by the deformed SP method on an S40 path built per rectangle of the energy plane, with a certificate that the kernel is analytic at every momentum pair the equation uses. That certificate covers the whole search domain: $\Gamma\le20$ MeV on the sheets $(-,+,+)$ and $(-,-,+)$, below the $B^*\bar B^*$ threshold.
 
-The C library evaluates $\tilde D$ and refines individual zeros. The Zig driver (`src/driver.zig`, command `xb2c`) runs the whole search from one configuration file: it certifies, counts, refines and subdivides rectangles on a pool of workers and writes JSON lines. No $2^{++}$ pole has been reported yet (NOTEBOOK, "Order of the remaining Stage 6 checks"). The Julia reference that carried Stages 0–4 does not run in this checkout: a private dependency cannot be cloned, and its HadronDynamics checkout is no longer at the pinned commit.
+The C library evaluates $\tilde D$ and refines individual zeros. The Zig driver (`src/driver.zig`, command `xb2c`) runs the whole search from one configuration file: it certifies, counts, refines and subdivides rectangles on a pool of workers and writes JSON lines. `NOTEBOOK.md` (Stage 7, first baseline search) records the baseline $2^{++}$ counts, candidates and validation status. The Julia reference that carried Stages 0–4 does not run in this checkout: a private dependency cannot be cloned, and its HadronDynamics checkout is no longer at the pinned commit.
 
 The search must run fast enough to repeat under variations of the quadrature, the path, the sharp cutoff and the tower truncation. Today no tool can answer the $X_{b2}$ question.
 
@@ -45,7 +45,7 @@ The physicist runs one command with one configuration file. The same tool first 
 21. As the physicist, I want each run to report where its time goes (double- and extended-precision angular moments, matrix assembly, LU), so that I know what to optimise.
 22. As the physicist, I want the kernel continued analytically, without conjugating incoming vertices, so that $\tilde D$ is the analytic continuation of the physical-sheet determinant.
 23. As the physicist, I want the sheet to enter only as the sign of $i\pi$ in each on-shell node term, and the path deformed only to keep the kernel's exchanged-meson and three-body branch points off every pair the equation uses, so that the code follows the recorded purpose of the deformation.
-24. As the physicist, I want the S40 path built per rectangle (vertices at the flipped channels' poles, slopes at most 1) and held fixed over the whole rectangle, so that the Stage 4 certificate applies unchanged.
+24. As the physicist, I want one certified S40 graph path per rectangle, with slopes at most 1, held fixed over the whole rectangle. The path is chosen for kernel analyticity, with no requirement to pass through subtracted propagator poles.
 25. As the physicist, I want near nodes for unflipped channels within $r_{\rm near}$ of the path, kept only when they pass (C4) and (C5), so that the plain quadrature stays accurate next to a nearby pole.
 26. As the physicist, I want the on-shell node weights in closed form with the sign set by the sheet, so that a pole crossing the path inside a rectangle changes nothing.
 27. As the physicist, I want an energy that falls next to a quadrature node evaluated at a slightly shifted point, so that the removable 0/0 of the node term costs no digits.
@@ -121,14 +121,14 @@ The physicist runs one command with one configuration file. The same tool first 
 
 ### Continuation (deformed SP method)
 
-- **Path.** The S40 path of note 07 is built at the rectangle's centre energy and held fixed over the whole rectangle.
-  - It is a graph path with vertices at the poles of the flipped channels and slopes at most 1. The vertex of a pole that lies below the slope-1 line is placed on that line.
+- **Path.** Under S40 a certified path may pass on either side of a subtracted propagator pole or through it. Deformation serves kernel analyticity, including at pairs with on-shell momenta. The real path is allowed if it passes the certificate.
+  - `certify_s40` tries $[0,\Lambda]$ with the mandatory on-shell nodes first. Only a path-dependent (C4) or (C5) failure triggers deformation. It tries the reference polygon at quarter, half, three-quarter, then full depth, first at the affected channels' abscissae and then, if needed, with all mandatory channels' abscissae. Each trial must pass the same certificate. Bending cannot improve a failed (C5) bound evaluated on the actual momenta at a mandatory node–node pair. If no trial certifies, the builder returns the real-path failure for subdivision.
   - It is discretised by Gauss–Legendre panels. The starting values come from the reference: 16 nodes per 250 MeV panel.
 - **On-shell nodes.**
-  - Every vertex channel gets one node. An unflipped channel gets an optional node when its pole lies within $r_{\rm near}=100$ MeV of the path and the node passes (C4) and (C5).
+  - Every flipped channel and every unflipped channel with threshold strictly below the rectangle's upper real-energy edge gets a mandatory on-shell node. Any other channel gets an optional node when its pole is within $r_{\rm near}=100$ MeV of the path and the node passes (C4) and (C5).
   - Each node is attached to every partial wave of its threshold ($2^{++}$: PP → 1, PV → 2, VV → 3–6).
   - Its weight is $W_\alpha=2\mu_\alpha k_\alpha^2\big[I_\sigma(k_\alpha)-\sum_j\omega_j/(q_j^2-k_\alpha^2)\big]$, with $I_\pm(k)=\frac{1}{2k}\big[\operatorname{Log}\frac{\Lambda-k}{\Lambda+k}\pm i\pi\big]$, $\sigma=+$ for a flipped channel and the principal Log.
-  - The sheet enters only through $\sigma$.
+  - For a channel with a node, the sheet enters only through $\sigma$.
 - **Certificate.** Conditions (C1)–(C5) of S40(d), each bounded over the whole rectangle:
   - (C1) slopes at most 1, and $|k_\alpha|<\Lambda$;
   - (C2) the rectangle lies left of $E_{3,1}-H^2/m_B$;
@@ -141,7 +141,7 @@ The physicist runs one command with one configuration file. The same tool first 
   - Evaluation on an uncertified plan is refused, and there is no branch tracker. On a certified rectangle every logarithm in the kernel is principal (S30 and S40(e); S30 still awaits sign-off).
 - **Physical sheet.** Physical-sheet rectangles that straddle the real axis below the lowest threshold use $[0,\Lambda]$ with no nodes. Bound states are therefore found by the same search.
 - **Margin path.** $0\to H-iH\to\Lambda-H-iH\to\Lambda$, with $H=d_k+\max_{F,E\in Q}|\operatorname{Im}k_F(E)|$, is the second plan for path-independence checks. It carries no nodes. It is available on the adjacent sheet of a rectangle between thresholds (also on the physical sheet below the lowest threshold). The bounds check the flipped poles above the path inside the cutoff, the other poles outside, clearance $\ge d_k$ throughout the rectangle, and (C1)–(C2). Touching a threshold line off the real axis is allowed if those bounds pass.
-- **Removable 0/0.** Near $q_j$, the singular path and node weights grow with $|w_j q_j|/|k_\alpha-q_j|$ and cancel. On rectangle A at 16 nodes per 250 MeV panel, comparison to a Cauchy-circle Taylor reference at three $PV$ hits found relative direct-LU losses of order $\epsilon_{\rm mach}(|w_j q_j|/|k_\alpha-q_j|)^2$ in GeV units. Screen at $|k_\alpha-q_j|\le (0.01\,\text{GeV}^{-1})|w_j q_j|$. Choose four shifted energies inside the certificate, with each momentum clearing twice the trigger distance. Extrapolate back to $E$ by the cubic Lagrange rule in the nearest node threshold's momentum: for $\xi_i=k_{\rm near}(E_i)-k_{\rm near}(E)$ the weights are $\prod_{j\ne i}(-\xi_j)/(\xi_i-\xi_j)$. This retains the square-root behaviour at a threshold. Apply the rule to the determinant and to the determinant times the requested amplitude, then divide; use the OME determinant for $\hat J_{\mathcal C}$. If no stencil fits, return `XB_EDOM`. For `xb_loop` at a collision, cancel $q_j^2/(q_j^2-k^2)-k^2/(q_j^2-k^2)=1$ before summing; elsewhere use the direct sum to check the weights.
+- **Removable 0/0.** Near $q_j$, the singular path and node weights grow with $|w_j q_j|/|k_\alpha-q_j|$ and cancel. The calibration used the reference polygon on rectangle A at 16 nodes per 250 MeV panel. Comparison to a Cauchy-circle Taylor reference at three $PV$ hits found relative direct-LU losses of order $\epsilon_{\rm mach}(|w_j q_j|/|k_\alpha-q_j|)^2$ in GeV units. Screen at $|k_\alpha-q_j|\le (0.01\,\text{GeV}^{-1})|w_j q_j|$. Choose four shifted energies inside the certificate, with each momentum clearing twice the trigger distance. Extrapolate back to $E$ by the cubic Lagrange rule in the nearest node threshold's momentum: for $\xi_i=k_{\rm near}(E_i)-k_{\rm near}(E)$ the weights are $\prod_{j\ne i}(-\xi_j)/(\xi_i-\xi_j)$. This retains the square-root behaviour at a threshold. Apply the rule to the determinant and to the determinant times the requested amplitude, then divide; use the OME determinant for $\hat J_{\mathcal C}$. If no stencil fits, return `XB_EDOM`. For `xb_loop` at a collision, cancel $q_j^2/(q_j^2-k^2)-k^2/(q_j^2-k^2)=1$ before summing; elsewhere use the direct sum to check the weights.
 
 ### Determinant, solve and refinement
 
@@ -234,11 +234,12 @@ The physicist runs one command with one configuration file. The same tool first 
   5. At pairs with one small momentum, the kernel matches GSL's adaptive angular quadrature, computed in the test, to $10^{-10}$ relative.
   6. On every sheet, the free loop of each channel matches $2\mu_\alpha[\Lambda+k_\alpha^2I_\sigma(k_\alpha)]$ at the Stage 3 probe energies: $\operatorname{Im}E=-10$ MeV with $\operatorname{Re}E$ from $-88$ to $+45$ MeV in 1 MeV steps, and $\operatorname{Im}E=-1,-10,-50$ MeV at $\operatorname{Re}E=-67.85$ and $-22.62$ MeV. The bar is the reference's quadrature level, a worst case of $5\times10^{-14}$.
   7. The recorded certificate outcomes are reproduced:
-     - A: certified;
+     - A: certified on $[0,\Lambda]$ with its two mandatory nodes;
      - Bd: certified, with its PV near node dropped by (C5);
-     - F5: excluded by (C5).
+     - F5: excluded by (C5) without a deformation;
+     - the BB kernel-window test: the real path fails (C4) at a corner, and a bend shallower than the centre pole certifies.
 
-     The rectangles of the Stage 4 tiling certify with a smallest (C5) margin of 20.4 MeV.
+     Both Stage 4 search strips certify down to the same tiling floor; each has real and deformed cells. The certificate margins need not reproduce those of the reference polygon.
   8. Cauchy: $\oint\tilde D\,dE$ vanishes, relative to $\max|\tilde D|$ times the perimeter, around a certified rectangle in which a flipped pole crosses the path.
   9. Path independence: $\tilde D$ on the S40 plan and on the margin-path plan agree at probe energies, within the Stage 6 quadrature tolerance.
   10. Continuity: the on-shell $T$ at $E-i\eta$ tends to the physical-sheet $T(E+i0)$ as $\eta\to0^+$. On the real axis, $\operatorname{Im}T^{-1}=\rho$ and, at fixed path and node set, reversing the open-channel signs gives $\tilde D_{\rm lower}/\tilde D_{\rm upper}=\det(1-2iT_{\rm upper}\rho)$.

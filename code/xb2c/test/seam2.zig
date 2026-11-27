@@ -317,12 +317,11 @@ fn coarse2pp() xb.xb_params {
 test "2++: across a flipped pole crossing the S40 path, the count equals its children's and the margin path's" {
     var search = try Search.init(coarse2pp());
     defer search.deinit();
-    const sheet: xb.xb_sheet = .{ .pp = -1, .pv = -1, .vv = 1 };
-    // Rectangle A of seam 1 on (-,-,+): the BB* pole crosses its path between the bottom and the
-    // top edge. The children split it across that crossing, each on its own S40 path.
-    const a: xb.xb_rect = .{ .re_lo = -0.025, .re_hi = -0.020, .im_lo = -0.010, .im_hi = -0.005 };
+    const sheet = fixtures.bb_sheet;
+    // The kernel-window fixture of seam 1: its BB pole crosses the selected bend.
+    const a = fixtures.bb_kernel_box;
     const whole = try search.runOn(a, sheet, xb.XB_PATH_S40, .{});
-    try expect(whole.certificate.failed == 0);
+    try expect(whole.certificate.failed == 0 and whole.certificate.depth > 0);
     const count = whole.zero_count orelse return error.Unresolved;
     const line = a.im_lo + 0.4472135954999579 * (a.im_hi - a.im_lo);
     var children = [2]xb.xb_rect{ a, a };

@@ -594,43 +594,17 @@ static void certify_fixed(const xb_model *m, xb_rect r, enum xb_path path,
   cert->margin[3] = cert->margin[4] = INFINITY;
 }
 
-/* The S40 path of a rectangle in the closed lower half plane and its
- * certificate, bounded as the reference's certify_rectangle bounds them:
- * monotone root bounds and outward-rounded intervals on n_sub x n_sub energy
- * cells. */
-static void certify_s40(const xb_model *m, xb_rect r, xb_plan *plan,
-                        xb_cert *cert) {
+/* Certify the candidate over the whole rectangle. Return the bits of the
+ * mandatory node channels whose path-dependent kernel bounds need a bend;
+ * zero means pass, or a failure that is not a reason to deform the path. */
+static unsigned certify_s40_path(const xb_model *m, xb_rect r,
+                                 const xb_plan *plan,
+                                 const bool present[static 3],
+                                 const bool mandatory[static 3], xb_cert *cert) {
   const double lambda = m->p.cutoff;
-  bool present[3], vertex[3], optional[3], node[3];
-  double complex *v = plan->vertex;
-  size_t n = 1;
-  const double re_c = (r.re_lo + r.re_hi) / 2, im_c = (r.im_lo + r.im_hi) / 2;
-  for (int s = 0; s < 3; s++) {
-    present[s] = !isnan(m->delta[s]);
-    vertex[s] = present[s] && (plan->flip[s] || m->delta[s] < r.re_hi);
-    if (!vertex[s])
-      continue;
-    const double complex k =
-        csqrt(k_squared(re_c, im_c, m->delta[s], m->mu[s]));
-    if (!(0 < creal(k) && creal(k) < lambda)) {
-      /* (C1): a vertex at Re k = 0 would share the origin's real part, or lies
-       * past the cutoff. */
-      cert->failed = 1;
-      cert->margin[0] = lambda - cabs(k);
-      if (!(creal(k) > 0))
-        cert->slope = INFINITY;
-      return;
-    }
-    /* Sorted by real part; a pole below the slope-1 line moves up onto it. */
-    const double complex x =
-        __builtin_complex(creal(k), -fmin(fabs(cimag(k)), creal(k)));
-    size_t j = n++;
-    for (; j > 1 && creal(v[j - 1]) > creal(x); j--)
-      v[j] = v[j - 1];
-    v[j] = x;
-  }
-  v[n++] = lambda;
-  plan->n_vertex = n;
+  const double complex *v = plan->vertex;
+  const size_t n = plan->n_vertex;
+  bool optional[3], node[3];
   double depth = 0;
   for (size_t i = 0; i < n; i++)
     depth = fmax(depth, -cimag(v[i]));
@@ -638,12 +612,12 @@ static void certify_s40(const xb_model *m, xb_rect r, xb_plan *plan,
   cert->slope = path_slope(n, v);
   if (!(cert->slope <= 1 + 16 * DBL_EPSILON)) {
     cert->failed = 1;
-    return;
+    return 0;
   }
   cert->margin[1] = s35_margin(m, depth, r);
   if (!(cert->margin[1] > 0)) {
     cert->failed = 2;
-    return;
+    return 0;
   }
 
   /* Every threshold's boxes on every energy cell, c = i n_sub + j with i along
@@ -664,8 +638,8 @@ static void certify_s40(const xb_model *m, xb_rect r, xb_plan *plan,
         dist[s] = fmin(dist[s], clearance(n, v, vscale, &e[c][s][1]));
       }
   for (int s = 0; s < 3; s++) {
-    optional[s] = present[s] && !vertex[s] && dist[s] < r_near;
-    node[s] = vertex[s] || optional[s];
+    optional[s] = present[s] && !mandatory[s] && dist[s] < r_near;
+    node[s] = mandatory[s] || optional[s];
   }
 
   /* (C4): every node momentum lies within m_pi of the path above it. */
@@ -681,7 +655,10 @@ static void certify_s40(const xb_model *m, xb_rect r, xb_plan *plan,
    * its row and column along the whole path, piece by piece, and at the
    * node-node pairs. */
   double rowcol[3] = {INFINITY, INFINITY, INFINITY}, pairs[3][3];
-  for (size_t g = 0; g + 1 < n; g++) {
+  bool scan_rows = false;
+  for (int s = 0; s < 3; s++)
+    scan_rows |= node[s] && window[s] > 0;
+  for (size_t g = 0; scan_rows && g + 1 < n; g++) {
     const double complex a = v[g], b = v[g + 1];
     const double count = fmax(1, ceil(cabs(b - a) / q_spacing));
     for (size_t i = 0; (double)i < count; i++) {
@@ -691,7 +668,7 @@ static void certify_s40(const xb_model *m, xb_rect r, xb_plan *plan,
       const box p = piece(pa, pb, vscale);
       for (size_t c = 0; c < n_sub * n_sub; c++)
         for (int s = 0; s < 3; s++)
-          if (node[s])
+          if (node[s] && window[s] > 0)
             rowcol[s] = fmin(
                 rowcol[s],
                 node_piece(m, e[c][s], pa, pb, &p,
@@ -702,6 +679,7 @@ static void certify_s40(const xb_model *m, xb_rect r, xb_plan *plan,
     }
   }
   const double mass[2] = {m->p.m_pi, m->p.m_eta};
+  bool fixed_pair_failed = false;
   for (int s = 0; s < 3; s++)
     for (int t = 0; t < 3; t++) {
       pairs[s][t] = INFINITY;
@@ -715,8 +693,14 @@ static void certify_s40(const xb_model *m, xb_rect r, xb_plan *plan,
                 .a = m->a[b],
                 .mass = mass[f],
                 .row = true};
-            pairs[s][t] =
-                fmin(pairs[s][t], pair_bound(2, e[c][s], 2, e[c][t], &y));
+            const double bound = pair_bound(2, e[c][s], 2, e[c][t], &y);
+            pairs[s][t] = fmin(pairs[s][t], bound);
+            /* Endpoint boxes for k and k' themselves are independent of the
+             * contour. The certificate cannot fix this bound by bending. */
+            if (bound <= 0 && mandatory[s] && mandatory[t] &&
+                !fixed_pair_failed)
+              fixed_pair_failed =
+                  pair_bound(1, &e[c][s][1], 1, &e[c][t][1], &y) <= 0;
           }
     }
 
@@ -753,7 +737,7 @@ static void certify_s40(const xb_model *m, xb_rect r, xb_plan *plan,
   cert->margin[0] = inside_cutoff;
   if (!(inside_cutoff > 0)) {
     cert->failed = 1;
-    return;
+    return 0;
   }
   /* (C3): the poles without a node, a dropped near pole among them, clear the
    * path. */
@@ -767,24 +751,93 @@ static void certify_s40(const xb_model *m, xb_rect r, xb_plan *plan,
   cert->margin[2] = clear;
   if (!(clear > 0)) {
     cert->failed = 3;
-    return;
+    return 0;
   }
+  unsigned needs = 0;
   for (int s = 0; s < 3; s++)
     if (node[s]) {
       least_window = fmin(least_window, window[s]);
       z = fmin(z, rowcol[s]);
+      if (window[s] <= 0 || rowcol[s] <= 0)
+        needs |= 1u << s;
       for (int t = 0; t < 3; t++)
-        if (node[t])
+        if (node[t]) {
           z = fmin(z, pairs[s][t]);
+          if (pairs[s][t] <= 0)
+            needs |= (1u << s) | (1u << t);
+        }
     }
   cert->margin[3] = least_window;
-  if (!(least_window > 0)) {
+  if (!(least_window > 0))
     cert->failed = 4;
-    return;
+  else {
+    cert->margin[4] = z;
+    if (!(z > 0))
+      cert->failed = 5;
   }
-  cert->margin[4] = z;
-  if (!(z > 0))
-    cert->failed = 5;
+  return fixed_pair_failed ? 0 : needs;
+}
+
+/* Mandatory nodes depend on the sheet and thresholds, not on the geometry.
+ * Try the real path first. If the kernel needs deformation, try increasing
+ * depths of the reference polygon, first using only the failing kernel
+ * channels' abscissae, then the full family. No untested path is accepted. */
+static void certify_s40(const xb_model *m, xb_rect r, xb_plan *plan,
+                        xb_cert *cert) {
+  const double lambda = m->p.cutoff;
+  bool present[3], mandatory[3];
+  unsigned all = 0;
+  for (int s = 0; s < 3; s++) {
+    present[s] = !isnan(m->delta[s]);
+    mandatory[s] = present[s] && (plan->flip[s] || m->delta[s] < r.re_hi);
+    if (mandatory[s])
+      all |= 1u << s;
+  }
+  plan->n_vertex = 2;
+  plan->vertex[1] = lambda;
+  const unsigned needs = certify_s40_path(m, r, plan, present, mandatory, cert);
+  if (needs == 0)
+    return;
+
+  const double re_c = (r.re_lo + r.re_hi) / 2, im_c = (r.im_lo + r.im_hi) / 2;
+  const unsigned masks[2] = {needs, all};
+  for (size_t i = 0; i < (needs == all ? 1u : 2u); i++) {
+    double complex base[5];
+    size_t n = 1;
+    for (int s = 0; s < 3; s++) {
+      if (!(masks[i] >> s & 1u))
+        continue;
+      const double complex k =
+          csqrt(k_squared(re_c, im_c, m->delta[s], m->mu[s]));
+      const double x = creal(k);
+      if (!(0 < x && x < lambda))
+        continue;
+      size_t j = n++;
+      for (; j > 1 && creal(base[j - 1]) > x; j--)
+        base[j] = base[j - 1];
+      base[j] = __builtin_complex(x, -fmin(fabs(cimag(k)), x));
+    }
+    if (n == 1)
+      continue;
+    plan->vertex[n++] = lambda;
+    plan->n_vertex = n;
+    for (int quarter = 1; quarter <= 4; quarter++) {
+      for (size_t j = 1; j + 1 < n; j++)
+        plan->vertex[j] =
+            __builtin_complex(creal(base[j]), cimag(base[j]) * (quarter / 4.0));
+      xb_cert trial = {.margin = {NAN, NAN, NAN, NAN, NAN}};
+      certify_s40_path(m, r, plan, present, mandatory, &trial);
+      if (trial.failed == 0) {
+        *cert = trial;
+        return;
+      }
+      if (trial.failed == 2)
+        break; /* Greater depth cannot improve (C2) in this family. */
+    }
+  }
+  /* No trial certified. Keep the real-path failure for subdivision. */
+  plan->n_vertex = 2;
+  plan->vertex[1] = lambda;
 }
 
 xb_status xb_certify(const xb_model *model, xb_rect rect, xb_sheet sheet,

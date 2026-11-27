@@ -207,3 +207,17 @@ What: the separate T4S1 (“The Lagrangian; one derivative per vertex”) and T4
 Why: combine the derivation into one slide and remove repetition.
 Who: the user (“T4S1 and T4S2 can be merged into one, maybe delete something”).
 Replaced by: one T4S1, “Lagrangian, vertices and tensor force”, retaining the full trace-evaluated Lagrangian, both vertex rules and the central/tensor decomposition. Repeated field definitions, coupling-value bullets, the antimeson-sign discussion and the separate channel box are absent from the main slide. Field conventions and coupling values remain on backup B1. The denominators and static-limit slides are now Steps 2 and 3. No interaction or numerical input changed.
+
+## 2026-11-27 — S40 pole vertices are not required
+
+What: note 07, S40(a), defined $\mathcal C_Q$ as the polygon with a vertex at the centre momentum (clipped to the slope-one line) of every flipped channel and every unflipped channel with $\delta_\alpha<E_2$; S40(c) said “$N_Q$ contains the vertex channels.” `code/xb2c/SPEC.md`, story 24, said “vertices at the flipped channels' poles.”
+Why: the path side does not set the sheet in a channel with on-shell subtraction; the analytic node term does. The pole-based polygon is a valid reference construction where certified, not a geometric requirement.
+Who: the user, restating the earlier decision that kernel cuts determine the deformation; wording by the assistant.
+Replaced by: S40 and the solver documentation distinguish the kernel certificate and mandatory node set from the current polygon builder. No construction, node selection, or certificate was changed in code.
+
+## 2026-11-27 — Real contour first in the C solver
+
+What: `certify_s40` always built the reference polygon with a knot at each mandatory node channel's centre momentum, clipped to slope one. The Stage 4 tiling test pinned this polygon's margins and split pattern. The Stage 6 convergence run tested five probes on it: 15/15 comparisons passed, with worst relative changes $9.02\times10^{-9}$ in $T$ and $3.14\times10^{-13}$ in $\tilde D$, on meshes of 272, 528 and 544 path nodes.
+Why: a pole handled by SP subtraction does not require a vertex. With the new builder, 55 of the 58 certified cells in the two baseline strips pass on $[0,\Lambda]$; the other three certify after a bend. The old convergence numbers apply to the reference geometry only.
+Who: the user, “try $[0,\Lambda]$, and deform only where the kernel needs it.”
+Replaced by: real path first, with certified kernel-driven fallback trials in `code/xb2c/src/lse.c`; coverage rather than the old geometry's exact margins, and the six-probe Stage 6 check of the selected paths. The Julia reference retains the original polygon.

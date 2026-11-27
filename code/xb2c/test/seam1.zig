@@ -507,8 +507,8 @@ test "on-shell nodes: on every sheet the free loop of each channel matches its c
     try expect(probes.len == 165);
     var worst: f64 = 0;
     for (probes) |probe| worst = @max(worst, try probeLoopError(model, plan, params, probe));
-    // Above the B*B* threshold every threshold has a vertex node on every sheet, so all eight
-    // sheet labels enter through sigma alone.
+    // Above the B*B* threshold all nodes are mandatory on every sheet; the signs enter
+    // through sigma, independently of the contour.
     for ([_]f64{ 1, 20, 45 }) |re| for (0..8) |bits| {
         const flip = [3]bool{ bits & 1 != 0, bits & 2 != 0, bits & 4 != 0 };
         worst = @max(worst, try probeLoopError(model, plan, params, .{ .e = cplx(re / 1000, -0.010), .flip = flip }));
@@ -525,7 +525,7 @@ fn certifyMeV(model: Model, plan: Plan, re: [2]f64, im: [2]f64, flip: [3]bool) !
     return cert;
 }
 
-test "certificate: A is certified, Bd is certified with its BB* near node dropped by (C5), F5 is excluded by (C5)" {
+test "certificate: use the real path when certified, bend for the kernel, and reject a mandatory node cut" {
     const model = try Model.init(baseline(xb.XB_2PP));
     defer model.deinit();
     const plan = try Plan.init(model);
@@ -533,34 +533,29 @@ test "certificate: A is certified, Bd is certified with its BB* near node droppe
     // notes/07-continued-lse/cert_conditions.jl; (-,-,+) flips BB and BB*, (-,+,+) flips BB.
     const a = try certifyMeV(model, plan, .{ -25, -20 }, .{ -10, -5 }, .{ true, true, false });
     try expect(a.failed == 0 and a.node[0] == 1 and a.node[1] == 1 and a.node[2] == 0);
-    // s40-proposal.tex, "The certificate in pictures": (C5) is certified to 79.8 MeV on A.
-    try expect(@abs(a.margin[4] * 1000 - 79.8) <= 0.05);
+    try std.testing.expectEqual(0.0, a.depth);
+    var bent: xb.xb_cert = undefined;
+    const r = fixtures.bb_kernel_box;
+    try ok(xb.xb_certify(model.ptr, r, fixtures.bb_sheet, xb.XB_PATH_S40, plan.ptr(), &bent));
+    try expect(bent.failed == 0 and bent.node[0] == 1 and bent.node[1] == 0 and bent.node[2] == 0);
+    const params = baseline(xb.XB_2PP);
+    const th = thresholds(params);
+    const bottom = principal(cplx(r.re_lo, r.im_lo), th.delta[0], th.mu[0]);
+    const centre = principal(cplx((r.re_lo + r.re_hi) / 2, (r.im_lo + r.im_hi) / 2), th.delta[0], th.mu[0]);
+    // The real path cannot meet the pion window at the bottom, but the bend need not reach k.
+    try expect(-bottom.im > params.m_pi and bent.depth > 0 and bent.depth < -centre.im);
+    std.debug.print("S40: BB kernel-window test depth {d:.3} MeV (centre pole depth {d:.3} MeV)\n", .{
+        bent.depth * 1000, -centre.im * 1000,
+    });
     const bd = try certifyMeV(model, plan, .{ -46.70, -46.60 }, .{ -0.40, -0.30 }, .{ true, false, false });
     try expect(bd.failed == 0 and bd.node[0] == 1 and bd.node[1] == 0 and bd.dropped[1] == 5);
     const f5 = try certifyMeV(model, plan, .{ -46.6, -46.4 }, .{ -0.2, -0.1 }, .{ true, true, false });
     // s40-proposal.tex, (C5): Re Z = -34.7 MeV at the BB* node-node pair; its bound lies below.
-    try expect(f5.failed == 5 and f5.margin[4] * 1000 <= -34.7 and f5.margin[4] * 1000 >= -35.7);
+    try expect(f5.failed == 5 and f5.depth == 0 and f5.margin[4] * 1000 <= -34.7 and f5.margin[4] * 1000 >= -35.7);
 }
 
-const bit_pp: usize = 1;
-const bit_pv: usize = 2;
-const bit_vv: usize = 4;
-
-/// Certified cells with one node set and one set of dropped near nodes (threshold bits).
-const Census = struct { nodes: usize, dropped: usize = 0, cells: usize };
-
-/// The census of a tiling: cells certified and excluded, certified cells per node set (key
-/// nodes | dropped << 3), the smallest slope and margins (C2)-(C5) over the certified cells,
-/// the cell of the smallest (C5) margin, and the cells split, in visiting order.
-const Tiling = struct {
-    certified: usize = 0,
-    excluded: usize = 0,
-    sets: [64]usize = @splat(0),
-    least: [5]f64 = @splat(std.math.inf(f64)),
-    least_z: xb.xb_rect = undefined,
-    split: [8]xb.xb_rect = undefined,
-    n_split: usize = 0,
-};
+/// A coverage check, not a census of the reference polygon's subdivisions.
+const Tiling = struct { flat: usize = 0, bent: usize = 0, excluded: usize = 0 };
 
 /// The reference's tile_rectangles (sp_contours.jl): a cell that fails is quartered at its
 /// centre until its longer side falls below the floor.
@@ -568,21 +563,14 @@ fn tile(model: Model, plan: Plan, rect: xb.xb_rect, sheet: xb.xb_sheet, floor: f
     var cert: xb.xb_cert = undefined;
     try ok(xb.xb_certify(model.ptr, rect, sheet, xb.XB_PATH_S40, plan.ptr(), &cert));
     if (cert.failed == 0) {
-        tiling.certified += 1;
-        var key: usize = 0;
-        for (0..3) |s| {
-            if (cert.node[s] != 0) key |= @as(usize, 1) << @intCast(s);
-            if (cert.dropped[s] != 0) key |= @as(usize, 8) << @intCast(s);
+        if (cert.depth == 0) {
+            tiling.flat += 1;
+        } else {
+            tiling.bent += 1;
         }
-        tiling.sets[key] += 1;
-        if (cert.margin[4] < tiling.least[4]) tiling.least_z = rect;
-        tiling.least[0] = @min(tiling.least[0], cert.slope);
-        for (1..5) |k| tiling.least[k] = @min(tiling.least[k], cert.margin[k]);
     } else if (@max(rect.re_hi - rect.re_lo, rect.im_hi - rect.im_lo) < floor) {
         tiling.excluded += 1;
     } else {
-        if (tiling.n_split < tiling.split.len) tiling.split[tiling.n_split] = rect;
-        tiling.n_split += 1;
         const x = (rect.re_lo + rect.re_hi) / 2;
         const y = (rect.im_lo + rect.im_hi) / 2;
         for ([_][2]f64{ .{ rect.re_lo, x }, .{ x, rect.re_hi } }) |re| for ([_][2]f64{ .{ rect.im_lo, y }, .{ y, rect.im_hi } }) |im| {
@@ -597,32 +585,17 @@ fn gridLine(lo: f64, hi: f64, n: usize, i: usize) f64 {
     return lo + @as(f64, @floatFromInt(i)) * ((hi - lo) / @as(f64, @floatFromInt(n)));
 }
 
-test "certificate: the Stage 4 tiling of the search domain reproduces its cells, node sets and smallest margins" {
+test "certificate: real-path-first covers both Stage 4 search strips" {
     const params = baseline(xb.XB_2PP);
     const model = try Model.init(params);
     defer model.deinit();
     const plan = try Plan.init(model);
     defer plan.deinit();
     const th = thresholds(params);
-    const Region = struct { flip: [3]bool, re: [2]f64, sets: []const Census, least: [5]f64, least_z: [4]f64 };
-    // code/Xb2Continuation/scripts/s40_tiling_summary.md, regions A1 (-,+,+) and A2 (-,-,+):
-    // Im E in [-10, 0] MeV, a 10 x 2 initial grid, a 0.1 MeV floor; slope bare, margins and
-    // the cell of the smallest (C5) margin in MeV.
-    const regions = [_]Region{
-        .{
-            .flip = .{ true, false, false },
-            .re = .{ th.delta[0], th.delta[1] },
-            .sets = &.{ .{ .nodes = bit_pp, .cells = 21 }, .{ .nodes = bit_pp, .dropped = bit_pv, .cells = 3 }, .{ .nodes = bit_pp | bit_pv, .cells = 5 } },
-            .least = .{ 0.0034762503726, 92.48458783, 53.9089035072, 16.9479393293, 20.3691320146 },
-            .least_z = .{ -46.36075, -45.795375, -1.25, -0.625 },
-        },
-        .{
-            .flip = .{ true, true, false },
-            .re = .{ th.delta[1], th.delta[2] },
-            .sets = &.{ .{ .nodes = bit_pp | bit_pv, .cells = 21 }, .{ .nodes = bit_pp | bit_pv, .dropped = bit_vv, .cells = 3 }, .{ .nodes = bit_pp | bit_pv | bit_vv, .cells = 5 } },
-            .least = .{ 0.0034762503726, 47.2532023908, 54.0242404199, 16.6888667991, 21.8090729097 },
-            .least_z = .{ -2.2615, -1.13075, -2.5, -1.25 },
-        },
+    // The Stage 4 domain and initial 10 x 2 grid, at the same 0.1 MeV floor.
+    const regions = [_]struct { flip: [3]bool, re: [2]f64 }{
+        .{ .flip = .{ true, false, false }, .re = .{ th.delta[0], th.delta[1] } },
+        .{ .flip = .{ true, true, false }, .re = .{ th.delta[1], th.delta[2] } },
     };
     for (regions) |region| {
         var tiling: Tiling = .{};
@@ -630,20 +603,10 @@ test "certificate: the Stage 4 tiling of the search domain reproduces its cells,
             const rect: xb.xb_rect = .{ .re_lo = gridLine(region.re[0], region.re[1], 10, i), .re_hi = gridLine(region.re[0], region.re[1], 10, i + 1), .im_lo = gridLine(-0.010, 0, 2, j), .im_hi = gridLine(-0.010, 0, 2, j + 1) };
             try tile(model, plan, rect, sheetOf(region.flip), 1e-4, &tiling);
         };
-        try expect(tiling.certified == 29 and tiling.excluded == 0);
-        for (region.sets) |set| try expect(tiling.sets[set.nodes | set.dropped << 3] == set.cells);
-        try expect(@abs(tiling.least[0] - region.least[0]) <= 1e-12);
-        for (1..5) |k| try expect(@abs(tiling.least[k] * 1000 - region.least[k]) <= 1e-9);
-        const z = tiling.least_z;
-        for ([_]f64{ z.re_lo, z.re_hi, z.im_lo, z.im_hi }, region.least_z) |got, want| try expect(@abs(got * 1000 - want) <= 1e-9);
-        // The record's extremal cells fix its quartering: the cell at the right threshold and
-        // the real axis, split three times toward that corner.
-        try expect(tiling.n_split == 3);
-        const width = (region.re[1] - region.re[0]) / 10;
-        for (tiling.split[0..3], [_]f64{ 1, 2, 4 }) |cell, fraction| {
-            try expect(cell.re_hi == region.re[1] and cell.im_hi == 0);
-            try expect(@abs(cell.re_lo - (region.re[1] - width / fraction)) <= 1e-12 and @abs(cell.im_lo + 0.005 / fraction) <= 1e-12);
-        }
+        try expect(tiling.excluded == 0 and tiling.flat > 0 and tiling.bent > 0);
+        std.debug.print("S40 strip {d} to {d} MeV: {d} flat, {d} bent, {d} excluded\n", .{
+            1000 * region.re[0], 1000 * region.re[1], tiling.flat, tiling.bent, tiling.excluded,
+        });
     }
 }
 
@@ -690,6 +653,13 @@ fn contourIntegral(comptime n: usize, model: Model, ws: Workspace, plan: Plan, r
     return .{ .integral = integral, .largest = largest };
 }
 
+/// In this fixture BB is the only mandatory node and its bend is in the first half of [0, Λ].
+/// The steeper leg is the first, so the reported depth and slope locate the single corner.
+fn bbKernelTestPath(cert: xb.xb_cert, cutoff: f64) ![3]Complex {
+    try expect(cert.depth > 0 and cert.slope > 0);
+    return .{ cplx(0, 0), cplx(cert.depth / cert.slope, -cert.depth), cplx(cutoff, 0) };
+}
+
 /// The height of the graph path through the vertices at Re q = x.
 fn pathHeight(vertices: []const Complex, x: f64) f64 {
     var j: usize = 0;
@@ -711,22 +681,17 @@ test "Cauchy: D~ integrates to zero around a certified rectangle in which a flip
     defer ws.deinit();
     const plan = try Plan.init(model);
     defer plan.deinit();
-    // Rectangle A of the certificate test on (-,-,+), with on-shell nodes at BB and BB*.
-    const rect: xb.xb_rect = .{ .re_lo = -0.025, .re_hi = -0.020, .im_lo = -0.010, .im_hi = -0.005 };
+    const rect = fixtures.bb_kernel_box;
     var cert: xb.xb_cert = undefined;
-    try ok(xb.xb_certify(model.ptr, rect, sheetOf(.{ true, true, false }), xb.XB_PATH_S40, plan.ptr(), &cert));
-    try expect(cert.failed == 0 and cert.node[0] == 1 and cert.node[1] == 1 and cert.node[2] == 0);
-    // The path of note 07, S40(a), at the centre: both flipped poles lie above their thresholds,
-    // so they are its vertices. Along Re E at the centre, the BB* pole lies on opposite sides of
-    // it at the bottom and top edges: it crosses the path inside the rectangle.
+    try ok(xb.xb_certify(model.ptr, rect, fixtures.bb_sheet, xb.XB_PATH_S40, plan.ptr(), &cert));
+    try expect(cert.failed == 0 and cert.node[0] == 1 and cert.node[1] == 0 and cert.node[2] == 0);
+    // The BB pole is below the selected contour at the bottom and above it at the top.
     const th = thresholds(params);
-    const centre = cplx(-0.0225, -0.0075);
-    const v_pv = principal(centre, th.delta[1], th.mu[1]);
-    const v_pp = principal(centre, th.delta[0], th.mu[0]);
-    const vertices = [_]Complex{ cplx(0, 0), v_pv, v_pp, cplx(params.cutoff, 0) };
+    const centre = cplx((rect.re_lo + rect.re_hi) / 2, (rect.im_lo + rect.im_hi) / 2);
+    const vertices = try bbKernelTestPath(cert, params.cutoff);
     var sides: [2]f64 = undefined;
     for (&sides, [_]f64{ rect.im_lo, rect.im_hi }) |*side, im| {
-        const k = principal(cplx(centre.re, im), th.delta[1], th.mu[1]);
+        const k = principal(cplx(centre.re, im), th.delta[0], th.mu[0]);
         side.* = k.im - pathHeight(&vertices, k.re);
     }
     try expect(sides[0] * sides[1] < 0);
@@ -748,10 +713,11 @@ fn probeLogDet(model: Model, ws: Workspace, plan: Plan, probe: Probe, path: xb.e
 }
 
 test "path independence: D~ on the S40 plan and on the margin-path plan agree at probe energies" {
-    // The two recorded Stage 3 regions: (-,+,+) at -67.85 - 10i MeV, (-,-,+) at -22.62 - 10i MeV.
+    // The two recorded Stage 3 regions, followed by a BB probe where the kernel needs a bend.
     const probes = [_]Probe{
         .{ .e = cplx(-0.06785, -0.010), .flip = .{ true, false, false } },
         .{ .e = cplx(-0.02262, -0.010), .flip = .{ true, true, false } },
+        .{ .e = cplx(-0.07746, -0.016), .flip = .{ true, false, false } },
     };
     // Both plans on the production rule and with their nodes doubled; the margin path at
     // d_k = 100 MeV, since its quadrature error falls with d_k / L_p.
@@ -836,17 +802,16 @@ test "removable 0/0: where a node momentum meets a path node, D~ equals its mean
     defer ws.deinit();
     const plan = try Plan.init(model);
     defer plan.deinit();
-    const rect: xb.xb_rect = .{ .re_lo = -0.025, .re_hi = -0.020, .im_lo = -0.010, .im_hi = -0.005 };
+    const rect = fixtures.bb_kernel_box;
     var cert: xb.xb_cert = undefined;
-    try ok(xb.xb_certify(model.ptr, rect, sheetOf(.{ true, true, false }), xb.XB_PATH_S40, plan.ptr(), &cert));
+    try ok(xb.xb_certify(model.ptr, rect, fixtures.bb_sheet, xb.XB_PATH_S40, plan.ptr(), &cert));
     try expect(cert.failed == 0);
     const th = thresholds(params);
-    const centre = cplx(-0.0225, -0.0075);
-    const vertices = [_]Complex{ cplx(0, 0), principal(centre, th.delta[1], th.mu[1]), principal(centre, th.delta[0], th.mu[0]), cplx(params.cutoff, 0) };
+    const vertices = try bbKernelTestPath(cert, params.cutoff);
     var nodes: [200]Complex = undefined;
     const count = try pathNodes(8, &vertices, params.panel_length, &nodes);
     try expect(count == cert.n_path);
-    // The path node nearest the BB* vertex, and its distance s from its neighbours.
+    // Use the path node nearest the bend; its BB collision energy is in the box.
     var j: usize = 0;
     for (nodes[0..count], 0..) |q, i| {
         if (q.sub(vertices[1]).magnitude() < nodes[j].sub(vertices[1]).magnitude()) j = i;
@@ -857,10 +822,10 @@ test "removable 0/0: where a node momentum meets a path node, D~ equals its mean
     // At the node itself, and so close that direct LU loses digits (SPEC.md, Removable 0/0).
     for ([_]f64{ 0, 1e-9 * q.magnitude() }) |offset| {
         const k = q.add(normal.mul(cplx(offset, 0)));
-        const e = cplx(th.delta[1], 0).add(k.mul(k).mul(cplx(1 / (2 * th.mu[1]), 0)));
+        const e = cplx(th.delta[0], 0).add(k.mul(k).mul(cplx(1 / (2 * th.mu[0]), 0)));
         const ld = try logDet(model, ws, plan, e);
         // A circle of radius s/8 in the k plane, whose points stay clear of every path node.
-        const mean = try circleMean(16, model, ws, plan, e, s / 8 * k.magnitude() / th.mu[1], ld.re);
+        const mean = try circleMean(16, model, ws, plan, e, s / 8 * k.magnitude() / th.mu[0], ld.re);
         try expect(detValue(ld, ld.re).sub(mean).magnitude() <= 1e-10 * mean.magnitude());
     }
 }
@@ -877,6 +842,9 @@ fn checkContactHit(params: xb.xb_params, rect: xb.xb_rect, flip: [3]bool, e: Com
     const th = thresholds(params);
     var cert: xb.xb_cert = undefined;
     try ok(xb.xb_certify(model.ptr, rect, sheetOf(flip), xb.XB_PATH_S40, plan.ptr(), &cert));
+    errdefer std.debug.print("contact collision E=({d}, {d}), cutoff={d}, certificate={any}\n", .{
+        e.re, e.im, params.cutoff, cert,
+    });
     try expect(cert.failed == 0 and cert.node[2] == 1);
     const energy: xb.xb_cplx = .{ .re = e.re, .im = e.im };
     var t: [36]xb.xb_cplx = undefined;
@@ -892,18 +860,21 @@ fn checkContactHit(params: xb.xb_params, rect: xb.xb_rect, flip: [3]bool, e: Com
         const s = @backingInt(species);
         try expect(cert.node[s] == 1);
         const want = closedLoop(e, th.delta[s], th.mu[s], flip[s], params.cutoff);
-        try expect(cplx(value.re, value.im).sub(want).magnitude() <= 5e-14 * want.magnitude());
+        try std.testing.expectApproxEqAbs(0.0, cplx(value.re, value.im).sub(want).magnitude() / want.magnitude(), 5e-14);
     }
     const j = closedLoop(e, th.delta[2], th.mu[2], flip[2], params.cutoff).mul(cplx(1.0 / (2 * std.math.pi * std.math.pi), 0));
     const c = cplx(params.contact, 0);
     const d = cplx(1, 0).add(c.mul(j));
     const want_t = c.div(d);
     const want_det = e.sub(cplx(info.bare[0].energy, 0)).mul(d);
-    try expect(detValue(ld, 0).sub(want_det).magnitude() <= tolerance * want_det.magnitude());
-    try expect(cplx(jhat[3].re, jhat[3].im).sub(j).magnitude() <= tolerance * j.magnitude());
+    const det_error = detValue(ld, 0).sub(want_det).magnitude() / want_det.magnitude();
+    const j_error = cplx(jhat[3].re, jhat[3].im).sub(j).magnitude() / j.magnitude();
+    errdefer std.debug.print("contact collision relative errors: D~={d}, Jhat={d}\n", .{ det_error, j_error });
+    try std.testing.expectApproxEqAbs(0.0, det_error, tolerance);
+    try std.testing.expectApproxEqAbs(0.0, j_error, tolerance);
     for (t, 0..) |value, i| {
         const want = if (i == 2 * 6 + 2) want_t else cplx(0, 0);
-        try expect(cplx(value.re, value.im).sub(want).magnitude() <= tolerance * want_t.magnitude());
+        try std.testing.expectApproxEqAbs(0.0, cplx(value.re, value.im).sub(want).magnitude() / want_t.magnitude(), tolerance);
     }
 }
 
@@ -917,32 +888,29 @@ test "removable 0/0: contact-only amplitudes and determinant match the closed fo
     params.contact = 1;
     const th = thresholds(params);
     const rule = try gaussLegendre(8);
-    const a = (1 + rule[0][0]) / 2;
+    // A VV collision with one of the nodes of the first real panel [0, 0.5].
+    const q = params.panel_length * (1 + rule[0][4]) / 2;
+    try checkContactHit(params, .{ .re_lo = 0.016, .re_hi = 0.024, .im_lo = -0.003, .im_hi = 0 },
+        .{ true, true, true }, cplx(q * q / (2 * th.mu[2]), 0), 1e-10);
 
-    // A collision with the first path node on the VV -> PV segment (one panel).
-    const centre = cplx(0.020, -0.005);
-    const vv = principal(centre, th.delta[2], th.mu[2]);
-    const pv = principal(centre, th.delta[1], th.mu[1]);
-    const q = vv.add(pv.sub(vv).mul(cplx(a, 0)));
-    try checkContactHit(params, .{ .re_lo = 0.016, .re_hi = 0.024, .im_lo = -0.007, .im_hi = -0.003 },
-        .{ true, true, true }, q.mul(q).mul(cplx(1 / (2 * th.mu[2]), 0)), 1e-10);
-
-    // A PP path node within rounding-scale distance of k_PP(0) at the VV threshold.
-    // The PP -> cutoff segment is one panel. VV is a near node on the unflipped sheet.
-    params.cutoff = 0.705;
+    // Put the last real quadrature node at k_PP(0). Use short panels so the
+    // stencil that clears this hit stays local to the VV threshold.
     const k_pp = @sqrt(-2 * th.mu[0] * th.delta[0]);
-    const k_c = (k_pp - a * params.cutoff) / (1 - a);
-    const centre_re = (k_c * k_c - k_pp * k_pp) / (2 * th.mu[0]);
-    try checkContactHit(params, .{ .re_lo = 2 * centre_re, .re_hi = 0, .im_lo = -1e-12, .im_hi = 0 },
+    const last = (1 + rule[0][7]) / 2;
+    const panels = 40;
+    params.cutoff = panels * k_pp / (panels - 1 + last);
+    params.panel_length = params.cutoff / (panels - 0.5);
+    try checkContactHit(params, .{ .re_lo = -0.0007, .re_hi = 0, .im_lo = -1e-12, .im_hi = 0 },
         .{ true, true, false }, cplx(0, 0), 1e-8);
 
-    // The first Gauss node is the midpoint of 0 -> k_VV(E_c); its collision is at E_c/4.
-    // The rectangle is narrower than an absolute 2^-40 GeV stencil step.
-    params.panel_nodes = 1;
-    params.cutoff = 4;
+    // In the degenerate-mass toy every threshold is at E=0. Put the one real Gauss node
+    // at k(scale), so a narrow rectangle still has room for the removable-hit stencil.
     const scale: f64 = 0x1p-44;
-    try checkContactHit(params, .{ .re_lo = scale / 8, .re_hi = 15 * scale / 8, .im_lo = -15 * scale / 8, .im_hi = -scale / 8 },
-        .{ true, true, true }, cplx(scale / 4, -scale / 4), 1e-10);
+    params.panel_nodes = 1;
+    params.m_B = params.m_Bstar;
+    params.cutoff = 2 * @sqrt(params.m_Bstar * scale);
+    try checkContactHit(params, .{ .re_lo = scale / 8, .re_hi = 15 * scale / 8, .im_lo = -scale, .im_hi = 0 },
+        .{ true, true, true }, cplx(scale, 0), 1e-10);
 }
 
 test "determinant: an exact zero pivot at a decoupled bare energy returns zero, not a GSL error" {

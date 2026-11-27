@@ -83,6 +83,11 @@ pub const Plan = struct {
 
 pub const physical = xb.xb_sheet{ .pp = 1, .pv = 1, .vv = 1 };
 
+/// Below BB*, with only BB flipped. The bottom reaches deeper than the real-path pion window;
+/// near the top the BB pole lies above the certified bend. Energies in GeV from 2 m_B*.
+pub const bb_kernel_box: xb.xb_rect = .{ .re_lo = -0.08046, .re_hi = -0.07446, .im_lo = -0.016, .im_hi = -0.0005 };
+pub const bb_sheet: xb.xb_sheet = .{ .pp = -1, .pv = 1, .vv = 1 };
+
 /// The four 1++ seeds of central.toml, [[states]], in GeV from m_B + m_B*. The reference's
 /// single 24-node rule is not converged: X_b moves by 6 keV at 256 nodes.
 pub const recorded_1pp = [_]f64{ -0.71100611184964, -0.34899381112361444, -0.09099982482230619, -0.06065479103052896 };

@@ -209,6 +209,10 @@ All energies and rectangle bounds use GeV relative to `2mBstar`; momenta,
 `Lambda`, `Lp`, `r_near`, `qspacing`, and tiling `floor` use GeV.
 No node or oriented weight is conjugated.
 
+These builders construct one particular S40 polygon. S40 itself only
+requires a certified path: a propagator pole handled by subtraction need
+not lie on it or on any prescribed side of it.
+
 - `Sheet((VV,PV,PP))` stores three Boolean flipped signs. `Sheet("(-,-,+)")`
   reads signs in the conventional **PP,PV,VV** order, accepting ASCII or Unicode
   minus. `sheet_label(sheet)` returns the ASCII label. `adjacent_sheet(E,ths)`
@@ -240,8 +244,10 @@ No node or oriented weight is conjugated.
   At `k==0` the node weight is its continuous limit, zero.
 - `certify_rectangle(Q,sheet,ths; Lambda=4.0,r_near=0.1,n_sub=8,
   qspacing=0.001,params=HadronDynamics.BOchiEFT.Parameters())` constructs one
-  fixed path for the entire rectangle. Vertex channels are mandatory nodes;
-  other channels that cannot be certified at least `r_near` away are optional
+  fixed polygon from `sp_path` for the entire rectangle. Mandatory on-shell
+  nodes are the flipped channels and channels with threshold below `re_hi`;
+  in this builder these channels also supply the candidate vertices.
+  Other channels that cannot be certified at least `r_near` away are optional
   nodes, retained only when their window, row/column and all active node-pair
   conditions pass; dropped nodes require rigorously positive path clearance.
   It checks C1 slopes, C2 S35, C3 non-node clearance, C4 the pion exchange

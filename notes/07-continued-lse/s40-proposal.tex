@@ -11,7 +11,7 @@
 
 \paragraph{Notation.} $E$ is measured from $2m_{B^*}$. The channels $\alpha=1,5,6$ are $VV$, $PV$, $PP$, with thresholds $\delta_\alpha=0,-45.23,-90.46$~MeV, reduced masses $\mu_\alpha=2662.38,2651.00,2639.76$~MeV and on-shell momenta $k_\alpha=\sqrt{2\mu_\alpha(E-\delta_\alpha)}$. $F$ is the set of flipped channels, $R(\mathcal C)$ the region between $[0,\Lambda]$ and the path $\mathcal C$, $d_k$ the pole margin (\file{CONVENTIONS.md}), and $E_{3,\beta}=m_\phi+t_\beta$ the three-body thresholds, the lowest $E_{3,1}=47.58$~MeV ($B\bar B\pi$). A graph path is $q=x+ih(x)$ with $h(0)=h(\Lambda)=0$; its slopes are at most $1$ when $|h(x)-h(y)|\le|x-y|$.
 
-\paragraph{Prescription and sheets.} With $G_\alpha=2\mu_\alpha/(q^2-k_\alpha^2)$ (S9) the physical amplitude is $T(E+i0)$: $k_\alpha^2$ gets $+i0$, and the pole near $+k$ sits at $q=k+i0$, just above the real path, which passes below it. On the physical sheet $\operatorname{Im}k_\alpha>0$ in every channel; channel $\alpha$ is flipped where $\operatorname{Im}k_\alpha<0$. The real energy axis above a threshold carries two lips: $E+i0$ of the physical sheet is glued to $E-i0$ of the sheet where that channel is flipped, and there $k_\alpha=k-i0$, the flipped momentum just below the real axis. The pole sits at $k-i0$ on both sheets at $E-i0$; which sheet a path computes is decided by the side on which the path passes it:
+\paragraph{Prescription and sheets.} With $G_\alpha=2\mu_\alpha/(q^2-k_\alpha^2)$ (S9) the physical amplitude is $T(E+i0)$: $k_\alpha^2$ gets $+i0$, and the pole near $+k$ sits at $q=k+i0$, just above the real path, which passes below it. On the physical sheet $\operatorname{Im}k_\alpha>0$ in every channel; channel $\alpha$ is flipped where $\operatorname{Im}k_\alpha<0$. The real energy axis above a threshold carries two lips: $E+i0$ of the physical sheet is glued to $E-i0$ of the sheet where that channel is flipped, and there $k_\alpha=k-i0$, the flipped momentum just below the real axis. The pole sits at $k-i0$ on both sheets at $E-i0$; for an integral without on-shell subtraction the sheet is decided by the side on which the path passes it:
 \begin{center}
 \small
 \setlength{\tabcolsep}{4pt}
@@ -26,7 +26,7 @@ $\operatorname{Re}E-i\Gamma/2$ & $k_\alpha$, $\operatorname{Im}k_\alpha<0$ & bel
 \bottomrule
 \end{tabular}
 \end{center}
-A flipped pole is therefore $+k_\alpha$ with $\operatorname{Im}k_\alpha<0$: the $k-i0$ of the third row, carried to complex $E$. What S27 requires is only that the path pass below it, $+k_\alpha\in R(\mathcal C)$. R2 below puts it on the path, passed just below: the $+i0$ prescription of the first row, carried along. Passing above it would compute the physical sheet in that channel.
+A flipped pole is therefore $+k_\alpha$ with $\operatorname{Im}k_\alpha<0$: the $k-i0$ of the third row, carried to complex $E$. Without subtraction the path passes below it, $+k_\alpha\in R(\mathcal C)$ (S27). R2 below evaluates the reference polygon in the limit of an indentation below the pole. For a channel treated by subtraction, the same sheet is selected by the sign of the analytic term instead of the path's placement (Sec.~\ref{sec:sign}).
 
 \section{What S40 has to settle}
 
@@ -38,16 +38,16 @@ S40 builds a three-segment path that keeps every pole $\pm k_\alpha$ at a distan
 \end{enumerate}
 What is wanted is one rule, simple, explicit for each energy region, valid wherever it claims to be, with the remaining regions excluded by name.
 
-\section{The rule}
+\section{A reference polygon on an adjacent strip}
 
 Let $\operatorname{Im}E\le0$ and $\operatorname{Re}E\ne\delta_\alpha$, on the sheet attached at $\operatorname{Re}E$, $F=\{\alpha:\delta_\alpha<\operatorname{Re}E\}$ (S27).
 \begin{description}
-\item[R1, path.] $\mathcal C(E)$ is the polygon through the flipped poles in increasing $\operatorname{Re}k$,
+\item[R1, reference path.] For the proof on the adjacent strip, take $\mathcal C(E)$ to be the polygon through the flipped poles in increasing $\operatorname{Re}k$:
 \[
 0\ \to\ k_{(1)}\ \to\ \dots\ \to\ k_{(|F|)}\ \to\ \Lambda .
 \]
 For $F=\emptyset$ it is $[0,\Lambda]$.
-\item[R2, poles.] In a flipped channel $\alpha$ the pole lies on the path, at a vertex, and the path counts as passing just below it. With $\Phi(q)=V_{\alpha'\alpha}(p',q)\,T_{\alpha\alpha''}(q,p)$ and $G_\alpha(q)=2\mu_\alpha/(q^2-k_\alpha^2)$ as in S9,
+\item[R2, subtraction.] On this reference polygon the flipped pole $k_\alpha$ is a vertex, and its analytic integral has the value for a path passing just below it. Subtraction does not require this geometry (Sec.~\ref{sec:sign}). With $\Phi(q)=V_{\alpha'\alpha}(p',q)\,T_{\alpha\alpha''}(q,p)$ and $G_\alpha(q)=2\mu_\alpha/(q^2-k_\alpha^2)$ as in S9,
 \begin{equation}\label{eq:split}
 \int_{\mathcal C}q^2dq\,G_\alpha(q)\,\Phi(q)=2\mu_\alpha\int_{\mathcal C}dq\,\frac{q^2\Phi(q)-k_\alpha^2\Phi(k_\alpha)}{q^2-k_\alpha^2}+2\mu_\alpha k_\alpha^2\,\Phi(k_\alpha)\,I(k_\alpha),
 \end{equation}
@@ -71,7 +71,7 @@ so that $\mathcal G$ of S9 gains the entry $W_\alpha/2\pi^2$, and $V$ and $T$ ga
 \small
 \begin{tabular}{>{\raggedright\arraybackslash}p{0.24\textwidth}>{\raggedright\arraybackslash}p{0.11\textwidth}>{\raggedright\arraybackslash}p{0.2\textwidth}>{\raggedright\arraybackslash}p{0.32\textwidth}}
 \toprule
-region & sheet, $F$ & path & treatment, status\\
+region & sheet, $F$ & example path & treatment, status\\
 \midrule
 $\operatorname{Im}E=0$, $\operatorname{Re}E<-90.46$: bound states & $(+,+,+)$, $\emptyset$ & $[0,\Lambda]$ & R3, R4; poles on the negative imaginary axis. In scope, as for $1^{++}$.\\
 $-90.46<\operatorname{Re}E<-45.23$, $-10\le\operatorname{Im}E<0$ & $(-,+,+)$, $\{6\}$ & $0\to k_6\to\Lambda$ & R2 at $k_6$. In scope.\\
@@ -79,7 +79,7 @@ $-45.23<\operatorname{Re}E<0$, $-10\le\operatorname{Im}E<0$: the $X_{b2}$ region
 the same strips, $-50\le\operatorname{Im}E<-10$ & as above & as above & as above. Widening to $\Gamma\le100$~MeV.\\
 $0<\operatorname{Re}E<37.58$ & $(-,-,-)$, $\{1,5,6\}$ & $0\to k_1\to k_5\to k_6\to\Lambda$ & R2 at all three; S35 without the $H^2$ term (L4) where $\operatorname{Re}E>47.58-H^2/m_B$. Widening to $(-,-,-)$.\\
 $37.58\le\operatorname{Re}E<47.58$ & $(-,-,-)$ & as above & and panels graded geometrically towards $q=0$, where three-body points come within $17$--$53$~MeV. Widening, with its own convergence run.\\
-$\operatorname{Im}E=0$ above a threshold: $T(E+i0)$ & limit of the adjacent sheet & $[0,\Lambda]$, breaks at the real $k_F$ & R2 at the real $k_F$, the limit $\operatorname{Im}E\to0^-$. Checks and the speed plot.\\
+$\operatorname{Im}E=0$ above a threshold: $T(E+i0)$ & limit of the adjacent sheet & $[0,\Lambda]$ & R2 at the real $k_F$, the limit $\operatorname{Im}E\to0^-$. The real $k_F$ need not be a panel break. Checks and the speed plot.\\
 $\operatorname{Re}E=\delta_\alpha$ & -- & -- & a branch point of $D$; rectangles end there. Excluded points.\\
 $\operatorname{Re}E\ge47.58$ & -- & -- & the three-body cut opens; S35 fails. Outside (S2).\\
 virtual states: a channel flipped below its threshold, e.g.\ $(-,-,-)$ below $\delta_1$ & not adjacent & -- & the flipped pole lies below the slope-1 line, so the path needs a leg steeper than $1$ and L1, L4, L5 do not apply. On the real axis the vertex $k_1=-i\kappa_1$ meets the $VV$ pion cut of the amplitude itself at $\kappa_1=m_\pi/2=69.02$~MeV ($E_B=0.89$~MeV), at $52.13$~MeV ($0.51$~MeV) on one common path (note~06, Sec.~\texttt{lhc}); a deeper virtual state is reported with a side. Stage~8.\\
@@ -97,7 +97,7 @@ The rows outside the rule are drawn in Fig.~\ref{fig:notcovered} (\file{not_cove
 \label{fig:notcovered}
 \end{figure}
 
-\section{Why the rule is right}
+\section{Continuation on the reference polygon}
 
 \paragraph{L1: the path exists, with slopes at most 1.} For $\alpha\in F$ write $E-\delta_\alpha=\varepsilon_\alpha-i\Gamma/2$, $\varepsilon_\alpha>0$, $\Gamma>0$. The flipped pole is the principal root, so $\arg k_\alpha=\tfrac12\arg(E-\delta_\alpha)\in(-\pi/4,0)$: with $x_\alpha=\operatorname{Re}k_\alpha$ and $y_\alpha=|\operatorname{Im}k_\alpha|$, $x_\alpha>y_\alpha>0$. From $k_\alpha^2=2\mu_\alpha(E-\delta_\alpha)$,
 \[
@@ -193,11 +193,11 @@ The smallest S35 bound over each region, as printed and without the $H^2$ term, 
 
 \section{Sheet as a sign}\label{sec:sign}
 
-The rule adopted by the user on 2026-11-13 (note~07, S40). It replaces R1; R2--R6 stay, with the node set of S40(c). With Sokhotski--Plemelj the sheet enters channel $\alpha$ only through the sign $\sigma_\alpha$ in
+The rule adopted by the user on 2026-11-13 (note~07, S40) chooses a fixed certified path per rectangle. Its geometry serves kernel analyticity, including at the on-shell rows and columns. The polygon of R1 establishes the continuation on the adjacent strips; it does not prescribe the shape of the path. With Sokhotski--Plemelj subtraction the sheet enters a node channel $\alpha$ only through the sign $\sigma_\alpha$ in
 \[
 I_\pm(k)=\frac1{2k}\Bigl[\operatorname{Log}\frac{\Lambda-k}{\Lambda+k}\pm i\pi\Bigr],
 \]
-$+$ where the sheet asks for a path below the pole $k_\alpha$ (flipped), $-$ above it (unflipped); $k_\alpha$ is the principal root, in the fourth quadrant. A path that passes $k_\alpha$ on the side the sheet asks for needs nothing. One that passes it on the other side, or through it, gets an on-shell node at $k_\alpha$ with the weight of Eq.~\eqref{eq:W}, $I$ replaced by $I_{\sigma_\alpha}$.
+$+$ for the value with the analytic integral passing below $k_\alpha$ (flipped), $-$ for above it (unflipped); $k_\alpha$ is the principal root, in the fourth quadrant. For a channel treated by subtraction the actual path may pass on either side of its propagator pole or through it. In all three cases the node is at $k_\alpha$ with the weight of Eq.~\eqref{eq:W}, $I$ replaced by $I_{\sigma_\alpha}$. When the actual path passes on the sheet's side, the correction vanishes in the continuum. For a channel not treated by subtraction the path still has to pass on the sheet's side.
 
 \paragraph{Valid paths.} For $\operatorname{Im}E<0$, $\operatorname{Re}E<E_{3,1}$ and a sheet $\sigma$, $\mathcal V(E,\sigma)$ is the set of graph paths in the closed lower half-plane with slopes at most $1$ such that
 (i)~for every flipped channel the up points of $V(k_\alpha,q)$, $k_\alpha+im_\phi$ and the three-body points beside it, lie above the path, and
@@ -219,9 +219,9 @@ On-shell $T$ at a node needs in addition the other side of that channel, the win
 (b)~At fixed $x=\operatorname{Re}r$ write $u=(\operatorname{Im}r)^2$, so that $w=m^2+x^2-u+2ix\operatorname{Im}r$. Then $\partial_u(\operatorname{Re}s)^2=\tfrac12\bigl[(x^2-m^2+u)/|w|-1\bigr]\le0$, because $|w|^2-(x^2-m^2+u)^2=4m^2x^2\ge0$: $\operatorname{Re}s$ does not increase with $|\operatorname{Im}r|$. Under depth scaling $|\operatorname{Im}r|$ grows with $\lambda$, and $\operatorname{Re}p'^2$, $\operatorname{Re}q^2$ fall, so $\operatorname{Re}Z$ does not increase; it starts at $\operatorname{Re}Z\ge E_{3,\beta}-\operatorname{Re}E>0$ on real momenta and is smallest at the end. Along the segment, $\operatorname{Im}r$ is affine, so $|\operatorname{Im}r|$ is largest at an end and $\operatorname{Re}s$ is smallest there, while $\operatorname{Re}\nu_\beta$ is concave in the parameter, since $\operatorname{Re}p'^2=x_\alpha^2-(\operatorname{Im}p')^2$. Hence $\operatorname{Re}Z$ is bounded below by the stated sum on both homotopies, and $\operatorname{Log}Z$ never meets its cut. With (a), the principal values are the continuations. In the code, $(\operatorname{Re}s)^2=(|w|+\operatorname{Re}w)/2$ is bounded below through lower bounds of $\operatorname{Re}w$ and $|\operatorname{Im}w|$, on both of which it increases.
 (c)~In the continuum $W_\alpha=2\mu_\alpha k_\alpha^2\bigl[I_{\sigma_\alpha}(k_\alpha)-\int_{\mathcal C}dq/(q^2-k_\alpha^2)\bigr]$, and the integral equals $I_{\sigma_\alpha}(k_\alpha)$ when $\mathcal C$ passes on the sheet's side. $\square$
 
-\paragraph{Rectangles.} With the nodes $q_j$ and the node set $N_Q$ fixed on $Q$, every entry of the discrete system is analytic in $E$ on $Q$: $k_\alpha(E)$ and $W_\alpha(E)$ are, and the kernel is principal at every pair by S34, S35 and L8. Where $k_\alpha(E)^2=q_j^2$ the singularities of $G_\alpha(q_j)$ and $W_\alpha$ cancel in the determinant, because the subtracted combination is regular. At an energy in two certified rectangles, join the paths by $h_t=(1-t)h_0+th_1$. The slopes stay at most $1$, the depth stays at most the larger one, so S35 holds, and a pole on the sheet's side of both paths stays there. A node is active only while $h_t$ passes its pole on the other side. At the crossing the pole lies on the path, where S34 and S35 apply. Before it, the bounds of L8 along $h_t$ are bounded by their values at the two ends, by the same convexity and concavity. So L7 applies and both rectangles give the same $D$. Values on shared edges agree, and the certified rectangles of one sheet glue into one analytic function on each connected union. On an adjacent strip, $\mathcal C_Q$ at $E_c$ is the polygon of R1, whose $D$ is the continuation (L3, L5). Hence $D$ is the continuation on every certified rectangle connected to that strip. $\square$
+\paragraph{Rectangles.} With the nodes $q_j$ and the node set $N_Q$ fixed on $Q$, every entry of the discrete system is analytic in $E$ on $Q$: $k_\alpha(E)$ and $W_\alpha(E)$ are, and the kernel is principal at every pair by S34, S35 and L8. Where $k_\alpha(E)^2=q_j^2$ the singularities of $G_\alpha(q_j)$ and $W_\alpha$ cancel in the determinant, because the subtracted combination is regular. At an energy in two certified rectangles, join the paths by $h_t=(1-t)h_0+th_1$. The slopes stay at most $1$, the depth stays at most the larger one, so S35 holds, and a pole on the sheet's side of both paths stays there. In L7 the continuum correction vanishes on the sheet's side; if the path crosses the pole, S34 and S35 apply at the crossing. Before it, the bounds of L8 along $h_t$ are bounded by their values at the two ends, by the same convexity and concavity. So L7 applies and both rectangles give the same continuum $D$. Values on shared edges agree in the continuum, and the certified rectangles of one sheet glue into one analytic function on each connected union. The reference polygon of R1 identifies that function with the continuation on an adjacent strip (L3, L5), whether or not either rectangle uses that polygon. Hence $D$ is the continuation on every certified rectangle connected to that strip. $\square$
 
-\paragraph{Precalculated path.} For a search rectangle with centre $E_c$ the path has a vertex at $\operatorname{Re}k_\alpha(E_c)$, at depth $\min(|\operatorname{Im}k_\alpha|,\operatorname{Re}k_\alpha)$, for every flipped channel and every unflipped channel above its threshold; (i) and (ii) are checked on a grid over the rectangle. The check uses only the masses, $m_\pi$, $m_\eta$ and the orderings: no low-energy constants, no $T$. In \file{sp_sheets.py} (Fig.~\ref{fig:sheets}), for $\Gamma\le60$~MeV on $(-,+,+)$, $(-,-,+)$ and $(-,-,-)$, this path is valid at every $\operatorname{Re}E$ above the highest flipped threshold. Below it, it stays valid down to $3$--$4$, $8$--$9$ and $14$--$15$~MeV at $\operatorname{Im}E=-0.5$, $-10.5$ and $-29.5$~MeV. Six rectangles of $81$ energies each, four of them across a threshold, show no failure. Further below, an up point of the channel flipped below its threshold lies under the slope-1 line, so no path with slopes at most $1$ passes below it, and $\mathcal V$ is empty. A steeper leg is then needed; S35 and L7 no longer apply, and the sampled validator of S38 takes over.
+\paragraph{One fixed-path candidate.} The tested polygon for a search rectangle with centre $E_c$ puts a vertex at $\operatorname{Re}k_\alpha(E_c)$, at depth $\min(|\operatorname{Im}k_\alpha|,\operatorname{Re}k_\alpha)$, for every flipped channel and every unflipped channel whose threshold lies below the rectangle's upper real-energy edge. The Julia reference uses this geometry; the C solver tries the real path first and uses this polygon as the starting shape for deformation trials only where the kernel bounds require them (note~07, S40(a)). The evidence below checks (i) and (ii) on a grid over the rectangle. The check uses only the masses, $m_\pi$, $m_\eta$ and the orderings: no low-energy constants, no $T$. In \file{sp_sheets.py} (Fig.~\ref{fig:sheets}), for $\Gamma\le60$~MeV on $(-,+,+)$, $(-,-,+)$ and $(-,-,-)$, this path is valid at every $\operatorname{Re}E$ above the highest flipped threshold. Below it, it stays valid down to $3$--$4$, $8$--$9$ and $14$--$15$~MeV at $\operatorname{Im}E=-0.5$, $-10.5$ and $-29.5$~MeV. Six rectangles of $81$ energies each, four of them across a threshold, show no failure. Further below, an up point of the channel flipped below its threshold lies under the slope-1 line, so no path with slopes at most $1$ passes below it, and $\mathcal V$ is empty. A steeper leg is then needed; S35 and L7 no longer apply, and the sampled validator of S38 takes over.
 
 \paragraph{Evidence.} At $E=\delta_6-10i$, contours of slope $0.5$, $1$ and $1.5$ give App.~D's $J$ on $(-,+,+)$ and $(+,+,+)$ to $20$ digits. Eight energies, from the $B\bar B$ threshold line to hidden poles and $VV$ flipped below its threshold, agree with independent routes to $20$ digits for App.~D's $J$ and for the TOPT moment. On the straight-line family of Fig.~\ref{fig:window}, the interpolation of L7 for one integral, both stay exact across the whole window. No linear equation has been solved yet.
 
@@ -300,7 +300,7 @@ Before near nodes were optional, two gaps remained in the search domain, just be
 \section{What changed in note 07}
 \begin{itemize}
 \item S40 is the rule of Sec.~\ref{sec:sign}: paths per rectangle, the panel quadrature R4, on-shell nodes with the sheet's sign, and the certificate (C1)--(C5); the remark after the path table (the margin $d_k$ limiting near thresholds) is replaced. The margin path of \texttt{graph\_path} stays as the second path of the Stage~6 path-independence check.
-\item S9: an on-shell node adds one point per channel with the entry $W_\alpha/2\pi^2$; the sheet is fixed by the path and the signs of its nodes.
+\item S9: an on-shell node adds one point per channel with the entry $W_\alpha/2\pi^2$; the sheet for this channel is fixed by the sign of its node term, not by which side the path passes.
 \item S23 (P) and Decisions, Admissibility: a channel with an on-shell node may cross the path; (C4) and (C5) take the place of (P) for it.
 \item S26: a pole with an on-shell node does not limit the convergence rate.
 \item S32: with a node the path may pass $k_F$ on either side, with the window $|\Delta_F|<m_\pi$ and (C5).
@@ -311,7 +311,7 @@ Before near nodes were optional, two gaps remained in the search domain, just be
 
 \section{Choices}
 \begin{enumerate}
-\item Adopted (the user, 2026-11-13): the sheet-as-a-sign form of Sec.~\ref{sec:sign} as S40, with R2--R6.
+\item Adopted (the user, 2026-11-13): the sheet-as-a-sign form of Sec.~\ref{sec:sign} as S40, with one certified path per rectangle and no required pole--vertex coincidence.
 \item The starting quadrature, $L_p=250$~MeV and $n_p=16$, to be fixed by the Stage~6 node-doubling run against the targets ($0.1$~MeV for poles, $10^{-6}$ for on-shell $T$).
 \item S35 without the $H^2$ term: needed only for the $(-,-,-)$ widening; adopt now or with it.
 \item The grading towards $q=0$ next to $E_{3,1}$: decide with that widening.

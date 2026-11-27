@@ -87,8 +87,7 @@ typedef struct xb_info {
 /* Certificate record of a plan: (C1)-(C5) of notes/07-continued-lse.tex, S40(d), each
  * bounded over the whole rectangle as code/Xb2Continuation/src/sp_contours.jl does. Margins
  * are in GeV, +inf where a condition is vacuous, NaN where an exclusion stopped short of it:
- *   margin[0] (C1) Lambda - |k| over the node momenta, or of the vertex momentum at the
- *             centre when a vertex cannot be placed; the slope part of (C1) is `slope` <= 1;
+ *   margin[0] (C1) Lambda - |k| over the node momenta; the slope part of (C1) is `slope` <= 1;
  *   margin[1] (C2) the S35 margin, min over beta of E_{3,beta} - (h + a) H^2 - Re E;
  *   margin[2] (C3) the distance from the path of the poles without a node;
  *   margin[3] (C4) m_pi - |Im k - h(Re k)| over the node momenta;
@@ -148,8 +147,9 @@ xb_status xb_ws_timing(const xb_ws *ws, xb_timing timing[static 1]);
 
 xb_status xb_plan_size(const xb_model *model, size_t size[static 1]);
 
-/* Builds the path of a rectangle and certifies it. An excluded rectangle is a result
- * (cert->failed != 0), not an error; its plan is not certified. */
+/* Builds and certifies a path fixed over the rectangle. S40 tries the real path first.
+ * An excluded rectangle is a result (cert->failed != 0), not an error; its plan is not
+ * certified. */
 xb_status xb_certify(const xb_model *model, xb_rect rect, xb_sheet sheet, enum xb_path path,
                      xb_plan *plan, xb_cert cert[static 1]);
 
